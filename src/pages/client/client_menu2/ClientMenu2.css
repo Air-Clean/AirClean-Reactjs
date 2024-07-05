@@ -1,0 +1,10 @@
+.menu2_layout {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  background-color: rgb(211, 211, 211);
+}
+
+.flex_wrap {
+  background-color: rgb(255, 255, 255);
+}

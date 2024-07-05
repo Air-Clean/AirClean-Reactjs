@@ -1,0 +1,29 @@
+/* index.css */
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 기본 스타일 */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow-x: hidden; /* 수평 스크롤바 숨기기 */
+  overflow-y: auto; /* 수직 스크롤바 표시 */
+}
+
+
+
+body {
+  max-width: 100vw; /* 태블릿 최대 너비 */
+  min-height: 100vh; /* 최소 높이를 100vh로 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 세로 정렬 시작 */
+}

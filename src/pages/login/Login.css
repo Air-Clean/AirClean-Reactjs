@@ -1,0 +1,225 @@
+/* 공통 레이아웃 스타일 */
+.login-layout {
+    width: 100vw;
+    height: 100vh;
+    flex: 1;
+    background-image: url('../../assets/login_background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.wrap1 {
+    width: 55%;
+    height: 100vh;
+}
+
+.wrap2 {
+    width: 45%;
+    height: 100vh;
+}
+
+.login_input {
+    width: 80%;
+    height: 100vh;
+    background-color: rgba(3, 35, 54, 0.35); /* 배경만 35% 투명 */
+}
+
+.text {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.sign-in-box {
+    width: 250px;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow */
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.member-text {
+    margin: 0;
+    color: #ffffff; /* White text color */
+    font-size: 18px;
+    opacity: 0.7; /* Slightly transparent */
+}
+
+.sign-in-text {
+    margin: 0;
+    margin-top: 10px;
+    color: #ffffff; /* White text color */
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.arrow {
+    font-size: 19px;
+    vertical-align: middle;
+}
+
+/*  */
+.sign-up-box {
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.sign-up-title {
+    font-size: 30px;
+    color: #ffffff; /* White text color */
+    margin-bottom: 30px;
+}
+
+.text_input {
+    margin-bottom: 5px;
+    margin-left: 14px;
+    font-size: 25px;
+}
+
+input {
+    width: 100%;
+    padding: 18px;
+    margin-bottom: 20px;
+    border: 0.5px solid #ffffff; /* White border */
+    border-radius: 50px; /* Rounded corners */
+    background: #ffffff; /* Solid background color for input */
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent input background */
+    font-size: 16px;
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+input:focus {
+    border: 2px solid #4a90e2;
+    outline: none; /* Remove default outline */
+}
+
+input::placeholder {
+    color: #ffffff;
+    opacity: 0.7; /* Slightly transparent placeholder text */
+}
+/*  */
+
+.button-container {
+    display: flex;
+    flex-direction: column; /* Arrange buttons in a column */
+    align-items: center; /* Center align buttons */
+}
+
+.login-button {
+    width: 100%;
+    background-color: #ffffff; /* White background */
+    color: #4a90e2; /* Blue text color */
+    padding: 17px;
+    border: none; /* Remove border */
+    border-radius: 50px; /* Rounded corners */
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+    margin: 16px 0; /* Space between buttons vertically */
+}
+
+.login-button:hover {
+    background-color: #4a90e2; /* Blue background on hover */
+    color: #ffffff; /* White text on hover */
+}
+
+/* 미디어 쿼리 */
+@media (max-width: 1440px) {
+    .wrap1 {
+        width: 55%;
+        height: 100vh;
+    }
+    .wrap2 {
+        width: 45%;
+        height: 100vh;
+    }
+
+    .login_input {
+        width: 75%;
+        height: 100vh;
+    }
+
+    .text {
+        font-size: 36px;
+    }
+
+    .sign-in-box {
+        width: 180px;
+        padding: 12px;
+    }
+
+    .member-text, .sign-in-text {
+        font-size: 14px;
+    }
+
+    .arrow {
+        font-size: 15px;
+    }
+
+    .sign-up-box {
+        padding: 15px;
+    }
+
+    .sign-up-title {
+        font-size: 22px;
+    }
+
+    .text_input {
+        margin-bottom: 5px;
+        margin-left: 14px;
+        font-size: 15px;
+    }
+
+    input {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .login-button {
+        padding: 14px;
+        font-size: 16px;
+        margin: 10px 0;
+    }
+}
+
+
+/*  */
+
+
+
+/* 거품 애니메이션 */
+.bubbles {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.bubble {
+    position: absolute;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    animation: bubble-animation 5s linear infinite;
+}
+
+.bubble:nth-child(2) { width: 30px; height: 30px; animation-duration: 4s; left: 20%; }
+.bubble:nth-child(3) { width: 50px; height: 50px; animation-duration: 6s; left: 40%; }
+.bubble:nth-child(4) { width: 20px; height: 20px; animation-duration: 3s; left: 60%; }
+.bubble:nth-child(5) { width: 60px; height: 60px; animation-duration: 7s; left: 80%; }
+.bubble:nth-child(6) { width: 35px; height: 35px; animation-duration: 5s; left: 15%; }
+.bubble:nth-child(7) { width: 45px; height: 45px; animation-duration: 6s; left: 35%; }
+.bubble:nth-child(8) { width: 25px; height: 25px; animation-duration: 4s; left: 55%; }
+.bubble:nth-child(9) { width: 55px; height: 55px; animation-duration: 6s; left: 75%; }
+.bubble:nth-child(10) { width: 30px; height: 30px; animation-duration: 5s; left: 90%; }
+
+@keyframes bubble-animation {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+}
