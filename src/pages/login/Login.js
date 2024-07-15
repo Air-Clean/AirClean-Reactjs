@@ -1,38 +1,78 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthContext'; // AuthContext 사용
+import { useDispatch,useSelector } from 'react-redux';
+import { callLoginAPI } from '../../apis/MemberAPICalls';
 import './Login.css'; // Import the CSS file
 import logo from '../../assets/logo1.png';
+// 토큰 복호화 용 임포트
+import jwt_decode from 'jwt-decode'
 
 const Login = () => {
+
   const navigate = useNavigate();
+
   const { login } = useAuth();
 
+  const dispatch = useDispatch();
+
+  const loginMember = useSelector(state=>state.memberReducer);
+
+  const [form,setForm] = useState({
+    memberId:'',
+    memberPassword : ''
+  })
+
+  useEffect(()=>{
+    if(loginMember.status === 200){
+      console.log("[Login] Login SUCCESS {}", loginMember);
+
+      // 앞으로 이방식으로 토큰값을 꺼내서 쓸수 있다
+      const members =jwt_decode(window.localStorage.getItem('accessToken'))
+
+      console.log(members)
+      
+      if(members.memberRole==='b'){
+        window.location.href='location'
+      }
+      else{
+        navigate('/company',{replace : true})
+      }
+
+    }
+  },[loginMember]);
+
+
+
   const handleAdminLogin = () => {
-    login('admin');
-    navigate('/admin/menu1');
+    dispatch(callLoginAPI({
+      form: form
+    }))
   };
 
-  const handleClientLogin = () => {
-    login('client');
-    navigate('/client/menu1');
-  };
+
+  const onChangeHandler=e=>{
+    setForm({
+      ...form,[e.target.name] : e.target.value
+    })
+  }
 
   
   return (
     <div className="login-layout">
-      <div class="flash"></div>
-        <div class="bubbles">
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
+      <div className="flash"></div>
+        <div className="bubbles">
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
         </div>
 
       <div style={{display: 'flex'}}>
@@ -43,10 +83,6 @@ const Login = () => {
               <p className='text' style={{marginTop:'50px'}}>Simplify laundry operations</p>
               <p className='text'> with AirClean ERP</p>
               <br/>
-              <div class="sign-in-box">
-              <p class="member-text">Already a member?</p>
-              <p class="sign-in-text">Sign in <span class="arrow">→</span></p>
-              </div>
             </div>
           </div>
         </div>
@@ -58,25 +94,25 @@ const Login = () => {
                 <img src={logo} alt="Logo" style={{marginLeft:'25px'}}/>
               </div>
               <div className="sign-up-box" style={{height: '70%'}}>
-                <h2 className="sign-up-title">Sign up</h2>
+                <h2 className="sign-up-title">Sign in</h2>
                 
                 <div style={{color:'white'}}>
                   <p className='text_input'>id</p>
-                  <input type="text" id="id" name="id" placeholder='아이디를 입력해주세요'/>
+                  <input type="text" id="id" name="memberId" placeholder='ID' onChange={onChangeHandler}/>
                 </div>
                 <div  style={{color:'white'}}>
                   <p className='text_input'>password</p>
-                  <input type="text" id="password" name="password" placeholder='비밀번호를 입력해주세요'/>   
+                  <input type="password" id="password" name="memberPassword" placeholder='PASSWORD' onChange={onChangeHandler}/>   
                 </div>      
 
                 
                 <div className="button-container">
                   <button className="login-button" onClick={handleAdminLogin}>
-                    Admin
+                    Sign in
                   </button>
-                  <button className="login-button" onClick={handleClientLogin}>
+                  {/* <button className="login-button" onClick={handleClientLogin}>
                     Client
-                  </button>
+                  </button> */}
                 </div>
                 <div style={{color: 'white'}}>
                   <p style={{textAlign:'center'}}>문의하기</p>

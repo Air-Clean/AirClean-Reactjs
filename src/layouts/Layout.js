@@ -9,9 +9,9 @@ function Layout() {
   const { user } = useAuth();
 
   const memoizedHeader = useMemo(() => {
-    if (user === 'admin') {
+    if (user === 'company') {
       return <AdminHeader />;
-    } else if (user === 'client') {
+    } else if (user === 'location') {
       return <ClientHeader />;
     }
     return null; // 사용자 타입이 없는 경우

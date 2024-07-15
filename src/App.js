@@ -12,13 +12,13 @@ import AdminMenu1 from './pages/admin/admin_menu1/AdminMenu1';
 import AdminMenu2 from './pages/admin/admin_menu2/AdminMenu2';
 
 
-const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
-  if (!user) {
-    return <Navigate to="/" />;
-  }
-  return children;
-};
+// const ProtectedRoute = ({ children }) => {
+//   const { user } = useAuth();
+//   if (!user) {
+//     return <Navigate to="/" />;
+//   }
+//   return children;
+// };
 
 function App() {
   return (
@@ -26,12 +26,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/admin" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+          <Route path="/company" element={<Layout />}>
             <Route index element={<AdminMenu1 />} />
             <Route path="menu1" element={<AdminMenu1 />} />
             <Route path="menu2" element={<AdminMenu2 />} />
           </Route>
-          <Route path="/client" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+          <Route path="/location" element={<Layout />}>
             <Route index element={<ClientMenu1 />} />
             <Route path="menu1" element={<ClientMenu1 />} />
             <Route path="menu2" element={<ClientMenu2 />} />
