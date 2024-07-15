@@ -29,3 +29,12 @@ export const callLoginAPI= ({ form }) => {
         
     }
 }
+
+export function callLogoutAPI(){
+
+    return async (dispatch,getState) =>{
+        dispatch({
+            type : POST_LOGIN, payload: ''
+        })
+    }
+}

@@ -4,18 +4,22 @@ import { useAuth } from '../AuthContext';
 import AdminHeader from '../components/header/AdminHeader';
 import ClientHeader from '../components/header/ClientHeader';
 import './Layout.css';
+import jwt_decode from 'jwt-decode'
 
 function Layout() {
   const { user } = useAuth();
 
   const memoizedHeader = useMemo(() => {
-    if (user === 'company') {
+    
+    const members = jwt_decode(window.localStorage.getItem('accessToken'))
+
+    if (members.memberRole==='a') {
       return <AdminHeader />;
-    } else if (user === 'location') {
+    } else if (members.memberRole==='b') {
       return <ClientHeader />;
     }
     return null; // 사용자 타입이 없는 경우
-  }, [user]);
+  }, []);
 
   return (
     <div className="layout">
