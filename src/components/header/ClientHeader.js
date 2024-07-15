@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink ,useNavigate } from 'react-router-dom';
 import styles from '../../modules/Header.module.css';
 import logo from '../../assets/logo2.png'; // 로고 이미지 경로를 알맞게 수정하세요
-
+import jwtDecode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
+import { callLogoutAPI } from '../../apis/MemberAPICalls';
 const AdminHeader = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
@@ -10,9 +12,23 @@ const AdminHeader = () => {
   const showDropdown = () => setDropdownVisible(true);
   const hideDropdown = () => setDropdownVisible(false);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const changeColor = (index) => {
     setActiveMenu(index);
   };
+  const logoutHandler=()=>{
+
+    const members = jwtDecode(window.localStorage.getItem('accessToken'))
+
+    window.localStorage.removeItem('accessToken')
+
+    dispatch(callLogoutAPI())
+
+    alert(`${members.memberName} 님 로그아웃 하셨습니다`)
+    navigate("/",{replace : true});
+  }
 
   return (
     <>
@@ -22,8 +38,8 @@ const AdminHeader = () => {
             <img src={logo} alt="Logo" />
           </div>
           <div className={styles.actions}>
-            <p className={styles.alarm}>알람</p>
-            <button className={styles.signUp}>Sign up</button>
+            <p className={styles.alarm}>알림</p>
+            <button className={styles.signUp}>Log out</button>
           </div>
         </header>
       </div>

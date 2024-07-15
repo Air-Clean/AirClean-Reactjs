@@ -6,14 +6,18 @@ import { useDispatch,useSelector } from 'react-redux';
 import { callLoginAPI } from '../../apis/MemberAPICalls';
 import './Login.css'; // Import the CSS file
 import logo from '../../assets/logo1.png';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter , FormGroup, Input, Label,ButtonGroup} from 'reactstrap';
+import LoginCss from './Login.module.css'
 // 토큰 복호화 용 임포트
 import jwt_decode from 'jwt-decode'
+
 
 const Login = () => {
 
   const navigate = useNavigate();
 
   const { login } = useAuth();
+  const [modal, setModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -40,6 +44,7 @@ const Login = () => {
         navigate('/company',{replace : true})
       }
 
+      setForm({memberId: '',memberPassword: ''})
     }
   },[loginMember]);
 
@@ -49,13 +54,27 @@ const Login = () => {
     dispatch(callLoginAPI({
       form: form
     }))
+
+    
   };
 
+  const loginKeyHandler = e => {
+    if(e.key=== 'Enter'){
+      dispatch(callLoginAPI({
+        form: form
+      }))
+    }
+  }
 
   const onChangeHandler=e=>{
     setForm({
       ...form,[e.target.name] : e.target.value
     })
+  }
+
+  const toggle=()=>{
+    console.log('문의 창')
+    setModal(!modal)
   }
 
   
@@ -98,16 +117,16 @@ const Login = () => {
                 
                 <div style={{color:'white'}}>
                   <p className='text_input'>id</p>
-                  <input type="text" id="id" name="memberId" placeholder='ID' onChange={onChangeHandler}/>
+                  <input type="text" id="id" name="memberId" placeholder='ID' onChange={onChangeHandler} onKeyDown={loginKeyHandler} value={form.memberId} autoComplete='off'/>
                 </div>
                 <div  style={{color:'white'}}>
                   <p className='text_input'>password</p>
-                  <input type="password" id="password" name="memberPassword" placeholder='PASSWORD' onChange={onChangeHandler}/>   
+                  <input type="password" id="password" name="memberPassword" placeholder='PASSWORD' onChange={onChangeHandler} onKeyDown={loginKeyHandler} value={form.memberPassword} autoComplete='off'/>   
                 </div>      
 
                 
                 <div className="button-container">
-                  <button className="login-button" onClick={handleAdminLogin}>
+                  <button className="login-button" onClick={handleAdminLogin} >
                     Sign in
                   </button>
                   {/* <button className="login-button" onClick={handleClientLogin}>
@@ -115,7 +134,77 @@ const Login = () => {
                   </button> */}
                 </div>
                 <div style={{color: 'white'}}>
-                  <p style={{textAlign:'center'}}>문의하기</p>
+                  <p style={{textAlign:'center'}} onClick={toggle} className={LoginCss.ModalButton}>문의하기</p>
+                  <Modal isOpen={modal} toggle={toggle} centered>
+                    <ModalHeader toggle={toggle}> ID / PASSWORD 문의 </ModalHeader>
+                    <ModalBody>
+                      <FormGroup floating>
+                        <Input
+                          id="memberName"
+                          name="memberName"
+                          placeholder="Name"
+                          type="text"
+                          autoComplete='off'
+                        />
+                        <Label for="memberName">
+                          Name
+                        </Label>
+                      </FormGroup>
+                      <FormGroup floating>
+                        <Input
+                          id="memberPhone"
+                          name="memberPhone"
+                          placeholder="phone"
+                          type="text"
+                          autoComplete='off'
+                        />
+                        <Label for="memberPhone">
+                          Phone
+                        </Label>
+                      </FormGroup>
+                      <FormGroup floating >
+                        <Input
+                          id="memberEmail"
+                          name="memberEmail"
+                          placeholder="Email"
+                          type="email"
+                          autoComplete='off'
+                        />
+                        <Label for="exampleEmail">
+                          Email
+                        </Label>
+                      </FormGroup>
+                      <ButtonGroup
+                        className="my-2"
+                        size="m"
+                        style={{width : '100%'}}
+                      >
+                        <Button outline>
+                          직원
+                        </Button>
+                        <Button outline>
+                          지점장
+                        </Button>
+                      </ButtonGroup>
+                      <FormGroup floating >
+                        <Input
+                          id="askDescription"
+                          name="askDescription"
+                          placeholder="Description"
+                          type="textarea"
+                          autoComplete='off'
+                        />
+                        <Label for="exampleEmail">
+                          Description
+                        </Label>
+                      </FormGroup>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color="primary" onClick={toggle}>
+                        문의하기
+                      </Button>
+                    </ModalFooter>
+                  </Modal>
                 </div>
               </div>
             
