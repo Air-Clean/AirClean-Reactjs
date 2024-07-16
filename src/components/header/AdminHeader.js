@@ -76,7 +76,7 @@ const AdminHeader = () => {
               className={`${styles.menuItem} ${activeMenu === 5 ? styles.active : ''}`}
               onClick={() => changeColor(5)}
             >
-              <div>재고관리</div>
+              <div>인적자원</div>
             </li>
             <li
               className={`${styles.menuItem} ${activeMenu === 6 ? styles.active : ''}`}
@@ -145,12 +145,17 @@ const AdminHeader = () => {
                   </ul>
                 </li>
                 <li className={styles.menuItem5} onClick={() => changeColor(5)}>
-                  <NavLink to="#submenu1-5" activeClassName={styles.active}>5</NavLink>
+                  <NavLink to="/members/employee" activeClassName={styles.active}>직원</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="#submenu1-5-1" activeClassName={styles.active}>5-1</NavLink>
+                      <NavLink to="/members/branch" activeClassName={styles.active}>지점장</NavLink>
                       <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-5-2" activeClassName={styles.active}>5-2</NavLink></li>
+                        <li>
+                          <NavLink to="/members/driver" activeClassName={styles.active}>차량기사</NavLink>
+                          <ul className={styles.submenu}>
+                            <li><NavLink to="/members/temp" activeClassName={styles.active}>보류기록</NavLink></li>
+                          </ul>
+                        </li>
                       </ul>
                     </li>
                   </ul>
