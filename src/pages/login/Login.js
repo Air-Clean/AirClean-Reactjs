@@ -1,32 +1,38 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../AuthContext'; // AuthContext 사용
 import { useDispatch,useSelector } from 'react-redux';
 import { callLoginAPI } from '../../apis/MemberAPICalls';
 import './Login.css'; // Import the CSS file
 import logo from '../../assets/logo1.png';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter , FormGroup, Input, Label,ButtonGroup} from 'reactstrap';
-import LoginCss from './Login.module.css'
+import AskWindow from './AskWindow';
+
 // 토큰 복호화 용 임포트
 import jwt_decode from 'jwt-decode'
 
 
 const Login = () => {
 
+  // react-router-dom
   const navigate = useNavigate();
 
-  const { login } = useAuth();
-  const [modal, setModal] = useState(false);
-
+  // redux
   const dispatch = useDispatch();
 
-  const loginMember = useSelector(state=>state.memberReducer);
+  // useState
 
   const [form,setForm] = useState({
     memberId:'',
     memberPassword : ''
   })
+
+
+  
+  
+
+  const loginMember = useSelector(state=>state.memberReducer);
+
+  
 
   useEffect(()=>{
     if(loginMember.status === 200){
@@ -72,10 +78,6 @@ const Login = () => {
     })
   }
 
-  const toggle=()=>{
-    console.log('문의 창')
-    setModal(!modal)
-  }
 
   
   return (
@@ -134,77 +136,7 @@ const Login = () => {
                   </button> */}
                 </div>
                 <div style={{color: 'white'}}>
-                  <p style={{textAlign:'center'}} onClick={toggle} className={LoginCss.ModalButton}>문의하기</p>
-                  <Modal isOpen={modal} toggle={toggle} centered>
-                    <ModalHeader toggle={toggle}> ID / PASSWORD 문의 </ModalHeader>
-                    <ModalBody>
-                      <FormGroup floating>
-                        <Input
-                          id="memberName"
-                          name="memberName"
-                          placeholder="Name"
-                          type="text"
-                          autoComplete='off'
-                        />
-                        <Label for="memberName">
-                          Name
-                        </Label>
-                      </FormGroup>
-                      <FormGroup floating>
-                        <Input
-                          id="memberPhone"
-                          name="memberPhone"
-                          placeholder="phone"
-                          type="text"
-                          autoComplete='off'
-                        />
-                        <Label for="memberPhone">
-                          Phone
-                        </Label>
-                      </FormGroup>
-                      <FormGroup floating >
-                        <Input
-                          id="memberEmail"
-                          name="memberEmail"
-                          placeholder="Email"
-                          type="email"
-                          autoComplete='off'
-                        />
-                        <Label for="exampleEmail">
-                          Email
-                        </Label>
-                      </FormGroup>
-                      <ButtonGroup
-                        className="my-2"
-                        size="m"
-                        style={{width : '100%'}}
-                      >
-                        <Button outline>
-                          직원
-                        </Button>
-                        <Button outline>
-                          지점장
-                        </Button>
-                      </ButtonGroup>
-                      <FormGroup floating >
-                        <Input
-                          id="askDescription"
-                          name="askDescription"
-                          placeholder="Description"
-                          type="textarea"
-                          autoComplete='off'
-                        />
-                        <Label for="exampleEmail">
-                          Description
-                        </Label>
-                      </FormGroup>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="primary" onClick={toggle}>
-                        문의하기
-                      </Button>
-                    </ModalFooter>
-                  </Modal>
+                  <AskWindow/>
                 </div>
               </div>
             

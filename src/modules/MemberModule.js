@@ -6,6 +6,7 @@ const initState = [];
 // 액션
 export const POST_LOGIN = 'member/POST_LOGIN';
 
+
 const actions = createActions({
     [POST_LOGIN] : ()=>{},
 })
@@ -13,7 +14,8 @@ const actions = createActions({
 const memberReducer = handleActions({
     [POST_LOGIN] : (state,{payload})=>{
         return payload;
-    }
+    },
+    
 },initState)
 
 export default memberReducer;

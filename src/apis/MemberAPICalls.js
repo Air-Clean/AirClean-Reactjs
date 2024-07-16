@@ -1,9 +1,11 @@
 import { POST_LOGIN } from "../modules/MemberModule";
+import {FIND_MEMBER} from "../modules/AskModule";
 
 export const callLoginAPI= ({ form }) => {
     const requestURL= `http://${process.env.REACT_APP_RESTAPI_IP}:8080/auth/login`;
 
     console.log('form 왔나',form)
+
     return async (dispatch,getState)=>{
 
         const result = await fetch(requestURL,{
@@ -35,6 +37,36 @@ export function callLogoutAPI(){
     return async (dispatch,getState) =>{
         dispatch({
             type : POST_LOGIN, payload: ''
+        })
+    }
+}
+
+export function callFindUserAPI({ form }){
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/auth/inquiry`
+    return async (dispatch,getState) => {
+        const result = await fetch(
+            requestURL,{
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json',
+                    Accept : '*/*',
+                    'Access-Control-Allow-Origin' : '*'
+                },
+                body : JSON.stringify({
+                    memberName : form.memberName,
+                    memberPhone : form.memberPhone,
+                    memberEmail : form.memberEmail,
+                    memberRole : form.memberRole,
+                    askDescription : form.askDescription,
+                })
+            }
+        ).then(res=>res.json())
+
+        console.log('[callFindUserAPI] callFindUserAPI result : ',result)
+
+        dispatch({
+            type : FIND_MEMBER , payload : result
         })
     }
 }

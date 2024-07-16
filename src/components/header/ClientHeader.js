@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink ,useNavigate } from 'react-router-dom';
-import styles from '../../modules/Header.module.css';
+import styles from './Header.module.css';
 import logo from '../../assets/logo2.png'; // 로고 이미지 경로를 알맞게 수정하세요
 import jwtDecode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
