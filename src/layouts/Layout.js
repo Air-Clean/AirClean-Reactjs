@@ -13,12 +13,13 @@ function Layout() {
     
     const members = jwt_decode(window.localStorage.getItem('accessToken'))
 
-    if (members.memberRole==='a') {
-      return <AdminHeader />;
-    } else if (members.memberRole==='b') {
+    if (members.memberRole==='b') {
       return <ClientHeader />;
+      
+    } else {
+      return <AdminHeader />;
     }
-    return null; // 사용자 타입이 없는 경우
+   // 사용자 타입이 없는 경우
   }, []);
 
   return (
