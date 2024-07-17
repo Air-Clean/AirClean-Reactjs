@@ -150,13 +150,13 @@ const AdminHeader = () => {
                   </ul>
                 </li>
                 <li className={styles.menuItem7} onClick={() => changeColor(7)}>
-                  <NavLink to="#submenu1-7" activeClassName={styles.active}>7</NavLink>
+                  <NavLink to="paper/newReports" activeClassName={styles.active}>보고서 작성</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="#submenu1-7-1" activeClassName={styles.active}>7-1</NavLink>
-                      <ul className={styles.submenu}>
+                      <NavLink to="paper/reports" activeClassName={styles.active}>보고서 조회</NavLink>
+                      {/* <ul className={styles.submenu}>
                         <li><NavLink to="#submenu1-7-2" activeClassName={styles.active}>7-2</NavLink></li>
-                      </ul>
+                      </ul> */}
                     </li>
                   </ul>
                 </li>
