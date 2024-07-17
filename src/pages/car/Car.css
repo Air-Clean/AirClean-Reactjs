@@ -1,0 +1,139 @@
+.car_layout {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    background-color: rgb(211, 211, 211);
+}
+
+.flex_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.title {
+    color: #333;
+    margin: 0;
+}
+
+.button_group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+.button {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.button.register {
+    background-color: lightgray;
+    color: white;
+}
+
+.button.delete {
+    background-color: lightgray;
+    color: white;
+}
+
+.button:hover {
+    background-color: #badef4;;
+    color: white;
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal_content {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+}
+
+.button.cancel.top_right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.assigned {
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.not_assigned {
+    background-color: #2196F3;
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.car_button {
+    background: none;
+    border: none;
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.car_button:hover {
+    color: #0056b3;
+}
