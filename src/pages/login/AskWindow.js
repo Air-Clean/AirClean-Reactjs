@@ -8,9 +8,10 @@ import {
   Input,
   Label,
   ButtonGroup,
+  FormFeedback,
 } from "reactstrap";
 
-import { useState , useEffect } from "react";
+import { useState , useEffect  } from "react";
 import LoginCss from "./Login.module.css";
 
 import { useDispatch , useSelector} from "react-redux"; 
@@ -28,19 +29,59 @@ export default function AskWindow() {
     memberRole : '',
     askDescription : ''
   })
+  const [isValid , setIsValid] = useState({})
 
   // redux
   const dispatch = useDispatch();
 
-  const isSuccess = useSelector(state=> state.memberReducer)
+  const isSuccess = useSelector(state=> state.askReducer)
 
   const toggle = () => {
     setModal(!modal)
+
+    setForm({})
+    setIsValid({})
+    setRSelected(null)
   };
+
+
+
+  useEffect(()=>{
+
+    if(isSuccess.status===500){
+        window.alert("입력값이 정확하지 않습니다. 다시 입력해주세요.")
+        window.location.reload();
+    }
+   
+  },[isSuccess])
   
   const inputHandler = e=>{
-    const changeForm = {...form,[e.target.name]:e.target.value}
 
+    const name = e.target.name;
+
+    const value = e.target.value;
+
+    const changeForm = {...form,[name]:value}
+
+    switch(name){
+        case 'memberName' : 
+            const isEnglish = /^[a-zA-Z]+$/.test(value);
+            const isKorean = /^[가-힣]+$/.test(value);
+            setIsValid({...isValid,memberName : isEnglish || isKorean})
+            break;
+
+            case 'memberPhone' : 
+            
+            setIsValid({...isValid,memberPhone : /^\d{10,11}$/.test(value)})
+            break;
+
+        case 'memberEmail' : 
+            
+            setIsValid({...isValid,memberEmail : /^[a-zA-Z0-9._%+-]+@(gmail|naver)\.(com|net|org)$/.test(value)})
+            break;
+
+        default : setIsValid({...isValid})
+    }
     if(e.target.name === 'memberRole'){
         setRSelected(e.target.value)
     }
@@ -51,12 +92,10 @@ export default function AskWindow() {
     dispatch(callFindUserAPI({form}))
 
     setForm({})
-    // window.location.reload();
+
+    window.location.reload();
   }
 
-  useEffect(()=>{
-    console.log(form)
-  },[form])
 
 
   return (
@@ -79,7 +118,12 @@ export default function AskWindow() {
               type="text"
               autoComplete="off"
               onChange={inputHandler}
+              invalid={!isValid.memberName}
+              valid={isValid.memberName}
             />
+            <FormFeedback inValid>
+                이름은 한글 또는 알파벳이어야 합니다
+            </FormFeedback>
             <Label for="memberName">Name</Label>
           </FormGroup>
           <FormGroup floating>
@@ -90,7 +134,12 @@ export default function AskWindow() {
               type="text"
               autoComplete="off"
               onChange={inputHandler}
+              invalid={!isValid.memberPhone}
+              valid={isValid.memberPhone}
             />
+            <FormFeedback inValid>
+                숫자만 입력하세요
+            </FormFeedback>
             <Label for="memberPhone">Phone</Label>
           </FormGroup>
           <FormGroup floating>
@@ -101,7 +150,12 @@ export default function AskWindow() {
               type="email"
               autoComplete="off"
               onChange={inputHandler}
+              invalid={!isValid.memberEmail}
+              valid={isValid.memberEmail}
             />
+            <FormFeedback inValid>
+                Email 을 작성해주세요
+            </FormFeedback>
             <Label for="exampleEmail">Email</Label>
           </FormGroup>
           <ButtonGroup className="my-2" size="m" style={{ width: "100%" }} onClick={inputHandler}>
@@ -121,7 +175,7 @@ export default function AskWindow() {
           </FormGroup>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={submitHandler}>
+          <Button color="primary" onClick={submitHandler} >
             문의하기
           </Button>
         </ModalFooter>

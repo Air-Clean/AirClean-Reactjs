@@ -67,12 +67,6 @@ const AdminHeader = () => {
               <div>지점관리</div>
             </li>
             <li
-              className={`${styles.menuItem} ${activeMenu === 4 ? styles.active : ''}`}
-              onClick={() => changeColor(4)}
-            >
-              <div>시설물관리</div>
-            </li>
-            <li
               className={`${styles.menuItem} ${activeMenu === 5 ? styles.active : ''}`}
               onClick={() => changeColor(5)}
             >
@@ -94,7 +88,7 @@ const AdminHeader = () => {
               className={`${styles.menuItem} ${activeMenu === 8 ? styles.active : ''}`}
               onClick={() => changeColor(8)}
             >
-              <div>재고관리</div>
+              <div>인적자원</div>
             </li>
           </ul>
           {dropdownVisible && (
@@ -133,19 +127,8 @@ const AdminHeader = () => {
                     </li>
                   </ul>
                 </li>
-                <li className={styles.menuItem4} onClick={() => changeColor(4)}>
-                  <NavLink to="#submenu1-4" activeClassName={styles.active}>4</NavLink>
-                  <ul className={styles.submenu}>
-                    <li>
-                      <NavLink to="#submenu1-4-1" activeClassName={styles.active}>4-1</NavLink>
-                      <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-4-2" activeClassName={styles.active}>4-2</NavLink></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
                 <li className={styles.menuItem5} onClick={() => changeColor(5)}>
-                  <NavLink to="#submenu1-5" activeClassName={styles.active}>5</NavLink>
+                <NavLink to="#submenu1-5" activeClassName={styles.active}>5</NavLink>
                   <ul className={styles.submenu}>
                     <li>
                       <NavLink to="#submenu1-5-1" activeClassName={styles.active}>5-1</NavLink>
@@ -178,15 +161,21 @@ const AdminHeader = () => {
                   </ul>
                 </li>
                 <li className={styles.menuItem8} onClick={() => changeColor(8)}>
-                  <NavLink to="#submenu1-8" activeClassName={styles.active}>8</NavLink>
+                <NavLink to="members/employee" activeClassName={styles.active}>직원</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="#submenu1-8-1" activeClassName={styles.active}>8-1</NavLink>
+                      <NavLink to="members/branch" activeClassName={styles.active}>지점장</NavLink>
                       <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-8-2" activeClassName={styles.active}>8-2</NavLink></li>
+                        <li>
+                          <NavLink to="members/driver" activeClassName={styles.active}>차량기사</NavLink>
+                          <ul className={styles.submenu}>
+                            <li><NavLink to="members/temp" activeClassName={styles.active}>보류기록</NavLink></li>
+                          </ul>
+                        </li>
                       </ul>
                     </li>
                   </ul>
+
                 </li>
               </ul>
             </div>
