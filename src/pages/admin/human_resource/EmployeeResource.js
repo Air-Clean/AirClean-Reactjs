@@ -1,11 +1,13 @@
 import BioCard from "./BioCard";
 import Searchbar from "./Searchbar";
 import "./HumanResource.css";
+
 import { EMPLOYEE } from "../../../modules/HRModule";
 import Paging from "./Paging";
 import { useState ,useEffect} from "react";
 import { useDispatch,useSelector } from "react-redux";
 import { callEmployeeList } from "../../../apis/HRAPICalls";
+
 
 function EmployeeResource() {
   console.log("직원페이지 입니다");
@@ -31,6 +33,7 @@ function EmployeeResource() {
     },[current])
   return (
     <>
+
       <div className="menu1_layout">
                 
                 <div className='flex_wrap'>
@@ -40,6 +43,7 @@ function EmployeeResource() {
                 </div>
                 
             </div>
+
     </>
   );
 }
