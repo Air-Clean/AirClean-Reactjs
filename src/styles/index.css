@@ -1,5 +1,7 @@
 /* index.css */
 /* Reset CSS */
+
+
 * {
   margin: 0;
   padding: 0;
@@ -27,3 +29,5 @@ body {
   flex-direction: column;
   justify-content: flex-start; /* 세로 정렬 시작 */
 }
+
+
