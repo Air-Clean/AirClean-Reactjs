@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './Reports.css';
 
 function BranchSales() {
+
+  // 각 버튼 누르면 비동기식으로 그 표 나타남(토글)
   const [activeTable, setActiveTable] = useState('지출'); // 초기값을 '지출'로 설정
 
   const renderTable = () => {
