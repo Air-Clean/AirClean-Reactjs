@@ -139,13 +139,13 @@ const AdminHeader = () => {
                   </ul>
                 </li>
                 <li className={styles.menuItem6} onClick={() => changeColor(6)}>
-                  <NavLink to="#submenu1-6" activeClassName={styles.active}>6</NavLink>
+                  <NavLink to="car" activeClassName={styles.active}>물류시스템관리</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="#submenu1-6-1" activeClassName={styles.active}>6-1</NavLink>
-                      <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-6-2" activeClassName={styles.active}>6-2</NavLink></li>
-                      </ul>
+                      {/* <NavLink to="#submenu1-6-1" activeClassName={styles.active}>6-1</NavLink> */}
+                      {/* <ul className={styles.submenu}> */}
+                        {/* <li><NavLink to="#submenu1-6-2" activeClassName={styles.active}>6-2</NavLink></li> */}
+                      {/* </ul> */}
                     </li>
                   </ul>
                 </li>
