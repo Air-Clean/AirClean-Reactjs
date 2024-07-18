@@ -1,28 +1,38 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../AuthContext'; // AuthContext 사용
 import { useDispatch,useSelector } from 'react-redux';
 import { callLoginAPI } from '../../apis/MemberAPICalls';
 import './Login.css'; // Import the CSS file
 import logo from '../../assets/logo1.png';
+import AskWindow from './AskWindow';
+
 // 토큰 복호화 용 임포트
 import jwt_decode from 'jwt-decode'
 
+
 const Login = () => {
 
+  // react-router-dom
   const navigate = useNavigate();
 
-  const { login } = useAuth();
-
+  // redux
   const dispatch = useDispatch();
 
-  const loginMember = useSelector(state=>state.memberReducer);
+  // useState
 
   const [form,setForm] = useState({
     memberId:'',
     memberPassword : ''
   })
+
+
+  
+  
+
+  const loginMember = useSelector(state=>state.memberReducer);
+
+  
 
   useEffect(()=>{
     if(loginMember.status === 200){
@@ -40,6 +50,7 @@ const Login = () => {
         navigate('/company',{replace : true})
       }
 
+      setForm({memberId: '',memberPassword: ''})
     }
   },[loginMember]);
 
@@ -49,14 +60,24 @@ const Login = () => {
     dispatch(callLoginAPI({
       form: form
     }))
+
+    
   };
 
+  const loginKeyHandler = e => {
+    if(e.key=== 'Enter'){
+      dispatch(callLoginAPI({
+        form: form
+      }))
+    }
+  }
 
   const onChangeHandler=e=>{
     setForm({
       ...form,[e.target.name] : e.target.value
     })
   }
+
 
   
   return (
@@ -98,16 +119,16 @@ const Login = () => {
                 
                 <div style={{color:'white'}}>
                   <p className='text_input'>id</p>
-                  <input type="text" id="id" name="memberId" placeholder='ID' onChange={onChangeHandler}/>
+                  <input type="text" id="id" name="memberId" placeholder='ID' onChange={onChangeHandler} onKeyDown={loginKeyHandler} value={form.memberId} autoComplete='off'/>
                 </div>
                 <div  style={{color:'white'}}>
                   <p className='text_input'>password</p>
-                  <input type="password" id="password" name="memberPassword" placeholder='PASSWORD' onChange={onChangeHandler}/>   
+                  <input type="password" id="password" name="memberPassword" placeholder='PASSWORD' onChange={onChangeHandler} onKeyDown={loginKeyHandler} value={form.memberPassword} autoComplete='off'/>   
                 </div>      
 
                 
                 <div className="button-container">
-                  <button className="login-button" onClick={handleAdminLogin}>
+                  <button className="login-button" onClick={handleAdminLogin} >
                     Sign in
                   </button>
                   {/* <button className="login-button" onClick={handleClientLogin}>
@@ -115,7 +136,7 @@ const Login = () => {
                   </button> */}
                 </div>
                 <div style={{color: 'white'}}>
-                  <p style={{textAlign:'center'}}>문의하기</p>
+                  <AskWindow/>
                 </div>
               </div>
             
