@@ -5,7 +5,8 @@ const initialState = [];
 
 export const BRANCHSALES = 'BRANCHSALES'
 
-const actions = createActions({
+
+createActions({
     [BRANCHSALES]: ()=>[]
 })
 

@@ -5,7 +5,7 @@
     background-color: rgb(211, 211, 211);
 }
 
-.flex_wrap {
+.car_layer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,9 +13,10 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 80%;
+    width: 100%;
     margin-top: 20px;
 }
+
 
 .title {
     color: #333;
@@ -119,7 +120,10 @@ label {
     margin-top: 10px;
 }
 
-input[type="text"], input[type="date"], input[type="file"], select {
+.modal_content input[type="text"], 
+.modal_content input[type="date"], 
+.modal_content input[type="file"], 
+.modal_content select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;

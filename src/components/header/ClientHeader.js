@@ -39,7 +39,7 @@ const AdminHeader = () => {
           </div>
           <div className={styles.actions}>
             <p className={styles.alarm}>알림</p>
-            <button className={styles.signUp}>Log out</button>
+            <button className={styles.signUp}  onClick={logoutHandler}>Log out</button>
           </div>
         </header>
       </div>

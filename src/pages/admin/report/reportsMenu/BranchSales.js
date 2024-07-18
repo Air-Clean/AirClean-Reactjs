@@ -12,9 +12,9 @@ function BranchSales() {
   useEffect(() => {
     console.log('리덕스 상태 result:', result);
     if (activeTable === '지출') {
-      dispatch(callFindBranchSalesAPI());
+        dispatch(callFindBranchSalesAPI());
     }
-  }, [activeTable, dispatch]);
+  }, [activeTable, dispatch, result]); // result를 의존성 배열에 포함
 
   useEffect(() => {
     console.log('Redux 상태 result:', result); // Redux 상태를 콘솔에 출력하여 올바르게 불러오는지 확인
