@@ -16,7 +16,10 @@ import DriverResource from './pages/admin/human_resource/DriverResource';
 import TempResource from './pages/admin/human_resource/TempResource';
 
 import BranchSales from './pages/admin/report/reportsMenu/BranchSales';
-import NewReports from './pages/admin/report/newReportsMenu/NewReports'
+import NewReports from './pages/admin/report/newReportsMenu/NewReports';
+
+import StockApplication from './pages/admin/stock/StockApplication';
+import StockHistory from './pages/admin/stock/StockHistory';
 
 
 // const ProtectedRoute = ({ children }) => {
@@ -37,6 +40,11 @@ function App() {
             <Route index element={<AdminMenu1 />} />
             <Route path="menu1" element={<AdminMenu1 />} />
             <Route path="menu2" element={<AdminMenu2 />} />
+            <Route path="stock">
+              <Route index element={<StockApplication/>}/>
+              <Route path='application' element={<StockApplication/>}/>
+              <Route path='history' element={<StockHistory/>}/>
+            </Route>
             <Route path="paper">
                 <Route index element={<BranchSales/>}/>
                 <Route path='newReports' element={<NewReports/>}/>
