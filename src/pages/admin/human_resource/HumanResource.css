@@ -43,3 +43,9 @@
   display: flex;
   justify-content: center;
 }
+
+.deleteButtonCss{
+  z-index: 4;
+  
+
+}

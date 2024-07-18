@@ -1,0 +1,36 @@
+.stock_bar_chart {
+    width: 80%; /* 그래프 컨테이너의 너비 */
+    margin: 0 auto; /* 가운데 정렬을 위해 */
+  }
+  
+  .bar-container-horizontal {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto; /* 그래프의 최대 높이 */
+  }
+  
+  .bar-horizontal {
+    height: 40px; /* 막대의 높이 */
+    background-color: rgba(0, 0, 0, 0.7); /* 기본 배경색, 투명도 70% */
+    transition: background-color 0.3s ease;
+    position: relative;
+    margin-bottom: 10px; /* 막대 사이 간격 조정 */
+  }
+  
+  .bar-horizontal:hover {
+    background-color: rgba(0, 0, 0, 0.9); /* 호버 시 배경색 변경 */
+  }
+  
+  .tooltip-horizontal {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 5px;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    pointer-events: none; /* 이벤트 방지 */
+  }
+  
