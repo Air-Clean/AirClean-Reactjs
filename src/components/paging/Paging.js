@@ -4,8 +4,9 @@ import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import PagingCss from './Paging.module.css'
 
-export default function Paging({start,end,setCurrent}) {
+export default function Paging({end,setCurrent}) {
 
     const handleChange=(e,value)=>{
         console.log(value)
@@ -15,9 +16,10 @@ export default function Paging({start,end,setCurrent}) {
 
 
   return (
+    <div className={PagingCss.pageDesign}>
     <Stack spacing={2}>
       <Pagination
-        count={10}  // end page
+        count={end}  // end page
         renderItem={(item) => (
           <PaginationItem
             slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
@@ -27,5 +29,6 @@ export default function Paging({start,end,setCurrent}) {
         onChange={handleChange}
       />
     </Stack>
+    </div>
   );
 }

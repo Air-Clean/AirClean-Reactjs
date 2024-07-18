@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
-import './Reports.css';
+// BranchSales.js
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { callFindBranchSalesAPI } from '../../../../apis/ReportAPICalls';
+import './BranchSales.css';
 
 function BranchSales() {
   const [activeTable, setActiveTable] = useState('지출'); // 초기값을 '지출'로 설정
+  const dispatch = useDispatch();
+  const result = useSelector(state => state.branchSales || []);
+
+  useEffect(() => {
+    console.log('리덕스 상태 result:', result);
+    if (activeTable === '지출') {
+      dispatch(callFindBranchSalesAPI());
+    }
+  }, [activeTable, dispatch]);
+
+  useEffect(() => {
+    console.log('Redux 상태 result:', result); // Redux 상태를 콘솔에 출력하여 올바르게 불러오는지 확인
+  }, [result]);
 
   const renderTable = () => {
     switch (activeTable) {
@@ -18,7 +34,14 @@ function BranchSales() {
               </tr>
             </thead>
             <tbody>
-              {/* 지출 데이터가 들어갈 부분 */}
+              {result.map((item) => (
+                <tr key={item.branchReportCode}>
+                  <td>{item.branchReportCode}</td>
+                  <td>{item.branchCode}</td>
+                  <td>{item.branchSubmissionDate}</td>
+                  <td><button>View</button></td>
+                </tr>
+              ))}
             </tbody>
           </table>
         );
@@ -82,27 +105,27 @@ function BranchSales() {
       <div className='flex_wrap'>
         <div className="report-create">
           <h1>보고서 조회</h1>
-          <div className="button-group">
-            <button 
-              className={`register-button ${activeTable === '지출' ? 'active-button' : ''}`} 
+          <div className="branch-button-group">
+            <button
+              className={`branch-register-button ${activeTable === '지출' ? 'active-button' : ''}`}
               onClick={() => setActiveTable('지출')}
             >
               지출
             </button>
-            <button 
-              className={`register-button  ${activeTable === '매출' ? 'active-button' : ''}`} 
+            <button
+              className={`branch-register-button  ${activeTable === '매출' ? 'active-button' : ''}`}
               onClick={() => setActiveTable('매출')}
             >
               매출
             </button>
-            <button 
-              className={`register-button ${activeTable === '차량수리비' ? 'active-button' : ''}`} 
+            <button
+              className={`branch-register-button ${activeTable === '차량수리비' ? 'active-button' : ''}`}
               onClick={() => setActiveTable('차량수리비')}
             >
               차량수리비
             </button>
-            <button 
-              className={`register-button ${activeTable === '시설물수리' ? 'active-button' : ''}`} 
+            <button
+              className={`branch-register-button ${activeTable === '시설물수리' ? 'active-button' : ''}`}
               onClick={() => setActiveTable('시설물수리')}
             >
               시설물수리

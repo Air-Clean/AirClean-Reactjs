@@ -27,13 +27,13 @@
   padding-bottom: 10px;
 }
 
-.button-group {
+.branch-button-group {
   display: flex;
   justify-content: flex-start; /* 버튼들을 왼쪽 정렬 */
   margin-bottom: 20px;
 }
 
-.register-button,
+.branch-register-button,
 .create-button {
   padding: 10px 20px;
   font-size: 16px;
@@ -49,13 +49,13 @@
   background-color: #f2f2f2;
 }
 
-/*.active-button {
+.active-button {
   background-color: #badef4; 
   color: #000;
-}*/
+}
 
 .button-group .register-button.active-button {
-  background-color: #badef4; /* 하늘색 */
+  background-color: #badef4;
   color: #000;
 }
 
