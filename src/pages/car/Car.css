@@ -13,6 +13,8 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    width: 80%;
+    margin-top: 20px;
 }
 
 .title {
@@ -24,6 +26,7 @@
     display: flex;
     gap: 10px;
     margin-top: 10px;
+    align-self: flex-end;
 }
 
 table {
@@ -47,7 +50,7 @@ tr:nth-child(even) {
 }
 
 tr:hover {
-    background-color: #ddd;
+    background-color: #badef4; /* 마우스를 가져다댔을 때의 배경색을 밝은 파란색으로 변경 */
 }
 
 .button {
@@ -56,18 +59,28 @@ tr:hover {
 }
 
 .button.register {
-    background-color: lightgray;
-    color: white;
+    background-color: #f2f2f2;
+    color: black;
 }
 
-.button.delete {
-    background-color: lightgray;
-    color: white;
+.button.delete, .button.delete_confirm {
+    background-color: #f2f2f2;
+    color: black;
+}
+
+.button.assign {
+    background-color: #badef4;
+    color: black;
 }
 
 .button:hover {
-    background-color: #badef4;;
-    color: white;
+    background-color: #badef4;
+    color: black;
+}
+
+.button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
 }
 
 .modal {
@@ -94,10 +107,11 @@ tr:hover {
     position: relative;
 }
 
-.button.cancel.top_right {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+.button_group_modal {
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 아래에 정렬 */
+    gap: 10px;
+    margin-top: 20px;
 }
 
 label {
@@ -105,24 +119,25 @@ label {
     margin-top: 10px;
 }
 
-input, select {
+input[type="text"], input[type="date"], input[type="file"], select {
     width: 100%;
     padding: 10px;
+    margin-top: 5px;
+    border: 1px solid black; /* 검정색 테두리 추가 */
+    border-radius: 5px; /* 약간 둥글게 */
+}
+
+.error {
+    color: red;
     margin-top: 5px;
 }
 
 .assigned {
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 10px;
-    padding: 5px;
+    color: black;
 }
 
-.not_assigned {
-    background-color: #2196F3;
-    color: white;
-    border-radius: 10px;
-    padding: 5px;
+.not_assigned_text {
+    color: #2196F3;
 }
 
 .car_button {
