@@ -4,19 +4,20 @@ import "./HumanResource.css";
 
 import { EMPLOYEE } from "../../../modules/HRModule";
 import Paging from "../../../components/paging/Paging";
-import { useState ,useEffect} from "react";
+import { useState ,useEffect, useRef} from "react";
 import { useDispatch,useSelector } from "react-redux";
-import { callEmployeeList } from "../../../apis/HRAPICalls";
+import { callEmployeeList, callSoftDeleteEmployee } from "../../../apis/HRAPICalls";
 import { Grid, Container } from "@mui/material";
+import Fab from '@mui/material/Fab';
 
 function EmployeeResource() {
-  console.log("직원페이지 입니다");
+  console.log("====================================직원페이지 입니다");
 
 
 
     const [current , setCurrent] = useState(1)
+    const [deleteMember, setDeleteMember] = useState([])
     
-
     // redux
 
     const dispatch = useDispatch();
@@ -29,11 +30,28 @@ function EmployeeResource() {
     console.log("employee",employee)
     console.log("result 값",result)
 
+    
+
     useEffect(()=>{
         dispatch(
             callEmployeeList({current : current})
         )
+        console.log('callEMP')
     },[current])
+
+
+    useEffect(()=>{
+        console.log("deleteMember 변함?")
+    },[deleteMember])
+
+    const softDeleteHandler=()=>{
+        console.log('버튼 누름');
+        dispatch(
+          callSoftDeleteEmployee({deleteMember: deleteMember})
+        )
+        
+    }
+
   return (
     <>
 
@@ -43,13 +61,19 @@ function EmployeeResource() {
         </div>
         <Grid container spacing={1} justifyContent="flex-start" className="flex_wrap">
           {employee?.map((e) => (
-            <Grid item xs={6} sm={6} mg={4} lg={3} className="bio_card" key={e.memberDTO.memberId}>
-              <BioCard emp={e} key={e.memberDTO.memberId}/>
-            </Grid>
+            // <Grid item xs={6} sm={6} mg={4} lg={3} className="bio_card" key={e.memberDTO.memberId}>
+              <BioCard emp={e} key={e.memberDTO.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
+            // </Grid>
           ))}
           
         </Grid>
+        <div className="deleteButtonCss">
+            <Fab variant="extended" onClick={softDeleteHandler}>
+            {deleteMember.length} 명 삭제하기
+            </Fab>
+        </div>
         <Paging setCurrent={setCurrent} end={totalPage} />
+        
       </div>
     </>
   );
