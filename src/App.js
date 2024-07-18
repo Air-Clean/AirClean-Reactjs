@@ -16,8 +16,11 @@ import DriverResource from './pages/admin/human_resource/DriverResource';
 import TempResource from './pages/admin/human_resource/TempResource';
 
 import BranchSales from './pages/admin/report/reportsMenu/BranchSales';
+
+import Branch from './pages/branch/Branch';
 import NewReports from './pages/admin/report/newReportsMenu/NewReports'
 import Car from './pages/car/Car';
+
 
 
 // const ProtectedRoute = ({ children }) => {
@@ -44,6 +47,12 @@ function App() {
                 <Route path='newReports' element={<NewReports/>}/>
                 <Route path='reports' element={<BranchSales/>}/>
             </Route>
+
+
+            <Route path="branch">
+              <Route index element={<Branch/>} />
+            </Route>
+
 
             <Route path="members">
               <Route index element={<EmployeeResource/>}/>
