@@ -7,7 +7,7 @@ import './BranchSales.css';
 function BranchSales() {
   const [activeTable, setActiveTable] = useState('지출'); // 초기값을 '지출'로 설정
   const dispatch = useDispatch();
-  const result = useSelector(state => state.branchSales || []);
+  const result = useSelector(state => state.branchSalesReducer);
 
   useEffect(() => {
     console.log('리덕스 상태 result:', result);

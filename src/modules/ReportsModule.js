@@ -6,7 +6,7 @@ const initialState = [];
 export const BRANCHSALES = 'BRANCHSALES'
 
 const actions = createActions({
-    [BRANCHSALES]: (data) => data
+    [BRANCHSALES]: ()=>[]
 })
 
 const branchSalesReducer = handleActions({

@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
     memberReducer,
     askReducer,
     humanReducer,
-    branchSales: branchSalesReducer,
+    branchSalesReducer,
 })
 
 export default rootReducer;
