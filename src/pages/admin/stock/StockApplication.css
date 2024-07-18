@@ -1,0 +1,24 @@
+.menu1_layout {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    background-color: rgb(211, 211, 211);
+}
+
+.flex_wrap {
+    width: 80vw; /* 너비를 80%로 설정하여 흰색 배경을 벗어나지 않도록 함 */
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    padding-left: 40px;  /* 왼쪽 패딩 추가 */
+    padding-right: 40px; /* 오른쪽 패딩 추가 */
+}
+
+.stock_input input{
+
+        width: 4vw;
+        padding: 0.7vh;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.8em;
+
+}
