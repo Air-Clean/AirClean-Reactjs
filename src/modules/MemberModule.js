@@ -6,8 +6,7 @@ const initState = [];
 // 액션
 export const POST_LOGIN = 'member/POST_LOGIN';
 
-
-const actions = createActions({
+createActions({
     [POST_LOGIN] : ()=>{},
 })
 

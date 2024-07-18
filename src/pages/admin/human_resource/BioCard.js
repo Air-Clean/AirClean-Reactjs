@@ -11,8 +11,8 @@ import CardActions from '@mui/joy/CardActions';
 import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import SvgIcon from '@mui/joy/SvgIcon';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';
-import { Grid, Container } from "@mui/material";
+import { Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import { Grid} from "@mui/material";
 import { useState } from 'react';
 import jwtDecode from 'jwt-decode';
 

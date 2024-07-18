@@ -10,6 +10,7 @@ export const callFindBranchSalesAPI = () => {
       headers: {
         'Content-Type': 'application/json',
         Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
       },
     }).then((response) => response.json());
 

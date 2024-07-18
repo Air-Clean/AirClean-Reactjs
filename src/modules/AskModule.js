@@ -4,7 +4,7 @@ const initState = [];
 
 export const FIND_MEMBER = 'member/FIND_MEMBER';
 
-const actions = createActions({
+createActions({
     [FIND_MEMBER] : ()=>{},
 })
 

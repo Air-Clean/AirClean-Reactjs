@@ -7,14 +7,16 @@ import './BranchSales.css';
 function BranchSales() {
   const [activeTable, setActiveTable] = useState('지출'); // 초기값을 '지출'로 설정
   const dispatch = useDispatch();
-  const result = useSelector(state => state.branchSales || []);
+  const result = useSelector(state => state.branchSalesReducer);
 
   useEffect(() => {
     console.log('리덕스 상태 result:', result);
     if (activeTable === '지출') {
-      dispatch(callFindBranchSalesAPI());
+        dispatch(callFindBranchSalesAPI());
     }
-  }, [activeTable, dispatch]);
+      // 이 주석은 ESLint 경고를 비활성화합니다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTable, dispatch]); // result를 의존성 배열에 포함
 
   useEffect(() => {
     console.log('Redux 상태 result:', result); // Redux 상태를 콘솔에 출력하여 올바르게 불러오는지 확인

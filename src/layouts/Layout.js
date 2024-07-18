@@ -1,13 +1,11 @@
 import React, { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
 import AdminHeader from '../components/header/AdminHeader';
 import ClientHeader from '../components/header/ClientHeader';
 import './Layout.css';
 import jwt_decode from 'jwt-decode'
 
 function Layout() {
-  const { user } = useAuth();
 
   const memoizedHeader = useMemo(() => {
     

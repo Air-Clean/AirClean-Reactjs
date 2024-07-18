@@ -3,7 +3,7 @@ import {useState} from 'react';
 
 function StockBarChart() {
 
-    const [data, setData] = useState([
+    const [data] = useState([
         { item: '세제', percentage: 30 },
         { item: '섬유유연제', percentage: 60 },
         { item: '표백제', percentage: 85 },

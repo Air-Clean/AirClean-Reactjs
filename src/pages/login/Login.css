@@ -78,7 +78,8 @@
     font-size: 25px;
 }
 
-input {
+
+.sign-up-box input {
     width: 100%;
     padding: 18px;
     margin-bottom: 20px;
@@ -90,12 +91,12 @@ input {
     transition: border-color 0.3s; /* Smooth transition for border color */
 }
 
-input:focus {
+.sign-up-box input:focus {
     border: 2px solid #4a90e2;
     outline: none; /* Remove default outline */
 }
 
-input::placeholder {
+.sign-up-box input::placeholder {
     color: #ffffff;
     opacity: 0.7; /* Slightly transparent placeholder text */
 }
