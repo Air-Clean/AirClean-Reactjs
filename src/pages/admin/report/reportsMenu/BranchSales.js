@@ -14,7 +14,9 @@ function BranchSales() {
     if (activeTable === '지출') {
         dispatch(callFindBranchSalesAPI());
     }
-  }, [activeTable, dispatch, result]); // result를 의존성 배열에 포함
+      // 이 주석은 ESLint 경고를 비활성화합니다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTable, dispatch]); // result를 의존성 배열에 포함
 
   useEffect(() => {
     console.log('Redux 상태 result:', result); // Redux 상태를 콘솔에 출력하여 올바르게 불러오는지 확인
