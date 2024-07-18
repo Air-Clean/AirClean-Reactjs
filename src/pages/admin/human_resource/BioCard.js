@@ -12,14 +12,18 @@ import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import SvgIcon from '@mui/joy/SvgIcon';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';
+import { Grid, Container } from "@mui/material";
 import { useState } from 'react';
 import jwtDecode from 'jwt-decode';
 
-export default function BioCard({emp,key}) {
+export default function BioCard({emp, setDeleteMember, deleteMember}) {
+  console.log("biocard=============================")
   console.log("직원 조회",emp)
 
+  
 
   const [modal, setModal] = useState(false);
+  const [highlight , setHighlight] = useState(false)
 
   const members =jwtDecode(window.localStorage.getItem('accessToken'))
   console.log('멤버권한 파악',members)
@@ -34,14 +38,39 @@ export default function BioCard({emp,key}) {
     setModal(!modal);
   }
 
+  const deleteHandler = e =>{
+
+    setHighlight(!highlight)
+
+    const changeDelete = toggleValue(deleteMember,e.target.name)
+
+
+    setDeleteMember(changeDelete)
+    
+    console.log('삭제 멤버 조회',deleteMember)
+  }
+
   
+  
+  function toggleValue(array,value){
+    const index = array.indexOf(value);
+  
+    if(index>-1){
+      array.splice(index,1);
+    }else{
+      array.push(value)
+    }
+    return array;
+  }
   const phone = formatPhoneNumber(emp?.memberDTO.memberPhoneNumber)
   return (
+    <Grid item xs={6} sm={6} mg={4} lg={3} className="bio_card">
     <Card
       sx={{
         width: 320,
         maxWidth: '100%',
         boxShadow: 'lg',
+        border : highlight && '2px solid red'
       }}
     >
       <CardContent sx={{ alignItems: 'center', textAlign: 'center' }}>
@@ -145,7 +174,7 @@ export default function BioCard({emp,key}) {
         <CardActions buttonFlex="1">
           <ButtonGroup variant="outlined" sx={{ bgcolor: 'background.surface' }}>
             <Button onClick={detailHandler} name={emp.memberDTO.memberId}>Detail</Button>
-            {role==='a' && <Button color='danger'>Delete</Button>}
+            {role==='a' && <Button color='danger' onClick={deleteHandler} name={emp.memberDTO.memberId}>Delete</Button>}
           </ButtonGroup>
         </CardActions>
       </CardOverflow>
@@ -173,7 +202,7 @@ export default function BioCard({emp,key}) {
         </ModalFooter>}
       </Modal>
     </Card>
-
+    </Grid>
     
   );
 }
