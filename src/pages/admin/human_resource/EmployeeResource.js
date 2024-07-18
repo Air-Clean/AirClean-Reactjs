@@ -2,10 +2,11 @@ import BioCard from "./BioCard";
 import Searchbar from "./Searchbar";
 import "./HumanResource.css";
 import { EMPLOYEE } from "../../../modules/HRModule";
-import Paging from "./Paging";
+import Paging from "../../../components/paging/Paging";
 import { useState ,useEffect} from "react";
 import { useDispatch,useSelector } from "react-redux";
 import { callEmployeeList } from "../../../apis/HRAPICalls";
+import { Grid, Container } from "@mui/material";
 
 function EmployeeResource() {
   console.log("직원페이지 입니다");
@@ -13,16 +14,19 @@ function EmployeeResource() {
 
 
     const [current , setCurrent] = useState(1)
-    const [start, setStart] = useState(0)
-    const [end , setEnd] = useState(1);
+    
 
     // redux
 
     const dispatch = useDispatch();
 
-    const employee = useSelector(state=>state.humanReducer)
+    const result = useSelector(state=>state.humanReducer);
 
-   
+    const employee = result.data?.content;
+    const totalPage = result.data?.totalPages;
+
+    console.log("employee",employee)
+    console.log("result 값",result)
 
     useEffect(()=>{
         dispatch(
@@ -32,14 +36,19 @@ function EmployeeResource() {
   return (
     <>
       <div className="menu1_layout">
-                
-                <div className='flex_wrap'>
-                        <Searchbar/>
-                        <BioCard/>
-                        <Paging setCurrent={setCurrent} start={start} end={end}/>
-                </div>
-                
-            </div>
+        <div className="searchbar_container">
+          <Searchbar />
+        </div>
+        <Grid container spacing={1} justifyContent="flex-start" className="flex_wrap">
+          {employee?.map((e) => (
+            <Grid item xs={6} sm={6} mg={4} lg={3} className="bio_card" key={e.memberDTO.memberId}>
+              <BioCard emp={e} key={e.memberDTO.memberId}/>
+            </Grid>
+          ))}
+          
+        </Grid>
+        <Paging setCurrent={setCurrent} end={totalPage} />
+      </div>
     </>
   );
 }

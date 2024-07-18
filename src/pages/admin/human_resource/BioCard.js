@@ -11,8 +11,31 @@ import CardActions from '@mui/joy/CardActions';
 import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import SvgIcon from '@mui/joy/SvgIcon';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';
+import { useState } from 'react';
+import jwtDecode from 'jwt-decode';
 
-export default function BioCard() {
+export default function BioCard({emp,key}) {
+  console.log("직원 조회",emp)
+
+
+  const [modal, setModal] = useState(false);
+
+  const members =jwtDecode(window.localStorage.getItem('accessToken'))
+  console.log('멤버권한 파악',members)
+
+  const role = members.memberRole;
+
+  const detailHandler=e=>{
+    const id = e.target.name;
+
+    console.log("key 값",id)
+
+    setModal(!modal);
+  }
+
+  
+  const phone = formatPhoneNumber(emp?.memberDTO.memberPhoneNumber)
   return (
     <Card
       sx={{
@@ -34,12 +57,15 @@ export default function BioCard() {
             borderColor: 'background.surface',
           }}
         >
-          PRO
+          {emp?.employeePosition}
         </Chip>
-        <Typography level="title-lg">Josephine Blanton</Typography>
+        <Typography level="title-lg">{emp?.memberDTO.memberName}</Typography>
         <Typography level="body-sm" sx={{ maxWidth: '24ch' }}>
-          Hello, this is my bio and I am a PRO member of MUI. I am a developer and I
-          love to code.
+          {emp?.employeeDept}
+          <br/>
+          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 512 512">
+          <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>
+          {phone}
         </Typography>
         <Box
           sx={{
@@ -118,11 +144,51 @@ export default function BioCard() {
       <CardOverflow sx={{ bgcolor: 'background.level1' }}>
         <CardActions buttonFlex="1">
           <ButtonGroup variant="outlined" sx={{ bgcolor: 'background.surface' }}>
-            <Button>Message</Button>
-            <Button>Connect</Button>
+            <Button onClick={detailHandler} name={emp.memberDTO.memberId}>Detail</Button>
+            {role==='a' && <Button color='danger'>Delete</Button>}
           </ButtonGroup>
         </CardActions>
       </CardOverflow>
+
+      <Modal isOpen={modal} toggle={detailHandler} >
+        <ModalHeader toggle={detailHandler}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img src="https://via.placeholder.com/50" alt="User" style={{ borderRadius: '50%', marginRight: '10px' }} />
+          <span>{emp.memberDTO.memberName}</span>
+        </div>
+        </ModalHeader>
+        <ModalBody>
+        <p>사원 번호: {emp.employeeCode}</p>
+        <p>부서 : {emp.employeeDept}</p>
+        <p>번호: {phone}</p>
+        <p>직위: {emp.employeePosition}</p>
+        <p>ID: {emp.memberDTO.memberId}</p>
+        <p>email: {emp.memberDTO.memberEmail}</p>
+        <p>주소: {emp.memberDTO.memberAddress}</p>
+        </ModalBody>
+        {members.sub === emp.memberDTO.mmeberId && <ModalFooter>
+          <Button color="primary" onClick={detailHandler}>
+            Modify
+          </Button>
+        </ModalFooter>}
+      </Modal>
     </Card>
+
+    
   );
+}
+
+
+function formatPhoneNumber(number) {
+  // 입력값을 문자열로 변환하고 공백 제거
+  const numberStr = String(number).replace(/\s+/g, '');
+
+
+  // 10자리일 경우
+  if (numberStr.length === 10) {
+      return `(${numberStr.slice(0, 3)}) ${numberStr.slice(3, 6)}-${numberStr.slice(6)}`;
+  }
+
+  // 11자리일 경우
+  return `(${numberStr.slice(0, 3)}) ${numberStr.slice(3, 7)}-${numberStr.slice(7)}`;
 }
