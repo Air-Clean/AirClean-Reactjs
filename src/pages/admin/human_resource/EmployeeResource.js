@@ -2,12 +2,12 @@ import BioCard from "./BioCard";
 import Searchbar from "./Searchbar";
 import "./HumanResource.css";
 
-import { EMPLOYEE } from "../../../modules/HRModule";
+
 import Paging from "../../../components/paging/Paging";
-import { useState ,useEffect, useRef} from "react";
+import { useState ,useEffect} from "react";
 import { useDispatch,useSelector } from "react-redux";
 import { callEmployeeList, callSoftDeleteEmployee } from "../../../apis/HRAPICalls";
-import { Grid, Container } from "@mui/material";
+import { Grid } from "@mui/material";
 import Fab from '@mui/material/Fab';
 
 function EmployeeResource() {
@@ -37,7 +37,7 @@ function EmployeeResource() {
             callEmployeeList({current : current})
         )
         console.log('callEMP')
-    },[current])
+    },[current, dispatch])
 
 
     useEffect(()=>{

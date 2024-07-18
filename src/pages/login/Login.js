@@ -52,8 +52,7 @@ const Login = () => {
 
       setForm({memberId: '',memberPassword: ''})
     }
-  },[loginMember]);
-
+  },[loginMember, navigate]);
 
 
   const handleAdminLogin = () => {

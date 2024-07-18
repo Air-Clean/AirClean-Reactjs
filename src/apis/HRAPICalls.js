@@ -1,6 +1,5 @@
 
 import { EMPLOYEE } from "../modules/HRModule";
-import axios from "axios";
 
 export const callEmployeeList=({current})=>{
     let requestURL;

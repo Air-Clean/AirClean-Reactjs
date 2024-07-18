@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink,useNavigate} from 'react-router-dom';
 import styles from './Header.module.css';
 import logo from '../../assets/logo2.png'; // 로고 이미지 경로를 알맞게 수정하세요
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { callLogoutAPI } from '../../apis/MemberAPICalls';
 import jwtDecode from 'jwt-decode';
 
