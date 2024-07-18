@@ -1,6 +1,7 @@
 import BioCard from "./BioCard";
 import Searchbar from "./Searchbar";
 import "./HumanResource.css";
+
 import { EMPLOYEE } from "../../../modules/HRModule";
 import Paging from "../../../components/paging/Paging";
 import { useState ,useEffect} from "react";
@@ -35,6 +36,7 @@ function EmployeeResource() {
     },[current])
   return (
     <>
+
       <div className="menu1_layout">
         <div className="searchbar_container">
           <Searchbar />
