@@ -49,7 +49,12 @@
   background-color: #f2f2f2;
 }
 
-.active-button {
+/*.active-button {
+  background-color: #badef4; 
+  color: #000;
+}*/
+
+.button-group .register-button.active-button {
   background-color: #badef4; /* 하늘색 */
   color: #000;
 }
