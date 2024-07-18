@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 function BranchList() {
     const [branches, setBranches] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/branch/branchList')
-            .then(response => {
-                if (response.data && response.data.data && response.data.data.branchList) {
-                    setBranches(response.data.data.branchList);
-                }
-            })
-            .catch(error => console.error('Error fetching branches:', error));
-    }, []);
+        const token = window.localStorage.getItem('accessToken');
+        jwt_decode(token);
+    
+        axios.get('http://localhost:8080/branch/branchList', {
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+        })
+        .then(response => {
+        if (response.data && response.data.data && response.data.data.branchList) {
+            setBranches(response.data.data.branchList);
+        }
+        })
+        .catch(error => console.error('Error fetching branches:', error));
+      }, []);
 
     return (
         <div style={{ backgroundColor: '#D5E3F5', width: '300px', height: 'calc(70% - 15px)', borderRadius: '30px', padding: '20px' }}>
