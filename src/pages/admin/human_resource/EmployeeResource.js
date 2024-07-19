@@ -27,10 +27,11 @@ function EmployeeResource() {
     const employee = result.data?.content;
     const totalPage = result.data?.totalPages;
 
+    
+
     console.log("employee",employee)
     console.log("result 값",result)
 
-    
 
     useEffect(()=>{
         dispatch(
@@ -39,17 +40,16 @@ function EmployeeResource() {
         console.log('callEMP')
     },[current, dispatch])
 
+    
 
-    useEffect(()=>{
-        console.log("deleteMember 변함?")
-    },[deleteMember])
+  
 
     const softDeleteHandler=()=>{
-        console.log('버튼 누름');
         dispatch(
           callSoftDeleteEmployee({deleteMember: deleteMember})
         )
         
+        window.location.reload();
     }
 
   return (
@@ -61,9 +61,7 @@ function EmployeeResource() {
         </div>
         <Grid container spacing={1} justifyContent="flex-start" className="flex_wrap">
           {employee?.map((e) => (
-            // <Grid item xs={6} sm={6} mg={4} lg={3} className="bio_card" key={e.memberDTO.memberId}>
               <BioCard emp={e} key={e.memberDTO.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
-            // </Grid>
           ))}
           
         </Grid>
