@@ -14,7 +14,8 @@ function BranchSales() {
     if (activeTable === '지출') {
         dispatch(callFindBranchSalesAPI());
     }
-      // 이 주석은 ESLint 경고를 비활성화합니다.
+    
+    // 이 주석은 ESLint 경고를 비활성화합니다.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTable, dispatch]); // result를 의존성 배열에 포함
 
