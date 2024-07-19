@@ -20,9 +20,9 @@ import BranchSales from './pages/admin/report/reportsMenu/BranchSales';
 import StockApplication from './pages/admin/stock/StockApplication';
 import StockHistory from './pages/admin/stock/StockHistory';
 
-import Branch from './pages/branch/Branch';
+import Branch from './pages/admin/branch/Branch';
 import NewReports from './pages/admin/report/newReportsMenu/NewReports'
-import Car from './pages/car/Car';
+import Car from './pages/admin/car/Car';
 
 
 // const ProtectedRoute = ({ children }) => {
