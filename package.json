@@ -16,6 +16,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "algoliasearch": "^4.24.0",
+    "animate.css": "^4.1.1",
     "autoprefixer": "^10.4.19",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
@@ -38,6 +39,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
     "styled-components": "^6.1.11",
+    "sweetalert2": "^11.12.2",
     "web-vitals": "^2.1.4"
   },
   "proxy": "http://localhost:8080",

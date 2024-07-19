@@ -13,17 +13,71 @@ import Typography from '@mui/joy/Typography';
 import SvgIcon from '@mui/joy/SvgIcon';
 import { Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import { Grid} from "@mui/material";
-import { useState } from 'react';
+import { useState , useCallback } from 'react';
 import jwtDecode from 'jwt-decode';
+import Swal from 'sweetalert2'
+import 'animate.css'
+import './BioCard.css'
+import logo from '../../../assets/logo2.png'
+
+
 
 export default function BioCard({emp, setDeleteMember, deleteMember}) {
-  console.log("biocard=============================")
-  
 
   
+  
+  console.log("biocard=============================")
+
+
+  function showBusinessCard() {
+    Swal.fire({
+        showClass: {
+      popup: `
+        animate__animated
+        animate__fadeInUp
+        animate__faster
+      `
+    },
+    hideClass: {
+      popup: `
+        animate__animated
+        animate__fadeOutDown
+        animate__faster
+      `
+    },
+        html: `
+
+    <div class="business-card">
+        <img src=${logo} alt="이미지 없음" class="top-text">
+        <div class="content">
+            <img src=${emp.memberDTO.memberImage} alt="사진 없음" class="profile">
+            <div class="name">Hae-won Jeon</div>
+            <div class="handle">@reallygreatsite</div>
+            <div class="contact-info">
+                <div>+123-456-7890</div>
+                <hr>
+                <div>www.reallygreatsite.com</div>
+                <div>hello@reallygreatsite.com</div>
+                <div>123 Anywhere St., Any City</div>
+            </div>
+            <button>Modify</button>
+        </div>
+    </div>
+        `,
+        width: 'auto',
+        padding: '10px',
+        background: 'transparent', // 배경 제거
+        customClass: {
+            container: 'swal2-container'
+        },
+        showConfirmButton: false
+    });
+}
+
 
   const [modal, setModal] = useState(false);
   const [highlight , setHighlight] = useState(false)
+
 
   const members =jwtDecode(window.localStorage.getItem('accessToken'))
   
@@ -36,6 +90,7 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
     console.log("key 값",id)
 
     setModal(!modal);
+    
   }
 
   const deleteHandler = e =>{
@@ -174,13 +229,14 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
       <CardOverflow sx={{ bgcolor: 'background.level1' }}>
         <CardActions buttonFlex="1">
           <ButtonGroup variant="outlined" sx={{ bgcolor: 'background.surface' }}>
-            <Button onClick={detailHandler} name={emp.memberDTO.memberId}>Detail</Button>
+            <Button onClick={showBusinessCard} name={emp.memberDTO.memberId}>Detail</Button>
             {role==='a' && <Button color='danger' onClick={deleteHandler} name={emp.memberDTO.memberId}>Delete</Button>}
           </ButtonGroup>
         </CardActions>
       </CardOverflow>
 
-      <Modal isOpen={modal} toggle={detailHandler} >
+      
+      {/* <Modal isOpen={modal} toggle={detailHandler} >
         <ModalHeader toggle={detailHandler}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Avatar src={emp.memberDTO.memberImage || "/static/images/avatar/1.jpg"} sx={{ '--Avatar-size': '4rem' }} />
@@ -201,7 +257,9 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
             Modify
           </Button>
         </ModalFooter>}
-      </Modal>
+      </Modal> */}
+
+
     </Card>
     </Grid>
     
