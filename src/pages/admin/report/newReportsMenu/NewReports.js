@@ -1,7 +1,19 @@
+import { useState } from 'react';
 import './NewReports.css';
+import ReportsModal  from './ReportsModal';
 
 function NewReports() {
     console.log('보고서 작성 페이지')
+
+    const [showModal, setShowModal] = useState(false);
+
+    const handleOpenModal = () => {
+      setShowModal(true);
+    }
+
+    const handleCloseModal= () => {
+      setShowModal(false);
+    }
 
   return (
     <div className="menu1_layout">
@@ -9,8 +21,7 @@ function NewReports() {
         <div className="report-create">
           <h1>보고서 작성</h1>
           <div className="button-group">
-            <button className="register-button">등록</button>
-            <button className="create-button">삭제</button>
+            <button className="register-button" onClick={handleOpenModal}>보고서 작성</button>
           </div>
           <table className="report-table">
             <thead>
@@ -31,6 +42,7 @@ function NewReports() {
             <button>2</button>
             <button>3</button>
           </div>
+          <ReportsModal show={showModal} onClose={handleCloseModal}/>
         </div>
       </div>
     </div>
