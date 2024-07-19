@@ -36,12 +36,14 @@ export const callEmployeeList=({current})=>{
 }
 
 export function callSoftDeleteEmployee({deleteMember}){
+
+    console.log(JSON.stringify(deleteMember))
     console.log("callSoftDeleteEmployee 동작")
-    console.log(deleteMember)
+    console.log("parameter 값",deleteMember)
     
     return async (dispatch,getState)=>{
         console.log("여기 들어옴?")
-        const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/employee/soft`;
+        const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/employee/soft-delete`;
 
         console.log(requestUrl)
         const result = await fetch(requestUrl,{
@@ -51,7 +53,7 @@ export function callSoftDeleteEmployee({deleteMember}){
                 Accept: "*/*",
                 Authorization : 'Bearer '+window.localStorage.getItem('accessToken'),
             },
-            // body : JSON.stringify(deleteMember)
+            body : JSON.stringify(deleteMember)
         }).then(res=>res.json())
 
         if(result.status ===200){
