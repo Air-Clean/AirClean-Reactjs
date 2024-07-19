@@ -1,5 +1,5 @@
 // apis/ReportAPICalls.js
-import { BRANCHSALES } from "../modules/ReportsModule";
+import { BRANCHSALES, VEHICLEREPAIR } from "../modules/ReportsModule";
 
 export const callFindBranchSalesAPI = () => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/reports`;
@@ -21,3 +21,23 @@ export const callFindBranchSalesAPI = () => {
     dispatch({ type: BRANCHSALES, payload: result.data });
   };
 };
+
+
+export const callFindVehicleRepairAPI = () => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/newReports`; 
+
+  return async (dispatch, getState) => {
+    const result = await fetch(requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+    }).then((response) => response.json());
+
+    console.log('API 응답하니? :', result);
+
+    dispatch({type: VEHICLEREPAIR, payload: result.data})
+  }
+}

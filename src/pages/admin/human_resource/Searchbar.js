@@ -51,7 +51,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Searchbar() {
+export default function Searchbar({isRegist , setIsRegist}) {
+
+  const registModalHandler=()=>{
+    setIsRegist(!isRegist)
+  }
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -62,6 +67,7 @@ export default function Searchbar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={registModalHandler}
           >
             <MenuIcon />
           </IconButton>
