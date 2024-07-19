@@ -1,185 +1,115 @@
-import './StockApplication.css';
-import {useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 import StockBarChart from './StockBarChart';
+import { callDetergentAPI, callPartAPI } from '../../../apis/StockAPICalls';
 
 function StockApplication() {
+  const [detergents, setDetergents] = useState([]);
+  const [parts, setParts] = useState([]);
+  const [formValues, setFormValues] = useState({});
 
-    const [detergent, setDetergent] = useState('');
-    const [softener, setSoftener] = useState('');
-    const [bleach, setBleach] = useState('');
-    const [remover, setRemover] = useState('');
-    const [drumCleaner, setDrumCleaner] = useState('');
-    const [sheet, setSheet] = useState('');
-    const [laundryFilter, setLaundryFilter] = useState('');
-    const [dryerFilter, setDryerFilter] = useState('');
-    const [dryCleanerFilter, setDryCleanerFilter] = useState('');
-    
-        // Handlers for input changes
-        const handleDetergentChange = (event) => {
-        setDetergent(event.target.value);
-        };
-    
-        const handleSoftenerChange = (event) => {
-        setSoftener(event.target.value);
-        };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(callDetergentAPI())
+  }, []);
+  useSelector(state => state.detergentsInfoReducer);
 
-        const handleBleachChange = (event) => {
-        setBleach(event.target.value);
-        };
+  // const fetchDetergents = () => {
+  //   fetch('/company/h-stock/detergents')
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       if (data.status === 200) {
+  //         const transformedDetergents = data.data.map(item => ({
+  //           name: item.laundrySupply.laundrySupplyName,
+  //           stockPercent: (item.laundrySupplyStock / item.laundrySupplyMaxStock) * 100,
+  //           stock: item.laundrySupplyStock,
+  //           maxStock: item.laundrySupplyMaxStock
+  //         }));
+  //         setDetergents(transformedDetergents);
+  //       } else {
+  //         console.error('API error:', data.message);
+  //       }
+  //     })
+  //     .catch(error => console.error('Fetch error:', error));
+  // };
 
-        const handleRemoverChange = (event) => {
-            setRemover(event.target.value);
-        };
+//   const fetchParts = () => {
+//     fetch('/company/h-stock/parts')
+//       .then(response => response.json())
+//       .then(data => {
+//         if (data.status === 200) {
+//           const transformedParts = data.data.map(item => ({
+//             name: item.laundryPart.laundryPartName,
+//             stockPercent: (item.laundryPartStock / item.laundryPartMaxStock) * 100,
+//             stock: item.laundryPartStock,
+//             maxStock: item.laundryPartMaxStock
+//           }));
+//           setParts(transformedParts);
+//         } else {
+//           console.error('API error:', data.message);
+//         }
+//       })
+//       .catch(error => console.error('Fetch error:', error));
+//   };
 
-        const handleDrumCleanerChange = (event) => {
-            setDrumCleaner(event.target.value);
-        };
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormValues({
+//       ...formValues,
+//       [name]: value
+//     });
+//   };
 
-        const handleSheetChange = (event) => {
-            setSheet(event.target.value);
-        };
+// //   const handleSubmit = () => {
+// //     fetch('/company/h-stock/applications', {
+// //       method: 'POST',
+// //       headers: {
+// //         'Content-Type': 'application/json',
+// //       },
+// //       body: JSON.stringify({
+// //         ...formValues,
+// //         hApplicationStatus: 'Submitted',
+// //         hApplicationDate: new Date().toISOString().split('T')[0], // YYYY-MM-DD 형식
+// //         hApproverName: '', // 필요 시 추가
+// //         hApprovalDate: null, // 필요 시 추가
+// //         employeeCode: '' // 필요 시 추가
+// //       }),
+// //     })
+// //       .then(response => response.json())
+// //       .then(data => {
+// //         if (data.status === 200) {
+// //           alert('Application submitted successfully');
+// //         } else {
+// //           console.error('Submission error:', data.message);
+// //         }
+// //       })
+// //       .catch(error => console.error('Submit error:', error));
+// //   };
 
-        const handleLaundryFilterChange = (event) => {
-            setLaundryFilter(event.target.value);
-        };
+//   const getLabels = (items) => items.map(item => item.name);
+//   const getDataValues = (items) => items.map(item => item.stockPercent);
 
-        const handleDryerFilterChange = (event) => {
-            setDryerFilter(event.target.value);
-        };
-
-        const handleDryCleanerFilter = (event) => {
-            setDryCleanerFilter(event.target.value);
-        };
-
-    return(
-        <>
-            <div className="menu1_layout">
-                <div className='flex_wrap'>
-                    <div className='stock_application'>
-
-                        <div className='stock_bar_chart'>
-                            <StockBarChart/>
-                        </div>
-
-                        <div className='stock_input'>
-                            <div>
-                            <label>
-                                세제: 
-                                <input type="number" value={detergent} onChange={handleDetergentChange} min='1'/>
-                            </label>
-                            </div>
-
-                            <div>
-                            <label>
-                                섬유유연제: 
-                                <input type="number" value={softener} onChange={handleSoftenerChange} min='1'/>
-                            </label>
-                            </div>
-
-                            <div>
-                            <label>
-                                표백제: 
-                                <input type="number" value={bleach} onChange={handleBleachChange} min='1'/>
-                            </label>
-                            </div>
-
-                            <div>
-                            <label>
-                                얼룩제거제: 
-                                <input type="number" value={remover} onChange={handleRemoverChange} min='1'/>
-                            </label>
-                            </div>
-
-                            <div>
-                            <label>
-                                세탁조 클리너: 
-                                <input type="number" value={drumCleaner} onChange={handleDrumCleanerChange} min='1'/>
-                            </label>
-                            </div>
-
-                            <div>
-                            <label>
-                                건조기 시트: 
-                                <input type="number" value={sheet} onChange={handleSheetChange} min='1'/>
-                            </label>
-                            </div>
-
-                            <div>
-                            <label>
-                                세탁기 필터: 
-                                <input type="number" value={laundryFilter} onChange={handleLaundryFilterChange} min='1'/>
-                            </label>
-                            </div>
-
-                            <div>
-                            <label>
-                                건조기 필터: 
-                                <input type="number" value={dryerFilter} onChange={handleDryerFilterChange} min='1'/>
-                            </label>
-                            </div>
-
-                            <div>
-                            <label>
-                                드라이클리너 필터: 
-                                <input type="number" value={dryCleanerFilter} onChange={handleDryCleanerFilter} min='1'/>
-                            </label>
-                            </div>
-                        </div>
-
-                        <div className='app_appli_info' style={{ position: 'relative', padding: '3vh' }}>
-                        <div className='supply_appli_info'>
-                            <h4>신청정보</h4>
-                            <table style={{ marginTop: '0',  textAlign: 'center', borderCollapse: 'collapse' }}>
-                            <thead>
-                            <tr>
-                                <th style={{ backgroundColor: '#f2f2f2', padding: '0.3vh', width: '8vw'}}>세제</th>
-                                <th style={{ backgroundColor: '#f2f2f2', padding: '0.3vh', width: '8vw'}}>섬유유연제</th>
-                                <th style={{ backgroundColor: '#f2f2f2', padding: '0.3vh', width: '8vw'}}>표백제</th>
-                                <th style={{ backgroundColor: '#f2f2f2', padding: '0.3vh', width: '8vw'}}>얼룩제거제</th>
-                                <th style={{ backgroundColor: '#f2f2f2', padding: '0.3vh', width: '8vw'}}>세탁조 클리너</th>
-                                <th style={{ backgroundColor: '#f2f2f2', padding: '0.3vh', width: '8vw'}}>건조기 시트</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{detergent}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{softener}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{bleach}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{remover}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{drumCleaner}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{sheet}</td>
-                            </tr>
-                            </tbody>
-                            </table>
-                        </div>
-
-                        <div className='part_appli_info' style={{ marginTop: '5vh' }}>
-                            <table style={{ marginTop: '0',  textAlign: 'center', borderCollapse: 'collapse' }}>
-                            <thead>
-                            <tr>
-                                <th style={{ backgroundColor: '#f2f2f2', padding: '0.3vh', width: '8vw'}}>세탁기 필터</th>
-                                <th style={{ backgroundColor: '#f2f2f2', padding: '0.3vh', width: '8vw'}}>건조기 필터</th>
-                                <th style={{ backgroundColor: '#f2f2f2', padding: '0.3vh', width: '8vw'}}>드라이클리너 필터</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{laundryFilter}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{dryerFilter}</td>
-                                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{dryCleanerFilter}</td>
-                            </tr>
-                            </tbody>
-                            </table>
-                        </div>
-
-                        <button  style={{ position: 'absolute', right: '3vh', bottom: '3vh' }}>신청하기</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
-
+  return (
+    <div>
+      <h2>Detergents</h2>
+      {/* <StockBarChart
+        labels={getLabels(detergents)}
+        dataValues={getDataValues(detergents)}
+        inputValues={formValues}
+        onInputChange={handleInputChange}
+      /> */}
+      <h2>Parts</h2>
+      {/* <StockBarChart
+        labels={getLabels(parts)}
+        dataValues={getDataValues(parts)}
+        inputValues={formValues}
+        onInputChange={handleInputChange}
+      /> */}
+      {/* <div>
+        <button onClick={handleSubmit}>Submit</button>
+      </div> */}
+    </div>
+  );
 }
 
 export default StockApplication;
