@@ -4,7 +4,7 @@ import askReducer from "./AskModule";
 import humanReducer from "./HRModule";
 
 // 도아 - 보고서 
-import branchSalesReducer from "./ReportsModule";
+import { branchSalesReducer, vehicleRepairReducer} from "./ReportsModule";
 
 
 const rootReducer = combineReducers({
@@ -12,6 +12,7 @@ const rootReducer = combineReducers({
     askReducer,
     humanReducer,
     branchSalesReducer,
+    vehicleRepairReducer,
 })
 
 export default rootReducer;
