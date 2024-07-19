@@ -18,7 +18,7 @@ import jwtDecode from 'jwt-decode';
 
 export default function BioCard({emp, setDeleteMember, deleteMember}) {
   console.log("biocard=============================")
-  console.log("직원 조회",emp)
+  
 
   
 
@@ -26,7 +26,7 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
   const [highlight , setHighlight] = useState(false)
 
   const members =jwtDecode(window.localStorage.getItem('accessToken'))
-  console.log('멤버권한 파악',members)
+  
 
   const role = members.memberRole;
 
@@ -43,6 +43,7 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
     setHighlight(!highlight)
 
     const changeDelete = toggleValue(deleteMember,e.target.name)
+
 
 
     setDeleteMember(changeDelete)
@@ -74,7 +75,7 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
       }}
     >
       <CardContent sx={{ alignItems: 'center', textAlign: 'center' }}>
-        <Avatar src="/static/images/avatar/1.jpg" sx={{ '--Avatar-size': '4rem' }} />
+        <Avatar src={emp.memberDTO.memberImage || "/static/images/avatar/1.jpg"} sx={{ '--Avatar-size': '4rem' }} />
         <Chip
           size="sm"
           variant="soft"
@@ -182,7 +183,7 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
       <Modal isOpen={modal} toggle={detailHandler} >
         <ModalHeader toggle={detailHandler}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src="https://via.placeholder.com/50" alt="User" style={{ borderRadius: '50%', marginRight: '10px' }} />
+          <Avatar src={emp.memberDTO.memberImage || "/static/images/avatar/1.jpg"} sx={{ '--Avatar-size': '4rem' }} />
           <span>{emp.memberDTO.memberName}</span>
         </div>
         </ModalHeader>
