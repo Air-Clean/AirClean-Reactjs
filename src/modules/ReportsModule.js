@@ -1,13 +1,16 @@
 import { createActions, handleActions } from "redux-actions";
 
+
 // 초기값
 const initialState = [];
 
 export const BRANCHSALES = 'BRANCHSALES'
+export const VEHICLEREPAIR = 'VEHICLEREPAIR'
 
 
 createActions({
-    [BRANCHSALES]: ()=>[]
+    [BRANCHSALES]: ()=>[],
+    [VEHICLEREPAIR] : () => [],
 })
 
 const branchSalesReducer = handleActions({
@@ -19,4 +22,13 @@ const branchSalesReducer = handleActions({
    
 )
 
-export default branchSalesReducer;
+const vehicleRepairReducer = handleActions({
+    [VEHICLEREPAIR] : (state, {payload}) => {
+        console.log('리듀서 payload : ', payload)
+        return payload
+    }
+}, initialState)
+
+
+
+export  {branchSalesReducer, vehicleRepairReducer};

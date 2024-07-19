@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './NewReports.css';
 import ReportsModal  from './ReportsModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { callFindVehicleRepairAPI } from '../../../../apis/ReportAPICalls';
 
 function NewReports() {
     console.log('보고서 작성 페이지')
 
+    // 모달창
     const [showModal, setShowModal] = useState(false);
+    // API
+    const dispatch = useDispatch();
+    const result = useSelector(state => state.vehicleRepairReducer)
 
+    // 모달창
     const handleOpenModal = () => {
       setShowModal(true);
     }
@@ -14,6 +21,12 @@ function NewReports() {
     const handleCloseModal= () => {
       setShowModal(false);
     }
+
+    // API
+    useEffect(() => {
+      console.log("리덕스 상태 :", result);
+      dispatch(callFindVehicleRepairAPI());
+    }, [dispatch])
 
   return (
     <div className="menu1_layout">
@@ -35,6 +48,14 @@ function NewReports() {
             </thead>
             <tbody>
               {/* 데이터가 들어갈 부분 */}
+              {result.map((vehicle) => (
+                <tr key={vehicle.vehicleReportCode}>
+                <td>{vehicle.driverLicenseNumber}</td>
+                <td>{vehicle.driverLicenseNumber}</td>
+                <td>{vehicle.vehicleSubmissionDate}</td>
+                <td><button>View</button></td>
+              </tr>
+              ))}
             </tbody>
           </table>
           <div className="pagination">
