@@ -1,60 +1,76 @@
-import './StockBarChart.css';
-import {useState} from 'react';
 
-function StockBarChart() {
+import { Bar } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
-    const [data] = useState([
-        { item: '세제', percentage: 30 },
-        { item: '섬유유연제', percentage: 60 },
-        { item: '표백제', percentage: 85 },
-        ]);
-        const [hoveredItem, setHoveredItem] = useState(null);
-        
-        const getColor = (percentage) => {
-            if (percentage >= 0 && percentage <= 40) {
-            return 'rgba(255, 0, 0, 0.7)'; // 빨간색, 투명도 70%
-            } else if (percentage >= 41 && percentage <= 75) {
-            return 'rgba(0, 0, 255, 0.7)'; // 파란색, 투명도 70%
-            } else if (percentage >= 76 && percentage <= 100) {
-            return 'rgba(0, 255, 0, 0.7)'; // 초록색, 투명도 70%
-            } else {
-            return 'rgba(0, 0, 0, 0.7)'; // 기본값, 검정색, 투명도 70%
-            }
-        };
-        
-        const handleMouseEnter = (item) => {
-            setHoveredItem(item);
-        };
-        
-        const handleMouseLeave = () => {
-            setHoveredItem(null);
-        };
-        
-        return (
-            <div className='app_appli_info'>
-            <div className='stock_bar_chart'>
-                <h4>가로 막대 그래프</h4>
-                <div className='bar-container-horizontal'>
-                {data.map((item, index) => (
-                    <div
-                    key={index}
-                    className='bar-horizontal'
-                    style={{
-                        width: `${item.percentage}%`,
-                        backgroundColor: getColor(item.percentage),
-                    }}
-                    onMouseEnter={() => handleMouseEnter(item)}
-                    onMouseLeave={handleMouseLeave}
-                    >
-                    {hoveredItem === item && (
-                        <span className='tooltip-horizontal'>{item.percentage}%</span>
-                    )}
-                    </div>
-                ))}
-                </div>
-            </div>
-            </div>
-        );
+function StockBarChart({ labels, dataValues, inputValues, onInputChange }) {
+  const backgroundColors = dataValues.map((value) => {
+    if (value <= 35) {
+      return 'rgba(255, 99, 132, 0.6)'; // 빨간색
+    } else if (value <= 70) {
+      return 'rgba(54, 162, 235, 0.6)'; // 파란색
+    } else {
+      return 'rgba(75, 192, 192, 0.6)'; // 초록색
+    }
+  });
+
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Stock Levels (%)',
+        data: dataValues,
+        backgroundColor: backgroundColors,
+        borderColor: backgroundColors,
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    indexAxis: 'y',
+    scales: {
+      x: {
+        beginAtZero: true,
+        max: 100,
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            return `${context.raw}%`;
+          },
+        },
+      },
+    },
+    barThickness: 15, // 막대의 두께 설정
+  };
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ flex: 1 }}>
+        <Bar data={data} options={options} />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
+        {labels.map((label, index) => (
+          <div key={label} style={{ marginBottom: '5px' }}>
+            <label>
+              {label}:
+              <input
+                type="number"
+                name={label}
+                value={inputValues[label] || ''}
+                onChange={onInputChange}
+                min="0"
+                style={{ marginLeft: '5px' }}
+              />
+            </label>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default StockBarChart;
