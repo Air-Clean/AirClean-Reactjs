@@ -16,6 +16,7 @@ import DriverResource from './pages/admin/human_resource/DriverResource';
 import TempResource from './pages/admin/human_resource/TempResource';
 
 import BranchSales from './pages/admin/report/reportsMenu/BranchSales';
+import BranchSalesDetail from './pages/admin/report/reportsMenu/BranchSalesDetail';
 
 import StockApplication from './pages/admin/stock/StockApplication';
 import StockHistory from './pages/admin/stock/StockHistory';
@@ -54,6 +55,7 @@ function App() {
                 <Route index element={<BranchSales/>}/>
                 <Route path='newReports' element={<NewReports/>}/>
                 <Route path='reports' element={<BranchSales/>}/>
+                <Route path='reports/:branchReportCode' element={<BranchSalesDetail/>}/>
             </Route>
 
 
