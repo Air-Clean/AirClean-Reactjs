@@ -8,6 +8,11 @@ import { useState } from 'react';
 function Branch() {
 
     const [locationName, setLocationName] = useState('');
+    const [selectedBranch, setSelectedBranch] = useState(null);
+
+    const handleBranchSelect = (branch) => {
+        setSelectedBranch(branch);
+    };
 
     const handleLocationChange = (name) => {
         setLocationName(name);
@@ -20,10 +25,10 @@ function Branch() {
                     <div style={{padding: '30px'}}>
                         <Map onLocationChange={handleLocationChange}/>
                         <div style={{height:'30px'}}></div>
-                        <BranchList locationName={locationName} />
+                        <BranchList locationName={locationName} onBranchSelect={handleBranchSelect} />
                     </div>
                     <div style={{ padding: '30px 30px 30px 0' }}>
-                        <BranchInformation />
+                        <BranchInformation branch={selectedBranch} />
                     </div>
                 </div>
             </div>

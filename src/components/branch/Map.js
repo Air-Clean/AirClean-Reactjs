@@ -44,7 +44,7 @@ function Map({ onLocationChange }) {
     };
 
     return (
-        <div className='mapLayout' style={{ backgroundColor:'#D5E3F5', width:'250px', height: 'calc(33% - 15px)', borderRadius: '30px' }}>
+        <div className='mapLayout' style={{width:'250px', height: 'calc(35% - 15px)'}}>
             <div className='mapContainal' onClick={mouseHandler} style={{ display: 'flex', justifyContent: 'center', zIndex: '4' }}>
                 <div className='mapItem'>
                     <img id='map' className='map1' src={map1} alt="중앙지점" />
