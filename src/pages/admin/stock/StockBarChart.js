@@ -1,9 +1,8 @@
-
 import { Bar } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
-function StockBarChart({ labels, dataValues, inputValues, onInputChange }) {
+function StockBarChart({ labels, dataValues, inputValues, originalValues, onInputChange, onMaxClick }) {
   const backgroundColors = dataValues.map((value) => {
     if (value <= 35) {
       return 'rgba(255, 99, 132, 0.6)'; // 빨간색
@@ -39,7 +38,7 @@ function StockBarChart({ labels, dataValues, inputValues, onInputChange }) {
       tooltip: {
         callbacks: {
           label: function (context) {
-            return `${context.raw}%`;
+            return `${originalValues[context.dataIndex]} units`; // 원래 stock 값으로 표시
           },
         },
       },
@@ -48,15 +47,14 @@ function StockBarChart({ labels, dataValues, inputValues, onInputChange }) {
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ display: 'flex', alignItems: 'center', width: '35vw' }}>
       <div style={{ flex: 1 }}>
         <Bar data={data} options={options} />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
-        {labels.map((label, index) => (
-          <div key={label} style={{ marginBottom: '5px' }}>
+        {labels.map((label) => (
+          <div key={label} style={{ marginBottom: '5px', display: 'flex', alignItems: 'center' }}>
             <label>
-              {label}:
               <input
                 type="number"
                 name={label}
@@ -69,6 +67,7 @@ function StockBarChart({ labels, dataValues, inputValues, onInputChange }) {
           </div>
         ))}
       </div>
+      <button onClick={onMaxClick} style={{ marginLeft: '10px' }}>Max</button>
     </div>
   );
 }

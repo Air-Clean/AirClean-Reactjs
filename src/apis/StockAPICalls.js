@@ -1,14 +1,12 @@
 // apis/DetergentInfoAPICalls.js
-import { DETERGENTSINFO } from "../modules/DetergentInfoModule";
-import { PARTSINFO } from "../modules/PartInfoModule";
+import { DETERGENTSINFO, PARTSINFO } from "../modules/StockModule"
 import jwtDecode from "jwt-decode";
 
-export const callDetergentAPI = () => {
+export const callDetergentsInfoAPI = () => {
 
     const members  = jwtDecode(window.localStorage.getItem('accessToken'));
     console.log('members 보기',members);
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/company/h-stock/detergents?memberName=${members.memberName}
-    &memberRole=${members.memberRole}&sub=${members.sub}`;
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/company/stock/detergents?memberName=${members.memberName}&memberRole=${members.memberRole}&sub=${members.sub}`;
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -22,7 +20,7 @@ export const callDetergentAPI = () => {
         ).then((response) => response.json());
 
         // 응답 데이터 로그
-        console.log('API 응답:', result.data);
+        console.log('Detergents API 응답:', result.data);
 
         // 액션 디스패치
         dispatch({type: DETERGENTSINFO, payload: result.data})
@@ -30,9 +28,11 @@ export const callDetergentAPI = () => {
 
 }
 
-export const callPartAPI = () => {
+export const callPartsInfoAPI = () => {
 
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/company/h-stock/parts`;
+    const members  = jwtDecode(window.localStorage.getItem('accessToken'));
+    console.log('members 보기',members);
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/company/stock/parts?memberName=${members.memberName}&memberRole=${members.memberRole}&sub=${members.sub}`;
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -41,12 +41,11 @@ export const callPartAPI = () => {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
                 Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-            },
+            }
         }
         ).then((response) => response.json());
 
-        // 응답 데이터 로그
-        console.log('API 응답:', result);
+        console.log('Parts API 응답:', result.data);
 
         // 액션 디스패치
         dispatch({type: PARTSINFO, payload: result.data})
