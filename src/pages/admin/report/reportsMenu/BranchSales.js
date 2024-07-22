@@ -7,20 +7,21 @@ import './BranchSales.css';
 
 
 function BranchSales() {
-  const [activeTable, setActiveTable] = useState('지출'); // 초기값을 '지출'로 설정
+  const [activeTable, setActiveTable] = useState('매출'); // 초기값을 '매출'로 설정
   const dispatch = useDispatch();
-  // 지출보고서
-  const branchSalesResult = useSelector(state => state.branchSalesReducer);
-  // 지출보고서 페이지 이동
-  const navigate = useNavigate();
   // 매출보고서 
+  const branchSalesResult = useSelector(state => state.branchSalesReducer);
+  // 매출보고서 페이지 이동
+  const navigate = useNavigate();
+  // 지출보고서 
   const expenseResult = useSelector(state => state.expenseReducer);
+
 
   useEffect(() => {
     console.log('리덕스 상태 result:', {branchSalesResult,expenseResult});
-    if (activeTable === '지출') {
+    if (activeTable === '매출') {
         dispatch(callFindBranchSalesAPI());
-    } else if (activeTable === '매출') {
+    } else if (activeTable === '지출') {
       dispatch(callFindExpenseAPI())
     }
     
@@ -31,7 +32,7 @@ function BranchSales() {
 
   const renderTable = () => {
     switch (activeTable) {
-      case '지출':
+      case '매출':
         return (
           <table className="report-table">
             <thead>
@@ -48,13 +49,13 @@ function BranchSales() {
                   <td>{item.branchReportCode}</td>
                   <td>{item.branchCode}</td>     {/* 지점명 인데 일단 지점코드로 가지고옴 */}
                   <td>{new Date(item.branchSubmissionDate).toLocaleDateString()}</td>
-                  <td><button onClick={() => navigate(`/company/paper/reports/${item.branchReportCode}`)}>View</button></td>
+                  <td><button onClick={() => navigate(`/company/paper/reports/branch/${item.branchReportCode}`)}>View</button></td>
                 </tr>
               ))}
             </tbody>
           </table>
         );
-      case '매출':
+      case '지출':
         return (
           <table className="report-table">
             <thead>
@@ -66,13 +67,13 @@ function BranchSales() {
               </tr>
             </thead>
             <tbody>
-              {/* 매출 데이터가 들어갈 부분 */}
+              {/* 지출 데이터가 들어갈 부분 */}
               {expenseResult.map((expense) => (
                 <tr key={expense.expenseReportCode}>
                   <td>{expense.expenseReportCode}</td>
                   <td>{expense.branchCode}</td>   {/* 지점명 인데 일단 지점코드로 가지고옴 */}
                   <td>{new Date(expense.expenseSubmissionDate).toLocaleDateString()}</td>
-                  <td><button>View</button></td>
+                  <td><button onClick={() => navigate(`/company/paper/reports/expense/${expense.expenseReportCode}`)}>View</button></td>
                 </tr>
               ))}
             </tbody>
@@ -124,16 +125,16 @@ function BranchSales() {
           <h1>보고서 조회</h1>
           <div className="branch-button-group">
             <button
-              className={`branch-register-button ${activeTable === '지출' ? 'active-button' : ''}`}
-              onClick={() => setActiveTable('지출')}
-            >
-              지출
-            </button>
-            <button
-              className={`branch-register-button  ${activeTable === '매출' ? 'active-button' : ''}`}
+              className={`branch-register-button ${activeTable === '매출' ? 'active-button' : ''}`}
               onClick={() => setActiveTable('매출')}
             >
               매출
+            </button>
+            <button
+              className={`branch-register-button  ${activeTable === '지출' ? 'active-button' : ''}`}
+              onClick={() => setActiveTable('지출')}
+            >
+              지출
             </button>
             <button
               className={`branch-register-button ${activeTable === '차량수리비' ? 'active-button' : ''}`}

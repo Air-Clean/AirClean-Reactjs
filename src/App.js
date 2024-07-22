@@ -15,24 +15,23 @@ import BranchResource from './pages/admin/human_resource/BranchResource';
 import DriverResource from './pages/admin/human_resource/DriverResource';
 import TempResource from './pages/admin/human_resource/TempResource';
 
+// 도아
+// /관리자
 import BranchSales from './pages/admin/report/reportsMenu/BranchSales';
 import BranchSalesDetail from './pages/admin/report/reportsMenu/BranchSalesDetail';
+import NewReports from './pages/admin/report/newReportsMenu/NewReports'
+import ExpenseDetail from './pages/admin/report/reportsMenu/ExpenseDetail';
+// /지점장
+import LocationMyReports from './pages/client/locationReports/locationMyReportsMenu/LocationMyReports';
+import LocationNewReports from './pages/client/locationReports/locationNewReportsMenu/LocationNewReports'; 
 
 import StockApplication from './pages/admin/stock/StockApplication';
 import StockHistory from './pages/admin/stock/StockHistory';
 
 import Branch from './pages/admin/branch/Branch';
-import NewReports from './pages/admin/report/newReportsMenu/NewReports'
+
 import Car from './pages/admin/car/Car';
 
-
-// const ProtectedRoute = ({ children }) => {
-//   const { user } = useAuth();
-//   if (!user) {
-//     return <Navigate to="/" />;
-//   }
-//   return children;
-// };
 
 function App() {
   return (
@@ -55,14 +54,13 @@ function App() {
                 <Route index element={<BranchSales/>}/>
                 <Route path='newReports' element={<NewReports/>}/>
                 <Route path='reports' element={<BranchSales/>}/>
-                <Route path='reports/:branchReportCode' element={<BranchSalesDetail/>}/>
+                <Route path='reports/branch/:branchReportCode' element={<BranchSalesDetail/>}/>
+                <Route path='reports/expense/:expenseReportCode' element={<ExpenseDetail/>}/>
             </Route>
-
 
             <Route path="branch">
               <Route index element={<Branch/>} />
             </Route>
-
 
             <Route path="members">
               <Route index element={<EmployeeResource/>}/>
@@ -74,16 +72,25 @@ function App() {
 
             <Route path="car">
                 <Route index element={<Car/>}/>
-                
             </Route>
 
-
           </Route>
+
           <Route path="/location" element={<Layout />}>
             <Route index element={<ClientMenu1 />} />
             <Route path="menu1" element={<ClientMenu1 />} />
             <Route path="menu2" element={<ClientMenu2 />} />
+
+            <Route path="paper">
+                <Route index element={<LocationNewReports/>}/>
+                <Route path='locationNewReports' element={<LocationNewReports/>}/>
+                <Route path='myReports' element={<LocationMyReports/>}/>
+            </Route>
+
           </Route>
+
+          
+
         </Routes>
       </BrowserRouter>
     </AuthProvider>

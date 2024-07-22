@@ -1,7 +1,7 @@
 // apis/ReportAPICalls.js
-import { BRANCHSALES, VEHICLEREPAIR, EXPENSE, DETAILBRANCHSALES } from "../modules/ReportsModule";
+import { BRANCHSALES, VEHICLEREPAIR, EXPENSE, DETAILBRANCHSALES, DETAILEXPENSE } from "../modules/ReportsModule";
 
-// 지출보고서 전체 조회 API
+// 매출보고서 전체 조회 API
 export const callFindBranchSalesAPI = () => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/reports`;
 
@@ -23,7 +23,7 @@ export const callFindBranchSalesAPI = () => {
   };
 };
 
-// 지출보고서 상세 조회
+// 매출보고서 상세 조회
 export const calldetailBranchSalesAPI = ({branchReportCode}) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/${branchReportCode}/detailBranch`;
 
@@ -66,7 +66,7 @@ export const callFindVehicleRepairAPI = () => {
   }
 }
 
-// 매출보고서 전체 조회 API
+// 지출보고서 전체 조회 API
 export const callFindExpenseAPI = () => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/expenseReports`; 
 
@@ -85,3 +85,24 @@ export const callFindExpenseAPI = () => {
     dispatch({type: EXPENSE, payload: expenseResult.data})
   }
 }
+
+// 지출보고서 상세조회 API
+export const callDetailExpenseAPI = ({expenseReportCode}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/detailExpenseReports/${expenseReportCode}`; 
+
+  return async (dispatch, getState) => {
+    const detailExpenseResult = await fetch(requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+    }).then((response) => response.json())
+
+    console.log('expense 부분조회 API 나오나? :', detailExpenseResult)
+
+    dispatch({type: DETAILEXPENSE, payload: detailExpenseResult.data})
+  }
+}
+

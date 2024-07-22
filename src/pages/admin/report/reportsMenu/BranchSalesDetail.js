@@ -19,7 +19,7 @@ function BranchSalesDetail() {
     <div className="branchDetail_menu1_layout">
       <div className="branchDetail_flex_wrap">
         <div className="details-container">
-          <h1 className="title">지출보고서 상세보기</h1>
+          <h1 className="title">매출보고서 상세보기</h1>
           <table className="details-table">
             <thead>
               <tr>

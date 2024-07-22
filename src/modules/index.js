@@ -4,7 +4,7 @@ import askReducer from "./AskModule";
 import humanReducer from "./HRModule";
 
 // 도아 - 보고서 
-import { branchSalesReducer, detailBranchSalesReducer, vehicleRepairReducer, expenseReducer } from "./ReportsModule";
+import { branchSalesReducer, detailBranchSalesReducer, vehicleRepairReducer, expenseReducer, detailExpenseReducer } from "./ReportsModule";
 
 import detergentsInfoReducer from "./DetergentInfoModule";
 import partsInfoReducer from "./PartInfoModule";
@@ -19,6 +19,7 @@ const rootReducer = combineReducers({
     detailBranchSalesReducer,
     vehicleRepairReducer,
     expenseReducer,
+    detailExpenseReducer,
     
     detergentsInfoReducer,
     partsInfoReducer,
