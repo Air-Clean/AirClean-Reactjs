@@ -52,7 +52,7 @@ function NewReports() {
                 <tr key={vehicle.vehicleReportCode}>
                 <td>{vehicle.driverLicenseNumber}</td>
                 <td>{vehicle.driverLicenseNumber}</td>
-                <td>{vehicle.vehicleSubmissionDate}</td>
+                <td>{new Date(vehicle.vehicleSubmissionDate).toLocaleDateString()}</td>
                 <td><button>View</button></td>
               </tr>
               ))}

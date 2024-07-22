@@ -8,6 +8,10 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import './Searchcss.css';
+import { useState } from "react";
+import RegistEmployee from "./employee/RegistEmployee";
+
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -53,15 +57,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Searchbar({isRegist , setIsRegist}) {
 
-  const registModalHandler=()=>{
-    setIsRegist(!isRegist)
+  const [regist,setRegist] = useState(false);
+
+  const openModal = () =>{
+    setRegist(!regist);
   }
+  
+ 
   
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -78,7 +86,8 @@ export default function Searchbar({isRegist , setIsRegist}) {
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
             MUI
-          </Typography>
+          </Typography> */}
+          <button class="button-54" role="button" onClick={openModal}>사원 등록</button>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -90,6 +99,8 @@ export default function Searchbar({isRegist , setIsRegist}) {
           </Search>
         </Toolbar>
       </AppBar>
+      <RegistEmployee  regist={regist} openModal={openModal} />
     </Box>
+  
   );
 }

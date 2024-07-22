@@ -11,16 +11,15 @@ import CardActions from '@mui/joy/CardActions';
 import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import SvgIcon from '@mui/joy/SvgIcon';
-import { Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import { Grid} from "@mui/material";
-import { useState , useCallback } from 'react';
+import { useState} from 'react';
 import jwtDecode from 'jwt-decode';
 import Swal from 'sweetalert2'
 import 'animate.css'
 import './BioCard.css'
-import logo from '../../../assets/logo2.png'
-
-
+import logo from '../../../../assets/logo2.png'
+import noProfile from '../../../../assets/no-profile.png'
+import EmployeeModifyModal from './EmployeeModifyModal';
 
 export default function BioCard({emp, setDeleteMember, deleteMember}) {
 
@@ -30,6 +29,16 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
 
 
   function showBusinessCard() {
+
+    let image =emp.memberDTO.memberImage;
+    console.log(image.split('/')[4])
+    console.log('image anjsi',image);
+
+    if(image.split('/')[4]==='null'){
+      image = noProfile;
+    }
+
+  
     Swal.fire({
         showClass: {
       popup: `
@@ -50,17 +59,20 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
     <div class="business-card">
         <img src=${logo} alt="이미지 없음" class="top-text">
         <div class="content">
-            <img src=${emp.memberDTO.memberImage} alt="사진 없음" class="profile">
-            <div class="name">Hae-won Jeon</div>
-            <div class="handle">@reallygreatsite</div>
+            <img src=${image} alt="사진 없음" class="profile">
+            <div class="name">${emp.memberDTO.memberName}</div>
+            <div class="handle">${emp.employeePosition}</div>
             <div class="contact-info">
-                <div>+123-456-7890</div>
+                <div>${emp.employeeDept}</div>
+                <div>${emp.memberDTO.memberId}</div>
                 <hr>
-                <div>www.reallygreatsite.com</div>
-                <div>hello@reallygreatsite.com</div>
-                <div>123 Anywhere St., Any City</div>
+                <div>${phone}</div>
+                <div>${emp.memberDTO.memberEmail}</div>
+                <div>${emp.memberDTO.memberAddress}</div>
             </div>
-            <button>Modify</button>
+            <div class="modifybutton">
+              <button class="button-19" id="modifyButton" role="button">Modify</button>
+            </div>
         </div>
     </div>
         `,
@@ -70,34 +82,37 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
         customClass: {
             container: 'swal2-container'
         },
-        showConfirmButton: false
+        showConfirmButton: false,
+        didRender: () => {
+          // Swal.fire가 렌더링 된 후에 이벤트 리스너를 추가합니다.
+          document.getElementById('modifyButton').addEventListener('click', toggle);
+      }
     });
 }
 
 
-  const [modal, setModal] = useState(false);
   const [highlight , setHighlight] = useState(false)
-
+  const [modal,setModal] = useState(false);
 
   const members =jwtDecode(window.localStorage.getItem('accessToken'))
   
 
+  const toggle=()=>{
+
+    console.log('수정버튼');
+    setModal(!modal)
+    Swal.close();
+
+  }
   const role = members.memberRole;
 
-  const detailHandler=e=>{
-    const id = e.target.name;
-
-    console.log("key 값",id)
-
-    setModal(!modal);
-    
-  }
+  
 
   const deleteHandler = e =>{
 
     setHighlight(!highlight)
 
-    const changeDelete = toggleValue(deleteMember,e.target.name)
+    const changeDelete = toggleValue([...deleteMember],e.target.name)
 
 
 
@@ -119,6 +134,8 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
     return array;
   }
   const phone = formatPhoneNumber(emp?.memberDTO.memberPhoneNumber)
+
+  
   return (
     <Grid item xs={6} sm={6} mg={4} lg={3} className="bio_card">
     <Card
@@ -234,33 +251,8 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
           </ButtonGroup>
         </CardActions>
       </CardOverflow>
-
-      
-      {/* <Modal isOpen={modal} toggle={detailHandler} >
-        <ModalHeader toggle={detailHandler}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar src={emp.memberDTO.memberImage || "/static/images/avatar/1.jpg"} sx={{ '--Avatar-size': '4rem' }} />
-          <span>{emp.memberDTO.memberName}</span>
-        </div>
-        </ModalHeader>
-        <ModalBody>
-        <p>사원 번호: {emp.employeeCode}</p>
-        <p>부서 : {emp.employeeDept}</p>
-        <p>번호: {phone}</p>
-        <p>직위: {emp.employeePosition}</p>
-        <p>ID: {emp.memberDTO.memberId}</p>
-        <p>email: {emp.memberDTO.memberEmail}</p>
-        <p>주소: {emp.memberDTO.memberAddress}</p>
-        </ModalBody>
-        {members.sub === emp.memberDTO.mmeberId && <ModalFooter>
-          <Button color="primary" onClick={detailHandler}>
-            Modify
-          </Button>
-        </ModalFooter>}
-      </Modal> */}
-
-
     </Card>
+      <EmployeeModifyModal modal={modal} toggle={toggle} emp={emp}/>
     </Grid>
     
   );

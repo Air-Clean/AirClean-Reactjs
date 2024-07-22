@@ -1,5 +1,5 @@
 
-import './HumanResource.css';
+import '../HumanResource.css';
 
 
 function DriverResource() {

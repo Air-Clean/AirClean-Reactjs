@@ -10,12 +10,13 @@ import ClientMenu2 from './pages/client/client_menu2/ClientMenu2';
 
 import AdminMenu1 from './pages/admin/admin_menu1/AdminMenu1';
 import AdminMenu2 from './pages/admin/admin_menu2/AdminMenu2';
-import EmployeeResource from './pages/admin/human_resource/EmployeeResource';
-import BranchResource from './pages/admin/human_resource/BranchResource';
-import DriverResource from './pages/admin/human_resource/DriverResource';
-import TempResource from './pages/admin/human_resource/TempResource';
+import EmployeeResource from './pages/admin/human_resource/employee/EmployeeResource';
+import BranchResource from './pages/admin/human_resource/branch/BranchResource';
+import DriverResource from './pages/admin/human_resource/driver/DriverResource';
+import TempResource from './pages/admin/human_resource/Temp/TempResource';
 
 import BranchSales from './pages/admin/report/reportsMenu/BranchSales';
+import BranchSalesDetail from './pages/admin/report/reportsMenu/BranchSalesDetail';
 
 import StockApplication from './pages/admin/stock/StockApplication';
 import StockHistory from './pages/admin/stock/StockHistory';
@@ -54,6 +55,7 @@ function App() {
                 <Route index element={<BranchSales/>}/>
                 <Route path='newReports' element={<NewReports/>}/>
                 <Route path='reports' element={<BranchSales/>}/>
+                <Route path='reports/:branchReportCode' element={<BranchSalesDetail/>}/>
             </Route>
 
 

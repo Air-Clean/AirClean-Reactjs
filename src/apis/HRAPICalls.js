@@ -65,6 +65,69 @@ export function callSoftDeleteEmployee({deleteMember}){
 
 }
 
+export function modifyEmployee({formData ,employeeCode}){
+    
+    
+    console.log('[formdata ]', formData.get("memberId"))
+        console.log('[formdata ]', formData.get("memberName"))
+        console.log('[formdata ]', formData.get("dept"))
+        console.log('[formdata ]', formData.get("position"))
+        console.log('[formdata ]', formData.get("isPass"))
+        console.log('[formdata ]', formData.get("phone"))
+        console.log('[formdata ]', formData.get("email"))
+        console.log('[formdata ]', formData.get("address"))
+        console.log('[formdata ]', formData.get("image"))
+
+    return async (dispatch,getState)=>{
+        
+        const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/employee/${employeeCode}`
+        
+        console.log('url 주소',requestURL);
+
+        const result = await fetch(requestURL,{
+            method : "PUT",
+            headers : {
+                Accept : '*/*',
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
+            },
+            body : formData
+        }).then(res=>res.json())
+
+        if(result.status===200){
+            console.log('수정성공')
+            dispatch({type : EMPLOYEE, payload : result.data})
+        }
+        
+    }
+
+
+}
+
+export function registEmployee({form}){
+    
+    console.log('registEmployee 동작')
+
+    
+
+    return async (dispacth , getState) =>{
+        const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/employee`;
+        console.log(requestUrl)
+
+        const result = fetch(requestUrl,{
+            method : "POST",
+            headers : {
+                Accept : '*/*',
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
+            },
+            body : form
+        })
+
+        if(result.status === 200){
+            dispacth({type : EMPLOYEE , payload : result.data})
+        }
+    }
+}
+
 // export const callSoftDeleteEmployee=({deleteMember})=>{
 //     console.log('callSoftDeleteEmployee 동작함')
 //     return async(dispatch,getState)=>{
