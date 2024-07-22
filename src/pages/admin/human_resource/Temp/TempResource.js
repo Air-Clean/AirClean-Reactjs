@@ -1,6 +1,6 @@
 
 import GarbageResource from './Garbage';
-import '../HumanResource.css';
+import '../HumanResource.css'
 
 
 function TempResource() {
@@ -9,7 +9,6 @@ function TempResource() {
     return (
         <>
             <div className="menu1_layout">
-                
                 <div className='flex_wrap'>
                     <GarbageResource/>
                 </div>
