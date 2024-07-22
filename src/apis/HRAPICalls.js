@@ -180,7 +180,7 @@ export function callEmployeeDeleteApi({killMember}){
                 Accept : '*/*',
                 Authorization : "Bearer "+window.localStorage('accessToken')
             },
-            body : killMember
+            body : JSON.stringify(killMember)
         })
     }
 }
