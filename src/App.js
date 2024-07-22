@@ -10,10 +10,10 @@ import ClientMenu2 from './pages/client/client_menu2/ClientMenu2';
 
 import AdminMenu1 from './pages/admin/admin_menu1/AdminMenu1';
 import AdminMenu2 from './pages/admin/admin_menu2/AdminMenu2';
-import EmployeeResource from './pages/admin/human_resource/EmployeeResource';
-import BranchResource from './pages/admin/human_resource/BranchResource';
-import DriverResource from './pages/admin/human_resource/DriverResource';
-import TempResource from './pages/admin/human_resource/TempResource';
+import EmployeeResource from './pages/admin/human_resource/employee/EmployeeResource';
+import BranchResource from './pages/admin/human_resource/branch/BranchResource';
+import DriverResource from './pages/admin/human_resource/driver/DriverResource';
+import TempResource from './pages/admin/human_resource/Temp/TempResource';
 
 // 도아
 // /관리자

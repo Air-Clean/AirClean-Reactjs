@@ -1,8 +1,8 @@
 
-import './HumanResource.css';
+import '../HumanResource.css';
 
 
-function TempResource() {
+function BranchResource() {
     console.log('지점장 페이지 입니다')
 
     return (
@@ -11,7 +11,7 @@ function TempResource() {
                 
                 <div className='flex_wrap'>
                         {/* 컴포넌트 위치 */}
-                        <h2>임시저장소</h2>
+                        <h2>지점장 페이지</h2>
                 </div>
                 
             </div>
@@ -20,4 +20,4 @@ function TempResource() {
 
 }
 
-export default TempResource;
+export default BranchResource;
