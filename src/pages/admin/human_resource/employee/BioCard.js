@@ -20,6 +20,7 @@ import './BioCard.css'
 import logo from '../../../../assets/logo2.png'
 import noProfile from '../../../../assets/no-profile.png'
 import EmployeeModifyModal from './EmployeeModifyModal';
+import { getPhoneNumber } from '../../../../utils/makePhoneNumber';
 
 export default function BioCard({emp, setDeleteMember, deleteMember}) {
 
@@ -133,7 +134,7 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
     }
     return array;
   }
-  const phone = formatPhoneNumber(emp?.memberDTO.memberPhoneNumber)
+  const phone = getPhoneNumber(emp?.memberDTO.memberPhoneNumber)
 
   
   return (

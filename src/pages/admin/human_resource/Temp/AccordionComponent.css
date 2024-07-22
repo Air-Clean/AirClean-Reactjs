@@ -1,0 +1,46 @@
+.accordion-body {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .accordion-body h2, .accordion-body h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .info-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .info-group {
+    width: 45%; /* Adjust width as needed */
+  }
+  
+  .left {
+    text-align: left;
+  }
+  
+  .right {
+    text-align: left;
+  }
+  
+  .info-item {
+    margin-bottom: 8px;
+  }
+  
+  .info-item strong {
+    display: inline-block;
+    width: 200px;
+    font-weight: bold;
+  }
+  
+  .info-item span {
+    display: inline;
+    color: #333;
+  }
+
+  
