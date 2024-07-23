@@ -15,6 +15,9 @@ createActions({
 const humanReducer = handleActions({
     [EMPLOYEE] : (state,{payload})=>{
         return payload;
+    },
+    [BRANCH] : (state,{payload})=>{
+        return payload
     }
 },initState)
 
