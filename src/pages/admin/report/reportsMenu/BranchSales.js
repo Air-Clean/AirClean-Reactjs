@@ -1,7 +1,7 @@
 // BranchSales.js
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { callFindBranchSalesAPI, callFindExpenseAPI } from '../../../../apis/ReportAPICalls';
+import { callFindBranchSalesAPI, callFindExpenseAPI, callFindVehicleRepairAPI } from '../../../../apis/ReportAPICalls';
 import { useNavigate } from 'react-router-dom'; 
 import './BranchSales.css';
 
@@ -15,14 +15,18 @@ function BranchSales() {
   const navigate = useNavigate();
   // 지출보고서 
   const expenseResult = useSelector(state => state.expenseReducer);
+  // 차량수리보고서
+  const result = useSelector(state => state.vehicleRepairReducer)
 
 
   useEffect(() => {
-    console.log('리덕스 상태 result:', {branchSalesResult,expenseResult});
+    console.log('리덕스 상태 result:', {branchSalesResult,expenseResult, result});
     if (activeTable === '매출') {
         dispatch(callFindBranchSalesAPI());
     } else if (activeTable === '지출') {
       dispatch(callFindExpenseAPI())
+    }else if (activeTable === '차량수리비') {
+      dispatch(callFindVehicleRepairAPI())
     }
     
     // 이 주석은 ESLint 경고를 비활성화합니다.
@@ -40,6 +44,7 @@ function BranchSales() {
                 <th>보고서번호</th>
                 <th>지점명</th>
                 <th>제출일</th>
+                <th>상태</th>
                 <th>상세보기</th>
               </tr>
             </thead>
@@ -49,6 +54,7 @@ function BranchSales() {
                   <td>{item.branchReportCode}</td>
                   <td>{item.branchCode}</td>     {/* 지점명 인데 일단 지점코드로 가지고옴 */}
                   <td>{new Date(item.branchSubmissionDate).toLocaleDateString()}</td>
+                  <td>{item.branchReportStatus}</td>
                   <td><button onClick={() => navigate(`/company/paper/reports/branch/${item.branchReportCode}`)}>View</button></td>
                 </tr>
               ))}
@@ -63,6 +69,7 @@ function BranchSales() {
                 <th>보고서번호</th>
                 <th>지점명</th>
                 <th>제출일</th>
+                <th>상태</th>
                 <th>상세보기</th>
               </tr>
             </thead>
@@ -73,6 +80,7 @@ function BranchSales() {
                   <td>{expense.expenseReportCode}</td>
                   <td>{expense.branchCode}</td>   {/* 지점명 인데 일단 지점코드로 가지고옴 */}
                   <td>{new Date(expense.expenseSubmissionDate).toLocaleDateString()}</td>
+                  <td>{expense.expenseReportStatus}</td>
                   <td><button onClick={() => navigate(`/company/paper/reports/expense/${expense.expenseReportCode}`)}>View</button></td>
                 </tr>
               ))}
@@ -88,11 +96,23 @@ function BranchSales() {
                 <th>차량번호</th>
                 <th>차량기사</th>
                 <th>제출일</th>
+                <th>상태</th>
                 <th>상세보기</th>
               </tr>
             </thead>
             <tbody>
               {/* 차량수리비 데이터가 들어갈 부분 */}
+              {result.map((vehicle) => (
+                <tr key={vehicle.vehicleReportCode}>
+                  <td>{vehicle.vehicleReportCode}</td>
+                  <td>{vehicle.driverLicenseNumber}</td>    {/* 차량번호 조인으로 가지고 오기 */}
+                  <td></td>   {/* 지점장 이름 가지고 오기 */}
+                  <td>{new Date(vehicle.vehicleSubmissionDate).toLocaleDateString()}</td>
+                  <td>{vehicle.vehicleReportStatus}</td> 
+                  <td><button>View</button></td>
+                  
+              </tr>
+              ))}
             </tbody>
           </table>
         );
@@ -110,6 +130,7 @@ function BranchSales() {
             </thead>
             <tbody>
               {/* 시설물수리 데이터가 들어갈 부분 */}
+             
             </tbody>
           </table>
         );

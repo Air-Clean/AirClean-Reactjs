@@ -33,6 +33,18 @@ import Branch from './pages/admin/branch/Branch';
 import Car from './pages/admin/car/Car';
 
 
+<<<<<<< HEAD
+=======
+// const ProtectedRoute = ({ children }) => {
+//   const { user } = useAuth();
+//   if (!user) {
+//     return <Navigate to="/" />;
+//   }
+//   return children;
+// };
+// 12
+
+>>>>>>> 6d08506e00a7a1ee21261910aaee0dc00b00dd56
 function App() {
   return (
     <AuthProvider>

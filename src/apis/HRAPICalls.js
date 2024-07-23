@@ -128,6 +128,63 @@ export function registEmployee({form}){
     }
 }
 
+export function softDeleteEmployee({current,amount}){
+    console.log('softDeleteEmployee 동작')
+
+    let requestURL= null;
+    
+    if(current){
+
+        if(amount){
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/employee/unstatus?offset=${current}&amount=${amount}`
+        }
+        else{
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/employee/unstatus?offset=${current}`
+        }
+    }else{
+        if(amount){
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/employee/unstatus?amount=${amount}`
+        }
+        else{
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/employee/unstatus`
+        }
+       
+    }
+
+    return async (dispatch,getStatae) =>{
+        const result= await fetch(requestURL,{
+            method : "GET",
+            headers : {
+                'Content-Type' : "application/json",
+                Accept : "*/*",
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+        
+        if(result.status===200){
+            dispatch({type: EMPLOYEE , payload : result.data})
+        }
+    }
+}
+
+export function callEmployeeDeleteApi({killMember}){
+    console.log('callEmployeeDeleteApi 동작함',killMember)
+
+    const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/employee`
+    return async (dispatch, getState) =>{
+
+        const result = await fetch(requestUrl,{
+            method : 'DELETE',
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : "Bearer "+window.localStorage('accessToken')
+            },
+            body : killMember
+        })
+    }
+}
+
 // export const callSoftDeleteEmployee=({deleteMember})=>{
 //     console.log('callSoftDeleteEmployee 동작함')
 //     return async(dispatch,getState)=>{

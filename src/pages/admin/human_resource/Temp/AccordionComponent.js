@@ -1,91 +1,211 @@
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import { Avatar, Button } from "@mui/material";
+import { useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import "./AccordionComponent.css";
+import { getPhoneNumber } from "../../../../utils/makePhoneNumber";
 
-import React, { useState } from 'react';
-import Avatar from '@mui/joy/Avatar';
-import DeleteIcon from '@mui/icons-material/Delete';
-import {
-  Accordion,
-  AccordionBody,
-  AccordionHeader,
-  AccordionItem,
-  FormGroup,
-  Input,
-} from 'reactstrap';
+const Accordion = styled((props) => (
+  <MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ theme }) => ({
+  border: `1px solid ${theme.palette.divider}`,
+  "&:not(:last-child)": {
+    borderBottom: 0,
+  },
+  "&::before": {
+    display: "none",
+  },
+}));
 
-import Button from '@mui/material/Button';
-import { styled } from '@mui/system';
+const AccordionSummary = styled((props) => (
+  <MuiAccordionSummary
+    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
+    {...props}
+  />
+))(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? "rgba(255, 255, 255, .05)"
+      : "rgba(0, 0, 0, .03)",
+  flexDirection: "row-reverse",
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(90deg)",
+  },
+  "& .MuiAccordionSummary-content": {
+    marginLeft: theme.spacing(1),
+  },
+}));
 
-function Example(props) {
-  const [open, setOpen] = useState('1');
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderTop: "1px solid rgba(0, 0, 0, .125)",
+}));
+
+function AccordionComponent({
+  emp,
+  killMember,
+  setKillMember,
+  saveMember,
+  setSaveMember,
+  isDelete,
+  isSave,
+}) {
+  console.log("accorion emp", emp);
+  console.log("dslkjdslkdsjf", emp.memberDTO.memberId);
+  const [expanded, setExpanded] = useState(null);
+  const [canSave, setCanSave] = useState(false);
+  const [canDelete, setCanDelete] = useState(false);
+
   const [deleteChecked, setDeleteChecked] = useState(false);
-  const [undoDeleteChecked, setUndoDeleteChecked] = useState(false);
 
-  const toggle = (id) => {
-    if (open === id) {
-      setOpen();
-    } else {
-      setOpen(id);
-    }
-  };
+  const image = emp.memberDTO.memberImage.split("/")[4];
+  const phone = getPhoneNumber(emp.memberDTO.memberPhoneNumber);
 
-  const handleDeleteChange = (e) => {
-    e.stopPropagation();
-    setDeleteChecked(!deleteChecked);
-  };
-
-  const handleUndoDeleteChange = (e) => {
-    e.stopPropagation();
-    setUndoDeleteChecked(!undoDeleteChecked);
-  };
-
+  // Handle delete button click
   const handleDeleteClick = (e) => {
     e.stopPropagation();
-    // Handle delete action
-    console.log('Delete clicked');
+
+    const changeDelete = toggleValue([...killMember], e.currentTarget.name);
+
+    setKillMember(changeDelete);
+
+    setCanDelete(!canDelete);
+
+    console.log("Delete clicked");
   };
 
-  const handleUndoDeleteClick = (e) => {
+  function toggleValue(array, value) {
+    const index = array.indexOf(value);
+
+    if (index > -1) {
+      array.splice(index, 1);
+    } else {
+      array.push(value);
+    }
+    return array;
+  }
+
+  // Handle rotate button click
+  const handleRotateClick = (e) => {
     e.stopPropagation();
-    // Handle undo delete action
-    console.log('Undo delete clicked');
+
+    setCanSave(!canSave);
+    const changeSave = toggleValue([...saveMember], e.currentTarget.name);
+
+    setSaveMember(changeSave);
+
+    console.log("Rotate clicked");
+  };
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
   };
 
   return (
     <div>
-      <Accordion open={open} toggle={toggle}>
-        <AccordionItem>
-          <AccordionHeader targetId="1">
-            <FormGroup check className="mr-2" onClick={(e) => e.stopPropagation()}>
-              <Input type="checkbox" checked={deleteChecked} onChange={handleDeleteChange} />
-            </FormGroup>
-            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
-            <Button disabled={!deleteChecked} className="mr-2" onClick={handleDeleteClick}>
-                <Avatar color='red'>
-                  <DeleteIcon/>
+      <Accordion
+        expanded={expanded === "panel1"}
+        onChange={handleChange("panel1")}
+        className="mt-2"
+      >
+        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem", // Space between checkbox and profile/avatar
+              width: "100%", // Ensures the container takes full width
+            }}
+            onClick={(e) => e.stopPropagation()} // Prevents accordion toggle on this area
+          >
+            {/* Avatar and Name */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10%",
+                width: "10vw",
+              }}
+            >
+              <Avatar src={image ? emp.memberDTO.memberImage : "profile"} />
+              <div>{emp.memberDTO.memberName}</div>
+            </div>
+            <div>{emp.employeeDept}</div>
+            <div>{emp.employeePosition}</div>
+
+            {/* Buttons aligned to the right */}
+            <div
+              style={{
+                marginLeft: "auto",
+                display: "flex",
+                alignItems: "center",
+                gap: "1px",
+              }}
+            >
+              <Button
+                disabled={isSave}
+                onClick={handleDeleteClick}
+                name={emp.memberDTO.memberId}
+              >
+                <Avatar style={{ backgroundColor: canDelete && "red" }}>
+                  <DeleteIcon />
                 </Avatar>
               </Button>
-              
-              <FormGroup check className="mr-2" onClick={(e) => e.stopPropagation()}>
-                <Input type="checkbox" checked={undoDeleteChecked} onChange={handleUndoDeleteChange} />
-                {' '}
-                Undo Delete
-              </FormGroup>
-              
-              <Button color="secondary" disabled={!undoDeleteChecked} onClick={handleUndoDeleteClick}>
-                Undo Delete
+              <Button
+                disabled={isDelete}
+                onClick={handleRotateClick}
+                name={emp.memberDTO.memberId}
+              >
+                <Avatar style={{ backgroundColor: canSave && "blue" }}>
+                  <RotateLeftIcon />
+                </Avatar>
               </Button>
             </div>
-          </AccordionHeader>
-          <AccordionBody accordionId="1">
-            <strong>This is the first item&#39;s accordion body.</strong>
-            You can modify any of this with custom CSS or overriding our default
-            variables. It&#39;s also worth noting that just about any HTML can
-            go within the <code>.accordion-body</code>, though the transition
-            does limit overflow.
-          </AccordionBody>
-        </AccordionItem>
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            <div className="info-container">
+              <div className="info-group left">
+                <div className="info-item">
+                  <strong>Name : </strong> <span>{emp.memberDTO.memberName}</span>
+                </div>
+                <div className="info-item">
+                  <strong>ID : </strong> <span>{emp.memberDTO.memberId}</span>
+                </div>
+                <div className="info-item">
+                  <strong>Position :</strong> <span>{emp.employeePosition}</span>
+                </div>
+                <div className="info-item">
+                  <strong>Department :</strong> <span>{emp.employeeDept}</span>
+                </div>
+              </div>
+              <div className="info-group right">
+                <div className="info-item">
+                  <strong>E-mail :</strong>{" "}
+                  <span>{emp.memberDTO.memberEmail}</span>
+                </div>
+                <div className="info-item">
+                  <strong>Phone :</strong> <span>{phone}</span>
+                </div>
+                <div className="info-item">
+                  <strong>Address : </strong>{" "}
+                  <span>{emp.memberDTO.memberAddress}</span>
+                </div>
+              </div>
+            </div>
+          </Typography>
+        </AccordionDetails>
       </Accordion>
     </div>
   );
 }
 
-export default Example;
+export default AccordionComponent;

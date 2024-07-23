@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import './BranchList.css';
+import BranchModal from './BranchModal';
 
 function BranchList({ locationName, onBranchSelect }) {
     const [branches, setBranches] = useState([]);
     const [selectedBranches, setSelectedBranches] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [loading,setLoading] = useState(true);
+    const [setError] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
-    const fetchBranches = async (mapName) => {
+    const fetchBranches = useCallback(async (mapName) => {
+        console.log(loading)
         const token = window.localStorage.getItem('accessToken');
         if (!token) {
             setError('No token found');
@@ -36,11 +39,11 @@ function BranchList({ locationName, onBranchSelect }) {
         } finally {
             setLoading(false);
         }
-    };
+    }, [loading, setError]);
 
     useEffect(() => {
         fetchBranches();
-    }, []);
+    }, [fetchBranches]);
 
     useEffect(() => {
         let newMapName = "";
@@ -68,9 +71,8 @@ function BranchList({ locationName, onBranchSelect }) {
         if (newMapName) {
             fetchBranches(newMapName);
         }
-    }, [locationName]);
+    }, [locationName, fetchBranches]);
 
-    // 체크박스를 클릭하여 선택된 항목을 관리하는 함수입니다. 
     const handleSelectBranch = (branch) => {
         setSelectedBranches(prevSelected =>
             prevSelected.includes(branch)
@@ -79,27 +81,53 @@ function BranchList({ locationName, onBranchSelect }) {
         );
     };
 
-    // 체크한거 삭제 함수
-    const handleDeleteSelected = () => {
-        setBranches(prevBranches =>
-            prevBranches.filter(branch => !selectedBranches.includes(branch))
-        );
-        setSelectedBranches([]);
+    const handleDeleteSelected = async () => {
+        const token = window.localStorage.getItem('accessToken');
+        if (!token) {
+            setError('No token found');
+            return;
+        }
+
+        try {
+            const response = await axios.delete('http://localhost:8080/branch/deleteBranches', {
+                data: { branches: selectedBranches },
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 200) {
+                setBranches(prevBranches =>
+                    prevBranches.filter(branch => !selectedBranches.includes(branch))
+                );
+                setSelectedBranches([]);
+                window.alert('삭제 성공');
+            }
+        } catch (error) {
+            console.error('Error deleting branches:', error);
+            setError('Error deleting branches');
+            window.alert('삭제 실패');
+        }
     };
 
-    // 버튼 클릭 핸들러
     const handleBranchClick = (branch) => {
         console.log("Branch clicked:", branch);
         onBranchSelect(branch);
     };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    const openModal = () => {
+        setShowModal(true);
+    };
 
-    if (error) {
-        return <div>{error}</div>;
-    }
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    const handleModalSubmit = (formData) => {
+        console.log("FormData received in BranchList:", formData);
+        fetchBranches();
+    };
 
     return (
         <div style={{ backgroundColor: '#fbfcfe', width: '250px', height: 'calc(65% - 15px)', borderRadius: '10px', padding: '20px', border: '1px solid #cfd7e0' }}>
@@ -122,7 +150,12 @@ function BranchList({ locationName, onBranchSelect }) {
                     ))}
                 </div>
             </div>
-            <button style={{ marginTop: '10px', padding: '3px', color:'black', backgroundColor:'#f1f4f8' }} onClick={handleDeleteSelected} disabled={selectedBranches.length === 0}>삭제</button>
+            <div style={{display:'flex'}}>
+                <button style={{ marginTop: '10px', padding: '3px', color:'black', backgroundColor:'#f1f4f8', marginRight:'10px'}} onClick={openModal}>등록</button>
+                <button style={{ marginTop: '10px', padding: '3px', color:'black', backgroundColor:'#f1f4f8' }} onClick={handleDeleteSelected} disabled={selectedBranches.length === 0}>삭제</button>
+            </div>
+
+            <BranchModal show={showModal} onClose={closeModal} onSubmit={handleModalSubmit} />
         </div>
     );
 }
