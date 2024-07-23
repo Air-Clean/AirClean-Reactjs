@@ -70,7 +70,7 @@ export default function GarbageResource({direction}) {
           <Tab label="차량기사" {...a11yProps(2)} />
         </Tabs>
         <Dropdown isOpen={dropdownOpen} toggle={toggle} direction={direction} style={{marginLeft : 'auto'}}>
-        <DropdownToggle caret>Sort</DropdownToggle>
+        <DropdownToggle caret>{"Sort" && amount}</DropdownToggle>
         <DropdownMenu>
           <DropdownItem header>Sort</DropdownItem>
           <DropdownItem onClick={() => handleSelect("10")}>10</DropdownItem>
