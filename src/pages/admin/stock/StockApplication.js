@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import StockBarChart from './StockBarChart';
 import PartStockBarChart from './PartStockBarChart';
 import { callDetergentsInfoAPI, callPartsInfoAPI } from '../../../apis/StockAPICalls';
+import jwtDecode from "jwt-decode";
 
 function StockApplication() {
   const [detergents, setDetergents] = useState([]);
@@ -112,6 +113,66 @@ function StockApplication() {
     setPartsMaxClicked(!partsMaxClicked);
   };
 
+  const handleSubmit = async () => {
+    const detergentsMapping = [
+      'hDetergent',
+      'hSoftener',
+      'hBleach',
+      'hRemover',
+      'hDrumCleaner',
+      'hSheet'
+    ];
+  
+    const partsMapping = [
+      'hLaundryFilter',
+      'hDryerFilter',
+      'hDryCleanerFilter'
+    ];
+  
+    const mapData = (items, mapping) => items.reduce((acc, item, index) => {
+      acc[mapping[index]] = item.updatedStock || 0;
+      return acc;
+    }, {});
+  
+    const detergentsData = mapData(detergents, detergentsMapping);
+    const partsData = mapData(parts, partsMapping);
+    const members  = jwtDecode(window.localStorage.getItem('accessToken'));
+  
+    const requestData = {
+      ...detergentsData,
+      ...partsData,
+      hApplicationStatus: "검토 중",
+      hApplicationDate: new Date().toISOString().split('T')[0],
+      memberId: members.sub,
+      hApplicantName: members.memberName
+    };
+
+    const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/company/stock/application`
+  
+    console.log('requestData', requestData);
+    try {
+      console.log('들어오는지 확인')
+      const response = await fetch(requestUrl, {
+        method: 'POST',
+        headers: {
+
+          'Content-Type' : 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(requestData)
+      });
+  
+      if (response.ok) {
+        console.log('Data submitted successfully');
+      } else {
+        console.error('Error submitting data');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   const getLabels = (data) => data.map(item => item.name);
   const getDataValues = (data) => data.map(item => item.stockPercent);
   const getOriginalValues = (data) => data.map(item => item.stock);
@@ -189,6 +250,7 @@ function StockApplication() {
           </tr>
         </tbody>
       </table>
+      <button onClick={ handleSubmit }>신청</button>
     </div>
     </div>
     </div>
