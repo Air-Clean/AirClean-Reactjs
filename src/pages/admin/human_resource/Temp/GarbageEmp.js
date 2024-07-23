@@ -5,7 +5,8 @@ import { softDeleteEmployee } from "../../../../apis/HRAPICalls";
 import Paging from "../../../../components/paging/Paging";
 import './GarbageEmp.css'
 import 'animate.css';
-import { callEmployeeDeleteApi } from "../../../../apis/HRAPICalls";
+import { callEmployeeDeleteApi ,callEmployeeBackApi} from "../../../../apis/HRAPICalls";
+
 
 export default function GarbageEmp({amount}) {
   const [current, setCurrent] = useState(1);
@@ -19,6 +20,7 @@ export default function GarbageEmp({amount}) {
   const [saveMember, setSaveMember] = useState([]);
   const [isDelete , setIsDelete] = useState(false);
   const [isSave,setIsSave] = useState(false);
+  
 
 
   const dispatch = useDispatch();
@@ -31,11 +33,16 @@ export default function GarbageEmp({amount}) {
     
     console.log('삭제버튼')
 
-    dispatch(callEmployeeDeleteApi({killMember}))
+    dispatch(callEmployeeDeleteApi({killMember}));
+
+    window.location.reload();
   }
 
   const saveHandler=()=>{
     console.log('살려줘')
+
+    dispatch(callEmployeeBackApi({saveMember}))
+    window.location.reload();
   }
 
   useEffect(() => {
@@ -103,7 +110,7 @@ export default function GarbageEmp({amount}) {
           </div>
         )}
 
-        <Paging />
+        <Paging setCurrent={setCurrent} end={employee.data.totalPages}/>
       </div>
       
     </>

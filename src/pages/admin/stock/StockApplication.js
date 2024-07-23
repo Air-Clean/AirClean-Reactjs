@@ -155,7 +155,7 @@ function StockApplication() {
       const response = await fetch(requestUrl, {
         method: 'POST',
         headers: {
-          
+          'Content-Type' : 'application/json',
           Accept: '*/*',
           Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
         },

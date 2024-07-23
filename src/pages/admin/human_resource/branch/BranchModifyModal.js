@@ -14,23 +14,23 @@ import {
 import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import DaumPostcodeEmbed from "react-daum-postcode";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { modifyEmployee } from "../../../../apis/HRAPICalls";
 
-export default function EmployeeModifyModal({ modal, toggle, emp }) {
+export default function BranchModifyModal({ modal, toggle, branch }) {
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
-    memberId: emp.memberDTO.memberId,
-    memberName: emp.memberDTO.memberName,
-    dept: emp.employeeDept,
-    position: emp.employeePosition,
-    isPass: false,
-    phone: emp.memberDTO.memberPhoneNumber,
-    email: emp.memberDTO.memberEmail,
-    address: emp.memberDTO.memberAddress,
-    image: null,
-    imagePreview: emp.memberDTO.memberImage,
+    // memberId: branch.memberDTO.memberId,
+    // memberName: emp.memberDTO.memberName,
+    // dept: emp.employeeDept,
+    // position: emp.employeePosition,
+    // isPass: false,
+    // phone: emp.memberDTO.memberPhoneNumber,
+    // email: emp.memberDTO.memberEmail,
+    // address: emp.memberDTO.memberAddress,
+    // image: null,
+    // imagePreview: emp.memberDTO.memberImage,
   });
 
   const [postcodeVisible, setPostcodeVisible] = useState(false);
@@ -101,7 +101,7 @@ export default function EmployeeModifyModal({ modal, toggle, emp }) {
     formData.append("image", form.image);
 
     dispatch(
-      modifyEmployee({ formData: formData, employeeCode: emp.employeeCode })
+      // modifyEmployee({ formData: formData, employeeCode: emp.employeeCode })
     );
 
     window.location.reload();

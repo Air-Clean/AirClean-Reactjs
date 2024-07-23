@@ -1,6 +1,7 @@
 
-import { EMPLOYEE } from "../modules/HRModule";
+import { BRANCH, EMPLOYEE } from "../modules/HRModule";
 
+// employee
 export const callEmployeeList=({current})=>{
     let requestURL;
 
@@ -178,28 +179,69 @@ export function callEmployeeDeleteApi({killMember}){
             headers : {
                 'Content-Type' : 'application/json',
                 Accept : '*/*',
-                Authorization : "Bearer "+window.localStorage('accessToken')
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
             },
-            body : killMember
-        })
+            body : JSON.stringify(killMember)
+        }).then(res=>res.json())
+
+        if(result.status===200){
+            dispatch({type : EMPLOYEE , payload : result.data})
+        }
     }
 }
 
-// export const callSoftDeleteEmployee=({deleteMember})=>{
-//     console.log('callSoftDeleteEmployee 동작함')
-//     return async(dispatch,getState)=>{
-//         console.log('오긴했는가')
-//         const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/employee/soft`;
+export function callEmployeeBackApi({saveMember}){
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/employee/status`;
 
-//         const result = await axios.put(
-//             requestUrl,
-//             JSON.stringify(deleteMember),
-//             {'Content-Type' : 'application/json ; charset=utf-8', Accept : '*/*',Authorization : 'Bearer '+window.localStorage.getItem('accessToken')}
-//         ).then(res=>res.data)
+    console.group("callEmployeeBackApi url",requestURL)
+    return async (dispatch, getState) =>{
+        const result = await fetch(requestURL,{
+            method : "PUT",
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessItem')
+            },
+            body : JSON.stringify(saveMember)
+        }).then(res=>res.json())
 
-//         if(result.status === 200){
-//             console.log('삭제 성공')
-//             dispatch({type : EMPLOYEE , payload : result.data})
-//         }
-//     }
-// }
+        if(result.status===200){
+            console.log('되살리기 성공')
+            dispatch({type : EMPLOYEE , payload : result.data})
+        }
+    }
+}
+
+
+// branch
+
+export const callBranchList=({current})=>{
+    let requestURL;
+
+    if(current !== undefined || current !== null){
+        requestURL =`http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch?offset=${current}`;
+
+    }else{
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch`;
+    }
+
+    console.log('callBranchList 동작함')
+
+    return async (dispatch,getState)=>{
+        
+        const result = await fetch(requestURL,{
+            method : 'GET',
+            headers : {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+        }).then(res=>res.json())
+
+        if(result.status === 200){
+            console.log('callEmployeeList 조회 성공 ',result)
+
+            dispatch({type : BRANCH , payload : result.data })
+        }
+    }
+}
