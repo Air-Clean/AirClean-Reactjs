@@ -187,6 +187,7 @@ export function callEmployeeDeleteApi({killMember}){
         if(result.status===200){
             dispatch({type : EMPLOYEE , payload : result.data})
         }
+
     }
 }
 
