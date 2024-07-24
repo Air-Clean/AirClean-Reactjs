@@ -4,9 +4,12 @@ import askReducer from "./AskModule";
 import humanReducer from "./HRModule";
 
 // 도아 - 보고서 
-import { branchSalesReducer, detailBranchSalesReducer, vehicleRepairReducer, expenseReducer } from "./ReportsModule";
+import { branchSalesReducer , detailBranchSalesReducer
+    , vehicleRepairReducer, detailVehicleRepairReducer
+    , expenseReducer, detailExpenseReducer
+    , findAllRepairReducer,detailRepairReducer } from "./ReportsModule";
 
-import {detergentsInfoReducer, partsInfoReducer}  from "./StockModule";
+import {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer}  from "./StockModule";
 
 
 const rootReducer = combineReducers({
@@ -18,9 +21,14 @@ const rootReducer = combineReducers({
     detailBranchSalesReducer,
     vehicleRepairReducer,
     expenseReducer,
+    detailExpenseReducer,
+    detailVehicleRepairReducer,
+    findAllRepairReducer,
+    detailRepairReducer,
     
     detergentsInfoReducer,
-    partsInfoReducer
+    partsInfoReducer,
+    headStockHistoryReducer
 
 
 
