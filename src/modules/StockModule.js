@@ -5,6 +5,7 @@ const initialState = [];
 
 export const DETERGENTSINFO = 'DETERGENTSINFO'
 export const PARTSINFO = 'PARTSINFO'
+export const HEADSTOCKHISTORY = 'HEADSTOCKHISTORY'
 
 createActions({
     [DETERGENTSINFO]: ()=>{},
@@ -25,6 +26,15 @@ const partsInfoReducer = handleActions({
     }
 }, initialState)
 
+const headStockHistoryReducer = handleActions({
+    [HEADSTOCKHISTORY]: (state, {payload}) => {
+        console.log('본사 재고내역 payload: ', payload)
+        return payload;
+    }
+}, initialState)
 
 
-export {detergentsInfoReducer, partsInfoReducer};
+
+
+
+export {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer};
