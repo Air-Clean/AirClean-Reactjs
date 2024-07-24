@@ -19,7 +19,7 @@ import "animate.css";
 import "./BioCard.css";
 import logo from "../../../../assets/logo2.png";
 import noProfile from "../../../../assets/no-profile.png";
-import BranchModifyModal from "./BranchModifyModal";
+import DriverModifyModal from "./DriverModifyModal";
 import { getPhoneNumber } from "../../../../utils/makePhoneNumber";
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import StayCurrentPortraitIcon from '@mui/icons-material/StayCurrentPortrait';
@@ -29,13 +29,13 @@ import ReactDOMServer from 'react-dom/server'
 
 
 
-export default function BioCard({ branch, setDeleteMember, deleteMember }) {
+export default function BioCard({ driver, setDeleteMember, deleteMember }) {
   console.log("biocard=============================");
 
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
 
   function showBusinessCard() {
-    let image =branch.memberDTO.memberImage;
+    let image =driver.memberDTO.memberImage;
     console.log(image.split('/')[4])
     console.log('image anjsi',image);
 
@@ -44,7 +44,7 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
     }
 
     const businessCardHtml = ReactDOMServer.renderToString(
-      <BusinessCard branch={branch} logo={logo} image={image} members={members}/>
+      <BusinessCard driver={driver} logo={logo} image={image} members={members}/>
     )
 
         Swal.fire({
@@ -83,15 +83,15 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
     const [highlight, setHighlight] = useState(false);
     const [modal, setModal] = useState(false);
     const [form, setForm] = useState({
-      memberId: branch.memberDTO.memberId,
-      memberName: branch.memberDTO.memberName,
+      memberId: driver.memberDTO.memberId,
+      memberName: driver.memberDTO.memberName,
       isPass: false,
-      phone: branch.memberDTO.memberPhoneNumber,
-      branchPhone : branch.branchPhone,
-      email: branch.memberDTO.memberEmail,
-      address: branch.memberDTO.memberAddress,
+      phone: driver.memberDTO.memberPhoneNumber,
+      branchPhone : driver.branchPhone,
+      email: driver.memberDTO.memberEmail,
+      address: driver.memberDTO.memberAddress,
       image: null,
-      imagePreview: branch.memberDTO.memberImage,
+      imagePreview: driver.memberDTO.memberImage,
       
     });
 
@@ -101,15 +101,15 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
       setModal(!modal);
 
       setForm({
-        memberId: branch.memberDTO.memberId,
-        memberName: branch.memberDTO.memberName,
+        memberId: driver.memberDTO.memberId,
+        memberName: driver.memberDTO.memberName,
         isPass: false,
-        phone: branch.memberDTO.memberPhoneNumber,
-        branchPhone : branch.branchPhone,
-        email: branch.memberDTO.memberEmail,
-        address: branch.memberDTO.memberAddress,
+        phone: driver.memberDTO.memberPhoneNumber,
+        branchPhone : driver.branchPhone,
+        email: driver.memberDTO.memberEmail,
+        address: driver.memberDTO.memberAddress,
         image: null,
-        imagePreview: branch.memberDTO.memberImage,
+        imagePreview: driver.memberDTO.memberImage,
         
       });
       Swal.close();
@@ -136,7 +136,7 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
       }
       return array;
     }
-    const phone = getPhoneNumber(branch?.memberDTO.memberPhoneNumber)
+    const phone = getPhoneNumber(driver?.memberDTO.memberPhoneNumber)
 
     return (
       <Grid item xs={6} sm={6} mg={4} lg={3} className="bio_card">
@@ -149,7 +149,7 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
           }}
         >
           <CardContent sx={{ alignItems: "center", textAlign: "center" }}>
-            <Avatar src={branch.memberDTO.memberImage || "/static/images/avatar/1.jpg"} sx={{ '--Avatar-size': '4rem' }} />
+            <Avatar src={driver.memberDTO.memberImage || "/static/images/avatar/1.jpg"} sx={{ '--Avatar-size': '4rem' }} />
             <Chip
               size="sm"
               variant="soft"
@@ -161,11 +161,11 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
                 borderColor: "background.surface",
               }}
             >
-              {branch?.branchRegion}
+              {driver?.branchRegion}
             </Chip>
-            <Typography level="title-lg">{branch?.memberDTO.memberName}</Typography>
+            <Typography level="title-lg">{driver?.memberDTO.memberName}</Typography>
             <Typography level="body-sm" sx={{ maxWidth: "24ch" }}>
-              {branch?.branchName}
+              {driver?.branchName}
               <br />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -257,56 +257,56 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
                 variant="outlined"
                 sx={{ bgcolor: "background.surface" }}
               >
-                <Button onClick={showBusinessCard} name={branch.memberDTO.memberId}>Detail</Button>
-                {role==='a' && <Button color='danger' onClick={deleteHandler} name={branch.memberDTO.memberId}>Delete</Button>}
+                <Button onClick={showBusinessCard} name={driver.memberDTO.memberId}>Detail</Button>
+                {role==='a' && <Button color='danger' onClick={deleteHandler} name={driver.memberDTO.memberId}>Delete</Button>}
               </ButtonGroup>
             </CardActions>
           </CardOverflow>
         </Card>
-        <BranchModifyModal modal={modal} toggle={toggle} branch={branch} form={form} setForm={setForm}/>
+        <DriverModifyModal modal={modal} toggle={toggle} driver={driver} form={form} setForm={setForm}/>
       </Grid>
     );
   }
 
 
-  function BusinessCard({ members, branch, logo, image}) {
+  function BusinessCard({ members, driver, logo, image}) {
     return (
         <div className="business-card">
             <img src={logo} alt="이미지 없음" className="top-text" />
             <div className="content">
                 <img src={image} alt="사진 없음" className="profile" />
-                <div className="name">{branch.memberDTO.memberName}</div>
-                <div className="handle">{branch.branchName}</div>
+                <div className="name">{driver.memberDTO.memberName}</div>
+                <div className="handle">{driver.branchName}</div>
                 <div className="contact-info">
                     <div>
-                        {branch.branchAddress}
+                        {driver.branchAddress}
                     </div>
-                    <div>{branch.memberDTO.memberId}</div>
+                    <div>{driver.memberDTO.memberId}</div>
                     <hr />
                     <div>
                       <Avatar style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
                             <LocalLaundryServiceIcon/>
-                            {getPhoneNumber(branch.branchPhone)}
+                            {getPhoneNumber(driver.branchPhone)}
                       </Avatar>
                       <Avatar style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
                         <StayCurrentPortraitIcon/>
-                        {getPhoneNumber(branch.memberDTO.memberPhoneNumber)}
+                        {getPhoneNumber(driver.memberDTO.memberPhoneNumber)}
                       </Avatar>
                     </div>
                     <div>
                       <Avatar style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
                         <EmailIcon/>
-                        {branch.memberDTO.memberEmail}
+                        {driver.memberDTO.memberEmail}
                       </Avatar>
                     </div>
                     <div>
                       <Avatar>
                         <GiteIcon/>
-                        {branch.memberDTO.memberAddress}
+                        {driver.memberDTO.memberAddress}
                       </Avatar>
                     </div>
                 </div>
-                {(members.memberRole === 'a' || members.sub === branch.memberDTO.memberId) &&
+                {(members.memberRole === 'a' || members.sub === driver.memberDTO.memberId) &&
                 <div className="modifybutton">
                   <button className="button-19" id="modifyButton">Modify</button>
                 </div>

@@ -4,6 +4,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import GarbageEmp from "./GarbageEmp";
+import GarbageBranch from './GarbageBranch'
+
 import { useState } from "react";
 import {
   Dropdown,
@@ -83,7 +85,7 @@ export default function GarbageResource({direction}) {
         <GarbageEmp amount={amount}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        지점장
+        <GarbageBranch amount={amount}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         차량기사

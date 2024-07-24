@@ -59,6 +59,13 @@ export default function Searchbar({isRegist , setIsRegist}) {
 
   const [regist,setRegist] = useState(false);
 
+  console.log('주소',window.location.pathname)
+
+  const url = window.location.pathname;
+  const currentPosition = url.split('/')[3]
+
+  console.log('현재 위치',currentPosition)
+  
   const openModal = () =>{
     setRegist(!regist);
   }
@@ -87,7 +94,7 @@ export default function Searchbar({isRegist , setIsRegist}) {
           >
             MUI
           </Typography> */}
-          <button class="button-54" role="button" onClick={openModal}>사원 등록</button>
+          <button class="button-54" role="button" onClick={openModal}>{amI(currentPosition)} 등록</button>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -103,4 +110,13 @@ export default function Searchbar({isRegist , setIsRegist}) {
     </Box>
   
   );
+}
+
+function amI(currentPosition){
+  switch(currentPosition){
+    case 'employee' : return '사원'
+    case 'branch' : return '지점장'
+    case 'driver' : return '차량기사'
+    default : return undefined;
+  }
 }

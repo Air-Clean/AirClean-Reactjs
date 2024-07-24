@@ -6,7 +6,7 @@ import "../HumanResource.css"
 import Paging from "../../../../components/paging/Paging";
 import { useState ,useEffect} from "react";
 import { useDispatch,useSelector } from "react-redux";
-import { callBranchList, callSoftDeleteEmployee } from "../../../../apis/HRAPICalls";
+import { callBranchList, callSoftDeleteBranch } from "../../../../apis/HRAPICalls";
 import { Grid } from "@mui/material";
 import 'animate.css';
 
@@ -57,7 +57,7 @@ export default function BranchResource() {
 
     const softDeleteHandler=()=>{
         dispatch(
-          callSoftDeleteEmployee({deleteMember: deleteMember})
+            callSoftDeleteBranch({deleteMember: deleteMember})
         )
         
         window.location.reload();
