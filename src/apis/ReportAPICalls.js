@@ -1,5 +1,5 @@
 // apis/ReportAPICalls.js
-import { BRANCHSALES, VEHICLEREPAIR, EXPENSE, DETAILBRANCHSALES, DETAILEXPENSE } from "../modules/ReportsModule";
+import { BRANCHSALES, VEHICLEREPAIR, EXPENSE, DETAILBRANCHSALES, DETAILEXPENSE, DETAILVEHICLEREPAIR } from "../modules/ReportsModule";
 
 // 매출보고서 전체 조회 API
 export const callFindBranchSalesAPI = () => {
@@ -46,26 +46,6 @@ export const calldetailBranchSalesAPI = ({branchReportCode}) => {
 }
 
 
-// 수리보고서 전체 조회 API 
-export const callFindVehicleRepairAPI = () => {
-  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/newReports`; 
-
-  return async (dispatch, getState) => {
-    const result = await fetch(requestURL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: '*/*',
-        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-      },
-    }).then((response) => response.json());
-
-    console.log('API 응답하니? :', result);
-
-    dispatch({type: VEHICLEREPAIR, payload: result.data})
-  }
-}
-
 // 지출보고서 전체 조회 API
 export const callFindExpenseAPI = () => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/expenseReports`; 
@@ -103,6 +83,47 @@ export const callDetailExpenseAPI = ({expenseReportCode}) => {
     console.log('expense 부분조회 API 나오나? :', detailExpenseResult)
 
     dispatch({type: DETAILEXPENSE, payload: detailExpenseResult.data})
+  }
+}
+
+
+// 차량 수리보고서 전체 조회 API 
+export const callFindVehicleRepairAPI = () => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/newReports`; 
+
+  return async (dispatch, getState) => {
+    const result = await fetch(requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+    }).then((response) => response.json());
+
+    console.log('API 응답하니? :', result);
+
+    dispatch({type: VEHICLEREPAIR, payload: result.data})
+  }
+}
+
+// 차량수리 보고서 세부 조회 API
+export const callDetailVehicleRepairAPI = ({vehicleReportCode}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/detailVehicleRepair/${vehicleReportCode}`;
+
+  return async (dispatch, getState) => {
+    const detailVehicleRepairResult = await fetch(requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+    }).then((response) => response.json());
+
+    console.log('차량 수리보고서 세부조회 API 응답하니? :', detailVehicleRepairResult);
+
+    dispatch({type: DETAILVEHICLEREPAIR, payload: detailVehicleRepairResult.data})
   }
 }
 

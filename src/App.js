@@ -21,6 +21,8 @@ import BranchSales from './pages/admin/report/reportsMenu/BranchSales';
 import BranchSalesDetail from './pages/admin/report/reportsMenu/BranchSalesDetail';
 import NewReports from './pages/admin/report/newReportsMenu/NewReports'
 import ExpenseDetail from './pages/admin/report/reportsMenu/ExpenseDetail';
+// import AdminBranchSales from './pages/admin/report/reportsMenu/AdminBranchSales';
+import VehicleRepairDetail from './pages/admin/report/reportsMenu/VehicleRepairDetail';
 // /지점장
 import LocationMyReports from './pages/client/locationReports/locationMyReportsMenu/LocationMyReports';
 import LocationNewReports from './pages/client/locationReports/locationNewReportsMenu/LocationNewReports'; 
@@ -33,8 +35,7 @@ import Branch from './pages/admin/branch/Branch';
 import Car from './pages/admin/car/Car';
 
 
-<<<<<<< HEAD
-=======
+
 // const ProtectedRoute = ({ children }) => {
 //   const { user } = useAuth();
 //   if (!user) {
@@ -44,7 +45,6 @@ import Car from './pages/admin/car/Car';
 // };
 // 12
 
->>>>>>> 6d08506e00a7a1ee21261910aaee0dc00b00dd56
 function App() {
   return (
     <AuthProvider>
@@ -66,8 +66,10 @@ function App() {
                 <Route index element={<BranchSales/>}/>
                 <Route path='newReports' element={<NewReports/>}/>
                 <Route path='reports' element={<BranchSales/>}/>
-                <Route path='reports/branch/:branchReportCode' element={<BranchSalesDetail/>}/>
-                <Route path='reports/expense/:expenseReportCode' element={<ExpenseDetail/>}/>
+                <Route path='reports/branchSales/:branchReportCode' element={<BranchSalesDetail/>}/>
+                {/* <Route path='reports/branchSales/admin/:branchReportCode' element={<AdminBranchSales/>}/> */}
+                <Route path='reports/expenseReports/:expenseReportCode' element={<ExpenseDetail/>}/>
+                <Route path='reports/vehicleRepair/:vehicleReportCode' element={<VehicleRepairDetail/>}/>
             </Route>
 
             <Route path="branch">
