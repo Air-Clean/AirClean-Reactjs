@@ -55,7 +55,7 @@ function BranchSales() {
                   <td>{item.branchCode}</td>     {/* 지점명 인데 일단 지점코드로 가지고옴 */}
                   <td>{new Date(item.branchSubmissionDate).toLocaleDateString()}</td>
                   <td>{item.branchReportStatus}</td>
-                  <td><button onClick={() => navigate(`/company/paper/reports/branch/${item.branchReportCode}`)}>View</button></td>
+                  <td><button onClick={() => navigate(`/company/paper/reports/branchSales/${item.branchReportCode}`)}>View</button></td>
                 </tr>
               ))}
             </tbody>
@@ -81,7 +81,7 @@ function BranchSales() {
                   <td>{expense.branchCode}</td>   {/* 지점명 인데 일단 지점코드로 가지고옴 */}
                   <td>{new Date(expense.expenseSubmissionDate).toLocaleDateString()}</td>
                   <td>{expense.expenseReportStatus}</td>
-                  <td><button onClick={() => navigate(`/company/paper/reports/expense/${expense.expenseReportCode}`)}>View</button></td>
+                  <td><button onClick={() => navigate(`/company/paper/reports/expenseReports/${expense.expenseReportCode}`)}>View</button></td>
                 </tr>
               ))}
             </tbody>
@@ -109,7 +109,7 @@ function BranchSales() {
                   <td></td>   {/* 지점장 이름 가지고 오기 */}
                   <td>{new Date(vehicle.vehicleSubmissionDate).toLocaleDateString()}</td>
                   <td>{vehicle.vehicleReportStatus}</td> 
-                  <td><button>View</button></td>
+                  <td><button onClick={() => navigate(`/company/paper/reports/vehicleRepair/${vehicle.vehicleReportCode}`)}>View</button></td>
                   
               </tr>
               ))}

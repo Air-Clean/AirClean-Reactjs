@@ -8,23 +8,12 @@ function BranchSalesDetail() {
   const params = useParams();
   const dispatch = useDispatch();
   const branchSalesDetail = useSelector(state => state.detailBranchSalesReducer);
-  const currentUser = useSelector(state => state.current); // 현재 사용자 정보 가져오기
 
   useEffect(() => {
     dispatch(calldetailBranchSalesAPI({
         branchReportCode: params.branchReportCode
     }));
   }, [dispatch, params.branchReportCode]);
-
-  const handleApprove = () => {
-    // 승인 로직 처리
-    console.log('Approved');
-  };
-
-  const handleReject = () => {
-    // 반려 로직 처리
-    console.log('Rejected');
-  };
 
   return (
     <div className="branchDetail_menu1_layout">
@@ -78,12 +67,6 @@ function BranchSalesDetail() {
               </tr>
             </tbody>
           </table>
-          {currentUser && currentUser.memberid.startsWith('a') && (
-            <div className="button-container">
-              <button onClick={handleApprove} className="approve-button">승인</button>
-              <button onClick={handleReject} className="reject-button">반려</button>
-            </div>
-          )}
         </div>
       </div>
     </div>
