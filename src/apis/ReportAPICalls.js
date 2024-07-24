@@ -1,5 +1,8 @@
 // apis/ReportAPICalls.js
-import { BRANCHSALES, VEHICLEREPAIR, EXPENSE, DETAILBRANCHSALES, DETAILEXPENSE, DETAILVEHICLEREPAIR } from "../modules/ReportsModule";
+import { BRANCHSALES, DETAILBRANCHSALES
+  , VEHICLEREPAIR, DETAILVEHICLEREPAIR
+  , EXPENSE, DETAILEXPENSE
+  , REPAIR, DETAILREPAIR } from "../modules/ReportsModule";
 
 // 매출보고서 전체 조회 API
 export const callFindBranchSalesAPI = () => {
@@ -126,4 +129,46 @@ export const callDetailVehicleRepairAPI = ({vehicleReportCode}) => {
     dispatch({type: DETAILVEHICLEREPAIR, payload: detailVehicleRepairResult.data})
   }
 }
+
+// 지점 수리보고서 전체조회 API
+export const callFindRepairAPI = () => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/repair`; 
+
+  return async (dispatch, getState) => {
+    const repairResult = await fetch(requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+    }).then((response) => response.json());
+
+    console.log('지점 수리보고서 API 응답하니? :', repairResult);
+
+    dispatch({type: REPAIR, payload: repairResult.data})
+  }
+
+}
+
+// 지점 수리보고서 상세조회 API
+export const callDetailRepairAPI = ({repairReportCode}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/repair/${repairReportCode}`;
+
+  return async (dispatch, getState) => {
+    const detailRepairResult = await fetch(requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+    }).then((response) => response.json());
+
+    console.log('지점 수리보고서 세부조회 API 응답하니? :', detailRepairResult);
+
+    dispatch({type: DETAILREPAIR, payload: detailRepairResult.data})
+  }
+}
+
 
