@@ -10,6 +10,9 @@ export const VEHICLEREPAIR = 'VEHICLEREPAIR'
 export const EXPENSE = 'EXPENSE'
 export const DETAILEXPENSE = 'DETAILEXPENSE'
 export const DETAILVEHICLEREPAIR = 'DETAILVEHICLEREPAIR'
+export const REPAIR = 'REPAIR'
+export const DETAILREPAIR = 'DETAILREPAIR'
+
 
 
 createActions({
@@ -19,6 +22,8 @@ createActions({
     [EXPENSE] : () => [],
     [DETAILEXPENSE] : () => [],
     [DETAILVEHICLEREPAIR] : () => [],
+    [REPAIR] : () => [],
+    [DETAILREPAIR] : () => [],
 })
 
 // 매출보고서 전체 조회
@@ -76,5 +81,27 @@ const detailVehicleRepairReducer = handleActions({
     }
 }, initialState)
 
+// 지점 수리보고서 전체조회
+const findAllRepairReducer = handleActions({
 
-export  {branchSalesReducer, vehicleRepairReducer, expenseReducer, detailBranchSalesReducer, detailExpenseReducer, detailVehicleRepairReducer };
+    [REPAIR] : (state, {payload}) => {
+        console.log("지점 수리보고서  전체조회 reducer : ", payload)
+        return payload;
+    }
+}, initialState)
+
+// 지점 수리보고서 세부조회
+const detailRepairReducer = handleActions({
+
+    [DETAILREPAIR] : (state, {payload}) => {
+        console.log("지점 수리보고서  세부조회 reducer : ", payload)
+        return payload;
+    }
+}, initialState)
+
+
+
+export  {branchSalesReducer , detailBranchSalesReducer
+    , vehicleRepairReducer , detailVehicleRepairReducer
+    , expenseReducer, detailExpenseReducer
+    , findAllRepairReducer, detailRepairReducer };

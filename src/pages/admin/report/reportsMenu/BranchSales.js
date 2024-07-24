@@ -1,7 +1,7 @@
 // BranchSales.js
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { callFindBranchSalesAPI, callFindExpenseAPI, callFindVehicleRepairAPI } from '../../../../apis/ReportAPICalls';
+import { callFindBranchSalesAPI, callFindExpenseAPI, callFindVehicleRepairAPI, callFindRepairAPI } from '../../../../apis/ReportAPICalls';
 import { useNavigate } from 'react-router-dom'; 
 import './BranchSales.css';
 
@@ -17,6 +17,8 @@ function BranchSales() {
   const expenseResult = useSelector(state => state.expenseReducer);
   // 차량수리보고서
   const result = useSelector(state => state.vehicleRepairReducer)
+  // 지점 수리보고서 
+  const repairResult = useSelector(state => state.findAllRepairReducer)
 
 
   useEffect(() => {
@@ -27,6 +29,8 @@ function BranchSales() {
       dispatch(callFindExpenseAPI())
     }else if (activeTable === '차량수리비') {
       dispatch(callFindVehicleRepairAPI())
+    }else if (activeTable === '시설물수리'){
+      dispatch(callFindRepairAPI())
     }
     
     // 이 주석은 ESLint 경고를 비활성화합니다.
@@ -125,11 +129,22 @@ function BranchSales() {
                 <th>지점명</th>
                 <th>종류</th>
                 <th>제출일</th>
+                <th>상태</th>
                 <th>상세보기</th>
               </tr>
             </thead>
             <tbody>
               {/* 시설물수리 데이터가 들어갈 부분 */}
+              {repairResult.map((repair) =>(
+                <tr key={repair.repairReportCode}>
+                <td>{repair.repairReportCode}</td>
+                <td>{repair.branchCode}</td>    {/* 지점명*/}
+                <td>{repair.facilityCode}</td>   {/* 종류 */}
+                <td>{new Date(repair.repairSubmissionDate).toLocaleDateString()}</td>
+                <td>{repair.repairReportStatus}</td> 
+                <td><button onClick={() => navigate(`/company/paper/reports/repairReports/${repair.repairReportCode}`)}>View</button></td>
+            </tr>
+              ))}
              
             </tbody>
           </table>

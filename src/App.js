@@ -23,6 +23,7 @@ import NewReports from './pages/admin/report/newReportsMenu/NewReports'
 import ExpenseDetail from './pages/admin/report/reportsMenu/ExpenseDetail';
 // import AdminBranchSales from './pages/admin/report/reportsMenu/AdminBranchSales';
 import VehicleRepairDetail from './pages/admin/report/reportsMenu/VehicleRepairDetail';
+import RepairDetail from './pages/admin/report/reportsMenu/RepairDetail'
 // /지점장
 import LocationMyReports from './pages/client/locationReports/locationMyReportsMenu/LocationMyReports';
 import LocationNewReports from './pages/client/locationReports/locationNewReportsMenu/LocationNewReports'; 
@@ -71,6 +72,7 @@ function App() {
                 {/* <Route path='reports/branchSales/admin/:branchReportCode' element={<AdminBranchSales/>}/> */}
                 <Route path='reports/expenseReports/:expenseReportCode' element={<ExpenseDetail/>}/>
                 <Route path='reports/vehicleRepair/:vehicleReportCode' element={<VehicleRepairDetail/>}/>
+                <Route path='reports/repairReports/:repairReportCode' element={<RepairDetail/>}/>
             </Route>
 
             <Route path="branch">
