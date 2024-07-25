@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { calldetailBranchSalesAPI } from '../../../../apis/ReportAPICalls';
+import axios from 'axios';
 import './BranchSalesDetail.css';
 import jwtDecode from 'jwt-decode';
 
@@ -9,22 +10,42 @@ function BranchSalesDetail() {
   const params = useParams();
   const dispatch = useDispatch();
   const branchSalesDetail = useSelector(state => state.detailBranchSalesReducer);
-  const members  = jwtDecode(window.localStorage.getItem('accessToken'))
+  const members = jwtDecode(window.localStorage.getItem('accessToken'));
   const navigate = useNavigate();
 
-  console.log('memers page',members)
+  console.log('members page', members);
 
   useEffect(() => {
     dispatch(calldetailBranchSalesAPI({
-        branchReportCode: params.branchReportCode
+      branchReportCode: params.branchReportCode
     }));
   }, [dispatch, params.branchReportCode]);
 
   const handleClose = () => {
     navigate('/company/paper/reports', { state: { activeTable: '매출' } });
-  }
+  };
 
+  const handleApproval = async () => {
+    try {
+      await axios.put(`/paper/company/reports/approve/${params.branchReportCode}`);
+      alert('승인되었습니다.');
+      navigate('/company/paper/reports', { state: { activeTable: '매출' } });
+    } catch (error) {
+      console.error('승인에 실패하였습니다.', error);
+      alert('승인에 실패하였습니다.');
+    }
+  };
 
+  const handleRejection = async () => {
+    try {
+      await axios.put(`/paper/company/reports/reject/${params.branchReportCode}`);
+      alert('반려되었습니다.');
+      navigate('/company/paper/reports', { state: { activeTable: '매출' } });
+    } catch (error) {
+      console.error('반려에 실패하였습니다.', error);
+      alert('반려에 실패하였습니다.');
+    }
+  };
 
   return (
     <div className="branchDetail_menu1_layout">
@@ -80,11 +101,12 @@ function BranchSalesDetail() {
           </table>
           <div className="formButtons">
             {
-              members.memberRole === 'a' && 
-              (<>
-                <button>승인</button>
-                <button>반려</button>
-              </>)
+              members.memberRole === 'a' && (
+                <>
+                  <button onClick={handleApproval}>승인</button>
+                  <button onClick={handleRejection}>반려</button>
+                </>
+              )
             }
             <button onClick={handleClose}>닫기</button>
           </div>
