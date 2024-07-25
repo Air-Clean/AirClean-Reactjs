@@ -2,12 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { callFindBranchSalesAPI, callFindExpenseAPI, callFindVehicleRepairAPI, callFindRepairAPI } from '../../../../apis/ReportAPICalls';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, useLocation } from 'react-router-dom'; 
 import './BranchSales.css';
 
 
 function BranchSales() {
-  const [activeTable, setActiveTable] = useState('매출'); // 초기값을 '매출'로 설정
+  const location = useLocation();
+  const [activeTable, setActiveTable] = useState(location.state?.activeTable || '매출'); // 초기값을 '매출'로 설정
   const dispatch = useDispatch();
   // 매출보고서 
   const branchSalesResult = useSelector(state => state.branchSalesReducer);

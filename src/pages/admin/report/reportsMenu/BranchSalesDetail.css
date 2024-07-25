@@ -79,3 +79,25 @@
   .reject-button {
     background-color: #f44336;
   }
+  .formButtons {
+    display: flex;
+    justify-content: flex-start; /* 버튼들을 왼쪽 정렬 */
+    margin-top: 20px;
+  }
+  
+  .formButtons button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px; /* 버튼 간의 간격을 위해 추가 */
+  }
+  
+  .formButtons button:first-child {
+    margin-left: 0; /* 첫 번째 버튼의 왼쪽 간격 제거 */
+  }
+  
+  .formButtons button:hover {
+    background-color: #0056b3;
+  }
