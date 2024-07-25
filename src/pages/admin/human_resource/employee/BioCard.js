@@ -21,12 +21,15 @@ import logo from '../../../../assets/logo2.png'
 import noProfile from '../../../../assets/no-profile.png'
 import EmployeeModifyModal from './EmployeeModifyModal';
 import { getPhoneNumber } from '../../../../utils/makePhoneNumber';
+import ReactDOMServer from 'react-dom/server'
 
 export default function BioCard({emp, setDeleteMember, deleteMember}) {
 
   
   
   console.log("biocard=============================")
+
+  
 
 
   function showBusinessCard() {
@@ -38,6 +41,10 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
     if(image.split('/')[4]==='null'){
       image = noProfile;
     }
+
+    const businessCardHtml = ReactDOMServer.renderToString(
+      <BusinessCard logo={logo} image={image} emp={emp} phone={phone} members={members}/>
+    )
 
   
     Swal.fire({
@@ -55,28 +62,7 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
         animate__faster
       `
     },
-        html: `
-
-    <div class="business-card">
-        <img src=${logo} alt="이미지 없음" class="top-text">
-        <div class="content">
-            <img src=${image} alt="사진 없음" class="profile">
-            <div class="name">${emp.memberDTO.memberName}</div>
-            <div class="handle">${emp.employeePosition}</div>
-            <div class="contact-info">
-                <div>${emp.employeeDept}</div>
-                <div>${emp.memberDTO.memberId}</div>
-                <hr>
-                <div>${phone}</div>
-                <div>${emp.memberDTO.memberEmail}</div>
-                <div>${emp.memberDTO.memberAddress}</div>
-            </div>
-            <div class="modifybutton">
-              <button class="button-19" id="modifyButton" role="button">Modify</button>
-            </div>
-        </div>
-    </div>
-        `,
+        html: businessCardHtml,
         width: 'auto',
         padding: '10px',
         background: 'transparent', // 배경 제거
@@ -85,8 +71,11 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
         },
         showConfirmButton: false,
         didRender: () => {
-          // Swal.fire가 렌더링 된 후에 이벤트 리스너를 추가합니다.
-          document.getElementById('modifyButton').addEventListener('click', toggle);
+      //     // Swal.fire가 렌더링 된 후에 이벤트 리스너를 추가합니다.
+          if(document.getElementById('modifyButton')){
+            document.getElementById('modifyButton').addEventListener('click', toggle);
+          }
+          
       }
     });
 }
@@ -94,6 +83,18 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
 
   const [highlight , setHighlight] = useState(false)
   const [modal,setModal] = useState(false);
+  const [form, setForm] = useState({
+    memberId: emp.memberDTO.memberId,
+    memberName: emp.memberDTO.memberName,
+    dept: emp.employeeDept,
+    position: emp.employeePosition,
+    isPass: false,
+    phone: emp.memberDTO.memberPhoneNumber,
+    email: emp.memberDTO.memberEmail,
+    address: emp.memberDTO.memberAddress,
+    image: null,
+    imagePreview: emp.memberDTO.memberImage,
+  });
 
   const members =jwtDecode(window.localStorage.getItem('accessToken'))
   
@@ -102,6 +103,18 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
 
     console.log('수정버튼');
     setModal(!modal)
+    setForm({
+      memberId: emp.memberDTO.memberId,
+      memberName: emp.memberDTO.memberName,
+      dept: emp.employeeDept,
+      position: emp.employeePosition,
+      isPass: false,
+      phone: emp.memberDTO.memberPhoneNumber,
+      email: emp.memberDTO.memberEmail,
+      address: emp.memberDTO.memberAddress,
+      image: null,
+      imagePreview: emp.memberDTO.memberImage,
+    });
     Swal.close();
 
   }
@@ -253,10 +266,37 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
         </CardActions>
       </CardOverflow>
     </Card>
-      <EmployeeModifyModal modal={modal} toggle={toggle} emp={emp}/>
+      <EmployeeModifyModal modal={modal} toggle={toggle} emp={emp} form={form} setForm={setForm}/>
     </Grid>
     
   );
 }
 
 
+function BusinessCard({ members, emp, logo, image , phone}) {
+  return (
+      <>
+      <div class="business-card">
+        <img src={logo} alt="이미지 없음" class="top-text"/>
+        <div class="content">
+            <img src={image} alt="사진 없음" class="profile"/>
+            <div class="name">{emp.memberDTO.memberName}</div>
+            <div class="handle">{emp.employeePosition}</div>
+            <div class="contact-info">
+                <div>{emp.employeeDept}</div>
+                <div>{emp.memberDTO.memberId}</div>
+                <hr/>
+                <div>{phone}</div>
+                <div>{emp.memberDTO.memberEmail}</div>
+                <div>{emp.memberDTO.memberAddress}</div>
+            </div>
+            {(members.memberRole === 'a' || members.sub === emp.memberDTO.memberId) &&
+            <div class="modifybutton">
+              <button class="button-19" id="modifyButton">Modify</button>
+            </div>
+            }
+        </div>
+    </div>
+      </>
+  );
+}

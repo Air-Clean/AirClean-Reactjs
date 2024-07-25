@@ -246,3 +246,154 @@ export const callBranchList=({current})=>{
         }
     }
 }
+
+export function callSoftDeleteBranch({deleteMember}){
+
+    console.log(JSON.stringify(deleteMember))
+    console.log("callSoftDeleteBranch 동작")
+    console.log("parameter 값",deleteMember)
+    
+    return async (dispatch,getState)=>{
+        const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch/soft-delete`;
+
+        console.log(requestUrl)
+        const result = await fetch(requestUrl,{
+            method : 'PUT',
+            headers :{
+                'Content-Type' : 'application/json',
+                Accept: "*/*",
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken'),
+            },
+            body : JSON.stringify(deleteMember)
+        }).then(res=>res.json())
+
+        if(result.status ===200){
+            console.log('삭제성공')
+            dispatch({type : EMPLOYEE , payload : result.data})
+        }
+    }
+
+
+}
+
+
+export function softDeleteBranch({current,amount}){
+    console.log('softDeleteEmployee 동작')
+
+    let requestURL= null;
+    
+    if(current){
+
+        if(amount){
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch/unstatus?offset=${current}&amount=${amount}`
+        }
+        else{
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch/unstatus?offset=${current}`
+        }
+    }else{
+        if(amount){
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch/unstatus?amount=${amount}`
+        }
+        else{
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch/unstatus`
+        }
+       
+    }
+
+    return async (dispatch,getStatae) =>{
+        const result= await fetch(requestURL,{
+            method : "GET",
+            headers : {
+                'Content-Type' : "application/json",
+                Accept : "*/*",
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+        
+        if(result.status===200){
+            dispatch({type: BRANCH , payload : result.data})
+        }
+    }
+}
+
+export function callBranchDeleteApi({killMember}){
+    console.log('callBranchDeleteApi 동작함',killMember)
+
+    const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch`
+    return async (dispatch, getState) =>{
+
+        const result = await fetch(requestUrl,{
+            method : 'DELETE',
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
+            },
+            body : JSON.stringify(killMember)
+        }).then(res=>res.json())
+
+        if(result.status===200){
+            dispatch({type : BRANCH , payload : result.data})
+        }
+
+    }
+}
+
+export function callBranchBackApi({saveMember}){
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch/status`;
+
+    console.log("callBranchBackApi url",requestURL)
+    return async (dispatch, getState) =>{
+        const result = await fetch(requestURL,{
+            method : "PUT",
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessItem')
+            },
+            body : JSON.stringify(saveMember)
+        }).then(res=>res.json())
+
+        if(result.status===200){
+            console.log('되살리기 성공')
+            dispatch({type : BRANCH , payload : result.data})
+        }
+    }
+}
+
+
+// driver
+
+export const callDriverList=({current})=>{
+    let requestURL;
+
+    if(current !== undefined || current !== null){
+        requestURL =`http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/driver?offset=${current}`;
+
+    }else{
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/driver`;
+    }
+
+    console.log('callDriverList 동작함')
+    console.log(requestURL)
+
+    console.log(window.localStorage.getItem('accessToken'))
+
+    return async (dispatch,getState)=>{
+        
+        const result = await fetch(requestURL,{
+            method : 'GET',
+            headers : {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+        }).then(res=>res.json())
+
+        if(result.status === 200){
+            console.log('callDriverList 조회 성공 ',result)
+
+            dispatch({type : EMPLOYEE , payload : result.data })
+        }
+    }
+}

@@ -17,21 +17,9 @@ import DaumPostcodeEmbed from "react-daum-postcode";
 import { useDispatch } from "react-redux";
 import { modifyEmployee } from "../../../../apis/HRAPICalls";
 
-export default function EmployeeModifyModal({ modal, toggle, emp }) {
+export default function EmployeeModifyModal({ modal, toggle, emp ,form , setForm }) {
   const dispatch = useDispatch();
 
-  const [form, setForm] = useState({
-    memberId: emp.memberDTO.memberId,
-    memberName: emp.memberDTO.memberName,
-    dept: emp.employeeDept,
-    position: emp.employeePosition,
-    isPass: false,
-    phone: emp.memberDTO.memberPhoneNumber,
-    email: emp.memberDTO.memberEmail,
-    address: emp.memberDTO.memberAddress,
-    image: null,
-    imagePreview: emp.memberDTO.memberImage,
-  });
 
   const [postcodeVisible, setPostcodeVisible] = useState(false);
 
