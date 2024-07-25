@@ -34,6 +34,7 @@ import StockHistory from './pages/admin/stock/StockHistory';
 import Branch from './pages/admin/branch/Branch';
 
 import Car from './pages/admin/car/Car';
+import MainPage from './pages/admin/main_page/MainPage';
 
 
 
@@ -53,10 +54,13 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/company" element={<Layout />}>
-            <Route index element={<AdminMenu1 />} />
-            <Route path="menu1" element={<AdminMenu1 />} />
-            <Route path="menu2" element={<AdminMenu2 />} />
+          <Route path="/company" element={<Layout/>}>
+            <Route index element={<MainPage/>}/>
+            <Route path='financial' element={<MainPage/>}>
+            
+            </Route>
+            
+            
 
             <Route path="stock">
               <Route index element={<StockApplication/>}/>

@@ -1,0 +1,93 @@
+.revenueContainer{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 33% 33% 33% !important;
+    grid-template-rows: 10% 40% 45% !important;
+    grid-template-areas: 
+        "title title title"
+        "month year pie"
+        "graph graph graph";
+    row-gap: 5px;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.title{
+    background-color: cyan;
+    grid-area: title;
+}
+
+.month{
+    background-color: green;
+    grid-area: month;
+    padding: 10px;
+}
+
+.year{
+    background-color: yellow;
+    grid-area: year;
+    padding: 10px;
+}
+
+#revenuePie{    
+    background-color: wheat;
+    grid-area: pie !important;
+}
+
+.revenueGraph{
+    background-color: darkorange;
+    grid-area: graph;
+    width: 100%;
+    height: 100%;
+}
+.buttonTitle{
+    font-size: large;
+    font-weight: bold;
+}
+.revenueButton{
+    background-color: cyan;
+    width: 100%;
+    height: 100%;
+    border-radius: 10%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    
+}
+.revenueButton:hover{
+    animation: pulse 1s;
+    cursor: pointer;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.money{
+
+    align-self: center;
+    margin-top: 18%;
+
+}
+
+
+/* .title{
+    height: 8%;
+    width: 20%;
+    font-weight: bold;
+    background-color: lightgray;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    margin-left: 10px;
+} */

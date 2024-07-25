@@ -3,6 +3,8 @@ import memberReducer from "./MemberModule";
 import askReducer from "./AskModule";
 import humanReducer from "./HRModule";
 
+import { branchReducer } from "./BranchModule";
+
 // 도아 - 보고서 
 import { branchSalesReducer , detailBranchSalesReducer
     , vehicleRepairReducer, detailVehicleRepairReducer
@@ -28,9 +30,9 @@ const rootReducer = combineReducers({
     
     detergentsInfoReducer,
     partsInfoReducer,
-    headStockHistoryReducer
+    headStockHistoryReducer,
 
-
+    branchReducer
 
 })
 

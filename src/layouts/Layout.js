@@ -12,6 +12,8 @@ function Layout() {
     const members = jwt_decode(window.localStorage.getItem('accessToken'))
 
     console.log("member toekn" ,members)
+    console.log('token' , window.localStorage.getItem('accessToken'))
+
     if (members.memberRole==='b') {
       return <ClientHeader />;
       
