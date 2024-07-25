@@ -52,7 +52,7 @@ const AdminHeader = () => {
               className={`${styles.menuItem} ${activeMenu === 1 ? styles.active : ''}`}
               onClick={() => changeColor(1)}
             >
-              <div>대쉬보드</div>
+              <div>재무분석</div>
             </li>
             <li
               className={`${styles.menuItem} ${activeMenu === 2 ? styles.active : ''}`}
@@ -95,14 +95,9 @@ const AdminHeader = () => {
             <div className={styles.dropdown}>
               <ul className={styles.dropdownMenu} style={{ textAlign: 'center' }}>
                 <li className={styles.menuItem1} onClick={() => changeColor(1)}>
-                  <NavLink to="menu1" activeClassName={styles.active}>menu1</NavLink>
+                  <NavLink to="financial" activeClassName={styles.active}>재무분석</NavLink>
                   <ul className={styles.submenu}>
-                    <li>
-                      <NavLink to="menu2" activeClassName={styles.active}>menu2</NavLink>
-                      <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-1-2" activeClassName={styles.active}>1-2</NavLink></li>
-                      </ul>
-                    </li>
+
                   </ul>
                 </li>
                 <li className={styles.menuItem2} onClick={() => changeColor(2)}>

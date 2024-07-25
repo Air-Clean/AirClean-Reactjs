@@ -1,0 +1,30 @@
+.expenditureContainer{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 90%;
+    grid-template-rows: 10% 43% 43%;
+    grid-template-areas: 
+                "title"
+                "bar"
+                "pie";
+    row-gap: 10px;
+    justify-content: center;
+}
+
+.expenditureTitle{
+    background-color: cyan;
+    grid-area: title;
+}
+
+.exBarGraph{
+    background-color: yellow;
+    grid-area: bar;
+    padding: 20px;
+    border-radius: 7px;
+}
+
+.exPieGraph{
+    background-color: green;
+    grid-area: pie;
+}
