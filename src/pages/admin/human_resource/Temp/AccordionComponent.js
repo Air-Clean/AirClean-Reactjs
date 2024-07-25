@@ -9,7 +9,7 @@ import { Avatar, Button } from "@mui/material";
 import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
-import "./AccordionComponent.css";
+import './AccordionComponent.css'
 import { getPhoneNumber } from "../../../../utils/makePhoneNumber";
 
 const Accordion = styled((props) => (
