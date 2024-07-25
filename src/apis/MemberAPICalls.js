@@ -1,72 +1,30 @@
-import { POST_LOGIN } from "../modules/MemberModule";
-import {FIND_MEMBER} from "../modules/AskModule";
+import { carList } from '../modules/CarModule'; // 올바른 경로로 수정
 
-export const callLoginAPI= ({ form }) => {
-    const requestURL= `http://${process.env.REACT_APP_RESTAPI_IP}:8080/auth/login`;
+export const callCarList = ({ current }) => {
+    let requestURL;
 
-    console.log('form 왔나',form)
+    if (current !== undefined && current !== null) {
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/cars?offset=${current}`;
+    } else {
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/cars`;
+    }
 
-    return async (dispatch,getState)=>{
+    console.log('callCarList 동작함');
+    console.log(requestURL);
 
-        const result = await fetch(requestURL,{
-            method: 'POST',
-            headers:{
-                'Content-Type':'application/json',
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
                 Accept: '*/*',
-                'Access-Control-Allow-Origin': '*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
-            body: JSON.stringify({
-                memberId: form.memberId,
-                memberPassword : form.memberPassword,
-            }),
-        }).then(res=>res.json());
+        }).then(res => res.json());
 
-        console.log('[MemberAPICalls] callLoginAPI RESULT : ', result);
-
-        if(result.status === 200){
-            window.localStorage.setItem('accessToken',result.userInfo.accessToken);
+        if (result.status === 200) {
+            console.log('callCarList 조회 성공 ', result);
+            dispatch(carList(result.data));
         }
-
-        dispatch({type : POST_LOGIN , payload:result})
-        
-    }
-}
-
-export function callLogoutAPI(){
-
-    return async (dispatch,getState) =>{
-        dispatch({
-            type : POST_LOGIN, payload: ''
-        })
-    }
-}
-
-export function callFindUserAPI({ form }){
-
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/auth/inquiry`
-    return async (dispatch,getState) => {
-        const result = await fetch(
-            requestURL,{
-                method : 'POST',
-                headers : {
-                    'Content-Type' : 'application/json',
-                    Accept : '*/*',
-                    'Access-Control-Allow-Origin' : '*'
-                },
-                body : JSON.stringify({
-                    memberName : form.memberName,
-                    memberPhone : form.memberPhone,
-                    memberEmail : form.memberEmail,
-                    memberRole : form.memberRole,
-                    askDescription : form.askDescription,
-                })
-            }
-        ).then(res=>res.json())
-
-        console.log('[callFindUserAPI] callFindUserAPI result : ',result)
-
-        dispatch({
-            type : FIND_MEMBER , payload : result
-        })
-    }
-}
+    };
+};

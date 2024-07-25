@@ -2,6 +2,8 @@ import { combineReducers } from "redux";
 import memberReducer from "./MemberModule";
 import askReducer from "./AskModule";
 import humanReducer from "./HRModule";
+import carReducer from "./CarModule";
+
 
 import { branchReducer } from "./BranchModule";
 
@@ -14,10 +16,12 @@ import { branchSalesReducer , detailBranchSalesReducer
 import {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer}  from "./StockModule";
 
 
+
 const rootReducer = combineReducers({
     memberReducer,
     askReducer,
     humanReducer,
+    carReducer,
 
     branchSalesReducer,
     detailBranchSalesReducer,
@@ -36,4 +40,7 @@ const rootReducer = combineReducers({
 
 })
 
+
+
 export default rootReducer;
+

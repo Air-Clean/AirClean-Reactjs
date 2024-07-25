@@ -1,19 +1,26 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {callDetailRepairAPI} from '../../../../apis/ReportAPICalls';
 import './BranchSalesDetail.css';
+import jwtDecode from 'jwt-decode';
 
 function RepairDetail() {
   const params = useParams();
   const dispatch = useDispatch();
   const repairDetail = useSelector(state => state.detailRepairReducer);
+  const members = jwtDecode(window.localStorage.getItem('accessToken'))
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(callDetailRepairAPI({
         repairReportCode: params.repairReportCode
     }));
   }, [dispatch, params.repairReportCode]);
+
+  const handleClose = () => {
+    navigate('/company/paper/reports', { state: { activeTable: '시설물수리' } });
+  }
 
   console.log('여까지 왔어?')
   return (
@@ -52,6 +59,16 @@ function RepairDetail() {
               </tr>
             </tbody>
           </table>
+          <div className="formButtons">
+            {
+              members.memberRole === 'a' && 
+              (<>
+                <button>승인</button>
+                <button>반려</button>
+              </>)
+            }
+            <button onClick={handleClose}>닫기</button>
+          </div>
         </div>
       </div>
     </div>
