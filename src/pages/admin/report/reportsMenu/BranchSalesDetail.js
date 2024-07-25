@@ -1,19 +1,30 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { calldetailBranchSalesAPI } from '../../../../apis/ReportAPICalls';
 import './BranchSalesDetail.css';
+import jwtDecode from 'jwt-decode';
 
 function BranchSalesDetail() {
   const params = useParams();
   const dispatch = useDispatch();
   const branchSalesDetail = useSelector(state => state.detailBranchSalesReducer);
+  const members  = jwtDecode(window.localStorage.getItem('accessToken'))
+  const navigate = useNavigate();
+
+  console.log('memers page',members)
 
   useEffect(() => {
     dispatch(calldetailBranchSalesAPI({
         branchReportCode: params.branchReportCode
     }));
   }, [dispatch, params.branchReportCode]);
+
+  const handleClose = () => {
+    navigate('/company/paper/reports', { state: { activeTable: '매출' } });
+  }
+
+
 
   return (
     <div className="branchDetail_menu1_layout">
@@ -67,6 +78,16 @@ function BranchSalesDetail() {
               </tr>
             </tbody>
           </table>
+          <div className="formButtons">
+            {
+              members.memberRole === 'a' && 
+              (<>
+                <button>승인</button>
+                <button>반려</button>
+              </>)
+            }
+            <button onClick={handleClose}>닫기</button>
+          </div>
         </div>
       </div>
     </div>

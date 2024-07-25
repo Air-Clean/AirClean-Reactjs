@@ -1,19 +1,28 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { callDetailExpenseAPI } from '../../../../apis/ReportAPICalls';
 import './BranchSalesDetail.css';
+import jwtDecode from 'jwt-decode';
 
 function ExpenseDetail() {
   const params = useParams();
   const dispatch = useDispatch();
   const expenseDetail = useSelector(state => state.detailExpenseReducer);
+  const members  = jwtDecode(window.localStorage.getItem('accessToken'))
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     dispatch(callDetailExpenseAPI({
       expenseReportCode: params.expenseReportCode
     }));
   }, [dispatch, params.expenseReportCode]);
+
+  const handleClose = () => {
+    navigate('/company/paper/reports', { state: { activeTable: '지출' } });
+  }
+
 
   console.log('여까지 왔어?')
   return (
@@ -56,6 +65,16 @@ function ExpenseDetail() {
               </tr>
             </tbody>
           </table>
+          <div className="formButtons">
+            {
+              members.memberRole === 'a' && 
+              (<>
+                <button>승인</button>
+                <button>반려</button>
+              </>)
+            }
+            <button onClick={handleClose}>닫기</button>
+          </div>
         </div>
       </div>
     </div>
@@ -66,3 +85,4 @@ function ExpenseDetail() {
 
 console.log('여기는 왔니...?')
 export default ExpenseDetail;
+
