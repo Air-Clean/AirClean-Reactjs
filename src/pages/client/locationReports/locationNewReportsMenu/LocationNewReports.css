@@ -1,0 +1,110 @@
+/* 전체 레이아웃 */
+.menu1_layout {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    background-color: rgb(211, 211, 211);
+  }
+  
+  .flex_wrap {
+    width: 80vw; /* 너비를 80%로 설정하여 흰색 배경을 벗어나지 않도록 함 */
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    padding-left: 40px;  /* 왼쪽 패딩 추가 */
+    padding-right: 40px; /* 오른쪽 패딩 추가 */
+  }
+  
+  /* 보고서 작성 페이지 css */
+  /* .report-create {
+    width: 100%;
+    margin: 20px 0; 
+  }
+   */
+  /* .report-create h1 {
+    font-size: 45px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 10px;
+  } */
+  
+  /* .button-group {
+    display: flex;
+    justify-content: end; 
+    margin-bottom: 20px;
+  } */
+/*   
+  .register-button,
+  .create-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .register-button:hover,
+  .create-button:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .report-table th, .report-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .report-table th {
+    background-color: #f2f2f2;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .detail-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .detail-button:hover {
+    background-color: #333;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .pagination button:focus {
+    background-color: #000;
+    color: #fff;
+  }
+   */
