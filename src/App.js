@@ -30,6 +30,8 @@ import LocationNewReports from './pages/client/locationReports/locationNewReport
 
 import StockApplication from './pages/admin/stock/StockApplication';
 import StockHistory from './pages/admin/stock/StockHistory';
+import StockHistoryLayout from './pages/admin/stock/StockHistoryLayout';
+import BranchOrderHistory from './pages/admin/stock/BranchOrderHistory';
 
 import Branch from './pages/admin/branch/Branch';
 
@@ -61,7 +63,11 @@ function App() {
             <Route path="stock">
               <Route index element={<StockApplication/>}/>
               <Route path='application' element={<StockApplication/>}/>
-              <Route path='history' element={<StockHistory/>}/>
+              <Route path='history' element={<StockHistoryLayout/>}>
+                <Route index element={<StockHistory/>}/>
+                <Route path='headquaters' element={<StockHistory/>}/>
+                <Route path='branch' element={<BranchOrderHistory/>}/>
+              </Route>
             </Route>
 
             <Route path="paper">

@@ -4,7 +4,7 @@ import StockBarChart from './StockBarChart';
 import PartStockBarChart from './PartStockBarChart';
 import { callDetergentsInfoAPI, callPartsInfoAPI } from '../../../apis/StockAPICalls';
 import jwtDecode from "jwt-decode";
-import { C } from '@table-library/react-table-library/Cell-a4350b14';
+import './StockApplication.css'; // CSS 파일을 import
 
 function StockApplication() {
   const [detergents, setDetergents] = useState([]);
@@ -229,10 +229,6 @@ function StockApplication() {
     }
   };
 
-
-  
-  
-
   const getLabels = (data) => data.map(item => item.name);
   const getDataValues = (data) => data.map(item => item.stockPercent);
   const getOriginalValues = (data) => data.map(item => item.stock);
@@ -245,8 +241,9 @@ function StockApplication() {
 
   return (
     <div className='menu1_layout'>
-      <div className='flex_wrap'>
-        <div style={{ padding: '20px' }}>
+      <div className='flex_wrap' style={{ display: 'flex', flexDirection: 'column' }}>
+      <div className='chart_section'>
+        <div className='chart_container'>
           <h2>Detergents</h2>
           <StockBarChart
             labels={getLabels(detergents)}
@@ -257,9 +254,9 @@ function StockApplication() {
             onMaxClick={handleMaxClick}
             showOriginalValue={false}
           />
+        </div>
 
-          <div style={{ margin: '40px 0' }} /> 
-
+        <div className='chart_container'>
           <h2>Parts</h2>
           <PartStockBarChart
             labels={getLabels(parts)}
@@ -270,9 +267,11 @@ function StockApplication() {
             onMaxClick={handlePartsMaxClick}
             showOriginalValue={true}
           />
+        </div>
+      </div>
 
-          <div style={{ margin: '40px 0' }} /> 
-
+      <div className='tables_section'>
+        <div className='table_container'>
           <h2>Detergents Table</h2>
           <table style={{ width: '70%', borderCollapse: 'collapse', textAlign: 'center' }}>
             <thead>
@@ -290,9 +289,9 @@ function StockApplication() {
               </tr>
             </tbody>
           </table>
+        </div>
 
-          <div style={{ margin: '40px 0' }} /> 
-
+        <div className='table_container'>
           <h2>Parts Table</h2>
           <table style={{ width: '70%', borderCollapse: 'collapse', textAlign: 'center' }}>
             <thead>
@@ -310,9 +309,12 @@ function StockApplication() {
               </tr>
             </tbody>
           </table>
-
-          <button onClick={handleSubmit}>신청</button>
         </div>
+      </div>
+
+      <div className='submit_section'>
+        <button onClick={handleSubmit}>신청</button>
+      </div>
       </div>
     </div>
   );
