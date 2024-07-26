@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink,useNavigate} from 'react-router-dom';
 import styles from './Header.module.css';
 import logo from '../../assets/logo2.png'; // 로고 이미지 경로를 알맞게 수정하세요
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { callLogoutAPI } from '../../apis/MemberAPICalls';
 import jwtDecode from 'jwt-decode';
 
@@ -52,7 +52,7 @@ const AdminHeader = () => {
               className={`${styles.menuItem} ${activeMenu === 1 ? styles.active : ''}`}
               onClick={() => changeColor(1)}
             >
-              <div>대쉬보드</div>
+              <div>재무분석</div>
             </li>
             <li
               className={`${styles.menuItem} ${activeMenu === 2 ? styles.active : ''}`}
@@ -95,14 +95,9 @@ const AdminHeader = () => {
             <div className={styles.dropdown}>
               <ul className={styles.dropdownMenu} style={{ textAlign: 'center' }}>
                 <li className={styles.menuItem1} onClick={() => changeColor(1)}>
-                  <NavLink to="menu1" activeClassName={styles.active}>menu1</NavLink>
+                  <NavLink to="financial" activeClassName={styles.active}>재무분석</NavLink>
                   <ul className={styles.submenu}>
-                    <li>
-                      <NavLink to="menu2" activeClassName={styles.active}>menu2</NavLink>
-                      <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-1-2" activeClassName={styles.active}>1-2</NavLink></li>
-                      </ul>
-                    </li>
+
                   </ul>
                 </li>
                 <li className={styles.menuItem2} onClick={() => changeColor(2)}>
@@ -128,13 +123,13 @@ const AdminHeader = () => {
                   </ul>
                 </li>
                 <li className={styles.menuItem5} onClick={() => changeColor(5)}>
-                <NavLink to="#submenu1-5" activeClassName={styles.active}>5</NavLink>
+                <NavLink to="stock/application" activeClassName={styles.active}>재고관리</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="#submenu1-5-1" activeClassName={styles.active}>5-1</NavLink>
-                      <ul className={styles.submenu}>
+                      <NavLink to="stock/history" activeClassName={styles.active}>내역조회</NavLink>
+                      {/* <ul className={styles.submenu}>
                         <li><NavLink to="#submenu1-5-2" activeClassName={styles.active}>5-2</NavLink></li>
-                      </ul>
+                      </ul> */}
                     </li>
                   </ul>
                 </li>

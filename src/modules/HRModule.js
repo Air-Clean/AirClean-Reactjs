@@ -6,7 +6,7 @@ export const DRIVER = 'DRIVER'
 
 const initState = [];
 
-const actions = createActions({
+createActions({
     [EMPLOYEE] : ()=>{},
     [BRANCH] : ()=>{},
     [DRIVER] : ()=>{},
@@ -15,6 +15,9 @@ const actions = createActions({
 const humanReducer = handleActions({
     [EMPLOYEE] : (state,{payload})=>{
         return payload;
+    },
+    [BRANCH] : (state,{payload})=>{
+        return payload
     }
 },initState)
 

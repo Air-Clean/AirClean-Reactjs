@@ -8,6 +8,10 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import './Searchcss.css';
+import { useState } from "react";
+import RegistEmployee from "./employee/RegistEmployee";
+
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,17 +55,34 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Searchbar() {
+export default function Searchbar({isRegist , setIsRegist}) {
+
+  const [regist,setRegist] = useState(false);
+
+  console.log('주소',window.location.pathname)
+
+  const url = window.location.pathname;
+  const currentPosition = url.split('/')[3]
+
+  console.log('현재 위치',currentPosition)
+  
+  const openModal = () =>{
+    setRegist(!regist);
+  }
+  
+ 
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={registModalHandler}
           >
             <MenuIcon />
           </IconButton>
@@ -72,7 +93,8 @@ export default function Searchbar() {
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
             MUI
-          </Typography>
+          </Typography> */}
+          <button class="button-54" role="button" onClick={openModal}>{amI(currentPosition)} 등록</button>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -84,6 +106,17 @@ export default function Searchbar() {
           </Search>
         </Toolbar>
       </AppBar>
+      <RegistEmployee  regist={regist} openModal={openModal} />
     </Box>
+  
   );
+}
+
+function amI(currentPosition){
+  switch(currentPosition){
+    case 'employee' : return '사원'
+    case 'branch' : return '지점장'
+    case 'driver' : return '차량기사'
+    default : return undefined;
+  }
 }

@@ -1,0 +1,115 @@
+.menu1_layout {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    background-color: rgb(211, 211, 211);
+}
+
+.flex_wrap {
+    width: 80vw; /* 너비를 80%로 설정하여 흰색 배경을 벗어나지 않도록 함 */
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    padding-left: 40px;  /* 왼쪽 패딩 추가 */
+    padding-right: 40px; /* 오른쪽 패딩 추가 */
+}
+
+/* 차트 섹션 스타일 */
+.chart_section {
+    display: flex;
+    flex-direction: column; /* 세로로 정렬 */
+    margin-bottom: 20px;
+  }
+  
+  .chart_container {
+    margin-bottom: 20px; /* 차트 간의 여백 */
+  }
+  
+  /* 테이블 섹션 스타일 */
+  .tables_section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .table_container {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .table_container:last-child {
+    margin-right: 0;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+  }
+  
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  thead {
+    background-color: #f2f2f2;
+  }
+  
+  /* 제출 버튼 섹션 스타일 */
+  .submit_section {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .submit_section button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .submit_section button:hover {
+    background-color: #0056b3;
+  }
+  
+  .submit_section button:active {
+    transform: scale(0.98);
+  }
+  
+  /* Max 버튼 섹션 스타일 */
+  .max_button_section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .max_button {
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 0 10px;
+  }
+  
+  .max_button:hover {
+    background-color: #218838;
+  }
+  
+  .max_button:active {
+    transform: scale(0.98);
+  }
+  
+  /* 제목 스타일 */
+  h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }

@@ -39,7 +39,7 @@ const AdminHeader = () => {
           </div>
           <div className={styles.actions}>
             <p className={styles.alarm}>알림</p>
-            <button className={styles.signUp}>Log out</button>
+            <button className={styles.signUp}  onClick={logoutHandler}>Log out</button>
           </div>
         </header>
       </div>
@@ -92,13 +92,13 @@ const AdminHeader = () => {
                   </ul>
                 </li>
                 <li className={styles.menuItem2} onClick={() => changeColor(2)}>
-                  <NavLink to="#submenu1-2" activeClassName={styles.active}>2</NavLink>
+                  <NavLink to="paper/locationNewReports" activeClassName={styles.active}>보고서 양식</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="#submenu1-2-1" activeClassName={styles.active}>2-1</NavLink>
-                      <ul className={styles.submenu}>
+                      <NavLink to="paper/myReports" activeClassName={styles.active}>보고서 조회</NavLink>
+                      {/* <ul className={styles.submenu}>
                         <li><NavLink to="#submenu1-2-2" activeClassName={styles.active}>2-2</NavLink></li>
-                      </ul>
+                      </ul> */}
                     </li>
                   </ul>
                 </li>

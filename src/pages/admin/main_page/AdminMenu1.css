@@ -1,0 +1,54 @@
+.menu1_layout {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  background-color: rgb(211, 211, 211);
+
+}
+
+.flex_wrap {
+  /* width: 80vw; */
+  
+  background-color: rgb(255, 255, 255);
+  display: grid;
+  grid-template-columns: 55% 35%;
+  grid-template-rows: 8vh 60vh 30vh;
+  grid-template-areas: 
+              "header header"
+              "revenue expenditure"
+              "utility top";
+  place-content: space-between center;
+}
+
+.headerBox{
+  background-color: cyan;
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.revenueBox{
+  background-color: brown;
+  grid-area: revenue;
+  border-radius: 5px;
+}
+
+.expenditureBox{
+  background-color: blue;
+  grid-area: expenditure;
+  border-radius: 5px;
+}
+
+.utilityBox{
+  background-color: blueviolet;
+  grid-area: utility;
+  border-radius: 5px;
+}
+
+.topBox{
+  background-color: bisque;
+  grid-area: top;
+  border-radius: 5px;
+}
+
