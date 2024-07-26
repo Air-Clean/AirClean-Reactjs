@@ -1,21 +1,18 @@
-// import { createActions, handleActions } from "redux-actions";
+import { createActions, handleActions } from "redux-actions";
 
-// // 초기값
-// const initialState = {
-//     carList: []
-// };
+const initialState = [];
 
-// export const CARLIST = 'CARLIST';
+export const CARINFOLIST = 'CARINFOLIST'
 
-// const actions = createActions({
-//     [CARLIST]: () => [],
-// });
+createActions({
+    [CARINFOLIST]: ()=>{}
+})
 
-// const carReducer = handleActions({
-//     [CARLIST]: (state, { payload }) => {
-//         console.log('리듀서 payload :', payload);
-//         return { ...state, carList: payload };
-//     }
-// }, initialState);
+const carInfoReducer = handleActions({
+    [CARINFOLIST]: (state, {payload}) => {
+        console.log('차량정보리스트리듀서 payload : ', payload)
+        return payload;
+    }
+}, initialState)
 
-// export default carReducer;
+export default carInfoReducer;

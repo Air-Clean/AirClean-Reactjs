@@ -4,6 +4,7 @@ import askReducer from "./AskModule";
 import humanReducer from "./HRModule";
 import carReducer from "./CarModule";
 
+import carInfoReducer from "./CarModule";
 
 import { branchReducer } from "./BranchModule";
 
@@ -22,6 +23,8 @@ const rootReducer = combineReducers({
     askReducer,
     humanReducer,
     carReducer,
+
+    carInfoReducer,
 
     branchSalesReducer,
     detailBranchSalesReducer,
