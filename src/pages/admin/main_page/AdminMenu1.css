@@ -10,18 +10,25 @@
   /* width: 80vw; */
   
   background-color: rgb(255, 255, 255);
+  
+}
+
+.mainContainer{
+  height: 100%;
+  width: 100%;
   display: grid;
   grid-template-columns: 55% 35%;
-  grid-template-rows: 8vh 60vh 30vh;
+  grid-template-rows: 8vh 60vh 35vh;
   grid-template-areas: 
               "header header"
               "revenue expenditure"
               "utility top";
-  place-content: space-between center;
+  /* place-content: space-between center; */
+  justify-content: center;
+  gap : 10px 10px;
 }
-
 .headerBox{
-  background-color: cyan;
+  /* background-color: cyan; */
   grid-area: header;
   display: flex;
   justify-content: space-between;
@@ -29,26 +36,41 @@
 }
 
 .revenueBox{
-  background-color: brown;
+  background-color: #fbfcfe;
+  border: 1px solid #cfd7e0;
   grid-area: revenue;
   border-radius: 5px;
 }
 
 .expenditureBox{
-  background-color: blue;
+  background-color: #fbfcfe;
+  border: 1px solid #cfd7e0;
   grid-area: expenditure;
   border-radius: 5px;
 }
 
 .utilityBox{
-  background-color: blueviolet;
+  background-color: #fbfcfe;
+  border: 1px solid #cfd7e0;
   grid-area: utility;
   border-radius: 5px;
+  padding: 10px;
 }
 
 .topBox{
-  background-color: bisque;
+  background-color: #fbfcfe;
+  border: 1px solid #cfd7e0;
   grid-area: top;
   border-radius: 5px;
+  padding: 10px;
 }
-
+.titleBox{
+  background-color: rgb(188, 188, 188);
+  height: 70%;
+  width: 10vw;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: left;
+  color: white;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}

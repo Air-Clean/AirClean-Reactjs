@@ -21,6 +21,7 @@ function MainPage() {
             <div className="menu1_layout">
                 
                 <div className='flex_wrap'>
+                    <div className='mainContainer'>
                     <div className='headerBox'>
                         <MainHeader com={com} setCom={setCom} setFirm={setFirm} firm={firm}/>
                     </div>
@@ -36,6 +37,8 @@ function MainPage() {
                     <div className='topBox'>
                         <TopBox com={com}/>
                     </div>
+                    </div>
+                    
                 </div>
                 
             </div>

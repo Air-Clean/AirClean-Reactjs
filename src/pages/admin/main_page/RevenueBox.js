@@ -7,12 +7,13 @@ import 'animate.css'
 
 export default function RevenueBox({ com, firm }) {
 
-    const [num, setNum] = useState(331231);
+    const [num, setNum] = useState(11331231);
 
     return (
         <div className='revenueContainer'>
             <div className='title'>
-                <div>{(!com || com === 'Total') ? 'Total' : firm}</div>
+                <div className='titleBox'>Revenue</div>
+                {/* <div>{(!com || com === 'Total') ? 'Total' : firm}</div> */}
             </div>
             <div className='month'>
                 <div className='revenueButton animate__animated'>
@@ -24,12 +25,12 @@ export default function RevenueBox({ com, firm }) {
                             // className={styles.revenueButton}
                             transitions={(index) => ({
                                 type: "ease-out-expo",
-                                duration: index + 0.3,
+                                duration: index * 0.1,
                             })}
                             animateToNumber={num}
                             fontStyle={{
                                 fontSize: 40,
-                                color: "black",
+                                color: "white",
                             }}
                         />
                     </div>
@@ -37,7 +38,7 @@ export default function RevenueBox({ com, firm }) {
             </div>
             <div className='year'>
                 <div className='revenueButton' style={{ display: 'flex' }}>
-                    <div className='buttonTitle'>Year Revenue</div>
+                    <div className='buttonTitle'>Annual Revenue</div>
                     <div style={{display : 'flex'}} className='money'>
                         <span>\</span>
                         <AnimatedNumbers
@@ -45,12 +46,12 @@ export default function RevenueBox({ com, firm }) {
                             // className={styles.revenueButton}
                             transitions={(index) => ({
                                 type: "ease-out-expo",
-                                duration: index + 0.3,
+                                duration: index * 0.1,
                             })}
                             animateToNumber={num}
                             fontStyle={{
                                 fontSize: 40,
-                                color: "black",
+                                color: "white",
                             }}
                         />
                     </div>

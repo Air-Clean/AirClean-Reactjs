@@ -3,7 +3,7 @@
     height: 100%;
     display: grid;
     grid-template-columns: 90%;
-    grid-template-rows: 10% 43% 43%;
+    grid-template-rows: 10% 43% 40%;
     grid-template-areas: 
                 "title"
                 "bar"
@@ -13,18 +13,24 @@
 }
 
 .expenditureTitle{
-    background-color: cyan;
+    /* background-color: cyan; */
     grid-area: title;
+    display: flex;
+    align-items: center;
 }
 
 .exBarGraph{
-    background-color: yellow;
+    /* background-color: yellow; */
+    border: 1px solid #cfd7e0;
     grid-area: bar;
     padding: 20px;
     border-radius: 7px;
 }
 
 .exPieGraph{
-    background-color: green;
+    /* background-color: green; */
+    border: 1px solid #cfd7e0;
     grid-area: pie;
+    padding: 10px;
+    border-radius: 7px;
 }

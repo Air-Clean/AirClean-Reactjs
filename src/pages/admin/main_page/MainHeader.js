@@ -4,6 +4,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { ListSubheader } from '@mui/material';
 import './MainHeaderCss.css'
+import 'animate.css'
 
 import { useEffect } from 'react';
 import { useDispatch , useSelector } from 'react-redux';
@@ -47,13 +48,12 @@ export default function MainHeader({ com, setCom , firm , setFirm}) {
     
     return (
         <>
-            <div>
-                <div className='mainTitle'>{(!com || com==='Total')? 'Total' : firm}</div>
-                <div className='underLine'></div>
+            <div className='mainHeaderBox'>
+                <div className='titleBox'>{(!com || com==='Total')? 'Total' : firm}</div>
             </div>
             <div>
-                <FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
-                    <InputLabel id="demo-simple-select-standard-label">Company</InputLabel>
+                <FormControl variant="standard" sx={{ m: 4, minWidth: 250 }}>
+                    <InputLabel id="demo-simple-select-standard-label" style={{fontWeight : 'bold'}}>Company</InputLabel>
                     <Select
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"

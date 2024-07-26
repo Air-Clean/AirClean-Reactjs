@@ -1,0 +1,24 @@
+.pieGraphContainer{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-columns: 100%;
+    grid-template-rows: 13% 85%;
+    grid-template-areas: 
+                    "title"
+                    "content";
+    gap: 5px;
+}
+
+.pieGraphTitle{
+    /* background-color: cyan; */
+    grid-area: title;
+}
+
+.pieGraphContent{
+    /* background-color: yellow; */
+    grid-area: content;
+    display: flex;
+    justify-content: flex-start !important;
+}
+

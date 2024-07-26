@@ -9,8 +9,10 @@ import { Avatar, Button } from "@mui/material";
 import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
-import './AccordionComponent.css'
+import "./AccordionComponent.css";
 import { getPhoneNumber } from "../../../../utils/makePhoneNumber";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -149,24 +151,28 @@ function AccordionComponent({
                 gap: "1px",
               }}
             >
-              <Button
-                disabled={isSave}
-                onClick={handleDeleteClick}
-                name={emp.memberDTO.memberId}
-              >
-                <Avatar style={{ backgroundColor: canDelete && "red" }}>
+              <Tooltip title="Delete">
+                <IconButton
+                  disabled={isSave}
+                  onClick={handleDeleteClick}
+                  name={emp.memberDTO.memberId}
+                >
+                  <Avatar style={{ backgroundColor: canDelete && "red" }}>
                   <DeleteIcon />
-                </Avatar>
-              </Button>
-              <Button
-                disabled={isDelete}
-                onClick={handleRotateClick}
-                name={emp.memberDTO.memberId}
-              >
-                <Avatar style={{ backgroundColor: canSave && "blue" }}>
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='RollBack'>
+                <IconButton
+                  disabled={isDelete}
+                  onClick={handleRotateClick}
+                  name={emp.memberDTO.memberId}
+                >
+                  <Avatar style={{ backgroundColor: canSave && "blue" }}>
                   <RotateLeftIcon />
-                </Avatar>
-              </Button>
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
             </div>
           </div>
         </AccordionSummary>
@@ -175,13 +181,15 @@ function AccordionComponent({
             <div className="info-container">
               <div className="info-group left">
                 <div className="info-item">
-                  <strong>Name : </strong> <span>{emp.memberDTO.memberName}</span>
+                  <strong>Name : </strong>{" "}
+                  <span>{emp.memberDTO.memberName}</span>
                 </div>
                 <div className="info-item">
                   <strong>ID : </strong> <span>{emp.memberDTO.memberId}</span>
                 </div>
                 <div className="info-item">
-                  <strong>Position :</strong> <span>{emp.employeePosition}</span>
+                  <strong>Position :</strong>{" "}
+                  <span>{emp.employeePosition}</span>
                 </div>
                 <div className="info-item">
                   <strong>Department :</strong> <span>{emp.employeeDept}</span>
