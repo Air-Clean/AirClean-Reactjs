@@ -1,0 +1,104 @@
+.HISTORY-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.HISTORY-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 28px; /* 제목 크기 */
+    font-weight: bold; /* 굵게 */
+    text-transform: uppercase; /* 대문자로 변환 */
+    letter-spacing: 1.5px; /* 글자 간격 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    padding: 10px; /* 패딩 추가 */
+    /* background-color: #e3f2fd; */
+    border-radius: 5px; /* 둥근 테두리 */
+}
+
+.HISTORY-table-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.HISTORY-table {
+    width: 90%;
+    max-width: 1100px;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px; /* 둥근 테두리 */
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+.HISTORY-table th, .HISTORY-table td {
+    padding: 15px; /* 패딩 증가 */
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.HISTORY-table th {
+    background-color: #2196f3;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase; /* 대문자로 변환 */
+    letter-spacing: 1px; /* 글자 간격 */
+}
+
+.HISTORY-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.HISTORY-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.HISTORY-table td {
+    font-size: 16px; /* 글자 크기 증가 */
+    color: #333;
+}
+
+.HISTORY-detergents, .HISTORY-parts {
+    margin: 20px 0;
+}
+
+.HISTORY-empty-message {
+    text-align: center;
+    color: #666;
+    font-size: 18px; /* 글자 크기 증가 */
+}
+
+/* 네비게이션 바 */
+/* .stock_navbar {
+    display: flex;
+    justify-content: flex-end; 
+    padding: 10px 20px; 
+    background-color: #f4f4f4;
+    width: 100%;
+    box-sizing: border-box; 
+}
+
+.stock_nav-button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none; 
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+    min-width: 100px; 
+    margin-left: 10px;
+}
+
+.stock_nav-button:hover {
+    background-color: #0056b3; 
+} */

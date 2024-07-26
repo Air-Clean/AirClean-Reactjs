@@ -29,22 +29,22 @@ function StockBarChart({ labels, dataValues, inputValues, originalValues, onInpu
   const options = {
     indexAxis: 'y',
     scales: {
-      x: {
+        x: {
         beginAtZero: true,
         max: 100,
-      },
+        },
     },
     plugins: {
-      tooltip: {
+        tooltip: {
         callbacks: {
-          label: function (context) {
+            label: function (context) {
             return `${originalValues[context.dataIndex]} units`; // 원래 stock 값으로 표시
-          },
+            },
         },
-      },
+        },
     },
     barThickness: 15, // 막대의 두께 설정
-  };
+    };
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', width: '35vw' }}>
@@ -67,7 +67,7 @@ function StockBarChart({ labels, dataValues, inputValues, originalValues, onInpu
           </div>
         ))}
       </div>
-      <button onClick={onMaxClick} style={{ marginLeft: '10px' }}>Max</button>
+      <button className='stock_max_button' onClick={onMaxClick} style={{ marginLeft: '10px' }}>Max</button>
     </div>
   );
 }

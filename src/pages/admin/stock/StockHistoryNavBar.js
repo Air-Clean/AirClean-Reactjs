@@ -5,13 +5,25 @@ function StockHistoryNavBar() {
 
     const activeStyle = {
         backgroundColor: '#007BFF',
-        color: 'black',
+        color: 'white',
     };
 
-    return(
+    return (
         <div className="stock_navbar">
-            <NavLink to="/company/stock/history/headquaters" style={({isActive}) => isActive ? activeStyle : undefined} className="stock_nav-button">신청 내역</NavLink>
-            <NavLink to="/company/stock/history/branch" style={({isActive}) => isActive ? activeStyle : undefined} className="stock_nav-button">발주 신청</NavLink>
+            <NavLink 
+                to="/company/stock/history/headquaters" 
+                style={({ isActive }) => isActive ? activeStyle : undefined} 
+                className="stock_nav-button"
+            >
+                신청 내역
+            </NavLink>
+            <NavLink 
+                to="/company/stock/history/branch" 
+                style={({ isActive }) => isActive ? activeStyle : undefined} 
+                className="stock_nav-button"
+            >
+                발주 신청
+            </NavLink>
         </div>
     );
 }
