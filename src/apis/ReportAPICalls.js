@@ -2,7 +2,9 @@
 import { BRANCHSALES, DETAILBRANCHSALES
   , VEHICLEREPAIR, DETAILVEHICLEREPAIR
   , EXPENSE, DETAILEXPENSE
-  , REPAIR, DETAILREPAIR } from "../modules/ReportsModule";
+  , REPAIR, DETAILREPAIR 
+  , CARMEMBERS
+} from "../modules/ReportsModule";
 
 // 매출보고서 전체 조회 API
 export const callFindBranchSalesAPI = () => {
@@ -127,6 +129,26 @@ export const callDetailVehicleRepairAPI = ({vehicleReportCode}) => {
     console.log('차량 수리보고서 세부조회 API 응답하니? :', detailVehicleRepairResult);
 
     dispatch({type: DETAILVEHICLEREPAIR, payload: detailVehicleRepairResult.data})
+  }
+}
+
+// 차량 수리 보고서 차량, 차량기사 조회
+export const callCarMembersAPI = () => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/driver/numbers`;
+
+  return async (dispatch, getState) => {
+    const carMembersResult = await fetch(requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+    }).then((response) => response.json());
+
+    console.log('차량기사, 차 번호 가지고 오니 API 응답하니? :', carMembersResult);
+
+    dispatch({type: CARMEMBERS, payload: carMembersResult.data})
   }
 }
 

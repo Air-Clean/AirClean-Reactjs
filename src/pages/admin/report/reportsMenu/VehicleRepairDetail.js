@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {callDetailVehicleRepairAPI} from '../../../../apis/ReportAPICalls';
 import './BranchSalesDetail.css';
 import jwtDecode from 'jwt-decode';
+import axios from 'axios';
+
 
 function VehicleRepairDetail() {
   const params = useParams();
@@ -21,6 +23,27 @@ function VehicleRepairDetail() {
   const handleClose = () => {
     navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });
   }
+  const handleApproval = async () => {
+    try {
+      await axios.put(`/paper/company/reports/vehicleRepairApprove/${params.vehicleReportCode}`);
+      alert('승인되었습니다.');
+      navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });
+    } catch (error) {
+      console.error('승인에 실패하였습니다.', error);
+      alert('승인에 실패하였습니다.');
+    }
+  };
+
+  const handleRejection = async () => {
+    try {
+      await axios.put(`/paper/company/reports/vehicleRepairReject/${params.vehicleReportCode}`);
+      alert('반려되었습니다.');
+      navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });
+    } catch (error) {
+      console.error('반려에 실패하였습니다.', error);
+      alert('반려에 실패하였습니다.');
+    }
+  };
 
   console.log('여까지 왔어?')
   return (
@@ -55,11 +78,11 @@ function VehicleRepairDetail() {
               </tr>
               <tr>
                 <th className="header">수리전 사진</th>
-                <td colSpan="4">{vehicleRepairDetail.vehiclePhoto}</td>
+                <td colSpan="4">{vehicleRepairDetail.beforeVehiclePhoto}</td>
               </tr>
               <tr>
                 <th className="header">수리후 사진</th>
-                <td colSpan="4">{vehicleRepairDetail.vehiclePhoto}</td>
+                <td colSpan="4">{vehicleRepairDetail.afterVehiclePhoto}</td>
               </tr>
               <tr>
                 <th className="header">특이사항</th>
@@ -71,8 +94,8 @@ function VehicleRepairDetail() {
             {
               members.memberRole === 'a' && 
               (<>
-                <button>승인</button>
-                <button>반려</button>
+                <button onClick={handleApproval}>승인</button>
+                <button onClick={handleRejection}>반려</button>
               </>)
             }
             <button onClick={handleClose}>닫기</button>

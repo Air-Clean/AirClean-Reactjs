@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {callDetailRepairAPI} from '../../../../apis/ReportAPICalls';
 import './BranchSalesDetail.css';
 import jwtDecode from 'jwt-decode';
+import axios from 'axios';
+
 
 function RepairDetail() {
   const params = useParams();
@@ -21,6 +23,29 @@ function RepairDetail() {
   const handleClose = () => {
     navigate('/company/paper/reports', { state: { activeTable: '시설물수리' } });
   }
+
+  const handleApproval = async () => {
+    try {
+      await axios.put(`/paper/company/reports/repairApprove/${params.repairReportCode}`);
+      alert('승인되었습니다.');
+      navigate('/company/paper/reports', { state: { activeTable: '시설물수리' } });
+    } catch (error) {
+      console.error('승인에 실패하였습니다.', error);
+      alert('승인에 실패하였습니다.');
+    }
+  };
+
+  const handleRejection = async () => {
+    try {
+      await axios.put(`/paper/company/reports/repairReject/${params.repairReportCode}`);
+      alert('반려되었습니다.');
+      navigate('/company/paper/reports', { state: { activeTable: '시설물수리' } });
+    } catch (error) {
+      console.error('반려에 실패하였습니다.', error);
+      alert('반려에 실패하였습니다.');
+    }
+  };
+
 
   console.log('여까지 왔어?')
   return (
@@ -63,8 +88,8 @@ function RepairDetail() {
             {
               members.memberRole === 'a' && 
               (<>
-                <button>승인</button>
-                <button>반려</button>
+                <button onClick={handleApproval}>승인</button>
+                <button onClick={handleRejection}>반려</button>
               </>)
             }
             <button onClick={handleClose}>닫기</button>
