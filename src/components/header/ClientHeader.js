@@ -5,6 +5,7 @@ import logo from '../../assets/logo2.png'; // 로고 이미지 경로를 알맞�
 import jwtDecode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { callLogoutAPI } from '../../apis/MemberAPICalls';
+
 const AdminHeader = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
@@ -18,17 +19,17 @@ const AdminHeader = () => {
   const changeColor = (index) => {
     setActiveMenu(index);
   };
-  const logoutHandler=()=>{
 
-    const members = jwtDecode(window.localStorage.getItem('accessToken'))
+  const logoutHandler = () => {
+    const members = jwtDecode(window.localStorage.getItem('accessToken'));
 
-    window.localStorage.removeItem('accessToken')
+    window.localStorage.removeItem('accessToken');
 
-    dispatch(callLogoutAPI())
+    dispatch(callLogoutAPI());
 
-    alert(`${members.memberName} 님 로그아웃 하셨습니다`)
-    navigate("/",{replace : true});
-  }
+    alert(`${members.memberName} 님 로그아웃 하셨습니다`);
+    navigate("/", { replace: true });
+  };
 
   return (
     <>
@@ -39,7 +40,7 @@ const AdminHeader = () => {
           </div>
           <div className={styles.actions}>
             <p className={styles.alarm}>알림</p>
-            <button className={styles.signUp}  onClick={logoutHandler}>Log out</button>
+            <button className={styles.signUp} onClick={logoutHandler}>Log out</button>
           </div>
         </header>
       </div>
@@ -51,6 +52,12 @@ const AdminHeader = () => {
               onClick={() => changeColor(1)}
             >
               <div>세탁물관리</div>
+            </li>
+            <li
+                className={`${styles.menuItem} ${activeMenu === 6 ? styles.active : ''}`}
+                onClick={() => changeColor(6)}
+              >
+              <div>지점관리</div>
             </li>
             <li
               className={`${styles.menuItem} ${activeMenu === 2 ? styles.active : ''}`}
@@ -91,14 +98,14 @@ const AdminHeader = () => {
                     </li>
                   </ul>
                 </li>
+                <li className={styles.menuItem6} onClick={() => changeColor(6)}>
+                  <NavLink to="branchClient" activeClassName={styles.active}>지점관리</NavLink>
+                </li>
                 <li className={styles.menuItem2} onClick={() => changeColor(2)}>
                   <NavLink to="paper/locationNewReports" activeClassName={styles.active}>보고서 양식</NavLink>
                   <ul className={styles.submenu}>
                     <li>
                       <NavLink to="paper/myReports" activeClassName={styles.active}>보고서 조회</NavLink>
-                      {/* <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-2-2" activeClassName={styles.active}>2-2</NavLink></li>
-                      </ul> */}
                     </li>
                   </ul>
                 </li>
@@ -135,7 +142,6 @@ const AdminHeader = () => {
                     </li>
                   </ul>
                 </li>
-                
               </ul>
             </div>
           )}

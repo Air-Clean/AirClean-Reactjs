@@ -8,8 +8,6 @@ import './styles/App.css';
 import ClientMenu1 from './pages/client/client_menu1/ClientMenu1';
 import ClientMenu2 from './pages/client/client_menu2/ClientMenu2';
 
-import AdminMenu1 from './pages/admin/admin_menu1/AdminMenu1';
-import AdminMenu2 from './pages/admin/admin_menu2/AdminMenu2';
 import EmployeeResource from './pages/admin/human_resource/employee/EmployeeResource';
 import BranchResource from './pages/admin/human_resource/branch/BranchResource';
 import DriverResource from './pages/admin/human_resource/driver/DriverResource';
@@ -34,6 +32,8 @@ import StockHistoryLayout from './pages/admin/stock/StockHistoryLayout';
 import BranchOrderHistory from './pages/admin/stock/BranchOrderHistory';
 
 import Branch from './pages/admin/branch/Branch';
+import BranchClient from './pages/client/branchClient/BranchClient';
+
 
 import Car from './pages/admin/car/Car';
 import MainPage from './pages/admin/main_page/MainPage';
@@ -112,6 +112,10 @@ function App() {
                 <Route index element={<LocationNewReports/>}/>
                 <Route path='locationNewReports' element={<LocationNewReports/>}/>
                 <Route path='myReports' element={<LocationMyReports/>}/>
+            </Route>
+
+            <Route path="branchClient">
+              <Route index element={<BranchClient/>} />
             </Route>
 
           </Route>

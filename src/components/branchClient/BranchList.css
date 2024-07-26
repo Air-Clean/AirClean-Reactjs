@@ -1,0 +1,8 @@
+.buttonBranch {
+    color: black; /* 기본 글자 색상 */
+    transition: color 0.3s; /* 색상 변경 애니메이션 */
+}
+
+.buttonBranch:hover {
+    color: #71d3f3; /* 하늘색 글자 색상 */
+}

@@ -1,0 +1,113 @@
+.mapLayout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fbfcfe;
+    border: 1px solid #cfd7e0;
+    border-radius: 10px;
+}
+
+
+.mapContainal {
+    /* font-size: 70px; */
+    width: 260px;
+    height: 160px;
+    position: relative;
+    background-color: #fbfcfe;
+    
+}
+
+.mapContainal img {
+    position: absolute;
+    transition: filter 0.3s;
+}
+
+.mapContainal img:hover {
+    filter: brightness(0.5);
+}
+
+#map{
+    z-index: 0;
+}
+
+.map1 {
+    width: 90.88px;
+    height: 87.03px;
+    top: 22px;
+    left: 56px;
+}
+
+.map2 {
+    width: 69.96px;
+    height: 71.8px;
+    top: -1px;
+    left: 121px;
+}
+
+.map3 {
+    width: 61.09px;
+    height: 57.44px;
+    top: 44px;
+    left: 136px;
+}
+
+.map4 {
+    width: 89.73px;
+    height: 100.72px;
+    top: 52px;
+    left: 23px;
+}
+
+.map5 {
+    width: 149.53px;
+    height: 90.88px;
+    top: 65px;
+    left: 85.5px;
+}
+
+
+
+#mapCount{
+    position: absolute;
+    z-index: 10;
+    color: white;
+    /* top: 0;
+    left: 0; */
+}
+
+
+/* 중앙 */
+.mapCount1{
+    font-size: 20px;
+    top: 34px;
+    left: 102px;
+}
+
+/* 북부 */
+.mapCount2{
+    font-size: 23px;
+    left: 145px;
+    top: 13px;
+}
+
+/* 동부 */
+.mapCount3{
+    font-size: 20px;
+    left: 166px;
+    top: 53px;
+}
+
+/* 서부 */
+.mapCount4{
+    font-size: 21px;
+    left: 61px;
+    top: 82px;
+}
+
+/* 남부 */
+.mapCount5{
+    font-size: 25px;
+    left: 161px;
+    top:103px;
+}
+
