@@ -94,9 +94,9 @@ export default function GarbageResource({direction}) {
   );
 }
 
-GarbageResource.propTypes = {
-  direction: PropTypes.string,
-};
+// GarbageResource.propTypes = {
+//   direction: PropTypes.string,
+// };
 
 
 

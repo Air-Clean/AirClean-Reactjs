@@ -1,0 +1,36 @@
+.utilityContainer{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 47% 53%;
+    grid-template-rows: 20% 80%;
+    grid-template-areas: 
+                    "top top"
+                    "left right";
+}
+.utilTop{
+    grid-area: top;
+    /* background-color: cyan; */
+    display: flex;
+    align-items: center;
+    padding-left: 2%;
+}
+
+.utilLeft{
+    grid-area: left;
+    /* background-color: green; */
+    display: flex;
+    flex-direction: column;
+}
+
+.utilTile{
+    height: 18%;
+    /* background-color: black; */
+    display: flex;
+    align-items: center;
+}
+
+.utilRight{
+    grid-area: right;
+    /* background-color: blue; */
+}

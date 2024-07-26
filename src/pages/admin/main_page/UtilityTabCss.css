@@ -1,0 +1,34 @@
+
+.utilCostBox{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* padding: 20px; */
+
+}
+@keyframes slideIn {
+    from {
+        transform: translateX(-10%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.utilCost{
+    width: 90%;
+    height: 4vh;
+    background-color: #3674d1;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    animation: slideIn 1s ease-in-out;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    color: white;
+}

@@ -8,7 +8,7 @@ export default function RevenuePie(){
         new Chart(revenuePie, {
             type: 'pie',
             data: {
-                labels: ['1월', '2월', '3월', '4월'],
+                // labels: ['1월', '2월', '3월', '4월'],
                 datasets: [{
                     label: '월매출액',
                     borderWidth: 3,
