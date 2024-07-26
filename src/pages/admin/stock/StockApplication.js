@@ -242,8 +242,8 @@ function StockApplication() {
   return (
     <div className='menu1_layout'>
       <div className='flex_wrap' style={{ display: 'flex', flexDirection: 'column' }}>
-      <div className='chart_section'>
-        <div className='chart_container'>
+      <div className='stock_chart_section'>
+        <div className='stock_chart_container'>
           <h2>Detergents</h2>
           <StockBarChart
             labels={getLabels(detergents)}
@@ -256,7 +256,7 @@ function StockApplication() {
           />
         </div>
 
-        <div className='chart_container'>
+        <div className='stock_chart_container'>
           <h2>Parts</h2>
           <PartStockBarChart
             labels={getLabels(parts)}
@@ -270,8 +270,8 @@ function StockApplication() {
         </div>
       </div>
 
-      <div className='tables_section'>
-        <div className='table_container'>
+      <div className='stock_tables_section'>
+        <div className='stock_table_container'>
           <h2>Detergents Table</h2>
           <table style={{ width: '70%', borderCollapse: 'collapse', textAlign: 'center' }}>
             <thead>
@@ -291,7 +291,7 @@ function StockApplication() {
           </table>
         </div>
 
-        <div className='table_container'>
+        <div className='stock_table_container'>
           <h2>Parts Table</h2>
           <table style={{ width: '70%', borderCollapse: 'collapse', textAlign: 'center' }}>
             <thead>
@@ -312,7 +312,7 @@ function StockApplication() {
         </div>
       </div>
 
-      <div className='submit_section'>
+      <div className='stock_submit_section'>
         <button onClick={handleSubmit}>신청</button>
       </div>
       </div>
