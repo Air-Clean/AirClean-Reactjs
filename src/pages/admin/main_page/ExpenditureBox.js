@@ -1,5 +1,5 @@
 import './ExpenditureBoxCss.css'
-import ExBarGraph from './ExbarGraph'
+import ExBarGraph from './ExBarGraph'
 import ExPieGraph from './ExPieGraph'
 
 export default function ExpenditureBox({com}){

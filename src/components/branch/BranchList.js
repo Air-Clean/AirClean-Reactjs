@@ -4,10 +4,10 @@ import jwt_decode from 'jwt-decode';
 import './BranchList.css';
 import BranchModal from './BranchModal';
 
-function BranchList({ locationName, onBranchSelect }) {
+function BranchList({ locationName = "전체", onBranchSelect }) {
     const [branches, setBranches] = useState([]);
     const [selectedBranches, setSelectedBranches] = useState([]);
-    const [loading,setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
@@ -131,7 +131,7 @@ function BranchList({ locationName, onBranchSelect }) {
 
     return (
         <div style={{ backgroundColor: '#fbfcfe', width: '250px', height: 'calc(65% - 15px)', borderRadius: '10px', padding: '20px', border: '1px solid #cfd7e0' }}>
-            <h5>목록 : {locationName} </h5>
+            <h5>목록 : {locationName || "전체"} </h5>
             <hr style={{ marginTop: '3px', marginBottom: '10px' }}></hr>
             <div className='listLayer' style={{ backgroundColor: 'white', width: '100%', height: '29vh', overflowY: 'auto', border: '1px solid #cfd7e0' }}>
                 <div>
