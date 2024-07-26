@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Car.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { carList } from '../../../apis/CarAPICalls';
-
+import { callCarInfoListAPI } from '../../../apis/CarAPICalls';
 
 function Car() {
-
     const dispatch = useDispatch();
-    const carList = useSelector(state => state.carReducer.carList);
+    const carList = useSelector(state => state.carInfoReducer);
 
     useEffect(() => {
-        dispatch(callCarList({ current: 0 }));
+
+        dispatch(callCarInfoListAPI());
+
     }, [dispatch]);
 
+    console.log('차량리스트 API 호출:', carList);
 
+    // carList가 업데이트될 때 cars 상태를 업데이트합니다.
+    useEffect(() => {
+        if (carList.length > 0) {
+            setCars(carList);
+        }
+    }, [carList]);
 
     const [cars, setCars] = useState([]);
     const [showRegisterForm, setShowRegisterForm] = useState(false);
