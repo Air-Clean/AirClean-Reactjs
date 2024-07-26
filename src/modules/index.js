@@ -12,7 +12,9 @@ import { branchReducer } from "./BranchModule";
 import { branchSalesReducer , detailBranchSalesReducer
     , vehicleRepairReducer, detailVehicleRepairReducer
     , expenseReducer, detailExpenseReducer
-    , findAllRepairReducer,detailRepairReducer } from "./ReportsModule";
+    , findAllRepairReducer,detailRepairReducer
+    , carMembersReducer
+} from "./ReportsModule";
 
 import {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer}  from "./StockModule";
 
@@ -34,6 +36,7 @@ const rootReducer = combineReducers({
     detailVehicleRepairReducer,
     findAllRepairReducer,
     detailRepairReducer,
+    carMembersReducer,
     
     detergentsInfoReducer,
     partsInfoReducer,

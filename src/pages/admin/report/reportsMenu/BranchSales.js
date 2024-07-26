@@ -1,7 +1,7 @@
 // BranchSales.js
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { callFindBranchSalesAPI, callFindExpenseAPI, callFindVehicleRepairAPI, callFindRepairAPI } from '../../../../apis/ReportAPICalls';
+import { callFindBranchSalesAPI, callFindExpenseAPI, callFindVehicleRepairAPI, callFindRepairAPI, callCarMembersAPI } from '../../../../apis/ReportAPICalls';
 import { useNavigate, useLocation } from 'react-router-dom'; 
 import './BranchSales.css';
 
@@ -18,18 +18,19 @@ function BranchSales() {
   const expenseResult = useSelector(state => state.expenseReducer);
   // 차량수리보고서
   const result = useSelector(state => state.vehicleRepairReducer)
+  const requestURL = useSelector(state => state.carMembersReducer)
   // 지점 수리보고서 
   const repairResult = useSelector(state => state.findAllRepairReducer)
 
 
   useEffect(() => {
-    console.log('리덕스 상태 result:', {branchSalesResult,expenseResult, result});
+    console.log('리덕스 상태 result:', {branchSalesResult,expenseResult, result, requestURL});
     if (activeTable === '매출') {
         dispatch(callFindBranchSalesAPI());
     } else if (activeTable === '지출') {
       dispatch(callFindExpenseAPI())
     }else if (activeTable === '차량수리비') {
-      dispatch(callFindVehicleRepairAPI())
+      dispatch(callFindVehicleRepairAPI(), callCarMembersAPI())
     }else if (activeTable === '시설물수리'){
       dispatch(callFindRepairAPI())
     }
@@ -110,8 +111,8 @@ function BranchSales() {
               {result.map((vehicle) => (
                 <tr key={vehicle.vehicleReportCode}>
                   <td>{vehicle.vehicleReportCode}</td>
-                  <td>{vehicle.driverLicenseNumber}</td>    {/* 차량번호 조인으로 가지고 오기 */}
-                  <td></td>   {/* 지점장 이름 가지고 오기 */}
+                  <td>{vehicle.carNumber}</td>    {/* 차량번호 조인으로 가지고 오기 */}
+                  <td>{vehicle.memberName}</td>   {/* 지점장 이름 가지고 오기 */}
                   <td>{new Date(vehicle.vehicleSubmissionDate).toLocaleDateString()}</td>
                   <td>{vehicle.vehicleReportStatus}</td> 
                   <td><button onClick={() => navigate(`/company/paper/reports/vehicleRepair/${vehicle.vehicleReportCode}`)}>View</button></td>

@@ -33,32 +33,24 @@ function NewReports() {
       <div className='flex_wrap'>
         <div className="report-create">
           <h1>보고서 작성</h1>
-          <div className="button-group">
+          {/* <div className="button-group">
             <button className="register-button" onClick={handleOpenModal}>보고서 작성</button>
-          </div>
+          </div> */}
           <table className="report-table">
             <thead>
               <tr>
                 <th>보고서번호</th>
-                <th>차량번호</th>
-                <th>차량기사</th>
-                <th>제출일</th>
-                <th>상태</th>
-                <th>상세보기</th>
+                <th>양식명</th>
+                <th>서류설명</th>
               </tr>
             </thead>
             <tbody>
               {/* 데이터가 들어갈 부분 */}
-              {result.map((vehicle) => (
-                <tr key={vehicle.vehicleReportCode}>
-                  <td>{vehicle.vehicleReportCode}</td>
-                  <td>{vehicle.driverLicenseNumber}</td>    {/* 차량번호 조인으로 가지고 오기 */}
-                  <td></td>   {/* 지점장 이름 가지고 오기 */}
-                  <td>{new Date(vehicle.vehicleSubmissionDate).toLocaleDateString()}</td>
-                  <td>{vehicle.vehicleReportStatus}</td> 
-                  <td><button>View</button></td>
-              </tr>
-              ))}
+             <tr>
+              <td>1</td>
+              <td style={{ cursor: 'pointer' }} onClick={handleOpenModal}>차량수리보고서</td>
+              <td>차량수리비 영수증 청구 보고서</td>
+             </tr>
             </tbody>
           </table>
           <div className="pagination">

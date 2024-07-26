@@ -1,99 +1,90 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { calldetailBranchSalesAPI } from '../../../../apis/ReportAPICalls';
-import axios from 'axios';
+import { callDetailExpenseAPI } from '../../../../apis/ReportAPICalls';
 import './BranchSalesDetail.css';
 import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 
-function BranchSalesDetail() {
+function ExpenseDetail() {
   const params = useParams();
   const dispatch = useDispatch();
-  const branchSalesDetail = useSelector(state => state.detailBranchSalesReducer);
-  const members = jwtDecode(window.localStorage.getItem('accessToken'));
+  const expenseDetail = useSelector(state => state.detailExpenseReducer);
+  const members  = jwtDecode(window.localStorage.getItem('accessToken'))
   const navigate = useNavigate();
 
+
   useEffect(() => {
-    dispatch(calldetailBranchSalesAPI({
-      branchReportCode: params.branchReportCode
+    dispatch(callDetailExpenseAPI({
+      expenseReportCode: params.expenseReportCode
     }));
-  }, [dispatch, params.branchReportCode]);
+  }, [dispatch, params.expenseReportCode]);
 
   const handleClose = () => {
-    navigate('/company/paper/reports', { state: { activeTable: '매출' } });
+    navigate('/company/paper/reports', { state: { activeTable: '지출' } });
   }
 
   const handleApproval = async () => {
     try {
-      await axios.put(`/paper/company/reports/approve/${params.branchReportCode}`);
+      await axios.put(`/paper/company/reports/expenseApprove/${params.expenseReportCode}`);
       alert('승인되었습니다.');
-      navigate('/company/paper/reports', { state: { activeTable: '매출' } });
+      navigate('/company/paper/reports', { state: { activeTable: '지출' } });
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
       alert('승인에 실패하였습니다.');
     }
-  }
+  };
 
   const handleRejection = async () => {
     try {
-      await axios.put(`/paper/company/reports/reject/${params.branchReportCode}`);
+      await axios.put(`/paper/company/reports/expenseReject/${params.expenseReportCode}`);
       alert('반려되었습니다.');
-      navigate('/company/paper/reports', { state: { activeTable: '매출' } });
+      navigate('/company/paper/reports', { state: { activeTable: '지출' } });
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
       alert('반려에 실패하였습니다.');
     }
-  }
+  };
 
+
+  console.log('여까지 왔어?')
   return (
     <div className="branchDetail_menu1_layout">
       <div className="branchDetail_flex_wrap">
         <div className="details-container">
-          <h1 className="title">매출보고서 상세보기</h1>
+          <h1 className="title">지출보고서 상세보기</h1>
           <table className="details-table">
             <thead>
               <tr>
                 <th>양식명</th>
-                <td colSpan="2">{branchSalesDetail.branchReportCode}</td>
+                <td colSpan="2">{expenseDetail.expenseReportCode}</td>
                 <th>지점장명</th>
                 <td colSpan="2"></td>
               </tr>
               <tr>
                 <th>지점명</th>
-                <td>{branchSalesDetail.branchCode}</td>
+                <td>{expenseDetail.branchCode}</td>
                 <th>제출일</th>
-                <td colSpan="3">{new Date(branchSalesDetail.branchSubmissionDate).toLocaleDateString()}</td>
+                <td colSpan="3">{new Date(expenseDetail.expenseSubmissionDate).toLocaleDateString()}</td>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <th rowSpan="8" className="vertical-header">내용</th>
-                <th className="header">세제</th>
-                <td colSpan="4">{branchSalesDetail.detergent}</td>
+                <th className="header">전기세</th>
+                <td colSpan="4">{expenseDetail.electricityBill}</td>
               </tr>
               <tr>
-                <th className="header">섬유유연제</th>
-                <td colSpan="4">{branchSalesDetail.fabricSoftener}</td>
+                <th className="header">수도세</th>
+                <td colSpan="4">{expenseDetail.waterBill}</td>
               </tr>
               <tr>
-                <th className="header">표백제</th>
-                <td colSpan="4">{branchSalesDetail.bleach}</td>
+                <th className="header">가스비</th>
+                <td colSpan="4">{expenseDetail.gasBill}</td>
               </tr>
               <tr>
-                <th className="header">얼룩제거제</th>
-                <td colSpan="4">{branchSalesDetail.stainRemover}</td>
-              </tr>
-              <tr>
-                <th className="header">세탁조 클리너</th>
-                <td colSpan="4">{branchSalesDetail.washerCleaner}</td>
-              </tr>
-              <tr>
-                <th className="header">건조기시트</th>
-                <td colSpan="4">{branchSalesDetail.dryerSheet}</td>
-              </tr>
-              <tr>
-                <th className="header">오프라인매출</th>
-                <td colSpan="4">{branchSalesDetail.officeSales}</td>
+                <th className="header">알바비</th>
+                <td colSpan="4">{expenseDetail.partTimeSalary}</td>
               </tr>
             </tbody>
           </table>
@@ -110,7 +101,11 @@ function BranchSalesDetail() {
         </div>
       </div>
     </div>
+
+    
   );
 }
 
-export default BranchSalesDetail;
+console.log('여기는 왔니...?')
+export default ExpenseDetail;
+
