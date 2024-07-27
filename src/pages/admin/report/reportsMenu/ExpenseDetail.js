@@ -86,6 +86,10 @@ function ExpenseDetail() {
                 <th className="header">알바비</th>
                 <td colSpan="4">{expenseDetail.partTimeSalary}</td>
               </tr>
+              <tr>
+                <th className="header">시설물수리비</th>
+                <td colSpan="4">{expenseDetail.repairCost}</td>
+              </tr>
             </tbody>
           </table>
           <div className="formButtons">

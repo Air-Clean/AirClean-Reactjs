@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './NewReports.css';
 import ReportsModal  from './ReportsModal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { callFindVehicleRepairAPI } from '../../../../apis/ReportAPICalls';
 
 function NewReports() {
@@ -11,7 +11,7 @@ function NewReports() {
     const [showModal, setShowModal] = useState(false);
     // API
     const dispatch = useDispatch();
-    const result = useSelector(state => state.vehicleRepairReducer)
+    // const result = useSelector(state => state.vehicleRepairReducer)
 
     // 모달창
     const handleOpenModal = () => {
@@ -24,9 +24,16 @@ function NewReports() {
 
     // API
     useEffect(() => {
-      console.log("리덕스 상태 :", result);
+      // console.log("리덕스 상태 :", result);
       dispatch(callFindVehicleRepairAPI());
     }, [dispatch])
+
+  //   useEffect(() => {
+  //     if (result) {
+  //         // result가 변경될 때 수행할 작업
+  //         console.log("result가 변경되었습니다:", result);
+  //     }
+  // }, [result]);
 
   return (
     <div className="menu1_layout">
