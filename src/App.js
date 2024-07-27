@@ -5,8 +5,8 @@ import Login from './pages/login/Login';
 import Layout from './layouts/Layout';
 import './styles/App.css';
 
-import ClientMenu1 from './pages/client/client_menu1/ClientMenu1';
-import ClientMenu2 from './pages/client/client_menu2/ClientMenu2';
+import FacilityandLaundry from './pages/client/facilityandLaundry/FacilityandLaundry';
+import LaundryRegistration from './pages/client/laundryRegistration/LaundryRegistration';
 
 import EmployeeResource from './pages/admin/human_resource/employee/EmployeeResource';
 import BranchResource from './pages/admin/human_resource/branch/BranchResource';
@@ -104,9 +104,9 @@ function App() {
           </Route>
 
           <Route path="/location" element={<Layout />}>
-            <Route index element={<ClientMenu1 />} />
-            <Route path="menu1" element={<ClientMenu1 />} />
-            <Route path="menu2" element={<ClientMenu2 />} />
+            <Route index element={<FacilityandLaundry />} />
+            <Route path="FacilityandLaundry" element={<FacilityandLaundry />} />
+            <Route path="LaundryRegistration" element={<LaundryRegistration />} />
 
             <Route path="paper">
                 <Route index element={<LocationNewReports/>}/>
