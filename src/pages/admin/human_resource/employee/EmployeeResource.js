@@ -71,7 +71,7 @@ function EmployeeResource() {
         <div className="searchbar_container">
           <Searchbar setRegist={setIsRegist} isRegist={isRegist} />
         </div>
-        <Grid container spacing={1} justifyContent="flex-start" className="flex_wrap">
+        <Grid container spacing={1} col={3} justifyContent="flex-start" className="flex_wrap">
           {employee?.map((e) => (
               <BioCard emp={e} key={e.memberDTO.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
           ))}
