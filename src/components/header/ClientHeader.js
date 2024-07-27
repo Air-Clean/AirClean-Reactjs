@@ -88,12 +88,12 @@ const AdminHeader = () => {
             <div className={styles.dropdown}>
               <ul className={styles.dropdownMenu} style={{ textAlign: 'center' }}>
                 <li className={styles.menuItem1} onClick={() => changeColor(1)}>
-                  <NavLink to="menu1" activeClassName={styles.active}>menu1</NavLink>
+                  <NavLink to="facilityAndLaundry" activeClassName={styles.active}>세탁물 관리</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="menu2" activeClassName={styles.active}>menu2</NavLink>
+                      <NavLink to="laundryRegistration" activeClassName={styles.active}>세탁물 등록</NavLink>
                       <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-1-2" activeClassName={styles.active}>1-2</NavLink></li>
+                        {/* <li><NavLink to="#submenu1-1-2" activeClassName={styles.active}>1-2</NavLink></li> */}
                       </ul>
                     </li>
                   </ul>
