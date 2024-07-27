@@ -6,13 +6,20 @@ import RevenueBox from './RevenueBox';
 import ExpenditureBox from './ExpenditureBox';
 import UtilityBox from './UtilityBox';
 import TopBox from './TopBox';
+// import { useDispatch } from 'react-redux';
 
 
 function MainPage() {
     console.log('Menu1 영역입니다.')
 
-    const [com, setCom] = useState('')
-    const [firm, setFirm] = useState('')
+    const [com, setCom] = useState('');
+    const [firm, setFirm] = useState('');
+
+    // const dispatch = useDispatch();
+
+    
+
+    
 
 
     

@@ -68,10 +68,12 @@ function EmployeeResource() {
     <>
 
       <div className="menu1_layout">
-        <div className="searchbar_container">
+        <div className="flex_wrap">
+          <div className='employeeContainter'>
+          <div className="searchbar_container">
           <Searchbar setRegist={setIsRegist} isRegist={isRegist} />
         </div>
-        <Grid container spacing={1} justifyContent="flex-start" className="flex_wrap">
+        <Grid container spacing={1} col={3} justifyContent="flex-start" className="flex_wrap">
           {employee?.map((e) => (
               <BioCard emp={e} key={e.memberDTO.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
           ))}
@@ -86,6 +88,10 @@ function EmployeeResource() {
         
         
         <Paging setCurrent={setCurrent} end={totalPage} />
+          </div>
+        
+        </div>
+        
         
       </div>
     </>

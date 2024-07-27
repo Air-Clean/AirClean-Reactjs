@@ -4,10 +4,14 @@ import RevenuePie from './RevenuePie';
 import RevenueGraph from './RevenueGraph';
 import AnimatedNumbers from "react-animated-numbers";
 import 'animate.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWonSign } from '@fortawesome/free-solid-svg-icons';
+
+
 
 export default function RevenueBox({ com, firm }) {
 
-    const [num, setNum] = useState(11331231);
+    const [num, setNum] = useState(113311231);
 
     return (
         <div className='revenueContainer'>
@@ -19,7 +23,7 @@ export default function RevenueBox({ com, firm }) {
                 <div className='revenueButton animate__animated'>
                     <div className='buttonTitle'>Month Revenue</div>
                     <div style={{display : 'flex'}} className='money'>
-                        <span>\</span>
+                    <FontAwesomeIcon icon={faWonSign} />
                         <AnimatedNumbers
                             includeComma
                             // className={styles.revenueButton}
@@ -40,7 +44,7 @@ export default function RevenueBox({ com, firm }) {
                 <div className='revenueButton' style={{ display: 'flex' }}>
                     <div className='buttonTitle'>Annual Revenue</div>
                     <div style={{display : 'flex'}} className='money'>
-                        <span>\</span>
+                    <FontAwesomeIcon icon={faWonSign} />
                         <AnimatedNumbers
                             includeComma
                             // className={styles.revenueButton}
