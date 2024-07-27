@@ -2,3 +2,11 @@
     min-width: 50vw;/* 모달의 가로폭을 넓힘 (80%로 설정, 필요에 따라 조정) */
   }
   
+.employeeContainer{
+  display: flex;
+  
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 80vw;
+}

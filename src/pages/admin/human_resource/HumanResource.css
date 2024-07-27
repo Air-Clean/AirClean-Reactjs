@@ -12,12 +12,7 @@
   /* width: 80vw; */
   background-color: rgb(255, 255, 255);
 
-  display: flex;
-  
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
-  max-width: 80vw;
+
 }
 
 .flex_wrap .bio_card {
