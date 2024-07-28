@@ -3,6 +3,7 @@
     작성일자 6월 28일
 */
 import './FacilityandLaundry.css';
+import WaterTank from '../../../components/facilityandLaundry/WaterTank';
 
 
 function FacilityandLaundry() {
@@ -15,7 +16,7 @@ function FacilityandLaundry() {
                         {/* 컴포넌트 위치 */}
                         <div style={{display:'flex', justifyContent:'center', width:'100%', marginTop:'40px'}}>
                             <div style={{width:'60%', height: '30vh', backgroundColor:'lightgray'}}>
-                                123
+                                <WaterTank/>
                             </div>
                         </div>
 
