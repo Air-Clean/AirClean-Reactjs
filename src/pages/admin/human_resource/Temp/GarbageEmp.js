@@ -110,7 +110,7 @@ export default function GarbageEmp({amount}) {
           </div>
         )}
 
-        <Paging setCurrent={setCurrent} end={employee.data.totalPages}/>
+        {/* <Paging setCurrent={setCurrent} end={employee.data.totalPages}/> */}
       </div>
       
     </>

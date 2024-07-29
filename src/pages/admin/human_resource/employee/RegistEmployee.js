@@ -196,7 +196,7 @@ export default function RegistEmployee({ openModal, regist }) {
                 placeholder="Enter Phone"
               />
             </FormGroup>
-            <FormGroup>
+            {/* <FormGroup>
               <Label for="memberRole">사원 유형</Label>
               <Input
               type="select"
@@ -210,7 +210,7 @@ export default function RegistEmployee({ openModal, regist }) {
               <option value="b">지점장</option>
               <option value="d">차량기사</option>
             </Input>
-            </FormGroup>
+            </FormGroup> */}
             <FormGroup>
               <Label for="memberEmail">Email</Label>
               <Input
