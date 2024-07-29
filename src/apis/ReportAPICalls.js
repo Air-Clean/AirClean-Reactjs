@@ -3,7 +3,6 @@ import { BRANCHSALES, DETAILBRANCHSALES
   , VEHICLEREPAIR, DETAILVEHICLEREPAIR
   , EXPENSE, DETAILEXPENSE
   , REPAIR, DETAILREPAIR, NEWVEHICLEREPAIR
-  // REGISTVEHICLEREPAIR
   , CARMEMBERS
 
 } from "../modules/ReportsModule";
@@ -157,7 +156,13 @@ export const callCarMembersAPI = () => {
 
 // 차량수리보고서 등록 API
 export const callNewVehicleRepairAPI = ({form}) => {
-  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/vehicleRepairNew`; 
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/vehicle-repair`; 
+
+  
+        
+        console.log('[formdata ]', form.get("beforeVehiclePhoto"))
+        console.log('[formdata ]', form.get("afterVehiclePhoto"))
+        
 
   return async (dispatch, getState) => {
     const newVehicleRepairResult = await fetch(requestURL, {
@@ -174,7 +179,6 @@ export const callNewVehicleRepairAPI = ({form}) => {
     if(newVehicleRepairResult.status === 200){
       dispatch({type: NEWVEHICLEREPAIR, payload: newVehicleRepairResult.data})
     }
-   
   }
 }
 

@@ -27,7 +27,6 @@ createActions({
     [REPAIR] : () => [],
     [DETAILREPAIR] : () => [],
     [CARMEMBERS] : () => [],
-    // [REGISTVEHICLEREPAIR] : () => [],
     [NEWVEHICLEREPAIR] : () => [],
 
 })

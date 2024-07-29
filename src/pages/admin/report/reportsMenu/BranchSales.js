@@ -58,7 +58,7 @@ function BranchSales() {
               {branchSalesResult.map((item) => (
                 <tr key={item.branchReportCode}>
                   <td>{item.branchReportCode}</td>
-                  <td>{item.branchCode}</td>     {/* 지점명 인데 일단 지점코드로 가지고옴 */}
+                  <td>{item.branchName}</td>     {/* 지점명 인데 일단 지점코드로 가지고옴 */}
                   <td>{new Date(item.branchSubmissionDate).toLocaleDateString()}</td>
                   <td>{item.branchReportStatus}</td>
                   <td><button onClick={() => navigate(`/company/paper/reports/branchSales/${item.branchReportCode}`)}>View</button></td>
