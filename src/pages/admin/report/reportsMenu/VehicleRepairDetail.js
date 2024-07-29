@@ -45,6 +45,18 @@ function VehicleRepairDetail() {
     }
   };
 
+    // 이미지 URL을 형성하는 함수
+    const getBeforeImageUrl = (beforeVehiclePhoto) => {
+      return `http://localhost:8080/memberimgs/${beforeVehiclePhoto}`; // 이미지가 저장된 경로로 변경
+    };
+  
+
+    // 이미지 URL을 형성하는 함수
+    const getAfterImageUrl = (afterVehiclePhoto) => {
+      return `http://localhost:8080/memberimgs/${afterVehiclePhoto}`; // 이미지가 저장된 경로로 변경
+    };
+
+
   return (
     <div className="branchDetail_menu1_layout">
       <div className="branchDetail_flex_wrap">
@@ -79,7 +91,7 @@ function VehicleRepairDetail() {
                 <th className="header">수리전 사진</th>
                 <td colSpan="4">
                   {vehicleRepairDetail.beforeVehiclePhoto && (
-                    <img src={vehicleRepairDetail.beforeVehiclePhoto} alt="Before Repair" />
+                    <img src={getBeforeImageUrl(vehicleRepairDetail.beforeVehiclePhoto)} alt="Before Repair" />
                   )}
                 </td>
               </tr>
@@ -87,7 +99,7 @@ function VehicleRepairDetail() {
                 <th className="header">수리후 사진</th>
                 <td colSpan="4">
                   {vehicleRepairDetail.afterVehiclePhoto && (
-                    <img src={vehicleRepairDetail.afterVehiclePhoto} alt="After Repair" />
+                    <img src={getAfterImageUrl(vehicleRepairDetail.afterVehiclePhoto)} alt="After Repair" />
                   )}
                 </td>
               </tr>
