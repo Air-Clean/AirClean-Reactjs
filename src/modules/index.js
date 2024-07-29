@@ -10,14 +10,13 @@ import { branchReducer } from "./BranchModule";
 
 // 도아 - 보고서 
 import { branchSalesReducer , detailBranchSalesReducer
-    , vehicleRepairReducer, detailVehicleRepairReducer, newVehicleRepairReducer
-    // registVehicleRepairReducer
+    , vehicleRepairReducer, detailVehicleRepairReducer
     , expenseReducer, detailExpenseReducer
     , findAllRepairReducer,detailRepairReducer
     , carMembersReducer
 } from "./ReportsModule";
 
-import {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer}  from "./StockModule";
+import {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer}  from "./StockModule";
 
 
 
@@ -38,12 +37,11 @@ const rootReducer = combineReducers({
     findAllRepairReducer,
     detailRepairReducer,
     carMembersReducer,
-    // registVehicleRepairReducer,
-    newVehicleRepairReducer,
     
     detergentsInfoReducer,
     partsInfoReducer,
     headStockHistoryReducer,
+    branchStockHistoryReducer,
 
     branchReducer
 

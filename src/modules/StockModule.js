@@ -6,10 +6,13 @@ const initialState = [];
 export const DETERGENTSINFO = 'DETERGENTSINFO'
 export const PARTSINFO = 'PARTSINFO'
 export const HEADSTOCKHISTORY = 'HEADSTOCKHISTORY'
+export const BRANCHSTOCKHISTORY = 'BRANCHSTOCKHISTORY'
 
 createActions({
     [DETERGENTSINFO]: ()=>{},
-    [PARTSINFO]: ()=>{}
+    [PARTSINFO]: ()=>{},
+    [HEADSTOCKHISTORY]: ()=>{},
+    [BRANCHSTOCKHISTORY]: ()=>{}
 })
 
 const detergentsInfoReducer = handleActions({
@@ -33,8 +36,12 @@ const headStockHistoryReducer = handleActions({
     }
 }, initialState)
 
+const branchStockHistoryReducer = handleActions({
+    [BRANCHSTOCKHISTORY]: (state, {payload}) => {
+        console.log('지점발주내역 payload', payload)
+        return payload;
+    }
+}, initialState)
 
 
-
-
-export {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer};
+export {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer};

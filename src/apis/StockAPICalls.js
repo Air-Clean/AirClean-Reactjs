@@ -1,5 +1,5 @@
 // apis/DetergentInfoAPICalls.js
-import { DETERGENTSINFO, PARTSINFO, HEADSTOCKHISTORY } from "../modules/StockModule"
+import { DETERGENTSINFO, PARTSINFO, HEADSTOCKHISTORY, BRANCHSTOCKHISTORY } from "../modules/StockModule"
 import jwtDecode from "jwt-decode";
 
 export const callDetergentsInfoAPI = () => {
@@ -74,6 +74,31 @@ export const callHeadStockHistoryAPI = () => {
 
         // 액션 디스패치
         dispatch({type: HEADSTOCKHISTORY, payload: result.data})
+    };
+
+}
+
+export const callBranchStockHistoryAPI = () => {
+
+    const members  = jwtDecode(window.localStorage.getItem('accessToken'));
+    console.log('members 보기',members);
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/company/stock/branchApplication`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            }
+        }
+        ).then((response) => response.json());
+
+        console.log('BranchHistory API 응답:', result.data);
+
+        // 액션 디스패치
+        dispatch({type: BRANCHSTOCKHISTORY, payload: result.data})
     };
 
 }

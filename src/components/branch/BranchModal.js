@@ -31,6 +31,7 @@ export default function BranchModal({ show, onClose, onSubmit }) {
   });
 
   const [postcodeVisible, setPostcodeVisible] = useState(false);
+  const [members, setMembers] = useState([]);
 
   useEffect(() => {
     if (show) {
@@ -44,8 +45,31 @@ export default function BranchModal({ show, onClose, onSubmit }) {
         branchOpenDate: "",
         memberId: ""
       });
+      fetchMembers();
     }
   }, [show]);
+
+
+  const fetchMembers = async () => {
+    try {
+      const token = window.localStorage.getItem('accessToken');
+      const response = await axios.get('http://localhost:3000/branch/members', {
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
+      });
+  
+      if (response.data && response.data.data && Array.isArray(response.data.data.members)) {
+        setMembers(response.data.data.members);
+      } else {
+        console.error('API 응답이 예상과 다릅니다:', response.data);
+        setMembers([]);
+      }
+    } catch (error) {
+      console.error('Error fetching members:', error);
+      setMembers([]);
+    }
+  };
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -114,7 +138,7 @@ export default function BranchModal({ show, onClose, onSubmit }) {
             console.error('서버 응답 오류 메시지:', error.response.data.message);
         }
     }
-};
+  };
 
   return (
     <Modal isOpen={show} toggle={onClose} centered className="custom-modal">
@@ -197,15 +221,21 @@ export default function BranchModal({ show, onClose, onSubmit }) {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="memberId">회원 ID</Label>
+            <Label for="memberId">회원 ID</Label>
               <Input
-                type="text"
+                type="select"
                 name="memberId"
                 id="memberId"
                 value={form.memberId}
                 onChange={inputHandler}
-                placeholder="회원 ID를 입력해주세요"
-              />
+              >
+                <option value="">회원 선택</option>
+                {members.length > 0 && members.map((member) => (
+                  <option key={member.memberId} value={member.memberId}>
+                    {member.memberName} ({member.memberId})
+                  </option>
+                ))}
+              </Input>
             </FormGroup>
             <FormGroup>
               <Label for="branchImage">사진</Label>

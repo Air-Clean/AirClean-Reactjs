@@ -1,0 +1,83 @@
+.branchStock-order-history {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2vw;
+  box-sizing: border-box;
+}
+
+.branchStock-filters {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-bottom: 1vw;
+}
+
+.branchStock-filters select {
+  padding: 0.5vw;
+  font-size: 1vw;
+}
+
+.branchStock-order-table {
+  width: 80%;
+  margin-bottom: 2vw;
+}
+
+.branchStock-order-header,
+.branchStock-order-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5vw;
+  font-size: 1vw;
+  text-align: center; /* Center align text in grid */
+}
+
+.branchStock-order-header {
+  font-weight: bold;
+  background-color: #f0f0f0;
+  padding: 1vw;
+}
+
+.branchStock-order-row {
+  background-color: #ffffff;
+  padding: 1vw;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.branchStock-order-row:hover {
+  background-color: #e0e0e0;
+}
+
+.branchStock-details-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 80%;
+  margin-bottom: 2vw;
+}
+
+.branchStock-details-section table {
+  width: 45%; /* Adjust width to fit two tables side by side */
+  margin: 1vw;
+  font-size: 0.9vw; /* Adjust font size for better fit */
+  border-collapse: collapse;
+}
+
+.branchStock-details-section th,
+.branchStock-details-section td {
+  border: 1px solid #dddddd;
+  text-align: center; /* Center align text in table cells */
+  padding: 0.5vw;
+}
+
+.branchStock-graph-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.branchStock-graph {
+  width: 45%; /* Adjust width to fit two charts side by side */
+  margin: 1vw;
+}
