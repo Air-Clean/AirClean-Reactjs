@@ -1,5 +1,4 @@
 .branchStock-graph {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
+  width: 28vw; /* Reduced width to fit two charts side by side */
+  margin: 1vw;
+}

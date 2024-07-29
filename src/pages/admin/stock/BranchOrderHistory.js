@@ -1,22 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { callBranchStockHistoryAPI } from '../../../apis/StockAPICalls';
+import { callBranchStockHistoryAPI, callDetergentsInfoAPI, callPartsInfoAPI } from '../../../apis/StockAPICalls';
 import BranchStockGraph from './BranchStockGraph';
 import './BranchOrderHistory.css';
 
 function BranchOrderHistory() {
   const dispatch = useDispatch();
-  const branchStockHistory = useSelector(state => state.branchStockHistoryReducer) || [];
+  const branchStockHistory = useSelector(state => state.branchStockHistoryReducer);
+  const detergentsInfo = useSelector(state => state.detergentsInfoReducer);
+  const partsInfo = useSelector(state => state.partsInfoReducer);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [filter, setFilter] = useState('all');
+  const [sortOrder, setSortOrder] = useState('latest');
+  const [detergentInfo, setDetergentInfo] = useState(detergentsInfo);
+  const [partInfo, setPartsInfo] = useState(partsInfo);
+
+  console.log('partsInfo', partInfo);
+  console.log('detergentsInfo', detergentInfo);
 
   useEffect(() => {
     dispatch(callBranchStockHistoryAPI());
   }, [dispatch]);
 
-  console.log('branchstock API 호출완료', branchStockHistory);
+  useEffect(() => {
+    dispatch(callDetergentsInfoAPI());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(callPartsInfoAPI());
+  }, [dispatch]);
 
   const handleClick = (item) => {
     setSelectedItem(item);
+  };
+
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const handleSortChange = (e) => {
+    setSortOrder(e.target.value);
   };
 
   const getPreviousItem = (currentItem) => {
@@ -33,11 +56,35 @@ function BranchOrderHistory() {
     return filteredItems.length > 0 ? total / filteredItems.length : 0;
   };
 
-  const sortedBranchStockHistory = branchStockHistory.slice().sort((a, b) => a.bApplicationCode - b.bApplicationCode);
+  const filteredBranchStockHistory = branchStockHistory
+    .filter(item => {
+      if (filter === 'all') return true;
+      if (filter === '미승인') return item.bApplicationStatus === '미승인';
+      if (filter === '승인') return item.bApplicationStatus === '승인' || item.bApplicationStatus === '배송완료';
+      if (filter === '반려') return item.bApplicationStatus === '반려';
+      return true;
+    })
+    .sort((a, b) => {
+      if (sortOrder === 'latest') return b.bApplicationCode - a.bApplicationCode;
+      if (sortOrder === 'oldest') return a.bApplicationCode - b.bApplicationCode;
+      return 0;
+    });
 
   return (
     <div className="branchStock-order-history">
       <h1>지점 발주신청 내역</h1>
+      <div className="branchStock-filters">
+        <select onChange={handleFilterChange}>
+          <option value="all">전체</option>
+          <option value="미승인">미승인</option>
+          <option value="승인">승인</option>
+          <option value="반려">반려</option>
+        </select>
+        <select onChange={handleSortChange}>
+          <option value="latest">최신순</option>
+          <option value="oldest">오래된순</option>
+        </select>
+      </div>
       <div className="branchStock-order-table">
         <div className="branchStock-order-header">
           <div>코드</div>
@@ -47,8 +94,8 @@ function BranchOrderHistory() {
           <div>승인일자</div>
           <div>지점 코드</div>
         </div>
-        {sortedBranchStockHistory.length > 0 ? (
-          sortedBranchStockHistory.map(item => (
+        {filteredBranchStockHistory.length > 0 ? (
+          filteredBranchStockHistory.map(item => (
             <div 
               className="branchStock-order-row" 
               key={item.bApplicationCode}
