@@ -161,11 +161,8 @@ function ReportsModal({ show, onClose }) {
     formData.append('memberName', selectedDriverName);
     formData.append('carNumber', selectedCarNumber);
     formData.append('vehicleType', form.vehicleType);
-    formData.append('beforeVehiclePhoto', form.beforeVehiclePhoto);
-    formData.append('afterVehiclePhoto', form.afterVehiclePhoto);
-
-    console.log('[formdata ]', formData.get("beforeVehiclePhoto"));
-    console.log('[formdata ]', formData.get("afterVehiclePhoto"));
+    formData.append('beforeImage', form.beforeVehiclePhoto);
+    formData.append('afterImage', form.afterVehiclePhoto);
   
     dispatch(callNewVehicleRepairAPI({ form: formData }));
 
@@ -259,7 +256,7 @@ function ReportsModal({ show, onClose }) {
             </FormGroup>
             <FormGroup>
               <Label for="beforeVehiclePhoto">수리 사진 전</Label>
-              <div {...getBeforeImageRootProps({className : "dropzone"})} >
+              <div {...getBeforeImageRootProps()} className="dropzone">
                 <input {...getBeforeImageInputProps()} />
                 {form.beforeImagePreview ? (
                   <img src={form.beforeImagePreview} alt="Before Preview" style={{ width: '100%' }} />
@@ -270,7 +267,7 @@ function ReportsModal({ show, onClose }) {
             </FormGroup>
             <FormGroup>
               <Label for="afterVehiclePhoto">수리 사진 후</Label>
-              <div {...getAfterImageRootProps({className : "dropzone"})} >
+              <div {...getAfterImageRootProps()} className="dropzone">
                 <input {...getAfterImageInputProps()} />
                 {form.afterImagePreview ? (
                   <img src={form.afterImagePreview} alt="After Preview" style={{ width: '100%' }} />
@@ -306,3 +303,6 @@ function ReportsModal({ show, onClose }) {
 }
 
 export default ReportsModal;
+
+
+           

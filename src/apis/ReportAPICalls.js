@@ -160,8 +160,8 @@ export const callNewVehicleRepairAPI = ({form}) => {
 
   
         
-        console.log('[formdata ]', form.get("beforeVehiclePhoto"))
-        console.log('[formdata ]', form.get("afterVehiclePhoto"))
+        console.log('[formdata ]', form.get("beforeImage"))
+        console.log('[formdata ]', form.get("afterImage"))
         
 
   return async (dispatch, getState) => {
