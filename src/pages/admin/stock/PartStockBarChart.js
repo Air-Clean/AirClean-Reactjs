@@ -47,7 +47,7 @@ function PartStockBarChart({ labels, dataValues, inputValues, originalValues, on
     };
 
     return (
-    <div style={{ display: 'flex', alignItems: 'center', width: '35vw' }}>
+    <div style={{ display: 'flex', alignItems: 'center', width: '50vw' }}>
         <div style={{ flex: 1 }}>
         <Bar data={data} options={options} />
         </div>

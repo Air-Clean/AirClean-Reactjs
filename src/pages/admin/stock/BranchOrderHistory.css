@@ -1,0 +1,58 @@
+.branchStock-order-history {
+  padding: 20px;
+}
+
+.branchStock-order-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.branchStock-order-header,
+.branchStock-order-row {
+  display: flex;
+  justify-content: space-between; /* Flex items evenly distributed */
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.branchStock-order-header > div,
+.branchStock-order-row > div {
+  flex: 1; /* Equally space the flex items */
+  text-align: center;
+}
+
+.branchStock-order-header {
+  font-weight: bold;
+}
+
+.branchStock-order-row:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.branchStock-details-section {
+  margin-top: 20px;
+}
+
+.branchStock-details-section table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+}
+
+.branchStock-details-section th,
+.branchStock-details-section td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.branchStock-details-section th {
+  background-color: #f2f2f2;
+}
+
+.branchStock-graph-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
