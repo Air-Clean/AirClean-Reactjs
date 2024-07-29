@@ -3,6 +3,7 @@ import GarbageResource from './Garbage';
 import '../HumanResource.css'
 
 
+
 function TempResource() {
     console.log('임시저장소 페이지 입니다')
 

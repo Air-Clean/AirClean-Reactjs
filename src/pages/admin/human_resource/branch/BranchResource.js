@@ -70,7 +70,7 @@ export default function BranchResource() {
         <div className="searchbar_container">
           <Searchbar setRegist={setIsRegist} isRegist={isRegist} />
         </div>
-        <Grid container spacing={1} justifyContent="flex-start" className="flex_wrap">
+        <Grid container spacing={1} justifyContent="flex-start">
           {branch?.map((b) => (
               <BioCard branch={b} key={b.memberDTO.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
           ))}
