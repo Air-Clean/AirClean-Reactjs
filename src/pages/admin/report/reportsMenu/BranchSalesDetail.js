@@ -97,6 +97,10 @@ function BranchSalesDetail() {
                 <th className="header">오프라인매출</th>
                 <td colSpan="4">{branchSalesDetail.officeSales}</td>
               </tr>
+              <tr>
+                <th className="header">총 금액</th>
+                <td colSpan="4">{branchSalesDetail.officeSales}</td>
+              </tr>
             </tbody>
           </table>
           <div className="formButtons">

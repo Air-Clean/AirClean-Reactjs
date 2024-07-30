@@ -1,11 +1,34 @@
 // apis/ReportAPICalls.js
-import { BRANCHSALES, DETAILBRANCHSALES
+import { BRANCHMEMBER
+  , BRANCHSALES, DETAILBRANCHSALES
   , VEHICLEREPAIR, DETAILVEHICLEREPAIR
   , EXPENSE, DETAILEXPENSE
   , REPAIR, DETAILREPAIR, NEWVEHICLEREPAIR
   , CARMEMBERS
 
 } from "../modules/ReportsModule";
+
+// 지점, 지점장 조회API
+export const reportsBranchMembers = () => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/branch_members`;
+
+  return async (dispatch, getState) => {
+    const reportsBranchMembersResult = await fetch(requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+    }).then((response) => response.json());
+
+    // 응답 데이터 로그 출력
+    console.log('???API 응답:', reportsBranchMembersResult);
+
+    // 액션 디스패치
+    dispatch({ type: BRANCHMEMBER, payload: reportsBranchMembersResult.data });
+  };
+}; 
 
 // 매출보고서 전체 조회 API
 export const callFindBranchSalesAPI = () => {

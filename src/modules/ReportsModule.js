@@ -14,6 +14,7 @@ export const REPAIR = 'REPAIR'
 export const DETAILREPAIR = 'DETAILREPAIR'
 export const CARMEMBERS = 'CARMEMBERS'
 export const NEWVEHICLEREPAIR = 'NEWVEHICLEREPAIR'
+export const BRANCHMEMBER = 'BRANCHMEMBER'
 
 
 
@@ -28,8 +29,20 @@ createActions({
     [DETAILREPAIR] : () => [],
     [CARMEMBERS] : () => [],
     [NEWVEHICLEREPAIR] : () => [],
+    [BRANCHMEMBER] : () => [],
 
 })
+
+// 지점, 지점장 조회 
+const branchMemberReducer = handleActions({
+    [BRANCHSALES]: (state, {payload}) => {
+        console.log('리듀서 payload :', payload)
+        return payload;
+    }
+}, initialState
+   
+)
+
 
 // 매출보고서 전체 조회
 const branchSalesReducer = handleActions({
@@ -128,7 +141,8 @@ const detailRepairReducer = handleActions({
 
 
 
-export  {branchSalesReducer , detailBranchSalesReducer
+export  {branchMemberReducer
+    , branchSalesReducer , detailBranchSalesReducer
     , vehicleRepairReducer , detailVehicleRepairReducer,newVehicleRepairReducer
     , expenseReducer, detailExpenseReducer
     , findAllRepairReducer, detailRepairReducer
