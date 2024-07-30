@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
-import memberReducer from "./MemberModule";
+import {memberReducer , getBranchReducer} from "./MemberModule";
 import askReducer from "./AskModule";
-import humanReducer from "./HRModule";
+import {humanReducer , humanBranchReducer} from "./HRModule";
 import carReducer from "./CarModule";
 
 import carInfoReducer from "./CarModule";
@@ -22,8 +22,12 @@ import {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branch
 
 const rootReducer = combineReducers({
     memberReducer,
+    getBranchReducer,
     askReducer,
+
     humanReducer,
+    humanBranchReducer,
+
     carReducer,
 
     carInfoReducer,

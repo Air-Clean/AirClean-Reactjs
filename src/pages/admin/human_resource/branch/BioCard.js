@@ -37,6 +37,7 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
   function showBusinessCard() {
     let image =branch.memberDTO.memberImage;
     console.log(image.split('/')[4])
+
     console.log('image anjsi',image);
 
     if(image.split('/')[4]==='null'){
@@ -124,6 +125,7 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
       setDeleteMember(changeDelete);
 
       console.log("삭제 멤버 조회", deleteMember);
+
     };
 
     function toggleValue(array, value) {
@@ -161,11 +163,11 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
                 borderColor: "background.surface",
               }}
             >
-              {branch?.branchRegion}
+              {branch.branchDTO ? branch.branchDTO.branchName : 'no site'}
             </Chip>
             <Typography level="title-lg">{branch?.memberDTO.memberName}</Typography>
             <Typography level="body-sm" sx={{ maxWidth: "24ch" }}>
-              {branch?.branchName}
+              {branch.branchDTO ? branch.branchDTO.branchRegion : ''} 
               <br />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -276,18 +278,19 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
             <div className="content">
                 <img src={image} alt="사진 없음" className="profile" />
                 <div className="name">{branch.memberDTO.memberName}</div>
-                <div className="handle">{branch.branchName}</div>
+                <div className="handle">{branch.branchDTO ? branch.branchDTO.branchName : 'no site'}</div>
                 <div className="contact-info">
                     <div>
-                        {branch.branchAddress}
+                        {branch.branchDTO ? branch.branchDTO.branchRegion : ''}
                     </div>
                     <div>{branch.memberDTO.memberId}</div>
                     <hr />
                     <div>
-                      <Avatar style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
+
+                      {branch.branchDTO ? <Avatar style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
                             <LocalLaundryServiceIcon/>
-                            {getPhoneNumber(branch.branchPhone)}
-                      </Avatar>
+                            {getPhoneNumber(branch.branchDTO.branchPhone)}
+                      </Avatar> : ''}
                       <Avatar style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
                         <StayCurrentPortraitIcon/>
                         {getPhoneNumber(branch.memberDTO.memberPhoneNumber)}

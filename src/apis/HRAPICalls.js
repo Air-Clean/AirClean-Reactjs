@@ -1,5 +1,5 @@
 
-import { BRANCH, EMPLOYEE } from "../modules/HRModule";
+import { BRANCH, EMPLOYEE ,BRANCH_WITHOUT_OWNER} from "../modules/HRModule";
 
 // employee
 export const callEmployeeList=({current})=>{
@@ -394,6 +394,55 @@ export const callDriverList=({current})=>{
             console.log('callDriverList 조회 성공 ',result)
 
             dispatch({type : EMPLOYEE , payload : result.data })
+        }
+    }
+}
+
+export function callBranchWithoutOwner(){
+
+    console.log('callBranchWithoutOwner 동작')
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch/no-owner`
+
+    return async (dispatch,getState) => {
+        const result = await fetch(requestURL,{
+            method : "GET",
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+ window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+
+        console.log('callBranchWithoutOwner return' , result);
+
+        if(result.status===200){
+            dispatch({type : BRANCH_WITHOUT_OWNER,payload : result.data})
+        }
+    }
+}
+
+export function registBranch({form}){
+
+    console.log('registBranch 동작')
+
+    
+
+    return async (dispacth , getState) =>{
+        const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch`;
+        console.log(requestUrl)
+
+        const result = fetch(requestUrl,{
+            method : "POST",
+            headers : {
+                Accept : '*/*',
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
+            },
+            body : form
+        })
+
+        if(result.status === 200){
+            dispacth({type : BRANCH , payload : result.data})
         }
     }
 }

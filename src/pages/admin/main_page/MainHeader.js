@@ -6,7 +6,7 @@ import { ListSubheader } from '@mui/material';
 import './MainHeaderCss.css'
 import 'animate.css'
 
-import { useEffect } from 'react';
+import { useEffect , useState } from 'react';
 import { useDispatch , useSelector } from 'react-redux';
 
 import { callBranchApi } from '../../../apis/MainAPICalls';
@@ -27,9 +27,13 @@ export default function MainHeader({ com, setCom , firm , setFirm}) {
 
     const dispatch = useDispatch();
 
+    const [animationClass, setAnimationClass] = useState('');
+
     const handleChange = e=>{
         console.log('기업 유형',e.target.value)
         setCom(e.target.value);
+
+
     }
 
     
@@ -44,11 +48,23 @@ export default function MainHeader({ com, setCom , firm , setFirm}) {
 
     useEffect(()=>{
         setFirm(branch.filter(b=>b.branchCode === com).map(b=>b.branchName))
-    },[com])
+
+        setAnimationClass('animate__animated animate__fadeInUp');
+
+          // 애니메이션이 끝난 후 클래스 제거
+    const timer = setTimeout(() => {
+        setAnimationClass('');
+      }, 1000); // 애니메이션 지속 시간에 따라 조정
+  
+      return () => clearTimeout(timer);
+
+    },[com,branch,setFirm])
+
+
     
     return (
         <>
-            <div className='mainHeaderBox'>
+            <div className={`mainHeaderBox ${animationClass}`}>
                 <div className='titleBox'>{(!com || com==='Total')? 'Total' : firm}</div>
             </div>
             <div>

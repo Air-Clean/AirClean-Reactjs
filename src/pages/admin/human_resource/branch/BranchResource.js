@@ -67,6 +67,7 @@ export default function BranchResource() {
     <>
 
       <div className="menu1_layout">
+       <div className="flex_wrap">
         <div className="searchbar_container">
           <Searchbar setRegist={setIsRegist} isRegist={isRegist} />
         </div>
@@ -84,8 +85,8 @@ export default function BranchResource() {
         </Grid>
         
         
-        <Paging setCurrent={setCurrent} end={totalPage} />
-        
+          <Paging setCurrent={setCurrent} end={totalPage} />
+        </div>
       </div>
     </>
   );

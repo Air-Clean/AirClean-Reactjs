@@ -1,4 +1,4 @@
-import { POST_LOGIN } from "../modules/MemberModule";
+import { POST_LOGIN ,AFTER_LOGIN } from "../modules/MemberModule";
 import {FIND_MEMBER} from "../modules/AskModule";
 
 export const callLoginAPI= ({ form }) => {
@@ -68,5 +68,30 @@ export function callFindUserAPI({ form }){
         dispatch({
             type : FIND_MEMBER , payload : result
         })
+    }
+}
+
+
+export function callBranchData({memberId}){
+
+    console.log('callBranchData 동작 함' )
+
+    const requestUrl= `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/loging/${memberId}`
+    return async (dispatch , getState) =>{
+        const result = await fetch(requestUrl,{
+            method : "GET",
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer ' + window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+
+        console.log('지점장 로그인과 동시 지점 정보 get',result)
+        if(result.status===200){
+            dispatch({
+                type : AFTER_LOGIN ,payload : result.data
+            })
+        }
     }
 }
