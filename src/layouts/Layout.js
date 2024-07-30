@@ -31,7 +31,7 @@ function Layout() {
 
   useEffect(()=>{
     console.log('branch 정보 들어 왔나요?', branch)
-    window.localStorage.setItem('branch',branch)
+    window.localStorage.setItem('branch',JSON.stringify(branch))
   },[branch])
 
   const memoizedHeader = useMemo(() => {

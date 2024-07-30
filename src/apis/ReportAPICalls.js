@@ -1,11 +1,13 @@
 // apis/ReportAPICalls.js
-import { BRANCHSALES, DETAILBRANCHSALES
+import { 
+  BRANCHSALES, DETAILBRANCHSALES, NEWBRANCHSALES
   , VEHICLEREPAIR, DETAILVEHICLEREPAIR
   , EXPENSE, DETAILEXPENSE
   , REPAIR, DETAILREPAIR, NEWVEHICLEREPAIR
   , CARMEMBERS
 
 } from "../modules/ReportsModule";
+
 
 // 매출보고서 전체 조회 API
 export const callFindBranchSalesAPI = () => {
@@ -50,6 +52,51 @@ export const calldetailBranchSalesAPI = ({branchReportCode}) => {
     dispatch({ type: DETAILBRANCHSALES, payload: detailBranchSalesResult.data})
 }
 }
+
+// 매출보고서 등록 
+
+// export const callNewBranchSalesAPI = (data) => {
+//   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/reports`; 
+
+//   return async (dispatch, getState) => {
+//     const newBranchSalesResult = await fetch(requestURL, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Accept: '*/*',
+//         Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+//       },
+//       body: JSON.stringify(data) 
+//     }).then((response) => response.json())
+
+//     console.log('매출보고서 등록 API 응답하니? :', newBranchSalesResult)
+
+//     dispatch({type: NEWBRANCHSALES, payload: newBranchSalesResult.data})
+//   }
+// }
+
+export const callNewBranchSalesAPI = (data) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/reports`; 
+
+  return async (dispatch, getState) => {
+    const newBranchSalesResult = await fetch(requestURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+      body: JSON.stringify(data) 
+    }).then((response) => response.json())
+
+    console.log('매출보고서 등록 API 응답하니? :', newBranchSalesResult)
+
+    if(newBranchSalesResult.status === 200){
+    dispatch({type: NEWBRANCHSALES, payload: newBranchSalesResult.data})
+  }
+}
+}
+
 
 
 // 지출보고서 전체 조회 API

@@ -6,6 +6,7 @@ const initialState = [];
 
 export const BRANCHSALES = 'BRANCHSALES'
 export const DETAILBRANCHSALES = 'DETAILBRANCHSALES'
+export const NEWBRANCHSALES = 'NEWBRANCHSALES'
 export const VEHICLEREPAIR = 'VEHICLEREPAIR'
 export const EXPENSE = 'EXPENSE'
 export const DETAILEXPENSE = 'DETAILEXPENSE'
@@ -20,6 +21,7 @@ export const NEWVEHICLEREPAIR = 'NEWVEHICLEREPAIR'
 createActions({
     [BRANCHSALES]: ()=>[],
     [DETAILBRANCHSALES]: () => [],
+    [NEWBRANCHSALES]: () => [],
     [VEHICLEREPAIR] : () => [],
     [EXPENSE] : () => [],
     [DETAILEXPENSE] : () => [],
@@ -30,6 +32,8 @@ createActions({
     [NEWVEHICLEREPAIR] : () => [],
 
 })
+
+
 
 // 매출보고서 전체 조회
 const branchSalesReducer = handleActions({
@@ -46,6 +50,19 @@ const detailBranchSalesReducer = handleActions({
     [DETAILBRANCHSALES]: (state, {payload}) => {
         console.log('지출보고서 부분 조회 리듀서 payload :', payload)
         return payload;
+    }
+}, initialState
+   
+)
+
+// 매출보고서 등록
+const newBranchSalesReducer = handleActions({
+    [NEWBRANCHSALES]: (state, {payload}) => {
+        console.log('매출보고서 등록 리듀서 payload :', payload)
+        return {
+            ...state,
+            ...payload
+        }
     }
 }, initialState
    
@@ -128,7 +145,8 @@ const detailRepairReducer = handleActions({
 
 
 
-export  {branchSalesReducer , detailBranchSalesReducer
+export  {
+     branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer
     , vehicleRepairReducer , detailVehicleRepairReducer,newVehicleRepairReducer
     , expenseReducer, detailExpenseReducer
     , findAllRepairReducer, detailRepairReducer

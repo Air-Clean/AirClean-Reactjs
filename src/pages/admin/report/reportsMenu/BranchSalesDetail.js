@@ -58,11 +58,11 @@ function BranchSalesDetail() {
                 <th>양식명</th>
                 <td colSpan="2">{branchSalesDetail.branchReportCode}</td>
                 <th>지점장명</th>
-                <td colSpan="2"></td>
+                <td colSpan="2">{branchSalesDetail.memberName}</td>
               </tr>
               <tr>
                 <th>지점명</th>
-                <td>{branchSalesDetail.branchCode}</td>
+                <td>{branchSalesDetail.branchName}</td>
                 <th>제출일</th>
                 <td colSpan="3">{new Date(branchSalesDetail.branchSubmissionDate).toLocaleDateString()}</td>
               </tr>
@@ -96,6 +96,10 @@ function BranchSalesDetail() {
               <tr>
                 <th className="header">오프라인매출</th>
                 <td colSpan="4">{branchSalesDetail.officeSales}</td>
+              </tr>
+              <tr>
+                <th className="header">총 금액</th>
+                <td colSpan="4">{branchSalesDetail.totalBranchSalesCost}</td>  {/* 총금액 컬럼으로 바꿔놓기 */}
               </tr>
             </tbody>
           </table>

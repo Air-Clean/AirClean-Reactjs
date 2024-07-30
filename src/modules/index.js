@@ -9,7 +9,8 @@ import carInfoReducer from "./CarModule";
 import { branchReducer } from "./BranchModule";
 
 // 도아 - 보고서 
-import { branchSalesReducer , detailBranchSalesReducer
+import { 
+     branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer
     , vehicleRepairReducer, detailVehicleRepairReducer
     , expenseReducer, detailExpenseReducer
     , findAllRepairReducer,detailRepairReducer
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
 
     branchSalesReducer,
     detailBranchSalesReducer,
+    newBranchSalesReducer,
     vehicleRepairReducer,
     expenseReducer,
     detailExpenseReducer,

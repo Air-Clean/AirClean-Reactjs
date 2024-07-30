@@ -59,11 +59,11 @@ function ExpenseDetail() {
                 <th>양식명</th>
                 <td colSpan="2">{expenseDetail.expenseReportCode}</td>
                 <th>지점장명</th>
-                <td colSpan="2"></td>
+                <td colSpan="2">{expenseDetail.memberName}</td>
               </tr>
               <tr>
                 <th>지점명</th>
-                <td>{expenseDetail.branchCode}</td>
+                <td>{expenseDetail.branchName}</td>
                 <th>제출일</th>
                 <td colSpan="3">{new Date(expenseDetail.expenseSubmissionDate).toLocaleDateString()}</td>
               </tr>
@@ -87,9 +87,10 @@ function ExpenseDetail() {
                 <td colSpan="4">{expenseDetail.partTimeSalary}</td>
               </tr>
               <tr>
-                <th className="header">시설물수리비</th>
-                <td colSpan="4">{expenseDetail.repairCost}</td>
+                <th className="header">총금액</th>
+                <td colSpan="4">{expenseDetail.totalExpenseCost}</td> {/* 총금액 컬럼명으로 바꿔놓기 */}
               </tr>
+
             </tbody>
           </table>
           <div className="formButtons">
