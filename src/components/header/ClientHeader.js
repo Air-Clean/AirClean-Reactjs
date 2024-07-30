@@ -81,7 +81,7 @@ const AdminHeader = () => {
               className={`${styles.menuItem} ${activeMenu === 5 ? styles.active : ''}`}
               onClick={() => changeColor(5)}
             >
-              <div>마이페이지</div>
+              <div>시설물현황</div>
             </li>
           </ul>
           {dropdownVisible && (
@@ -132,7 +132,7 @@ const AdminHeader = () => {
                   </ul>
                 </li>
                 <li className={styles.menuItem5} onClick={() => changeColor(5)}>
-                  <NavLink to="#submenu1-5" activeClassName={styles.active}>5</NavLink>
+                  <NavLink to="facility" activeClassName={styles.active}>시설물정보</NavLink>
                   <ul className={styles.submenu}>
                     <li>
                       <NavLink to="#submenu1-5-1" activeClassName={styles.active}>5-1</NavLink>

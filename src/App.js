@@ -31,6 +31,8 @@ import StockHistory from './pages/admin/stock/StockHistory';
 import StockHistoryLayout from './pages/admin/stock/StockHistoryLayout';
 import BranchOrderHistory from './pages/admin/stock/BranchOrderHistory';
 
+import FacilityManagement from './pages/client/facilityManagement/FacilityManagement';
+
 import Branch from './pages/admin/branch/Branch';
 import BranchClient from './pages/client/branchClient/BranchClient';
 
@@ -116,6 +118,10 @@ function App() {
 
             <Route path="branchClient">
               <Route index element={<BranchClient/>} />
+            </Route>
+
+            <Route path="facility" element={<FacilityManagement/>}>
+              <Route index element={<FacilityManagement/>}/>
             </Route>
 
           </Route>

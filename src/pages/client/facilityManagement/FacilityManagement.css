@@ -1,0 +1,80 @@
+/* Facility.css */
+
+.Facility-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 화면의 전체 높이 */
+    margin: 0;
+}
+.Facility-washing-machine {
+    width: 250px;  /* 너비를 조금 늘려서 정사각형에 가까운 형태로 만듭니다 */
+    height: 250px; /* 높이도 같은 값으로 설정합니다 */
+    background-color: #a9f2ff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Facility-washing-machine .Facility-door {
+    width: 120px;
+    height: 120px;
+    background-color: #ececec;
+    border: 2px solid #000;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Facility-washing-machine .Facility-graph {
+    width: 80%;
+    height: 10px;
+    background-color: #000;
+    position: absolute;
+    top: 10%;
+}
+
+.Facility-washing-machine .Facility-horizontal-bar {
+    width: 60%;
+    height: 20px;
+    background-color: #ececec;
+    border: 2px solid #000;
+    border-radius: 10px;
+    position: absolute;
+    top: -30px;
+}
+
+.Facility-washing-machine .Facility-control-panel {
+    width: 230px;
+    height: 40px;
+    background-color: #ddd;
+    border-bottom: 2px solid #000;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.Facility-washing-machine .Facility-control-panel .Facility-button {
+    width: 20px;
+    height: 20px;
+    background-color: #000;
+    border-radius: 50%;
+}
+
+.Facility-washing-machine .Facility-control-panel .Facility-display {
+    width: 60px;
+    height: 20px;
+    background-color: #fff;
+    border: 1px solid #000;
+}
