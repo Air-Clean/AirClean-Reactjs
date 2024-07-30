@@ -26,6 +26,7 @@ export default function BranchModifyModal({ modal, toggle, branch ,form, setForm
   console.log('member token 확인',members)
 
   const [postcodeVisible, setPostcodeVisible] = useState(false);
+  const [branchNoOwner , setBranchNoOwner] = useState([]);
 
   useEffect(() => {
     if (modal) {
