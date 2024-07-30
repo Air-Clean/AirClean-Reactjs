@@ -15,20 +15,20 @@ function BranchOrderHistory() {
   const [detergentInfo, setDetergentInfo] = useState(detergentsInfo);
   const [partInfo, setPartsInfo] = useState(partsInfo);
 
+  useEffect(() => {
+    dispatch(callBranchStockHistoryAPI());
+    dispatch(callDetergentsInfoAPI());
+    dispatch(callPartsInfoAPI());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setDetergentInfo(detergentsInfo);
+    setPartsInfo(partsInfo);
+  }, [detergentsInfo, partsInfo]);
+
   console.log('partsInfo', partInfo);
   console.log('detergentsInfo', detergentInfo);
 
-  useEffect(() => {
-    dispatch(callBranchStockHistoryAPI());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(callDetergentsInfoAPI());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(callPartsInfoAPI());
-  }, [dispatch]);
 
   const handleClick = (item) => {
     setSelectedItem(item);
@@ -40,6 +40,84 @@ function BranchOrderHistory() {
 
   const handleSortChange = (e) => {
     setSortOrder(e.target.value);
+  };
+
+  const handleApprove = (item) => {
+    // Update stock values
+    const updatedDetergentInfo = detergentInfo.map(detergent => {
+      if (detergent.laundrySupply.laundrySupplyName === '세제') {
+        return {
+          ...detergent,
+          laundrySupplyStock: detergent.laundrySupplyStock - item.bDetergent,
+        };
+      }
+      if (detergent.laundrySupply.laundrySupplyName === '섬유유연제') {
+        return {
+          ...detergent,
+          laundrySupplyStock: detergent.laundrySupplyStock - item.bSoftener,
+        };
+      }
+      if (detergent.laundrySupply.laundrySupplyName === '표백제') {
+        return {
+          ...detergent,
+          laundrySupplyStock: detergent.laundrySupplyStock - item.bBleach,
+        };
+      }
+      if (detergent.laundrySupply.laundrySupplyName === '얼룩제거제') {
+        return {
+          ...detergent,
+          laundrySupplyStock: detergent.laundrySupplyStock - item.bRemover,
+        };
+      }
+      if (detergent.laundrySupply.laundrySupplyName === '세탁조 클리너') {
+        return {
+          ...detergent,
+          laundrySupplyStock: detergent.laundrySupplyStock - item.bDrumCleaner,
+        };
+      }
+      if (detergent.laundrySupply.laundrySupplyName === '건조기 시트') {
+        return {
+          ...detergent,
+          laundrySupplyStock: detergent.laundrySupplyStock - item.bSheet,
+        };
+      }
+      return detergent;
+    });
+
+    const updatedPartsInfo = partInfo.map(part => {
+      if (part.laundryPart.laundryPartName === '세탁기 필터') {
+        return {
+          ...part,
+          laundryPartStock: part.laundryPartStock - item.bLaundryFilter,
+        };
+      }
+      if (part.laundryPart.laundryPartName === '건조기 필터') {
+        return {
+          ...part,
+          laundryPartStock: part.laundryPartStock - item.bDryerFilter,
+        };
+      }
+      if (part.laundryPart.laundryPartName === '드라이클리너 필터') {
+        return {
+          ...part,
+          laundryPartStock: part.laundryPartStock - item.bDryCleanerFilter,
+        };
+      }
+      return part;
+    });
+
+    setDetergentInfo(updatedDetergentInfo);
+    setPartsInfo(updatedPartsInfo);
+
+    console.log('승인 후 detergentsInfo:', detergentInfo);
+    console.log('승인 후 partsInfo', partInfo);
+    // Optional: Update the item status to '승인'
+    // dispatch(updateItemStatus(item.bApplicationCode, '승인'));
+  };
+
+  const handleReject = (item) => {
+    // Optional: Update the item status to '반려'
+    // dispatch(updateItemStatus(item.bApplicationCode, '반려'));
   };
 
   const getPreviousItem = (currentItem) => {
@@ -122,8 +200,8 @@ function BranchOrderHistory() {
                 <th>섬유유연제</th>
                 <th>표백제</th>
                 <th>얼룩제거제</th>
-                <th>드럼클리너</th>
-                <th>시트</th>
+                <th>세탁조 클리너</th>
+                <th>건조기 시트</th>
               </tr>
             </thead>
             <tbody>
@@ -140,9 +218,9 @@ function BranchOrderHistory() {
           <table>
             <thead>
               <tr>
-                <th>세탁필터</th>
+                <th>세탁기 필터</th>
                 <th>건조기 필터</th>
-                <th>드라이 클리너 필터</th>
+                <th>드라이클리너 필터</th>
               </tr>
             </thead>
             <tbody>
@@ -160,6 +238,12 @@ function BranchOrderHistory() {
               getAverage={getAverage}
             />
           </div>
+          {selectedItem.bApplicationStatus === '미승인' && (
+            <div className="branchStock-action-buttons">
+              <button onClick={() => handleApprove(selectedItem)}>승인</button>
+              <button onClick={() => handleReject(selectedItem)}>반려</button>
+            </div>
+          )}
         </div>
       )}
     </div>
