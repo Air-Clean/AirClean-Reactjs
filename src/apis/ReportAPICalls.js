@@ -1,6 +1,6 @@
 // apis/ReportAPICalls.js
-import { BRANCHMEMBER
-  , BRANCHSALES, DETAILBRANCHSALES
+import { 
+  BRANCHSALES, DETAILBRANCHSALES, NEWBRANCHSALES
   , VEHICLEREPAIR, DETAILVEHICLEREPAIR
   , EXPENSE, DETAILEXPENSE
   , REPAIR, DETAILREPAIR, NEWVEHICLEREPAIR
@@ -8,27 +8,6 @@ import { BRANCHMEMBER
 
 } from "../modules/ReportsModule";
 
-// 지점, 지점장 조회API
-export const reportsBranchMembers = () => {
-  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/branch_members`;
-
-  return async (dispatch, getState) => {
-    const reportsBranchMembersResult = await fetch(requestURL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: '*/*',
-        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-      },
-    }).then((response) => response.json());
-
-    // 응답 데이터 로그 출력
-    console.log('???API 응답:', reportsBranchMembersResult);
-
-    // 액션 디스패치
-    dispatch({ type: BRANCHMEMBER, payload: reportsBranchMembersResult.data });
-  };
-}; 
 
 // 매출보고서 전체 조회 API
 export const callFindBranchSalesAPI = () => {
@@ -73,6 +52,51 @@ export const calldetailBranchSalesAPI = ({branchReportCode}) => {
     dispatch({ type: DETAILBRANCHSALES, payload: detailBranchSalesResult.data})
 }
 }
+
+// 매출보고서 등록 
+
+// export const callNewBranchSalesAPI = (data) => {
+//   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/reports`; 
+
+//   return async (dispatch, getState) => {
+//     const newBranchSalesResult = await fetch(requestURL, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Accept: '*/*',
+//         Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+//       },
+//       body: JSON.stringify(data) 
+//     }).then((response) => response.json())
+
+//     console.log('매출보고서 등록 API 응답하니? :', newBranchSalesResult)
+
+//     dispatch({type: NEWBRANCHSALES, payload: newBranchSalesResult.data})
+//   }
+// }
+
+export const callNewBranchSalesAPI = (data) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/reports`; 
+
+  return async (dispatch, getState) => {
+    const newBranchSalesResult = await fetch(requestURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+      body: JSON.stringify(data) 
+    }).then((response) => response.json())
+
+    console.log('매출보고서 등록 API 응답하니? :', newBranchSalesResult)
+
+    if(newBranchSalesResult.status === 200){
+    dispatch({type: NEWBRANCHSALES, payload: newBranchSalesResult.data})
+  }
+}
+}
+
 
 
 // 지출보고서 전체 조회 API

@@ -6,6 +6,7 @@ const initialState = [];
 
 export const BRANCHSALES = 'BRANCHSALES'
 export const DETAILBRANCHSALES = 'DETAILBRANCHSALES'
+export const NEWBRANCHSALES = 'NEWBRANCHSALES'
 export const VEHICLEREPAIR = 'VEHICLEREPAIR'
 export const EXPENSE = 'EXPENSE'
 export const DETAILEXPENSE = 'DETAILEXPENSE'
@@ -14,13 +15,13 @@ export const REPAIR = 'REPAIR'
 export const DETAILREPAIR = 'DETAILREPAIR'
 export const CARMEMBERS = 'CARMEMBERS'
 export const NEWVEHICLEREPAIR = 'NEWVEHICLEREPAIR'
-export const BRANCHMEMBER = 'BRANCHMEMBER'
 
 
 
 createActions({
     [BRANCHSALES]: ()=>[],
     [DETAILBRANCHSALES]: () => [],
+    [NEWBRANCHSALES]: () => [],
     [VEHICLEREPAIR] : () => [],
     [EXPENSE] : () => [],
     [DETAILEXPENSE] : () => [],
@@ -29,19 +30,9 @@ createActions({
     [DETAILREPAIR] : () => [],
     [CARMEMBERS] : () => [],
     [NEWVEHICLEREPAIR] : () => [],
-    [BRANCHMEMBER] : () => [],
 
 })
 
-// 지점, 지점장 조회 
-const branchMemberReducer = handleActions({
-    [BRANCHSALES]: (state, {payload}) => {
-        console.log('리듀서 payload :', payload)
-        return payload;
-    }
-}, initialState
-   
-)
 
 
 // 매출보고서 전체 조회
@@ -59,6 +50,19 @@ const detailBranchSalesReducer = handleActions({
     [DETAILBRANCHSALES]: (state, {payload}) => {
         console.log('지출보고서 부분 조회 리듀서 payload :', payload)
         return payload;
+    }
+}, initialState
+   
+)
+
+// 매출보고서 등록
+const newBranchSalesReducer = handleActions({
+    [NEWBRANCHSALES]: (state, {payload}) => {
+        console.log('매출보고서 등록 리듀서 payload :', payload)
+        return {
+            ...state,
+            ...payload
+        }
     }
 }, initialState
    
@@ -141,8 +145,8 @@ const detailRepairReducer = handleActions({
 
 
 
-export  {branchMemberReducer
-    , branchSalesReducer , detailBranchSalesReducer
+export  {
+     branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer
     , vehicleRepairReducer , detailVehicleRepairReducer,newVehicleRepairReducer
     , expenseReducer, detailExpenseReducer
     , findAllRepairReducer, detailRepairReducer

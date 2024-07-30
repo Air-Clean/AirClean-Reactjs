@@ -1,7 +1,7 @@
 // BranchSales.js
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { callFindBranchSalesAPI, callFindExpenseAPI, callFindVehicleRepairAPI, callFindRepairAPI, callCarMembersAPI, reportsBranchMembers } from '../../../../apis/ReportAPICalls';
+import { callFindBranchSalesAPI, callFindExpenseAPI, callFindVehicleRepairAPI, callFindRepairAPI, callCarMembersAPI } from '../../../../apis/ReportAPICalls';
 import { useNavigate, useLocation } from 'react-router-dom'; 
 import './BranchSales.css';
 
@@ -10,8 +10,7 @@ function BranchSales() {
   const location = useLocation();
   const [activeTable, setActiveTable] = useState(location.state?.activeTable || '매출'); // 초기값을 '매출'로 설정
   const dispatch = useDispatch();
-  // 지점, 지점장 조회
-  const reportsBranchMembersResult = useSelector(state => state.branchMemberReducer)
+
   // 매출보고서 
   const branchSalesResult = useSelector(state => state.branchSalesReducer);
   // 매출보고서 페이지 이동
@@ -41,15 +40,7 @@ function BranchSales() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTable, dispatch]); // result를 의존성 배열에 포함
 
-   const getBranchName = (branchName) => {
-    const branch = reportsBranchMembersResult.find(item => item.branchName === branchName);
-    return branch ? branch.branchName : 'Unknown';
-  };
 
-  const getBranchManagerName = (branchCode) => {
-    const branch = reportsBranchMembersResult.find(item => item.branchCode === branchCode);
-    return branch ? branch.managerName : 'Unknown';
-  };
 
   const renderTable = () => {
     switch (activeTable) {
@@ -69,7 +60,7 @@ function BranchSales() {
               {branchSalesResult.map((item) => (
                 <tr key={item.branchReportCode}>
                   <td>{item.branchReportCode}</td>
-                  <td>{getBranchName(item.branchName)}</td>     {/* 지점명 */}
+                  <td>{item.branchName}</td>     
                   <td>{new Date(item.branchSubmissionDate).toLocaleDateString()}</td>
                   <td>{item.branchReportStatus}</td>
                   <td><button onClick={() => navigate(`/company/paper/reports/branchSales/${item.branchReportCode}`)}>View</button></td>
@@ -95,7 +86,7 @@ function BranchSales() {
               {expenseResult.map((expense) => (
                 <tr key={expense.expenseReportCode}>
                   <td>{expense.expenseReportCode}</td>
-                  <td>{expense.branchCode}</td>   {/* 지점명 인데 일단 지점코드로 가지고옴 */}
+                  <td>{expense.branchName}</td>  
                   <td>{new Date(expense.expenseSubmissionDate).toLocaleDateString()}</td>
                   <td>{expense.expenseReportStatus}</td>
                   <td><button onClick={() => navigate(`/company/paper/reports/expenseReports/${expense.expenseReportCode}`)}>View</button></td>
@@ -122,8 +113,8 @@ function BranchSales() {
               {result.map((vehicle) => (
                 <tr key={vehicle.vehicleReportCode}>
                   <td>{vehicle.vehicleReportCode}</td>
-                  <td>{vehicle.carNumber}</td>    {/* 차량번호 조인으로 가지고 오기 */}
-                  <td>{vehicle.memberName}</td>   {/* 지점장 이름 가지고 오기 */}
+                  <td>{vehicle.carNumber}</td>   
+                  <td>{vehicle.memberName}</td> 
                   <td>{new Date(vehicle.vehicleSubmissionDate).toLocaleDateString()}</td>
                   <td>{vehicle.vehicleReportStatus}</td> 
                   <td><button onClick={() => navigate(`/company/paper/reports/vehicleRepair/${vehicle.vehicleReportCode}`)}>View</button></td>
@@ -151,7 +142,7 @@ function BranchSales() {
               {repairResult.map((repair) =>(
                 <tr key={repair.repairReportCode}>
                 <td>{repair.repairReportCode}</td>
-                <td>{repair.branchCode}</td>    {/* 지점명*/}
+                <td>{repair.branchName}</td>  
                 <td>{repair.facilityCode}</td>   {/* 종류 */}
                 <td>{new Date(repair.repairSubmissionDate).toLocaleDateString()}</td>
                 <td>{repair.repairReportStatus}</td> 

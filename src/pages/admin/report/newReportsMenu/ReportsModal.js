@@ -303,6 +303,3 @@ function ReportsModal({ show, onClose }) {
 }
 
 export default ReportsModal;
-
-
-           

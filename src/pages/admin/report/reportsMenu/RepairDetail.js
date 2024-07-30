@@ -59,11 +59,11 @@ function RepairDetail() {
                 <th>양식명</th>
                 <td colSpan="2">{repairDetail.repairReportCode}</td>
                 <th>지점명</th>
-                <td colSpan="2">{repairDetail.branchCode}</td>
+                <td colSpan="2">{repairDetail.branchName}</td>
               </tr>
               <tr>
                 <th>지점장명</th>
-                <td></td>
+                <td>{repairDetail.memberName}</td>
                 <th>제출일</th>
                 <td colSpan="3">{new Date(repairDetail.repairSubmissionDate).toLocaleDateString()}</td>
               </tr>
