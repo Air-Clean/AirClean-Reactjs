@@ -19,6 +19,8 @@ import {
 
 import {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer}  from "./StockModule";
 
+import {waterLevelReducer} from "./LandlyModule";
+
 
 
 const rootReducer = combineReducers({
@@ -49,8 +51,10 @@ const rootReducer = combineReducers({
     headStockHistoryReducer,
     branchStockHistoryReducer,
 
-    branchReducer
+    branchReducer,
 
+
+    waterLevelReducer
 })
 
 

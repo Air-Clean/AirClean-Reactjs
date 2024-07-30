@@ -1,28 +1,27 @@
 import './WaterTnakInformation.css'
 import waterTank from '../../assets/waterTank.png';
 import React, { useState, useEffect } from 'react';
+import { fetchWaterLevel } from '../../apis/LandryAPICall';
+import { useDispatch } from 'react-redux';
+
 
 function WaterTankInformation() {
 
+    const dispatch = useDispatch();
+
     const [waterLevel, setWaterLevel] = useState(7500); // 초기 물의 양 예시로 7500L 설정
+    console.log(setWaterLevel)
 
+    // const accessToken = window.localStorage.getItem('accessToken');
+
+    
     useEffect(() => {
-        // 서버에서 물의 양을 가져오는 예시 (비동기 호출)
-        async function fetchWaterLevel() {
-            // 서버 호출 예시 (axios 사용 가능)
-            // const response = await axios.get('/api/water-level');
-            // setWaterLevel(response.data.level);
-            
-            // 여기서는 예시로 랜덤 값을 설정합니다.
-            const level = '8000';
-            setWaterLevel(level);
-        }
+        console.log("실행확인")
+        dispatch(fetchWaterLevel());
+    }, [dispatch]);
 
-        fetchWaterLevel();
-    }, []);
-
-    // 물의 양을 퍼센트로 변환 (10000L일 때 100%)
     const waterHeightPercentage = Math.min((waterLevel / 10000) * 100, 100);
+    console.log(waterHeightPercentage)
 
     // top 값을 물의 양에 따라 조정
     const calculateTopValue = (level) => {
