@@ -16,11 +16,11 @@ import {
 import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import DaumPostcodeEmbed from "react-daum-postcode";
-import { useDispatch} from "react-redux";
+import { useDispatch , useSelector} from "react-redux";
 
 import "animate.css";
 import './RegistBranchCss.css'
-import { registEmployee } from "../../../../apis/HRAPICalls";
+import { registBranch , callBranchWithoutOwner} from "../../../../apis/HRAPICalls";
 
 
 export default function RegistBranch({ openModal, regist }) {
@@ -31,7 +31,7 @@ export default function RegistBranch({ openModal, regist }) {
   const [form, setForm] = useState({
     memberName: "",
     memberPhoneNumber: "",
-    memberRole: "",
+    branchCode : '',
     memberEmail: '',
     memberBirthDate: "",
     memberGender: "",
@@ -39,15 +39,13 @@ export default function RegistBranch({ openModal, regist }) {
     image: null,
     imagePreview: "",
     memberHireDate : '',
-    employeeDept: '',
-    employeePosition : ''
   });
 
   useEffect(()=>{
     setForm({
         memberName: "",
         memberPhoneNumber: "",
-        memberRole: "",
+        branchCode : '',
         memberEmail: '',
         memberBirthDate: "",
         memberGender: "",
@@ -55,8 +53,6 @@ export default function RegistBranch({ openModal, regist }) {
         image: null,
         imagePreview: "",
         memberHireDate : '',
-        employeeDept: '',
-        employeePosition : ''
       })
       setRSelected(null)
       setPostcodeVisible(false)
@@ -70,11 +66,9 @@ export default function RegistBranch({ openModal, regist }) {
     if(name==='memberGender'){
         setRSelected(value);
     }
-
-
-
     setForm(changeForm);
   };
+
 
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -115,24 +109,30 @@ export default function RegistBranch({ openModal, regist }) {
 
     formData.append("memberName",form.memberName)
     formData.append("memberPhoneNumber",form.memberPhoneNumber)
-    formData.append("memberRole",form.memberRole)
     formData.append("memberEmail",form.memberEmail)
     formData.append("memberBirthDate",form.memberBirthDate)
     formData.append("memberGender",form.memberGender)
     formData.append("memberAddress",form.memberAddress)
     formData.append("memberHireDate",form.memberHireDate)
-    formData.append("employeeDept",form.employeeDept)
-    formData.append("employeePosition",form.employeePosition)
+    formData.append("branchCode",form.branchCode)    
     
 
     if(form.image){
         formData.append("image",form.image)
     }
     
-    dispatch(registEmployee({form : formData}))
+    dispatch(registBranch({form : formData}))
 
     window.location.reload();
   };
+
+  useEffect(()=>{
+    dispatch(callBranchWithoutOwner())
+  },[])
+
+  const noBranch = useSelector(state=>state.humanBranchReducer);
+
+
 
   return (
     <Modal
@@ -141,7 +141,7 @@ export default function RegistBranch({ openModal, regist }) {
       centered
       className="animate__animated animate__fadeInLeftBig custom-modal"
     >
-      <ModalHeader toggle={openModal}>Employee Register</ModalHeader>
+      <ModalHeader toggle={openModal}>Branch Manager Register</ModalHeader>
       <ModalBody>
         <Row form>
           <Col md={6}>
@@ -197,18 +197,15 @@ export default function RegistBranch({ openModal, regist }) {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="memberRole">사원 유형</Label>
+              <Label for="branchCode">지점 선택</Label>
               <Input
               type="select"
-              name="memberRole"
-              id="memberRole"
-              value={form.memberRole}
+              name="branchCode"
+              id="branchCode"
               onChange={inputHandler}
             >
-              <option value="">Select Role</option>
-              <option value="e">직원</option>
-              <option value="b">지점장</option>
-              <option value="d">차량기사</option>
+              <option value="">Select Branch</option>
+              {noBranch && noBranch.map(b=><option value={b.branchCode}>{b.branchName}</option>)}
             </Input>
             </FormGroup>
             <FormGroup>
@@ -222,17 +219,7 @@ export default function RegistBranch({ openModal, regist }) {
                 placeholder="Enter Email"
               />
             </FormGroup>
-            <FormGroup>
-              <Label for="memberBrithDate">Birthday</Label>
-              <Input
-                type="date"
-                name="memberBirthDate"
-                id="memberBrithDate"
-                value={form.memberBirthDate}
-                onChange={inputHandler}
-                placeholder="Enter birthdate"
-              />
-            </FormGroup>
+            
             <FormGroup>
               <Label for="memberGender">Gender</Label>
               <ButtonGroup className="my-2" size="m" style={{ width: "100%" }} onClick={inputHandler}>
@@ -243,36 +230,15 @@ export default function RegistBranch({ openModal, regist }) {
           </Col>
           <Col md={6}>
             <FormGroup>
-              <Label for="employeeDept">Department</Label>
+              <Label for="memberBrithDate">Birthday</Label>
               <Input
-                type="select"
-                name="employeeDept"
-                id="employeeDept"
-                value={form.employeeDept}
+                type="date"
+                name="memberBirthDate"
+                id="memberBrithDate"
+                value={form.memberBirthDate}
                 onChange={inputHandler}
-              >
-                <option value="">Select Department</option>
-                <option value="마케팅">Marketing</option>
-                <option value="운영">Operation</option>
-                <option value="인사">HR</option>
-                <option value="재무">Financial</option>
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="employeePosition">Position</Label>
-              <Input
-              type="select"
-              name="employeePosition"
-              id="employeePosition"
-              value={form.employeePosition}
-              onChange={inputHandler}
-            >
-              <option value="">Select Position</option>
-              <option value="부장">부장</option>
-              <option value="과장">과장</option>
-              <option value="대리">대리</option>
-              <option value="사원">사원</option>
-            </Input>
+                placeholder="Enter birthdate"
+              />
             </FormGroup>
             <FormGroup>
               <Label for="memberHireDate">Hire Date</Label>

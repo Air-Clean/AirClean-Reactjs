@@ -11,6 +11,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import './Searchcss.css';
 import { useState } from "react";
 import RegistEmployee from "./employee/RegistEmployee";
+import RegistBranch from "./branch/RegistBranch";
+import RegistDriver from './driver/RegistDriver'
 
 
 const Search = styled("div")(({ theme }) => ({
@@ -106,7 +108,17 @@ export default function Searchbar({isRegist , setIsRegist}) {
           </Search>
         </Toolbar>
       </AppBar>
-      <RegistEmployee  regist={regist} openModal={openModal} />
+      {/* <RegistEmployee  regist={regist} openModal={openModal} /> */}
+      {
+        (()=>{
+          switch(currentPosition){
+            case 'employee' : return(<RegistEmployee regist={regist} openModal={openModal}/>)
+            case 'branch' : return(<RegistBranch regist={regist} openModal={openModal}/>)
+            case 'driver' : return(<RegistDriver regist={regist} openModal={openModal}/>)
+            default : return undefined;
+          }
+        })()
+      }
     </Box>
   
   );

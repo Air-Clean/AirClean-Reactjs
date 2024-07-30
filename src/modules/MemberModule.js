@@ -5,16 +5,22 @@ const initState = [];
 
 // 액션
 export const POST_LOGIN = 'member/POST_LOGIN';
+export const AFTER_LOGIN = 'AFTER_LOGIN'
 
 createActions({
     [POST_LOGIN] : ()=>{},
 })
 
-const memberReducer = handleActions({
+export const memberReducer = handleActions({
     [POST_LOGIN] : (state,{payload})=>{
         return payload;
     },
     
 },initState)
 
-export default memberReducer;
+export const getBranchReducer = handleActions({
+    [AFTER_LOGIN] : (state,{payload})=>{
+        return payload;
+    }
+},initState)
+

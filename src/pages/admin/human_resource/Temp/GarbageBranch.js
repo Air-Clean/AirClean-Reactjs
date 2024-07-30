@@ -1,4 +1,4 @@
-import AccordionComponent from "./AccordionComponent";
+import AccordionAnotherComponent from "./AccordionAnotherComponent";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { softDeleteBranch } from "../../../../apis/HRAPICalls";
@@ -47,6 +47,7 @@ export default function GarbageEmp({amount}) {
   }
 
   useEffect(() => {
+
     console.log("renderinng");
 
     dispatch(softDeleteBranch({ current, amount }));
@@ -89,7 +90,7 @@ export default function GarbageEmp({amount}) {
       <div style={{ display: "flex", flexDirection: "column" }}>
         {branch.data.content.length > 0 ? (
           branch.data.content.map((emp) => (
-            <AccordionComponent emp={emp} killMember={killMember} setKillMember={setKillMember} saveMember={saveMember} setSaveMember={setSaveMember} key={emp.branchCode} isDelete={isDelete} isSave={isSave} />
+            <AccordionAnotherComponent emp={emp} killMember={killMember} setKillMember={setKillMember}  isDelete={isDelete} isSave={isSave} />
           ))
         ) : (
           <div>No employees found.</div>
