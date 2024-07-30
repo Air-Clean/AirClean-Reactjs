@@ -3,9 +3,7 @@ import Map from '../../../components/branch/Map';
 import BranchList from '../../../components/branch/BranchList';
 import BranchInformation from '../../../components/branch/Branchinformation';
 // import { Provider } from 'react-redux';
-import { useState , useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useState } from 'react';
 
 function Branch() {
 
@@ -19,13 +17,6 @@ function Branch() {
     const handleLocationChange = (name) => {
         setLocationName(name);
     }
-
-    const dispatch = useDispatch();
-
-
-    useEffect(()=>{
-        dispatch()
-    },[])
 
     return (
         // <Provider store={store}>

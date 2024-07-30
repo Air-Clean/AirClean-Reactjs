@@ -95,7 +95,3 @@ export function callBranchData({memberId}){
         }
     }
 }
-
-
-
-
