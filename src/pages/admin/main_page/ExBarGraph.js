@@ -27,7 +27,7 @@ export default function ExBarGraph() {
                     />
                 </div>
             </div>
-            <div className="water">
+            <div className="waterCost">
                 <div className="costTitle">
                     <div style={{display : 'flex'}}><WaterDropIcon/>수도세</div>
                     <div>88482384</div>

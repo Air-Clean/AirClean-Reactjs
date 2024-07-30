@@ -19,7 +19,7 @@
     top: 0;
 }
 
-.water{
+.c_water{
     background-color: rgb(228, 234, 250);
     position: absolute;
     z-index: 0;
@@ -28,8 +28,6 @@
     top: 23px;
     left: 12px;
     border-radius: 34%;
-
-    
 }
 
 

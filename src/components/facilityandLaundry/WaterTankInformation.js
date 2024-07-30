@@ -12,8 +12,12 @@ function WaterTankInformation() {
     const [waterLevel, setWaterLevel] = useState(7500); // 초기 물의 양 예시로 7500L 설정
     console.log(setWaterLevel)
 
-    // const accessToken = window.localStorage.getItem('accessToken');
+    const accessToken = window.localStorage.getItem('accessToken');
+    const branch = JSON.parse(window.localStorage.getItem('branch'));
 
+    
+    console.log("여기 실험")
+    console.log(branch)
     
     useEffect(() => {
         console.log("실행확인")
@@ -44,7 +48,7 @@ function WaterTankInformation() {
                 <div style={{width:'165px', height:'70%', display:'flex', justifyContent:'center'}}>
                     <div style={{ height:'100%', position:'relative'}}>
                         <div className="wrapper" style={{ width:'165px', height:'100%', position:'relative'}}>
-                            <div className="water" style={{overflow: 'hidden'}}>
+                            <div className="c_water" style={{overflow: 'hidden'}}>
 
                                 <div style={{width:'130px', height:'82px', position:'relative', overflow:'hidden'}}>
 
