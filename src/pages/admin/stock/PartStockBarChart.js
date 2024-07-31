@@ -47,7 +47,7 @@ function PartStockBarChart({ labels, dataValues, inputValues, originalValues, on
     };
 
     return (
-    <div style={{ display: 'flex', alignItems: 'center', width: '50vw' }}>
+    <div style={{ display: 'flex', alignItems: 'center', width: '45vw' }}>
         <div style={{ flex: 1 }}>
         <Bar data={data} options={options} />
         </div>
@@ -67,7 +67,7 @@ function PartStockBarChart({ labels, dataValues, inputValues, originalValues, on
             </div>
         ))}
         </div>
-        <button onClick={onMaxClick} style={{ marginLeft: '10px' }}>Max</button>
+        <button className='stock_max_button' onClick={onMaxClick} style={{ marginLeft: '10px' }}>Max</button>
     </div>
     );
 }

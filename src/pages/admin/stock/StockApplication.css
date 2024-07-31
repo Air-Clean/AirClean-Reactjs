@@ -120,9 +120,30 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin: 5px; /* 버튼 간격 추가 */
+  margin: 1%; /* 버튼 간격 추가 */
 }
 
 .stock_submit_section button:hover {
   background-color: #45a049;
 }
+
+/* 버튼 기본 스타일 */
+.stock_max_button {
+  border: none; /* 기본 버튼 테두리 제거 */
+  color: white; /* 글자 색상 */
+  font-size: 0.875rem; /* 폰트 크기 줄이기 (반응형) */
+  font-weight: 550; /* 폰트 진하게 */
+  padding: 0.5rem 1rem; /* 버튼의 여백 줄이기 (반응형) */
+  border-radius: 0.375rem; /* 버튼의 둥글기 줄이기 */
+  cursor: pointer; /* 포인터 커서 변경 */
+  transition: background-color 0.3s, transform 0.2s; /* 배경색과 애니메이션 효과 */
+  background-color: #007bff; /* 시원한 파랑 색상 */
+}
+
+/* 버튼 호버 상태 */
+.stock_max_button:hover {
+  background-color: #0056b3; /* 시원한 파랑 색상 호버 상태 */
+  transform: scale(1.03); /* 호버 상태에서 버튼 크기 확대 */
+}
+
+
