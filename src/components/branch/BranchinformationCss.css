@@ -1,0 +1,52 @@
+.branchInformationBox{
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 30% 24% 46%;
+    grid-template-areas: 
+                "header"
+                "content"
+                "footer";
+}
+.branchInformationHeader{
+    /* background-color: cyan; */
+    grid-area: header;
+    display: grid;
+    grid-template-columns: 45% 50%;
+    grid-template-areas: "image text";
+    justify-content: space-evenly;
+}   
+.branchInfromationImage{
+    
+    grid-area: image;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    
+}
+.branchInfromationText{
+    /* background-color: wheat; */
+    grid-area: text;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.branchInformationContent{
+    /* background-color: red; */
+    grid-area: content;
+    padding: 2%;
+    display: flex;
+    align-items: center;
+    
+    justify-content: space-around;
+    border-top: solid rgb(205, 205, 205) 1px;
+}
+.branchInformationFooter{
+    /* background-color: blue; */
+    grid-area: footer;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-top: solid rgb(205, 205, 205) 1px;
+}
