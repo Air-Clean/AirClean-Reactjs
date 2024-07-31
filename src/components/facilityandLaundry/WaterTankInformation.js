@@ -3,44 +3,53 @@ import waterTank from '../../assets/waterTank.png';
 import React, { useState, useEffect } from 'react';
 import { fetchWaterLevel } from '../../apis/LandryAPICall';
 import { useDispatch, useSelector } from 'react-redux';
+import WaterTankModal from './WaterTankModal';
+
+import jwt_decode from 'jwt-decode'
+import { callBranchData } from '../../apis/MemberAPICalls';
 
 function WaterTankInformation() {
     const dispatch = useDispatch();
     const waterTanks = useSelector(state => state.waterLevelReducer.waterTanks);
-    const [waterLevel, setWaterLevel] = useState(7500); // 초기 물의 양 예시로 7500L 설정
+    const [waterLevel, setWaterLevel] = useState(null);
+    const [showModal, setShowModal] = useState(false); // 모달 상태 추가
+    const [branchCode, setBranchCode] = useState(null);
 
-    let branchCode = null;
-    try {
-        const branch = JSON.parse(window.localStorage.getItem('branch'));
-        if (branch) {
-            branchCode = branch.branchCode;
+
+// ------------------- layout 에서 옮긴 코드 -----------------------
+
+    const members = jwt_decode(window.localStorage.getItem('accessToken'))
+
+    useEffect(() => {
+        try {
+            const branchState = JSON.parse(window.localStorage.getItem('branch'));
+            if (branchState) {
+                setBranchCode(branchState.branchCode);
+            }
+        } catch (error) {
+            console.error("조회한 브런치 코드가 없습니다.", error);
         }
-    } catch (error) {
-        console.error("조회한 브런치 코드가 없습니다.", error);
-    }
+    }, [members]);
 
+    // 
     useEffect(() => {
         dispatch(fetchWaterLevel());
     }, [dispatch]);
 
-    useEffect(() => {
-        // console.log("branchCode:", branchCode);
-        // console.log("waterTanks:", waterTanks);
 
+    useEffect(() => {
         if (branchCode && waterTanks.length > 0) {
             const tank = waterTanks.find(t => t.branchCode === branchCode);
             if (tank) {
-                console.log("Matching tank found:", tank);
                 setWaterLevel(tank.waterCurCapacity);
             } else {
-                console.log("No matching tank found for branchCode:", branchCode);
+                setWaterLevel(null); // or some default value
             }
         }
     }, [branchCode, waterTanks]);
 
-    // console.log(waterLevel)
-
-    Math.min((waterLevel / 10000) * 100, 100);
+    
+    console.log("여기 "+ branchCode)
 
     const calculateTopValue = (level) => {
         const minLevel = 0;
@@ -53,6 +62,20 @@ function WaterTankInformation() {
     }
 
     const topValue = calculateTopValue(waterLevel);
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const handleConfirmModal = () => {
+        setShowModal(false);
+        // 급수 로직 추가
+        console.log("급수 완료");
+    };
 
     return (
         <>
@@ -80,9 +103,16 @@ function WaterTankInformation() {
                     </div>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '22%' }}>
-                    <button className="waterTankButton">급수하기</button>
+                    <button className="waterTankButton" onClick={handleOpenModal}>급수하기</button>
                 </div>
             </div>
+            <WaterTankModal
+                showModal={showModal}
+                handleClose={handleCloseModal}
+                handleConfirm={handleConfirmModal}
+                waterLevel={waterLevel} // waterLevel prop 전달
+                branchCode={branchCode} // branchCode prop 추가
+            />
         </>
     );
 }

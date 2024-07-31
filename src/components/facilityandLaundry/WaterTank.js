@@ -2,14 +2,44 @@ import WaterTankInformation from "./WaterTankInformation";
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchWaterLevel } from "../../apis/CallWaterConditionApi";
+import './WaterTank.css';
+
+import jwt_decode from 'jwt-decode'
+import { callBranchData } from '../../apis/MemberAPICalls';
 
 function WaterTank() {
     const dispatch = useDispatch();
     const waterCondition = useSelector(state => state.selectLocationWater.waterCondition);
+    
+// ------------------- layout 에서 옮긴 코드 -----------------------
 
-    useEffect(() => {
+
+useEffect(()=>{
+    const members = jwt_decode(window.localStorage.getItem('accessToken'))
+    const memberId = members.sub;
+    
+    
+    if(members.memberRole==='b'){
+        dispatch(callBranchData({memberId}));
+    }
+    
+    },[])
+    
+    const branch = useSelector(state=>state.getBranchReducer)
+    
+    useEffect(()=>{
+        // console.log('branch 정보 들어 왔나요?', branch)
+        window.localStorage.setItem('branch',JSON.stringify(branch))
         dispatch(fetchWaterLevel());
-    }, [dispatch]);
+    },[branch, dispatch])
+    
+  // ------------------------------------------
+
+
+    //  위로 합침
+    // useEffect(() => {
+    //     dispatch(fetchWaterLevel());
+    // }, [dispatch]);
 
     console.log(" waterCondition:", waterCondition);
 
@@ -25,6 +55,14 @@ function WaterTank() {
                 return value >= 6.5 && value <= 8.5 ? '🟢' : value >= 6.0 && value < 6.5 || value > 8.5 && value <= 9.0 ? '🟡' : '🔴';
             case 'wDo':
                 return value > 7.5 ? '🟢' : value > 5.0 ? '🟡' : '🔴';
+            case 'wTn':
+                return value < 1 ? '🟢' : value < 3 ? '🟡' : '🔴';
+            case 'wTp':
+                return value < 0.1 ? '🟢' : value < 0.2 ? '🟡' : '🔴';
+            case 'wPhen':
+                return value < 0.005 ? '🟢' : value < 0.01 ? '🟡' : '🔴';
+            case 'wCn':
+                return value < 0.05 ? '🟢' : value < 0.1 ? '🟡' : '🔴';
             default:
                 return '🟢';
         }
@@ -60,7 +98,7 @@ function WaterTank() {
                     <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center' }}>
                         <div style={{ width: '90%', height: '100%' }}>
                             <div style={{width: '100%', height: '90px'}}>
-                                <table style={{ width: '100%', color: 'black', fontSize: '10px' }}>
+                                <table className="styled-table">
                                     <thead>
                                         <tr>
                                             {filteredWaterCondition.map(([key, _]) => (
