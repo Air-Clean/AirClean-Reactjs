@@ -3,7 +3,8 @@ import {
   BRANCHSALES, DETAILBRANCHSALES, NEWBRANCHSALES
   , VEHICLEREPAIR, DETAILVEHICLEREPAIR
   , EXPENSE, DETAILEXPENSE, NEWEXPENSE
-  , REPAIR, DETAILREPAIR, NEWVEHICLEREPAIR
+  , REPAIR, DETAILREPAIR
+  , NEWVEHICLEREPAIR
   , CARMEMBERS
 
 } from "../modules/ReportsModule";
@@ -272,5 +273,40 @@ export const callDetailRepairAPI = ({repairReportCode}) => {
     dispatch({type: DETAILREPAIR, payload: detailRepairResult.data})
   }
 }
+
+// 수리보고서 등록 API
+export const callNewRepairAPI = ({ form }) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/newRepair`;
+
+  console.log('[formdata ]', form.get("repairImage"))
+
+
+  return async (dispatch, getState) => {
+    try {
+      const newRepirResult = await fetch(requestURL, {
+        method: 'POST',
+        headers: {
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: form
+      });
+
+      console.log('수리보고서 등록 API 응답하니? :', newRepirResult);
+
+      if (newRepirResult.status === 200) {
+        const data = await newRepirResult.json();
+        dispatch({ type: 'NEWREPAIR', payload: data });
+      } else {
+        console.error('수리보고서 등록 실패: ', newRepirResult.statusText);
+      }
+
+      return newRepirResult;
+    } catch (error) {
+      console.error('Error during API call:', error);
+      return { ok: false, status: 500 };
+    }
+  };
+};
 
 

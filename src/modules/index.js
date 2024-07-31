@@ -13,7 +13,7 @@ import {
     branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer
     , vehicleRepairReducer, detailVehicleRepairReducer
     , expenseReducer, detailExpenseReducer, newExpenseReducer
-    , findAllRepairReducer,detailRepairReducer
+    , findAllRepairReducer,detailRepairReducer, newRepairReducer
     , carMembersReducer
 } from "./ReportsModule";
 
@@ -46,6 +46,7 @@ const rootReducer = combineReducers({
     findAllRepairReducer,
     detailRepairReducer,
     carMembersReducer,
+    newRepairReducer,
     
     detergentsInfoReducer,
     partsInfoReducer,

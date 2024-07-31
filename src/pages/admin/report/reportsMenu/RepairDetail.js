@@ -46,6 +46,9 @@ function RepairDetail() {
     }
   };
 
+  const getRepairImageUrl = (repairPhoto) => {
+    return  `http://localhost:8080/memberimgs/${repairPhoto}`;
+  }
 
   console.log('여까지 왔어?')
   return (
@@ -72,7 +75,7 @@ function RepairDetail() {
               <tr>
                 <th rowSpan="8" className="vertical-header">내용</th>
                 <th className="header">종류</th>
-                <td colSpan="4">{repairDetail.facilityCode}</td>
+                <td colSpan="4">{repairDetail.facilityType}</td>
               </tr>
               <tr>
                 <th className="header">수리 시설물 갯수</th>
@@ -81,6 +84,16 @@ function RepairDetail() {
               <tr>
                 <th className="header">내용</th>
                 <td colSpan="4">{repairDetail.repairContent}</td>
+              </tr>
+              <tr>
+                <th className="header">첨부 사진</th>
+                <td colSpan="4">{repairDetail.repairPhoto && (
+                  <img 
+                    src={getRepairImageUrl(repairDetail.repairPhoto)} 
+                    alt='Repair'
+                    style={{ width: '500px', height: 'auto' }} 
+                  />
+                )}</td>
               </tr>
             </tbody>
           </table>
