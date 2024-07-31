@@ -2,20 +2,19 @@ import React, { useState, useEffect } from 'react';
 import styles from './Car.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { callCarInfoListAPI } from '../../../apis/CarAPICalls';
+import Paging from '../../../components/paging/Paging';
 
 function Car() {
     const dispatch = useDispatch();
     const carList = useSelector(state => state.carInfoReducer);
+    
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(5); // Number of items to display per page
 
     useEffect(() => {
-
         dispatch(callCarInfoListAPI());
-
     }, [dispatch]);
 
-    console.log('차량리스트 API 호출:', carList);
-
-    // carList가 업데이트될 때 cars 상태를 업데이트합니다.
     useEffect(() => {
         if (carList.length > 0) {
             setCars(carList);
@@ -37,9 +36,9 @@ function Car() {
     const [selectedCars, setSelectedCars] = useState([]);
     const [carDateError, setCarDateError] = useState('');
 
-    useEffect(() => {
-        console.log('showRegisterForm changed:', showRegisterForm);
-    }, [showRegisterForm]);
+    const indexOfLastCar = currentPage * itemsPerPage;
+    const indexOfFirstCar = indexOfLastCar - itemsPerPage;
+    const currentCars = cars.slice(indexOfFirstCar, indexOfLastCar);
 
     const handleRegisterChange = (e) => {
         const { name, value, files } = e.target;
@@ -89,7 +88,27 @@ function Car() {
         );
     };
 
-    console.log('Car component rendered');
+    const handleClick = (event) => {
+        setCurrentPage(Number(event.target.id));
+    };
+
+    const renderPageNumbers = [];
+    for (let i = 1; i <= Math.ceil(cars.length / itemsPerPage); i++) {
+        renderPageNumbers.push(i);
+    }
+
+    const renderPageNumbersComponents = renderPageNumbers.map(number => (
+        <li
+            key={number}
+            id={number}
+            onClick={handleClick}
+            className={currentPage === number ? styles.active : null}
+        >
+            {number}
+        </li>
+    ));
+
+    const [setCurrent] = useState(1);
 
     return (
         <div className={styles.carLayout}>
@@ -97,10 +116,7 @@ function Car() {
                 <div className={styles.carLayer}>
                     <h1 className={styles.title}>물류 시스템 관리</h1>
                     <div className={styles.buttonGroup}>
-                        <button className={`${styles.button} ${styles.register}`} onClick={() => {
-                            console.log('Register button clicked');
-                            setShowRegisterForm(true);
-                        }}>등록</button>
+                        <button className={`${styles.button} ${styles.register}`} onClick={() => setShowRegisterForm(true)}>등록</button>
                         {!showCheckboxes && (
                             <button className={`${styles.button} ${styles.delete}`} onClick={() => {
                                 if (cars.length > 0) setShowCheckboxes(prev => !prev);
@@ -110,24 +126,23 @@ function Car() {
                             <button className={`${styles.button} ${styles.deleteConfirm}`} onClick={handleDelete}>삭제 확인</button>
                         )}
                     </div>
-                    <table>
+                    <table className={styles.carTable}>
                         <thead>
-                            <tr>
-                                {showCheckboxes && <th>선택</th>}
-                                <th>순서</th>
-                                <th>차량 번호</th>
-                                <th style={{ width: '200px' }}>지점</th>
-                                <th style={{ width: '200px' }}>지역</th>
-                                <th>운전자 성명</th>
-                                <th>배정 여부</th>
-                                <th>배정하기</th>
+                            <tr className={styles.carTr}>
+                                {showCheckboxes && <th className={styles.carTh}>선택</th>}
+                                <th className={styles.carTh}>순서</th>
+                                <th className={styles.carTh}>차량 번호</th>
+                                <th className={styles.carTh} style={{ width: '200px' }}>지역</th>
+                                <th className={styles.carTh}>운전자 성명</th>
+                                <th className={styles.carTh}>배정 여부</th>
+                                <th className={styles.carTh}>배정하기</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {cars.map((car, index) => (
-                                <tr key={car.carNumber}>
+                            {currentCars.map((car, index) => (
+                                <tr key={car.carNumber} className={styles.carTr}>
                                     {showCheckboxes && (
-                                        <td>
+                                        <td className={styles.carTd}>
                                             <input
                                                 type="checkbox"
                                                 checked={selectedCars.includes(car.carNumber)}
@@ -135,15 +150,14 @@ function Car() {
                                             />
                                         </td>
                                     )}
-                                    <td>{index + 1}</td>
-                                    <td>{car.carNumber}</td>
-                                    <td>{car.branch}</td>
-                                    <td>{car.region}</td>
-                                    <td>{car.driverName}</td>
-                                    <td className={car.assigned ? styles.assigned : styles.notAssigned}>
+                                    <td className={styles.carTd}>{indexOfFirstCar + index + 1}</td>
+                                    <td className={styles.carTd}>{car.carNumber}</td>
+                                    <td className={styles.carTd}>{car.branch}</td>
+                                    <td className={styles.carTd}>{car.region}</td>
+                                    <td className={`${car.assigned ? styles.assigned : styles.notAssigned} ${styles.carTd}`}>
                                         {car.assigned ? 'Y' : <span className={styles.notAssignedText}>N</span>}
                                     </td>
-                                    <td>
+                                    <td className={styles.carTd}>
                                         {!car.assigned && (
                                             <button
                                                 className={`${styles.button} ${styles.assign}`}
@@ -163,14 +177,8 @@ function Car() {
                     </table>
 
                     {showRegisterForm && (
-                        <div className={styles.modal} onClick={(e) => {
-                            console.log('Modal background clicked');
-                            setShowRegisterForm(false);
-                        }}>
-                            <div className={styles.modalContent} onClick={e => {
-                                console.log('Modal content clicked');
-                                e.stopPropagation();
-                            }}>
+                        <div className={styles.modal} onClick={() => setShowRegisterForm(false)}>
+                            <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
                                 <h2>차량 등록</h2>
                                 <label>차량 번호</label>
                                 <input
@@ -271,6 +279,7 @@ function Car() {
                             </div>
                         </div>
                     )}
+                    <Paging setCurrent={setCurrent} end='3'/>
                 </div>
             </div>
         </div>
