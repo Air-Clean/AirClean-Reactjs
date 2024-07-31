@@ -7,15 +7,17 @@ const initialState = [];
 export const BRANCHSALES = 'BRANCHSALES'
 export const DETAILBRANCHSALES = 'DETAILBRANCHSALES'
 export const NEWBRANCHSALES = 'NEWBRANCHSALES'
-export const VEHICLEREPAIR = 'VEHICLEREPAIR'
 export const EXPENSE = 'EXPENSE'
 export const DETAILEXPENSE = 'DETAILEXPENSE'
 export const NEWEXPENSE = 'NEWEXPENSE'
+export const VEHICLEREPAIR = 'VEHICLEREPAIR'
 export const DETAILVEHICLEREPAIR = 'DETAILVEHICLEREPAIR'
+export const NEWVEHICLEREPAIR = 'NEWVEHICLEREPAIR'
 export const REPAIR = 'REPAIR'
 export const DETAILREPAIR = 'DETAILREPAIR'
+export const NEWREPAIR = 'NEWREPAIR'
 export const CARMEMBERS = 'CARMEMBERS'
-export const NEWVEHICLEREPAIR = 'NEWVEHICLEREPAIR'
+
 
 
 
@@ -24,14 +26,16 @@ createActions({
     [DETAILBRANCHSALES]: () => [],
     [NEWBRANCHSALES]: () => [],
     [VEHICLEREPAIR] : () => [],
+    [DETAILVEHICLEREPAIR] : () => [],
+    [NEWVEHICLEREPAIR] : () => [],
     [EXPENSE] : () => [],
     [DETAILEXPENSE] : () => [],
     [NEWEXPENSE] : () => [],
-    [DETAILVEHICLEREPAIR] : () => [],
     [REPAIR] : () => [],
     [DETAILREPAIR] : () => [],
+    [NEWREPAIR] : () => [],
     [CARMEMBERS] : () => [],
-    [NEWVEHICLEREPAIR] : () => [],
+  
 
 })
 
@@ -135,7 +139,7 @@ const newVehicleRepairReducer = handleActions({
     }
 }, initialState)
 
-// 지점 수리보고서 전체조회
+// 시설물 수리보고서 전체조회
 const findAllRepairReducer = handleActions({
 
     [REPAIR] : (state, {payload}) => {
@@ -144,12 +148,24 @@ const findAllRepairReducer = handleActions({
     }
 }, initialState)
 
-// 지점 수리보고서 세부조회
+// 시설물 수리보고서 세부조회
 const detailRepairReducer = handleActions({
 
     [DETAILREPAIR] : (state, {payload}) => {
         console.log("지점 수리보고서  세부조회 reducer : ", payload)
         return payload;
+    }
+}, initialState)
+
+// 시설물수리보고서 등록
+const newRepairReducer = handleActions({
+
+    [NEWREPAIR] : (state, {payload}) => {
+        console.log("시설물수리보고서 등록 reducer : ", payload)
+        return{
+            ...state,
+            ...payload,
+        }
     }
 }, initialState)
 
@@ -159,6 +175,6 @@ export  {
     branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer
     , vehicleRepairReducer , detailVehicleRepairReducer,newVehicleRepairReducer
     , expenseReducer, detailExpenseReducer, newExpenseReducer
-    , findAllRepairReducer, detailRepairReducer
+    , findAllRepairReducer, detailRepairReducer, newRepairReducer
     , carMembersReducer
 };
