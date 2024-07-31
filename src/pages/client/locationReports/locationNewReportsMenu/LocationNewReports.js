@@ -1,14 +1,26 @@
 import './LocationNewReports.css';
 import BranchSalesModal from './BranchSalesModal';
+import ExpenseModal from './ExpenseModal';
 import { useState } from 'react';
 
 function LocationNewReports() {
     const [showBranchSalesModal, setShowBranchSalesModal] = useState(false);
+    const [showExpenseModal, setShowExpenseModall] = useState(false);
+
+    // 매출보고서 모달
     const handleBranchSalesOpenModal = () => {
         setShowBranchSalesModal(true);
     };
     const handleBranchSalesCloseModal = () => {
         setShowBranchSalesModal(false);
+    };
+
+    // 지출보고서 모달
+    const handleExpenseOpenModal = () => {
+        setShowExpenseModall(true);
+    };
+    const handleExpenseCloseModal = () => {
+        setShowExpenseModall(false);
     };
     return (
         <div className="menu1_layout">
@@ -32,7 +44,7 @@ function LocationNewReports() {
                             </tr>
                             <tr>
                                 <th>2</th>
-                                <th>지출보고서</th>
+                                <th  style={{ cursor: 'pointer' }} onClick={handleExpenseOpenModal}>지출보고서</th>
                                 <th>한달 지출 보고서 작성</th>
                             </tr>
                             <tr>
@@ -48,6 +60,7 @@ function LocationNewReports() {
                         <button>3</button>
                     </div>
                     <BranchSalesModal show={showBranchSalesModal} onClose={handleBranchSalesCloseModal} />
+                    <ExpenseModal show={showExpenseModal} onClose={handleExpenseCloseModal} />
                 </div>
             </div>
         </div>
