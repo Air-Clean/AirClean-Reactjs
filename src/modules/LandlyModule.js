@@ -5,7 +5,7 @@ export const SET_WATER_LEVEL = 'SET_WATER_LEVEL';
 
 // 초기 상태 정의
 const initState = {
-    level: null
+    waterTanks: []
 };
 
 // 액션 생성자 정의
@@ -16,6 +16,32 @@ export const { setWaterLevel } = createActions({
 export const waterLevelReducer = handleActions({
     [SET_WATER_LEVEL]: (state, { payload }) => ({
         ...state,
-        level: payload
+        waterTanks: payload || [] // payload가 없을 경우 빈 배열로 설정
     })
 }, initState);
+
+
+// 수질 관련
+
+// 액션 타입 정의
+export const LOCATION_WATER = 'LOCATION_WATER';
+
+// 초기 상태 정의
+const initialState = {
+    waterCondition: null,
+};
+
+// 액션 생성자 정의
+export const { locationWater } = createActions({
+    [LOCATION_WATER]: payload => payload,
+});
+
+// 리듀서 정의
+export const selectLocationWater = handleActions({
+    [LOCATION_WATER]: (state, { payload }) => {
+        return {
+            ...state,
+            waterCondition: payload // 서버에서 받아온 데이터를 payload에 저장
+        };
+    }
+}, initialState);
