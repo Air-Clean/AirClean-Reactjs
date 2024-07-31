@@ -47,7 +47,7 @@ function StockBarChart({ labels, dataValues, inputValues, originalValues, onInpu
     };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', width: '50vw' }}>
+    <div style={{ display: 'flex', alignItems: 'center', width: '45vw' }}>
       <div style={{ flex: 1 }}>
         <Bar data={data} options={options} />
       </div>

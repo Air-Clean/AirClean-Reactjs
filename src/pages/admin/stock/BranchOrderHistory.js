@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { callBranchStockHistoryAPI, callDetergentsInfoAPI, callPartsInfoAPI } from '../../../apis/StockAPICalls';
 import BranchStockGraph from './BranchStockGraph';
 import './BranchOrderHistory.css';
+import jwtDecode from "jwt-decode";
 
 function BranchOrderHistory() {
   const dispatch = useDispatch();
@@ -14,6 +15,9 @@ function BranchOrderHistory() {
   const [sortOrder, setSortOrder] = useState('latest');
   const [detergentInfo, setDetergentInfo] = useState(detergentsInfo);
   const [partInfo, setPartsInfo] = useState(partsInfo);
+  const [isApprovedOrRejected, setIsApprovedOrRejected] = useState(false);
+
+  const members = jwtDecode(window.localStorage.getItem('accessToken'));
 
   useEffect(() => {
     dispatch(callBranchStockHistoryAPI());
@@ -26,12 +30,9 @@ function BranchOrderHistory() {
     setPartsInfo(partsInfo);
   }, [detergentsInfo, partsInfo]);
 
-  console.log('partsInfo', partInfo);
-  console.log('detergentsInfo', detergentInfo);
-
-
   const handleClick = (item) => {
     setSelectedItem(item);
+    setIsApprovedOrRejected(false); // Reset the approval/rejection status
   };
 
   const handleFilterChange = (e) => {
@@ -42,82 +43,219 @@ function BranchOrderHistory() {
     setSortOrder(e.target.value);
   };
 
-  const handleApprove = (item) => {
-    // Update stock values
+  const handleApprove = async (item) => {
+    const confirmApprove = window.confirm('정말 승인하시겠습니까?');
+    if (!confirmApprove) return;
+
+    const currentDateString = new Date().toISOString().split('T')[0];
+
     const updatedDetergentInfo = detergentInfo.map(detergent => {
-      if (detergent.laundrySupply.laundrySupplyName === '세제') {
-        return {
-          ...detergent,
-          laundrySupplyStock: detergent.laundrySupplyStock - item.bDetergent,
-        };
+      const { laundrySupplyName } = detergent.laundrySupply;
+      let newStock = detergent.laundrySupplyStock;
+      let managementCode = '';
+
+      switch (laundrySupplyName) {
+        case '세제':
+          newStock -= item.bDetergent;
+          managementCode = 'LSM001'; // Ensure proper code is assigned
+          break;
+        case '섬유유연제':
+          newStock -= item.bSoftener;
+          managementCode = 'LSM002';
+          break;
+        case '표백제':
+          newStock -= item.bBleach;
+          managementCode = 'LSM003';
+          break;
+        case '얼룩제거제':
+          newStock -= item.bRemover;
+          managementCode = 'LSM004';
+          break;
+        case '세탁조 클리너':
+          newStock -= item.bDrumCleaner;
+          managementCode = 'LSM005';
+          break;
+        case '건조기 시트':
+          newStock -= item.bSheet;
+          managementCode = 'LSM006';
+          break;
+        default:
+          managementCode = 'UNKNOWN'; // Default value if no match is found
+          break;
       }
-      if (detergent.laundrySupply.laundrySupplyName === '섬유유연제') {
-        return {
-          ...detergent,
-          laundrySupplyStock: detergent.laundrySupplyStock - item.bSoftener,
-        };
-      }
-      if (detergent.laundrySupply.laundrySupplyName === '표백제') {
-        return {
-          ...detergent,
-          laundrySupplyStock: detergent.laundrySupplyStock - item.bBleach,
-        };
-      }
-      if (detergent.laundrySupply.laundrySupplyName === '얼룩제거제') {
-        return {
-          ...detergent,
-          laundrySupplyStock: detergent.laundrySupplyStock - item.bRemover,
-        };
-      }
-      if (detergent.laundrySupply.laundrySupplyName === '세탁조 클리너') {
-        return {
-          ...detergent,
-          laundrySupplyStock: detergent.laundrySupplyStock - item.bDrumCleaner,
-        };
-      }
-      if (detergent.laundrySupply.laundrySupplyName === '건조기 시트') {
-        return {
-          ...detergent,
-          laundrySupplyStock: detergent.laundrySupplyStock - item.bSheet,
-        };
-      }
-      return detergent;
+
+      return {
+        ...detergent,
+        laundrySupplyStock: newStock,
+        laundrySupplyManagementCode: managementCode, // Assign the proper management code
+      };
     });
 
     const updatedPartsInfo = partInfo.map(part => {
-      if (part.laundryPart.laundryPartName === '세탁기 필터') {
-        return {
-          ...part,
-          laundryPartStock: part.laundryPartStock - item.bLaundryFilter,
-        };
+      const { laundryPartName } = part.laundryPart;
+      let newStock = part.laundryPartStock;
+      let managementCode = '';
+
+      switch (laundryPartName) {
+        case '세탁기 필터':
+          newStock -= item.bLaundryFilter;
+          managementCode = 'LPM001'; // Ensure proper code is assigned
+          break;
+        case '건조기 필터':
+          newStock -= item.bDryerFilter;
+          managementCode = 'LPM002';
+          break;
+        case '드라이클리너 필터':
+          newStock -= item.bDryCleanerFilter;
+          managementCode = 'LPM003';
+          break;
+        default:
+          managementCode = 'UNKNOWN'; // Default value if no match is found
+          break;
       }
-      if (part.laundryPart.laundryPartName === '건조기 필터') {
-        return {
-          ...part,
-          laundryPartStock: part.laundryPartStock - item.bDryerFilter,
-        };
-      }
-      if (part.laundryPart.laundryPartName === '드라이클리너 필터') {
-        return {
-          ...part,
-          laundryPartStock: part.laundryPartStock - item.bDryCleanerFilter,
-        };
-      }
-      return part;
+
+      return {
+        ...part,
+        laundryPartStock: newStock,
+        laundryPartManagementCode: managementCode, // Assign the proper management code
+      };
     });
 
     setDetergentInfo(updatedDetergentInfo);
     setPartsInfo(updatedPartsInfo);
+    setIsApprovedOrRejected(true);
 
-    console.log('승인 후 detergentsInfo:', detergentInfo);
-    console.log('승인 후 partsInfo', partInfo);
-    // Optional: Update the item status to '승인'
-    // dispatch(updateItemStatus(item.bApplicationCode, '승인'));
+    // Create request data
+    const requestData = {
+      bApplicationCode: item.bApplicationCode,
+      bDetergent: item.bDetergent,
+      bSoftener: item.bSoftener,
+      bBleach: item.bBleach,
+      bRemover: item.bRemover,
+      bDrumCleaner: item.bDrumCleaner,
+      bSheet: item.bSheet,
+      bLaundryFilter: item.bLaundryFilter,
+      bDryerFilter: item.bDryerFilter,
+      bDryCleanerFilter: item.bDryCleanerFilter,
+      bApplicationStatus: '승인',
+      bApplicationDate: item.bApplicationDate,
+      bApproverName: members.memberName,
+      bApprovalDate: currentDateString,
+      branchCode: item.branchCode,
+      applicantName: item.applicantName,
+      memberId: item.memberId,
+    };
+
+    // API Request
+    const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/company/stock/branchApplication/${item.bApplicationCode}`;
+
+    try {
+      const response = await fetch(requestUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      if (response.ok) {
+        console.log('승인 데이터가 성공적으로 제출되었습니다.', requestData);
+
+        const headStockUpdate = {
+          detergents: updatedDetergentInfo.map(detergent => ({
+            laundrySupply: {
+              laundrySupplyName: detergent.laundrySupply.laundrySupplyName,
+            },
+            laundrySupplyStock: detergent.laundrySupplyStock,
+            laundrySupplyManagementCode: detergent.laundrySupplyManagementCode, // Ensure management code is included
+          })),
+          parts: updatedPartsInfo.map(part => ({
+            laundryPart: {
+              laundryPartName: part.laundryPart.laundryPartName,
+            },
+            laundryPartStock: part.laundryPartStock,
+            laundryPartManagementCode: part.laundryPartManagementCode, // Ensure management code is included
+          })),
+        };
+
+        const inventoryUpdateUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/company/stock/branchStockUpdate`;
+        const inventoryResponse = await fetch(inventoryUpdateUrl, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+            Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+          },
+          body: JSON.stringify(headStockUpdate),
+        });
+
+        if (inventoryResponse.ok) {
+          console.log('재고가 성공적으로 업데이트되었습니다.', headStockUpdate);
+          dispatch(callBranchStockHistoryAPI());
+        } else {
+          console.error('재고 업데이트 오류');
+        }
+      } else {
+        console.error('승인 데이터 제출 오류');
+      }
+    } catch (error) {
+      console.error('오류:', error);
+    }
   };
 
-  const handleReject = (item) => {
-    // Optional: Update the item status to '반려'
-    // dispatch(updateItemStatus(item.bApplicationCode, '반려'));
+  const handleReject = async (item) => {
+    const confirmReject = window.confirm('정말 반려하시겠습니까?');
+    if (!confirmReject) return;
+
+    const currentDateString = new Date().toISOString().split('T')[0];
+
+    const requestData = {
+      bApplicationCode: item.bApplicationCode,
+      bDetergent: item.bDetergent,
+      bSoftener: item.bSoftener,
+      bBleach: item.bBleach,
+      bRemover: item.bRemover,
+      bDrumCleaner: item.bDrumCleaner,
+      bSheet: item.bSheet,
+      bLaundryFilter: item.bLaundryFilter,
+      bDryerFilter: item.bDryerFilter,
+      bDryCleanerFilter: item.bDryCleanerFilter,
+      bApplicationStatus: '반려',
+      bApplicationDate: item.bApplicationDate,
+      bApproverName: members.memberName,
+      bApprovalDate: currentDateString,
+      branchCode: item.branchCode,
+      applicantName: item.applicantName,
+      memberId: item.memberId,
+      detergentsInfo: detergentInfo,
+      partsInfo: partInfo,
+    };
+
+    const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/company/stock/branchApplication/${item.bApplicationCode}`;
+
+    try {
+      const response = await fetch(requestUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      if (response.ok) {
+        console.log('반려 데이터가 성공적으로 제출되었습니다.', requestData);
+        setIsApprovedOrRejected(true);
+        dispatch(callBranchStockHistoryAPI()); // 지점 발주 내역 새로고침
+      } else {
+        console.error('반려 데이터 제출 오류');
+      }
+    } catch (error) {
+      console.error('오류:', error);
+    }
   };
 
   const getPreviousItem = (currentItem) => {
@@ -163,6 +301,7 @@ function BranchOrderHistory() {
           <option value="oldest">오래된순</option>
         </select>
       </div>
+
       <div className="branchStock-order-table">
         <div className="branchStock-order-header">
           <div>코드</div>
@@ -191,6 +330,15 @@ function BranchOrderHistory() {
           <div>데이터가 없습니다.</div>
         )}
       </div>
+
+      {selectedItem && (
+        <div className="branchStock-info">
+          <div><strong>{selectedItem.bApplicationCode} {selectedItem.branchCode} {selectedItem.bApplicationDate.join('-')}
+          {selectedItem.bApplicationStatus === '배송완료' ? '승인' : selectedItem.bApplicationStatus}</strong> 
+        </div>
+        </div>
+      )}
+
       {selectedItem && (
         <div className="branchStock-details-section">
           <table>
@@ -238,10 +386,10 @@ function BranchOrderHistory() {
               getAverage={getAverage}
             />
           </div>
-          {selectedItem.bApplicationStatus === '미승인' && (
+          {!isApprovedOrRejected && selectedItem.bApplicationStatus === '미승인' && (
             <div className="branchStock-action-buttons">
-              <button onClick={() => handleApprove(selectedItem)}>승인</button>
-              <button onClick={() => handleReject(selectedItem)}>반려</button>
+              <button className="approve-button" onClick={() => handleApprove(selectedItem)}>승인</button>
+              <button className="reject-button" onClick={() => handleReject(selectedItem)}>반려</button>
             </div>
           )}
         </div>

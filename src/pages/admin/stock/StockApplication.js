@@ -191,6 +191,9 @@ function StockApplication() {
   
       if (response.ok) {
         console.log('Data submitted successfully');
+
+        setDetergentsFormValues({});
+        setPartsFormValues({});
       } else {
         console.error('Error submitting data');
       }
