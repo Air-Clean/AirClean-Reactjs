@@ -76,27 +76,27 @@
     cursor: not-allowed;
 }
 
-table {
+.carTable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-th, td {
+.carTh, .carTd {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
 }
 
-th {
+.carTh {
     background-color: #f2f2f2;
 }
 
-tr:nth-child(even) {
+.carTr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-tr:hover {
+.carTr:hover {
     background-color: #e0f7fa;
 }
 
