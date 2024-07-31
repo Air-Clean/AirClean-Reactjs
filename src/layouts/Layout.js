@@ -13,13 +13,13 @@ function Layout() {
 
   const members = jwt_decode(window.localStorage.getItem('accessToken'))
 
-  console.log("member toekn" ,members)
-  console.log('token' , window.localStorage.getItem('accessToken'))
+  // console.log("member toekn" ,members)
+  // console.log('token' , window.localStorage.getItem('accessToken'))
 
   useEffect(()=>{
     const memberId = members.sub;
 
-    console.log("memberId",memberId)
+    // console.log("memberId",memberId)
 
     if(members.memberRole==='b'){
       dispatch(callBranchData({memberId}));
@@ -30,7 +30,7 @@ function Layout() {
   const branch = useSelector(state=>state.getBranchReducer)
 
   useEffect(()=>{
-    console.log('branch 정보 들어 왔나요?', branch)
+    // console.log('branch 정보 들어 왔나요?', branch)
     window.localStorage.setItem('branch',JSON.stringify(branch))
   },[branch])
 

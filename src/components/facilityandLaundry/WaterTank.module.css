@@ -1,0 +1,19 @@
+/* WaterTank.module.css */
+.tableContainer {
+    width: 100%;
+    height: 90px;
+    background-color: blue;
+    padding: 10px;
+    overflow: auto;
+}
+
+.table {
+    width: 100%;
+    color: white;
+    font-size: 14px;
+    table-layout: fixed;
+}
+
+.th, .td {
+    padding: 5px;
+}
