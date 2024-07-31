@@ -20,6 +20,7 @@
 .mapContainal img {
     position: absolute;
     transition: filter 0.3s;
+    cursor: pointer;
 }
 
 .mapContainal img:hover {

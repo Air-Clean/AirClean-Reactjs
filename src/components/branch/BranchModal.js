@@ -18,7 +18,7 @@ import DaumPostcodeEmbed from "react-daum-postcode";
 import styles from './BranchModal.module.css';
 import axios from 'axios';
 
-export default function BranchModal({ show, onClose, onSubmit }) {
+export default function BranchModal({ show, onClose, onSubmit, man }) {
   const [form, setForm] = useState({
     branchCode: "",
     branchRegion: "",
@@ -146,18 +146,27 @@ export default function BranchModal({ show, onClose, onSubmit }) {
       <ModalBody>
         <Row>
           <Col md={6}>
-            <FormGroup>
-              <Label for="branchCode">지점 코드</Label>
+
+          <FormGroup>
+              <Label for="branchAddress">주소</Label>
               <Input
                 type="text"
-                name="branchCode"
-                id="branchCode"
-                value={form.branchCode}
-                onChange={inputHandler}
-                placeholder="지점 코드를 입력해주세요"
+                name="branchAddress"
+                id="branchAddress"
+                value={form.branchAddress}
+                onClick={handleAddressClick}
+                readOnly
               />
+              {postcodeVisible && (
+                <Card>
+                  <CardBody>
+                    <DaumPostcodeEmbed onComplete={handleAddressSelect} style={{ height: "400px" }} />
+                  </CardBody>
+                </Card>
+              )}
             </FormGroup>
-            <FormGroup>
+            
+            {/* <FormGroup>
               <Label for="branchRegion">지점 지역</Label>
               <Input
                 type="text"
@@ -167,7 +176,7 @@ export default function BranchModal({ show, onClose, onSubmit }) {
                 onChange={inputHandler}
                 placeholder="지점 지역을 입력해주세요"
               />
-            </FormGroup>
+            </FormGroup> */}
             <FormGroup>
               <Label for="branchName">지점명</Label>
               <Input
@@ -190,24 +199,7 @@ export default function BranchModal({ show, onClose, onSubmit }) {
                 placeholder="연락처를 입력해주세요"
               />
             </FormGroup>
-            <FormGroup>
-              <Label for="branchAddress">주소</Label>
-              <Input
-                type="text"
-                name="branchAddress"
-                id="branchAddress"
-                value={form.branchAddress}
-                onClick={handleAddressClick}
-                readOnly
-              />
-              {postcodeVisible && (
-                <Card>
-                  <CardBody>
-                    <DaumPostcodeEmbed onComplete={handleAddressSelect} style={{ height: "400px" }} />
-                  </CardBody>
-                </Card>
-              )}
-            </FormGroup>
+            
           </Col>
           <Col md={6}>
             <FormGroup>
@@ -230,7 +222,7 @@ export default function BranchModal({ show, onClose, onSubmit }) {
                 onChange={inputHandler}
               >
                 <option value="">회원 선택</option>
-                {members.length > 0 && members.map((member) => (
+                {man.length > 0 && man.map((member) => (
                   <option key={member.memberId} value={member.memberId}>
                     {member.memberName} ({member.memberId})
                   </option>

@@ -11,7 +11,7 @@ import { faWonSign } from '@fortawesome/free-solid-svg-icons';
 
 export default function RevenueBox({ com, firm }) {
 
-    const [num, setNum] = useState(113311231);
+    const [revenuMoney, setRevenueMoney] = useState(113311231);
 
     return (
         <div className='revenueContainer'>
@@ -31,7 +31,7 @@ export default function RevenueBox({ com, firm }) {
                                 type: "ease-out-expo",
                                 duration: index * 0.1,
                             })}
-                            animateToNumber={num}
+                            animateToNumber={revenuMoney}
                             fontStyle={{
                                 fontSize: 40,
                                 color: "white",
@@ -52,7 +52,7 @@ export default function RevenueBox({ com, firm }) {
                                 type: "ease-out-expo",
                                 duration: index * 0.1,
                             })}
-                            animateToNumber={num}
+                            animateToNumber={revenuMoney}
                             fontStyle={{
                                 fontSize: 40,
                                 color: "white",

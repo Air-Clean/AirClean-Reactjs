@@ -6,7 +6,7 @@ import carReducer from "./CarModule";
 
 import carInfoReducer from "./CarModule";
 
-import { branchReducer } from "./BranchModule";
+import { branchReducer ,branchInfoReducer,branchFacilityInfoReducer,branchManagerReducer} from "./BranchModule";
 
 // 도아 - 보고서 
 import { 
@@ -25,8 +25,11 @@ import {waterLevelReducer} from "./LandlyModule";
 
 const rootReducer = combineReducers({
     memberReducer,
+    branchInfoReducer,
     getBranchReducer,
     askReducer,
+    branchFacilityInfoReducer,
+    branchManagerReducer,
 
     humanReducer,
     humanBranchReducer,
