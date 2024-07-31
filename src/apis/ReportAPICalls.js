@@ -2,7 +2,7 @@
 import { 
   BRANCHSALES, DETAILBRANCHSALES, NEWBRANCHSALES
   , VEHICLEREPAIR, DETAILVEHICLEREPAIR
-  , EXPENSE, DETAILEXPENSE
+  , EXPENSE, DETAILEXPENSE, NEWEXPENSE
   , REPAIR, DETAILREPAIR, NEWVEHICLEREPAIR
   , CARMEMBERS
 
@@ -55,26 +55,6 @@ export const calldetailBranchSalesAPI = ({branchReportCode}) => {
 
 // 매출보고서 등록 
 
-// export const callNewBranchSalesAPI = (data) => {
-//   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/reports`; 
-
-//   return async (dispatch, getState) => {
-//     const newBranchSalesResult = await fetch(requestURL, {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         Accept: '*/*',
-//         Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-//       },
-//       body: JSON.stringify(data) 
-//     }).then((response) => response.json())
-
-//     console.log('매출보고서 등록 API 응답하니? :', newBranchSalesResult)
-
-//     dispatch({type: NEWBRANCHSALES, payload: newBranchSalesResult.data})
-//   }
-// }
-
 export const callNewBranchSalesAPI = (data) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/reports`; 
 
@@ -96,7 +76,6 @@ export const callNewBranchSalesAPI = (data) => {
   }
 }
 }
-
 
 
 // 지출보고서 전체 조회 API
@@ -137,6 +116,29 @@ export const callDetailExpenseAPI = ({expenseReportCode}) => {
 
     dispatch({type: DETAILEXPENSE, payload: detailExpenseResult.data})
   }
+}
+
+// 지출보고서 등록 
+export const callNewExpenseAPI = (data) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/newExpense`; 
+
+  return async (dispatch, getState) => {
+    const newExpenseResult = await fetch(requestURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+      body: JSON.stringify(data) 
+    }).then((response) => response.json())
+
+    console.log('지출보고서 등록 API 응답하니? :', newExpenseResult)
+
+    if(newExpenseResult.status === 200){
+    dispatch({type: NEWEXPENSE, payload: newExpenseResult.data})
+  }
+}
 }
 
 
