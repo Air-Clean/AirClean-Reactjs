@@ -1,3 +1,6 @@
+/* Pretendard 폰트 로드 */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/pretendard.css');
+
 /* Reset CSS */
 * {
   margin: 0;
@@ -12,7 +15,7 @@ html, body {
   width: 100vw;
   height: 100%;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Pretendard', Arial, sans-serif; /* Pretendard로 기본 폰트 설정 */
 }
 
 html {
@@ -38,33 +41,23 @@ body {
   flex-grow: 1; /* 컨텐츠 양에 따라 높이가 늘어나도록 설정 */
 }
 
-
-
 @media screen and (min-width: 0px) and (max-width: 767px) {
-
-
   .flex_wrap {
     width: 95%;
   }
-
-
 }
 
 /* 태블릿 (768px - 1024px) ex) 아이패드 미니 */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
-
   .flex_wrap {
     width: 90%;
   }
 }
 
-/* 큰 화면 (1025px 이상) ex) 아이패드 프로 12.9*/
+/* 큰 화면 (1025px 이상) ex) 아이패드 프로 12.9 */
 @media screen and (min-width: 1025px) {
-
-
   /* 테블릿 여백관련 */
   .flex_wrap {
     width: 80%;
   }
-
 }

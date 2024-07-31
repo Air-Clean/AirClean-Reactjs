@@ -14,7 +14,7 @@ export function fetchWaterLevel() {
                 }
             }).then(res => res.json());
 
-            // console.log('[fetchWaterLevel] fetchWaterLevel result: ', result);
+            console.log('[fetchWaterLevel] fetchWaterLevel result: ', result);
 
             dispatch({
                 type: SET_WATER_LEVEL,

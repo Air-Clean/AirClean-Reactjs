@@ -34,6 +34,10 @@ export const callLoginAPI= ({ form }) => {
 
 export function callLogoutAPI(){
 
+    window.localStorage.removeItem('branch')
+    window.localStorage.removeItem('accessToken')
+
+
     return async (dispatch,getState) =>{
         dispatch({
             type : POST_LOGIN, payload: ''

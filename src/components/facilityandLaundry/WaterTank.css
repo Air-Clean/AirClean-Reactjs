@@ -1,0 +1,37 @@
+/* WaterTank.css */
+.styled-table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    color: black;
+    text-align: left;
+}
+
+.styled-table thead tr {
+    background-color: #15247c;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 1px solid #15247c;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
