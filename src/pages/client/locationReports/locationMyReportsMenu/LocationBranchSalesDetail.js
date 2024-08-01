@@ -46,12 +46,12 @@ function LocationBranchSalesDetail() {
     if (isEditMode) {
       const totalCost = 
         parseFloat((formData.detergent || '0').replace(/,/g, '')) +
-        parseFloat((formData.fabricSoftener || '0'). replace(/,/g, '')) +
-        parseFloat((formData.bleach || '0'). replace(/,/g, '')) +
-        parseFloat((formData.stainRemover || '0'). replace(/,/g, '')) +
-        parseFloat((formData.washerCleaner || '0'). replace(/,/g, '')) +
-        parseFloat((formData.dryerSheet || '0'). replace(/,/g, '')) +
-        parseFloat((formData.officeSales || '0'). replace(/,/g, ''));
+        parseFloat((formData.fabricSoftener || '0').replace(/,/g, '')) +
+        parseFloat((formData.bleach || '0').replace(/,/g, '')) +
+        parseFloat((formData.stainRemover || '0').replace(/,/g, '')) +
+        parseFloat((formData.washerCleaner || '0').replace(/,/g, '')) +
+        parseFloat((formData.dryerSheet || '0').replace(/,/g, '')) +
+        parseFloat((formData.officeSales || '0').replace(/,/g, ''));
       setFormData(prevFormData => ({
         ...prevFormData,
         totalBranchSalesCost: totalCost.toString()
