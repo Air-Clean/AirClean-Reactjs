@@ -1,37 +1,25 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import React, { useEffect, useState } from 'react';
 import './BranchList.css';
 import BranchModal from './BranchModal';
 import { useDispatch , useSelector } from 'react-redux';
 import { callBranchFacility ,deleteBranch, getManager} from '../../apis/CallBranchInfoApi';
 
-function BranchList({ locationName , onBranchSelect, local , setSelectedBranch ,facility, setFacility }) {
+function BranchList({ locationName , onBranchSelect , setSelectedBranch ,facility, setFacility ,branchData}) {
 
-    const [branches, setBranches] = useState([]);
+
     const [selectedBranches, setSelectedBranches] = useState([]);
     
+    console.log('branchdata',branchData)
     
     const [showModal, setShowModal] = useState(false);
-    const [selectManager , setSelectManager] = useState([])
     
-    const [branchData , setBranchData] = useState([])
     
-    useEffect(() => {
-        
-        setBranchData(local[locationName])
-        
-    }, [locationName]);
-
     useEffect(()=>{
         dispatch(getManager())
     },[showModal])
 
     const man = useSelector(state=>state.branchManagerReducer)
 
-    useEffect(()=>{
-        setSelectManager(man)
-    },[man])
 
     const handleSelectBranch = (branch) => {
         setSelectedBranches(prevSelected =>
@@ -42,36 +30,6 @@ function BranchList({ locationName , onBranchSelect, local , setSelectedBranch ,
 
     };
 
-    
-    // const handleDeleteSelected = async () => {
-    //     const token = window.localStorage.getItem('accessToken');
-    //     if (!token) {
-    //         setError('No token found');
-    //         return;
-    //     }
-
-    //     try {
-    //         const response = await axios.delete('http://localhost:8080/branch/deleteBranches', {
-    //             data: { branches: selectedBranches },
-    //             headers: {
-    //                 Authorization: 'Bearer ' + token,
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         });
-
-    //         if (response.status === 200) {
-    //             setBranches(prevBranches =>
-    //                 prevBranches.filter(branch => !selectedBranches.includes(branch))
-    //             );
-    //             setSelectedBranches([]);
-    //             window.alert('삭제 성공');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error deleting branches:', error);
-    //         setError('Error deleting branches');
-    //         window.alert('삭제 실패');
-    //     }
-    // };
 
     
     const dispatch = useDispatch();

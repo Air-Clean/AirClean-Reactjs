@@ -2,10 +2,10 @@ import './Branch.css';
 import Map from '../../../components/branch/Map';
 import BranchList from '../../../components/branch/BranchList';
 import BranchInformation from '../../../components/branch/Branchinformation';
-// import { Provider } from 'react-redux';
 import { useState , useEffect} from 'react';
 import { useDispatch ,useSelector } from 'react-redux';
 import { callBranchInfo } from '../../../apis/CallBranchInfoApi';
+import { useLocation } from 'react-router-dom';
 
 
 function Branch() {
@@ -14,6 +14,8 @@ function Branch() {
 
 
     const [selectedBranch, setSelectedBranch] = useState('');
+
+    const [branchData , setBranchData] = useState([]); 
 
 
     const [local,setLocal] = useState({
@@ -30,7 +32,7 @@ function Branch() {
         dry : [],
         cleaner : []
     })
-
+    const location = useLocation();
     const handleBranchSelect = (branch) => {
         setSelectedBranch(branch);
     };
@@ -44,6 +46,18 @@ function Branch() {
     useEffect(()=>{
         dispatch(callBranchInfo());
     },[])
+
+    useEffect(()=>{
+    
+         // 페이지 이동을 감지하여 상태 초기화
+         setFacility({ laundry: [], dry: [], cleaner: [] });
+
+         // 언마운트 시 상태 초기화
+         return () => {
+             console.log("Component unmounted, resetting facility state");
+             setFacility({ laundry: [], dry: [], cleaner: [] });
+         };
+    },[location])
 
     const branchInfo = useSelector(state=>state.branchInfoReducer);
 
@@ -62,21 +76,23 @@ function Branch() {
 
     },[branchInfo])
 
+    useEffect(()=>{
+        setBranchData(local[locationName])
+    },[locationName, local])
+
     return (
-        // <Provider store={store}>
             <div className="branch_layout" style={{ height: 'calc(100vh - 130px)' }}>
                 <div className='flex_wrap' style={{ display: 'flex', justifyContent: 'center' }}>
                     <div style={{padding: '30px'}}>
                         <Map onLocationChange={handleLocationChange} local={local}/>
                         <div style={{height:'30px'}}></div>
-                        <BranchList locationName={locationName} facility={facility} setFacility={setFacility} setSelectedBranch={setSelectedBranch} onBranchSelect={handleBranchSelect} local={local}/>
+                        <BranchList branchData={branchData} locationName={locationName} facility={facility} setFacility={setFacility} setSelectedBranch={setSelectedBranch} onBranchSelect={handleBranchSelect}/>
                     </div>
                     <div style={{ padding: '30px 30px 30px 0' }}>
                         <BranchInformation branch={selectedBranch} facility={facility} />
                     </div>
                 </div>
             </div>
-        
     );
 }
 

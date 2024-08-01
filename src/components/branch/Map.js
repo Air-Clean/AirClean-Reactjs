@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import './Map.css';
 import map1 from '../../assets/map1.png'; 
 import map2 from '../../assets/map2.png'; 

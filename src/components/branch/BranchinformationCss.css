@@ -20,8 +20,9 @@
     grid-area: image;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    text-align: center;
+    justify-content: space-evenly;
+    /* text-align: center; */
+    align-items: center;
     
 }
 .branchInfromationText{
