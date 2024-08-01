@@ -1,20 +1,28 @@
-/* Facility.css */
 
-.Facility-container {
+.menu1_layout {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh; /* 화면의 전체 높이 */
-    margin: 0;
-}
+    width: 100vw;
+    background-color: rgb(211, 211, 211);
+  }
+  
+  .flex_wrap {
+    width: 80vw; /* 너비를 80%로 설정하여 흰색 배경을 벗어나지 않도록 함 */
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    padding-left: 40px;  /* 왼쪽 패딩 추가 */
+    padding-right: 40px; /* 오른쪽 패딩 추가 */
+  }
+  
 .Facility-washing-machine {
-    width: 250px;  /* 너비를 조금 늘려서 정사각형에 가까운 형태로 만듭니다 */
-    height: 250px; /* 높이도 같은 값으로 설정합니다 */
-    background-color: #a9f2ff;
-    border: 2px solid #000;
-    border-radius: 10px;
-    position: relative;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 20vw;  /* 반응형 너비 (뷰포트 너비 비율) */
+    height: 20vw; /* 너비와 동일한 높이로 정사각형 형태 */
+    max-width: 250px; /* 최대 너비 설정 */
+    max-height: 250px; /* 최대 높이 설정 */
+    background-color: #CBE6FF; /* 세탁기 배경 색상 */
+    border-radius: 0.5rem; /* 테두리 둥글게 처리 */
+    position: relative; /* 절대 위치를 기준으로 설정 */
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,59 +30,112 @@
 }
 
 .Facility-washing-machine .Facility-door {
-    width: 120px;
-    height: 120px;
-    background-color: #ececec;
-    border: 2px solid #000;
-    border-radius: 50%;
-    position: relative;
+    width: 50%;
+    height: 50%;
+    background-color: #F6F6F6; /* 도어 배경 색상 */
+    border: 0.18rem solid #627195; /* 도어 테두리 색상 */
+    border-radius: 50%; /* 원형 테두리 */
     display: flex;
+    flex-direction: column; /* 내부 아이템을 세로로 정렬 */
+    justify-content: center; /* 세로 가운데 정렬 */
+    align-items: center; /* 가로 가운데 정렬 */
+    position: absolute; /* 절대 위치로 설정 */
+    top: 50%; /* 세탁기 중앙에 위치 */
+    left: 50%; /* 세탁기 중앙에 위치 */
+    transform: translate(-50%, -50%); /* 중앙 정렬 조정 */
+    z-index: 2; /* 도어가 게이지 위에 위치하도록 설정 */
+    text-align: center; /* 내부 텍스트 중앙 정렬 */
+}
+
+.Facility-washing-machine .Facility-door-content {
+    display: flex;
+    flex-direction: column; /* 내용 세로 정렬 */
     justify-content: center;
     align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
-.Facility-washing-machine .Facility-graph {
-    width: 80%;
-    height: 10px;
-    background-color: #000;
-    position: absolute;
-    top: 10%;
+.Facility-washing-machine .Facility-icon {
+    font-size: 1.5rem; /* 시계 아이콘 크기 조정 */
+    margin-bottom: 0.5rem; /* 아이콘과 숫자 간의 간격 */
 }
 
-.Facility-washing-machine .Facility-horizontal-bar {
-    width: 60%;
-    height: 20px;
-    background-color: #ececec;
-    border: 2px solid #000;
-    border-radius: 10px;
-    position: absolute;
-    top: -30px;
+.Facility-washing-machine .Facility-laundry-number {
+    font-size: 1rem; /* 세탁기 번호 글씨 크기 조정 */
+    position: absolute; /* 절대 위치로 설정 */
+    top: 40%; /* 도어와 게이지 사이에 위치하도록 설정 */
+    left: 50%; /* 수평 중앙 정렬 */
+    transform: translateX(-50%); /* 수평 중앙 위치 조정 */
 }
 
-.Facility-washing-machine .Facility-control-panel {
-    width: 230px;
-    height: 40px;
-    background-color: #ddd;
-    border-bottom: 2px solid #000;
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+.Facility-control-panel {
+    width: 90%;
+    height: 10%;
+    position: absolute; /* 절대 위치로 설정 */
+    top: 5%; /* 컨트롤 패널의 상단 위치 */
+    left: 50%; /* 수평 중앙 정렬 */
+    transform: translateX(-50%); /* 수평 중앙 위치 조정 */
     display: flex;
     justify-content: space-around;
     align-items: center;
+    z-index: 1; /* 게이지 아래에 위치하도록 설정 */
 }
 
-.Facility-washing-machine .Facility-control-panel .Facility-button {
-    width: 20px;
-    height: 20px;
-    background-color: #000;
-    border-radius: 50%;
+.Facility-gauge-container {
+    width: 100%;
+    height: 90%; /* 게이지 높이 조정 */
+    position: relative;
+    border-radius: 0.7rem; /* 게이지 테두리 둥글게 처리 */
+    overflow: hidden; /* 넘치는 부분 숨기기 */
+    padding: 0%;
+    z-index: 1; /* 게이지가 도어 아래에 위치하도록 설정 */
 }
 
-.Facility-washing-machine .Facility-control-panel .Facility-display {
-    width: 60px;
-    height: 20px;
-    background-color: #fff;
-    border: 1px solid #000;
+.Facility-gauge-background {
+    width: 100%;
+    height: 100%;
+    background-color: #fff; /* 게이지 배경 색상 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0.7rem; /* 배경 테두리 둥글게 처리 */
+    z-index: 1; /* 배경이 포어그라운드 아래에 위치하도록 설정 */
+}
+
+.Facility-gauge-foreground {
+    height: 100%;
+    background-color: #516AA6; /* 게이지 진행 색상 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.1s ease; /* 애니메이션 효과 */
+    border-radius: 0.7rem; /* 포어그라운드 테두리 둥글게 처리 */
+    z-index: 2; /* 포어그라운드가 배경 위에 위치하도록 설정 */
+}
+
+.Facility-percentage-display {
+    position: absolute; /* 절대 위치로 설정 */
+    top: 40%; /* 도어와 게이지 사이에 위치하도록 설정 */
+    left: 50%; /* 수평 중앙 정렬 */
+    transform: translateX(-50%); /* 수평 중앙 위치 조정 */
+    font-size: 1rem; /* 글씨 크기 조정 */
+    color: #333; /* 글씨 색상 */
+    z-index: 2; /* 퍼센트 표시가 게이지와 도어 위에 위치하도록 설정 */
+}
+
+.Facility-button {
+    background-color: #516AA6; /* 버튼 배경 색상 */
+    color: white;
+    border: none;
+    border-radius: 0.5rem; /* 버튼 테두리 둥글게 처리 */
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.6rem;
+    transition: background-color 0.3s ease; /* 버튼 호버 시 색상 변화 애니메이션 */
+    width: 50%;
+}
+
+.Facility-button:hover {
+    background-color: #405a9c; /* 버튼 호버 시 색상 변경 */
 }

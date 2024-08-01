@@ -127,3 +127,25 @@
   background-color: #c82333; /* 빨간색 배경 호버 상태 */
   transform: scale(1.05); /* 호버 상태에서 버튼 크기 확대 */
 }
+
+.branchStock-order-table {
+  width: 80%;
+  margin-bottom: 2vw;
+  max-height: 60vh; /* 최대 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤 추가 */
+}
+
+.branchStock-order-header {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5vw;
+  font-size: 1vw;
+  text-align: center; /* Center align text in grid */
+  font-weight: bold;
+  background-color: #f0f0f0;
+  padding: 1vw;
+  position: sticky;
+  top: 0;
+  z-index: 1; /* header가 항상 위에 있도록 설정 */
+}
+
