@@ -33,9 +33,6 @@ function Branch() {
         cleaner : []
     })
     const location = useLocation();
-    const handleBranchSelect = (branch) => {
-        setSelectedBranch(branch);
-    };
 
     const handleLocationChange = (name) => {
         setLocationName(name);
@@ -86,7 +83,7 @@ function Branch() {
                     <div style={{padding: '30px'}}>
                         <Map onLocationChange={handleLocationChange} local={local}/>
                         <div style={{height:'30px'}}></div>
-                        <BranchList branchData={branchData} locationName={locationName} facility={facility} setFacility={setFacility} setSelectedBranch={setSelectedBranch} onBranchSelect={handleBranchSelect}/>
+                        <BranchList branchData={branchData} locationName={locationName} facility={facility} setFacility={setFacility} setSelectedBranch={setSelectedBranch} />
                     </div>
                     <div style={{ padding: '30px 30px 30px 0' }}>
                         <BranchInformation branch={selectedBranch} facility={facility} />

@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { modifyEmployee } from "../../../../apis/HRAPICalls";
 import jwtDecode from "jwt-decode";
 
-export default function BranchModifyModal({ modal, toggle, branch ,form, setForm}) {
+export default function DriverModifyModal({ modal, toggle, branch ,form, setForm}) {
   const dispatch = useDispatch();
 
   const members = jwtDecode(window.localStorage.getItem('accessToken'))
@@ -26,7 +26,6 @@ export default function BranchModifyModal({ modal, toggle, branch ,form, setForm
   console.log('member token 확인',members)
 
   const [postcodeVisible, setPostcodeVisible] = useState(false);
-  const [branchNoOwner , setBranchNoOwner] = useState([]);
 
   useEffect(() => {
     if (modal) {

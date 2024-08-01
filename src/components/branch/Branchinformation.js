@@ -13,6 +13,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Badge from '@mui/material/Badge';
 
 import Avatar from "@mui/joy/Avatar";
 
@@ -193,13 +194,31 @@ function Row({ row, name }) {
                           console.log("sdfsf");
                           switch (r.facilityStatus) {
                             case "W":
-                              return "사용중";
+                              return(
+                              <Badge variant="dot" color="primary" anchorOrigin={{vertical : 'top', horizontal: 'left'}}>
+                                사용중
+                              </Badge>
+                              )
+                              ;
                             case "D":
-                              return "폐기";
+                              return(
+                                <Badge variant="dot" color="error" anchorOrigin={{vertical : 'top', horizontal: 'left'}}>
+                                  페기
+                                </Badge>
+                                )
+                              ;
                             case "H":
-                              return "유휴";
+                              return(
+                                <Badge variant="dot" color="success" anchorOrigin={{vertical : 'top', horizontal: 'left'}}>
+                                  유휴
+                                </Badge>
+                                );
                             case "F":
-                              return "수리중";
+                              return(
+                                <Badge variant="dot" color="warning" anchorOrigin={{vertical : 'top', horizontal: 'left'}}>
+                                  수리중
+                                </Badge>
+                                );
                             default:
                               return undefined;
                           }
