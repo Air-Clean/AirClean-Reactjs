@@ -118,7 +118,7 @@ function ReportsModal({ show, onClose }) {
         beforeImagePreview: URL.createObjectURL(file)
       }));
     },
-    [form]
+    []
   );
 
   const onDropAfterImage = useCallback(
@@ -130,7 +130,7 @@ function ReportsModal({ show, onClose }) {
         afterImagePreview: URL.createObjectURL(file)
       }));
     },
-    [form]
+    []
   );
 
   const { getRootProps: getBeforeImageRootProps, getInputProps: getBeforeImageInputProps } = useDropzone({

@@ -1,7 +1,7 @@
 // apis/ReportAPICalls.js
 import { 
   BRANCHSALES, DETAILBRANCHSALES, NEWBRANCHSALES
-  // UPDATEBRANCHSALES
+  // UPDATEBRANCHSALES, DELETEBRANCHSALES
   , VEHICLEREPAIR, DETAILVEHICLEREPAIR
   , EXPENSE, DETAILEXPENSE, NEWEXPENSE
   , REPAIR, DETAILREPAIR
@@ -110,8 +110,38 @@ export const callUpdateBranchSalesAPI = ({branchReportCode, data}) => {
     }
   };
 };
-// 매출 보고서 삭제
 
+// 매출 보고서 삭제
+export const callDeleteBranchSalesAPI = ({branchReportCode, data}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/reports/${branchReportCode}`; 
+  return async (dispatch, getState) => {
+    try {
+      const deleteBranchSalesResult = await fetch(requestURL, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(data)
+      });
+
+      console.log('매출보고서 삭제 API : ', deleteBranchSalesResult)
+
+      if (deleteBranchSalesResult.status === 200) {
+        const data = await deleteBranchSalesResult.json();
+        dispatch({ type: 'DELETEBRANCHSALES', payload: data });
+      } else {
+        console.error('매출보고서 삭제 실패: ', deleteBranchSalesResult.statusText);
+      }
+
+      return deleteBranchSalesResult;
+    } catch (error) {
+      console.error('Error during API call:', error);
+      return { ok: false, status: 500 };
+    }
+  };
+};
 
 // 지출보고서 전체 조회 API
 export const callFindExpenseAPI = () => {
