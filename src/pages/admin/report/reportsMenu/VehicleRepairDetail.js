@@ -91,7 +91,11 @@ function VehicleRepairDetail() {
                 <th className="header">수리전 사진</th>
                 <td colSpan="4">
                   {vehicleRepairDetail.beforeVehiclePhoto && (
-                    <img src={getBeforeImageUrl(vehicleRepairDetail.beforeVehiclePhoto)} alt="Before Repair" />
+                    <img 
+                      src={getBeforeImageUrl(vehicleRepairDetail.beforeVehiclePhoto)} 
+                      alt="Before Repair" 
+                      style={{ width: '250px', height: 'auto' }}
+                    />
                   )}
                 </td>
               </tr>
@@ -99,7 +103,11 @@ function VehicleRepairDetail() {
                 <th className="header">수리후 사진</th>
                 <td colSpan="4">
                   {vehicleRepairDetail.afterVehiclePhoto && (
-                    <img src={getAfterImageUrl(vehicleRepairDetail.afterVehiclePhoto)} alt="After Repair" />
+                    <img 
+                      src={getAfterImageUrl(vehicleRepairDetail.afterVehiclePhoto)} 
+                      alt="After Repair" 
+                      style={{ width: '250px', height: 'auto' }}
+                    />
                   )}
                 </td>
               </tr>

@@ -8,7 +8,10 @@ export const BRANCH_MANAGER = 'BRANCH_MANAGER'
 const initState = []
 
 createActions({
-    [MAIN_BRANCH] : ()=>{}
+    [MAIN_BRANCH] : ()=>{},
+    [BRANCH_INFO] : ()=>{},
+    [BRANCH_FACILITY_INFO] : ()=>{},
+    [BRANCH_MANAGER] : ()=>{},
 })
 
 export const branchReducer = handleActions({

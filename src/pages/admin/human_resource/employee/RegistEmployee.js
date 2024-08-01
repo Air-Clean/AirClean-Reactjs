@@ -16,7 +16,7 @@ import {
 import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import DaumPostcodeEmbed from "react-daum-postcode";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import "animate.css";
 import "./RegistEmployee.css";

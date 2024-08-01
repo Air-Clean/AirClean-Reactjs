@@ -100,8 +100,20 @@ export function getManager(){
 
 export function registManager({form}){
     console.log("registManager 동작")
+
     
-    const requestURL  = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/branch/manager`
+        console.log('[formdata ]', form.get("branchAddress"))
+        console.log('[formdata ]', form.get("branchName"))
+        console.log('[formdata ]', form.get("branchPhone"))
+        console.log('[formdata ]', form.get("branchOpenDate"))
+        console.log('[formdata ]', form.get("memberId"))
+        console.log('[formdata ]', form.get("image"))
+        console.log('[formdata ]', form.get("branchRegion"))
+        
+
+
+    
+    const requestURL  = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/branch/regist`
 
     return async (dispatch , getState) =>{
         const result = await fetch(requestURL,{
