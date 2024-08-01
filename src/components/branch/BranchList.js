@@ -4,7 +4,7 @@ import BranchModal from './BranchModal';
 import { useDispatch , useSelector } from 'react-redux';
 import { callBranchFacility ,deleteBranch, getManager} from '../../apis/CallBranchInfoApi';
 
-function BranchList({ locationName , onBranchSelect , setSelectedBranch ,facility, setFacility ,branchData}) {
+function BranchList({ locationName  , setSelectedBranch ,facility, setFacility ,branchData}) {
 
 
     const [selectedBranches, setSelectedBranches] = useState([]);
@@ -43,7 +43,6 @@ function BranchList({ locationName , onBranchSelect , setSelectedBranch ,facilit
         console.log("Branch clicked:", branch);
         setSelectedBranch(branch);
         dispatch(callBranchFacility({branchCode : branch.branchCode}))
-        onBranchSelect(branch);
     };
 
     const openModal = () => {

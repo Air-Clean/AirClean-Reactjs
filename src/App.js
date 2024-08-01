@@ -1,6 +1,7 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from './AuthContext';
+import { useState , useEffect } from 'react';
 import Login from './pages/login/Login';
 import Layout from './layouts/Layout';
 import './styles/App.css';
@@ -54,6 +55,7 @@ import MainPage from './pages/admin/main_page/MainPage';
 // 12
 
 function App() {
+
   return (
     <AuthProvider>
       <BrowserRouter>

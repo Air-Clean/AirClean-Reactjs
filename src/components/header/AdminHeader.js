@@ -24,8 +24,6 @@ const AdminHeader = () => {
 
     const members = jwtDecode(window.localStorage.getItem('accessToken'))
 
-    window.localStorage.removeItem('accessToken')
-
     dispatch(callLogoutAPI())
 
     alert(`${members.memberName} 님 로그아웃 하셨습니다`)
