@@ -4,14 +4,16 @@
     color: white;
     padding: 2px 15px;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
     font-size: 20px;
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 25px;
-    font-family: Arial, sans-serif;
     width: 170px;
+    z-index: 100;
+}
+
+.waterTankButton:hover{
+  background-color: #1576a6;
 }
 
 .waterTank{
