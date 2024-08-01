@@ -1,6 +1,6 @@
 /* WaterTank.css */
 .styled-table {
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100%;
     border-collapse: collapse;
     font-size: 10px;
@@ -20,11 +20,7 @@
 }
 
 .styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-.styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    border-bottom: 1px solid #15247c;
 }
 
 .styled-table tbody tr:last-of-type {

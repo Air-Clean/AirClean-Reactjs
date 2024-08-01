@@ -15,7 +15,7 @@ function FacilityandLaundry() {
                 <div className='flex2_wrap'>
                         {/* 컴포넌트 위치 */}
                         <div style={{display:'flex', justifyContent:'center', width:'100%', marginTop:'40px'}}>
-                            <div style={{width:'70%', height: '250px', backgroundColor:'#88D0FF'}}>
+                            <div style={{width:'70%', height: '265px', backgroundColor:'#88D0FF'}}>
                                 <WaterTank/>
                             </div>
                         </div>
