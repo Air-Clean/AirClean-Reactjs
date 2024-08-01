@@ -6,20 +6,25 @@ import jwtDecode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { callLogoutAPI } from '../../apis/MemberAPICalls';
 
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Badge from '@mui/material/Badge';
+
 const AdminHeader = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
 
-  const showDropdown = () => setDropdownVisible(true);
-  const hideDropdown = () => setDropdownVisible(false);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const showDropdown = () => setDropdownVisible(true);
+  const hideDropdown = () => setDropdownVisible(false);
 
   const changeColor = (index) => {
     setActiveMenu(index);
   };
-
+  
   const logoutHandler = () => {
     const members = jwtDecode(window.localStorage.getItem('accessToken'));
 
@@ -31,6 +36,18 @@ const AdminHeader = () => {
     navigate("/", { replace: true });
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
   return (
     <>
       <div className={styles.headerContainer}>
@@ -39,7 +56,29 @@ const AdminHeader = () => {
             <img src={logo} alt="Logo" />
           </div>
           <div className={styles.actions}>
-            <p className={styles.alarm}>알림</p>
+            <div style={{position:'relative'}}>
+              <Button aria-describedby={id} variant="contained" onClick={handleClick} style={{marginRight:'20px'}}>
+                Alarm 
+              </Button>
+              <Badge color="secondary" badgeContent={0} showZero style={{position:'absolute', top:'5px', left:'0'}}>
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  style={{transform: 'none'}}
+                >
+                  <Typography sx={{ p: 2 }}>예시1.</Typography>
+                  <Typography sx={{ p: 2 }}>예시2.</Typography>
+                  <Typography sx={{ p: 2 }}>예시3.</Typography>
+
+                </Popover>
+              </Badge>
+            </div>
             <button className={styles.signUp} onClick={logoutHandler}>Log out</button>
           </div>
         </header>

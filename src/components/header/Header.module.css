@@ -1,185 +1,202 @@
 .headerContainer {
-    display: flex; /* 컨테이너를 플렉스 박스로 설정 */
-    justify-content: center; /* 중앙 정렬 */
-    background: linear-gradient(to right, #d0e4f8, #f8f9fa, #d0e4f8); /* 배경을 그라데이션으로 설정 */
-    height: 80px; /* 높이 설정 */
-    position: relative; /* 상대적 위치 설정 */
-}
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to right, #d0e4f8, #f8f9fa, #d0e4f8);
+    height: 80px;
+    position: relative;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 92%;
+    position: relative;
+  }
+  
+  .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .logo img {
+    height: 33px;
+  }
+  
+  .actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+  
+  .signUp {
+    padding: 5.5px 14px;
+    background-color: #cee1f5;
+    border: 1px solid #1f70c6;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .signUp:hover {
+    background-color: #0056b3;
+  }
+  
+  .nav {
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    background: linear-gradient(to right, #d0e4f8, #f8f9fa, #d0e4f8);
+    border-bottom: 2px solid #cedae4;
+    position: relative;
+  }
+  
+  .nav li {
+    width: 150px;
+  }
+  
+  .nav li div {
+    text-align: center;
+  }
+  
+  .nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav:hover .dropdown {
+    display: block;
+    animation: slideDown 0.3s ease-in-out forwards;
+  }
+  
+  .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100vw;
+    height: 25vh;
+    background: linear-gradient(to bottom, #f1f6fb, #d0e4f8, rgb(224, 248, 251));
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    overflow: hidden; /* ::before 요소가 dropdown의 경계를 벗어나지 않도록 */
+    border-bottom: 2px solid #cedae4;
 
-.header {
-    display: flex; /* 플렉스 박스로 설정 */
-    justify-content: space-between; /* 공간을 고르게 분배 */
-    align-items: center; /* 수직 중앙 정렬 */
-    padding: 10px; /* 패딩 설정 */
-    width: 92%; /* 너비 설정 */
-    position: relative; /* 상대적 위치 설정 */
-}
+  }
+  
+  .dropdown::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../assets/headerBackground.jpg'); /* 배경 이미지 경로 설정 */
+    background-size: cover; /* 배경 이미지를 요소 크기에 맞추기 */
+    background-position: center;
+    background-blend-mode: screen; /* 배경 이미지와 배경 색상 간의 혼합 모드 설정 */
+    opacity: 0.5; /* 배경 이미지 투명도 조절 (0.0 ~ 1.0) */
+    z-index: -1; /* 배경 이미지를 콘텐츠 뒤로 보내기 */
+  }
 
-.logo {
-    position: absolute; /* 절대적 위치 설정 */
-    left: 50%; /* 왼쪽에서 50% */
-    transform: translateX(-50%); /* 수평 이동 */
-}
-
-.logo img {
-    height: 50px; /* 이미지 높이 설정 */
-}
-
-.actions {
-    display: flex; /* 플렉스 박스로 설정 */
-    align-items: center; /* 수직 중앙 정렬 */
-    margin-left: auto; /* 오른쪽 정렬 */
-}
-
-.alarm {
-    margin-right: 20px; /* 오른쪽 여백 설정 */
-}
-
-.signUp {
-    padding: 8px 16px; /* 패딩 설정 */
-    background-color: #007bff; /* 배경 색상 설정 */
-    color: white; /* 글자 색상 설정 */
-    border: none; /* 테두리 없앰 */
-    border-radius: 4px; /* 테두리 반경 설정 */
-    cursor: pointer; /* 커서 포인터로 설정 */
-}
-
-.signUp:hover {
-    background-color: #0056b3; /* 호버 시 배경 색상 설정 */
-}
-
-.nav {
-    display: flex; /* 플렉스 박스로 설정 */
-    justify-content: center; /* 중앙 정렬 */
-    height: 50px; /* 높이 설정 */
-    background: linear-gradient(to right, #d0e4f8, #f8f9fa, #d0e4f8); /* 배경을 그라데이션으로 설정 */
-    position: relative; /* 상대적 위치 설정 */
-}
-
-.nav li {
-    width: 150px; /* 너비 설정 */
-}
-
-.nav li div {
-    text-align: center; /* 텍스트 중앙 정렬 */
-}
-
-.nav ul {
-    display: flex; /* 플렉스 박스로 설정 */
-    list-style: none; /* 리스트 스타일 없앰 */
-    padding: 0; /* 패딩 없앰 */
-    margin: 0; /* 마진 없앰 */
-}
-
-.nav:hover .dropdown {
-    display: block; /* 호버 시 드롭다운 표시 */
-    animation: slideDown 0.3s ease-in-out forwards; /* 슬라이드 다운 애니메이션 설정 */
-}
-
-.dropdown {
-    display: none; /* 기본적으로 드롭다운 숨김 */
-    position: absolute; /* 절대적 위치 설정 */
-    top: 100%; /* 상단에서 100% 아래 */
-    left: 0; /* 왼쪽 정렬 */
-    width: 100vw; /* 전체 너비 설정 */
-    background: linear-gradient(to right, #bdd9f5, #b1d3f5); /* 배경을 그라데이션으로 설정 */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
-    z-index: 1000; /* 다른 콘텐츠 위에 표시 */
-}
-
-.dropdown ul {
-    display: flex; /* 플렉스 박스로 설정 */
-    justify-content: center; /* 중앙 정렬 */
-    list-style: none; /* 리스트 스타일 없앰 */
-    margin: 0; /* 마진 없앰 */
-    padding: 10px 0; /* 패딩 설정 */
-}
-
-.dropdown ul li {
-    padding: 8px 16px; /* 패딩 설정 */
-}
-
-.dropdown ul li:hover {
-    background-color: #dcf9ff; /* 호버 시 배경 색상 설정 */
-}
-
-.menuItem {
-    cursor: pointer; /* 커서 포인터로 설정 */
-    padding: 8px 25px; /* 패딩 설정 */
-    color: black; /* 글자 색상 설정 */
-    text-decoration: none; /* 텍스트 데코레이션 없앰 */
-    font-size: 20px; /* 글자 크기 설정 */
-    font-weight: bold; /* 글자 두께 설정 */
-    position: relative; /* 상대적 위치 설정 */
-}
-
-.menuItem:hover {
-    text-decoration: underline; /* 호버 시 밑줄 설정 */
-}
-
-.menuItem::after {
-    content: ''; /* 콘텐츠 없앰 */
-    display: block; /* 블록 요소로 설정 */
-    position: absolute; /* 절대적 위치 설정 */
-    bottom: 0px; /* 아래쪽 0px */
-    left: 0; /* 왼쪽 0 */
-    width: 100%; /* 너비 100% */
-    height: 4px; /* 높이 4px */
-    background-color: skyblue; /* 배경 색상 설정 */
-    transform: scaleX(0); /* 수평 스케일 0 */
-    transition: transform 0.3s ease-in-out; /* 변환 애니메이션 설정 */
-}
-
-.menuItem:hover::after {
-    transform: scaleX(1); /* 호버 시 수평 스케일 1 */
-}
-
-@keyframes slideDown {
+  
+  
+  .dropdown ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+  }
+  
+  .dropdown ul li {
+    padding: 8px 16px;
+  }
+  
+  .dropdown ul li:hover {
+    /* background-color: #dcf9ff; */
+  }
+  
+  .menuItem {
+    cursor: pointer;
+    padding: 8px 25px;
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 550;
+    position: relative;
+  }
+  
+  .menuItem:hover {
+    text-decoration: underline;
+  }
+  
+  .menuItem::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: rgb(115, 194, 224);
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .menuItem:hover::after {
+    transform: scaleX(1);
+  }
+  
+  @keyframes slideDown {
     0% {
-        opacity: 0; /* 불투명도 0 */
-        transform: translateY(-20px); /* 수직 이동 -20px */
+      opacity: 0;
+      transform: translateY(-20px);
     }
     100% {
-        opacity: 1; /* 불투명도 1 */
-        transform: translateY(0); /* 수직 이동 0 */
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-.menuItem1,
-.menuItem2,
-.menuItem3,
-.menuItem4,
-.menuItem5,
-.menuItem6,
-.menuItem7,
-.menuItem8 {
-    width: 200px; /* 너비 200px */
-}
-
-.dropdown ul li {
-    border-right: 1px solid #ddd; /* 오른쪽 테두리 추가 */
-}
-
-.dropdown ul li:last-child {
-    border-right: none; /* 마지막 항목의 테두리 제거 */
-}
-
-a{
-    color: black;
-    font-size: 17px;
-}
-
-.menuItem1 a:hover,
-.menuItem2 a:hover,
-.menuItem3 a:hover,
-.menuItem4 a:hover,
-.menuItem5 a:hover,
-.menuItem6 a:hover,
-.menuItem7 a:hover,
-.menuItem8 a:hover {
-    color: blue; /* 호버 시 글자 색상 파란색 */
-}
-
-.active {
-    color: rgb(62, 62, 234);
   }
+  
+  .menuItem1,
+  .menuItem2,
+  .menuItem3,
+  .menuItem4,
+  .menuItem5,
+  .menuItem6,
+  .menuItem7,
+  .menuItem8 {
+    width: 200px;
+  }
+  
+  .dropdown ul li {
+    border-right: 1px solid #ddd;
+  }
+  
+  .dropdown ul li:last-child {
+    border-right: none;
+  }
+  
+  a {
+    color: rgb(55, 55, 55) !important;
+    font-size: 15px;
+    text-decoration: none !important;
+  }
+  
+  .menuItem1 a:hover,
+  .menuItem2 a:hover,
+  .menuItem3 a:hover,
+  .menuItem4 a:hover,
+  .menuItem5 a:hover,
+  .menuItem6 a:hover,
+  .menuItem7 a:hover,
+  .menuItem8 a:hover {
+    color: rgb(102, 6, 128) !important;
+  }
+  
+  
+  /* 알림 관련 스타일 */

@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { NavLink,useNavigate} from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
 import logo from '../../assets/logo2.png'; // 로고 이미지 경로를 알맞게 수정하세요
 import { useDispatch } from 'react-redux';
 import { callLogoutAPI } from '../../apis/MemberAPICalls';
 import jwtDecode from 'jwt-decode';
+
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Badge from '@mui/material/Badge';
 
 const AdminHeader = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -20,17 +25,29 @@ const AdminHeader = () => {
     setActiveMenu(index);
   };
   
-  const logoutHandler=()=>{
+  const logoutHandler = () => {
+    const members = jwtDecode(window.localStorage.getItem('accessToken'));
 
-    const members = jwtDecode(window.localStorage.getItem('accessToken'))
+    window.localStorage.removeItem('accessToken');
 
-    window.localStorage.removeItem('accessToken')
+    dispatch(callLogoutAPI());
 
-    dispatch(callLogoutAPI())
+    alert(`${members.memberName} 님 로그아웃 하셨습니다`);
+    navigate("/", { replace: true });
+  };
 
-    alert(`${members.memberName} 님 로그아웃 하셨습니다`)
-    navigate("/",{replace : true});
-  }
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   return (
     <>
@@ -40,7 +57,28 @@ const AdminHeader = () => {
             <img src={logo} alt="Logo" />
           </div>
           <div className={styles.actions}>
-            <p className={styles.alarm}>알람</p>
+            <div style={{position:'relative'}}>
+              <Button aria-describedby={id} variant="contained" onClick={handleClick} style={{marginRight:'20px'}}>
+                Alarm 
+              </Button>
+              <Badge color="secondary" badgeContent={0} showZero style={{position:'absolute', top:'5px', left:'0'}}>
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                >
+                  <Typography sx={{ p: 2 }}>예시1.</Typography>
+                  <Typography sx={{ p: 2 }}>예시2.</Typography>
+                  <Typography sx={{ p: 2 }}>예시3.</Typography>
+
+                </Popover>
+              </Badge>
+            </div>
             <button className={styles.signUp} onClick={logoutHandler}>Logout</button>
           </div>
         </header>
@@ -95,82 +133,56 @@ const AdminHeader = () => {
             <div className={styles.dropdown}>
               <ul className={styles.dropdownMenu} style={{ textAlign: 'center' }}>
                 <li className={styles.menuItem1} onClick={() => changeColor(1)}>
-                  <NavLink to="financial" activeClassName={styles.active}>재무분석</NavLink>
-                  <ul className={styles.submenu}>
-
-                  </ul>
+                  <NavLink to="financial" className={({ isActive }) => (isActive ? styles.active : '')}>재무분석</NavLink>
                 </li>
                 <li className={styles.menuItem2} onClick={() => changeColor(2)}>
-                  <NavLink to="#submenu1-2" activeClassName={styles.active}>가고싶은 주소</NavLink>
+                  <NavLink to="#submenu1-2" className={({ isActive }) => (isActive ? styles.active : '')}>가고싶은 주소</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="#submenu1-2-1" activeClassName={styles.active}>2-1</NavLink>
+                      <NavLink to="#submenu1-2-1" className={({ isActive }) => (isActive ? styles.active : '')}>2-1</NavLink>
                       <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-2-2" activeClassName={styles.active}>2-2</NavLink></li>
+                        <li><NavLink to="#submenu1-2-2" className={({ isActive }) => (isActive ? styles.active : '')}>2-2</NavLink></li>
                       </ul>
                     </li>
                   </ul>
                 </li>
                 <li className={styles.menuItem3} onClick={() => changeColor(3)}>
-                  <NavLink to="branch" activeClassName={styles.active}>지점관리</NavLink>
-                  <ul className={styles.submenu}>
-                    <li>
-                      {/* <NavLink to="#submenu1-3-1" activeClassName={styles.active}>3-1</NavLink> */}
-                      <ul className={styles.submenu}>
-                        {/* <li><NavLink to="#submenu1-3-2" activeClassName={styles.active}>3-2</NavLink></li> */}
-                      </ul>
-                    </li>
-                  </ul>
+                  <NavLink to="branch" className={({ isActive }) => (isActive ? styles.active : '')}>지점관리</NavLink>
                 </li>
                 <li className={styles.menuItem5} onClick={() => changeColor(5)}>
-                <NavLink to="stock/application" activeClassName={styles.active}>재고관리</NavLink>
+                  <NavLink to="stock/application" className={({ isActive }) => (isActive ? styles.active : '')}>재고관리</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="stock/history" activeClassName={styles.active}>내역조회</NavLink>
-                      {/* <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-5-2" activeClassName={styles.active}>5-2</NavLink></li>
-                      </ul> */}
+                      <NavLink to="stock/history" className={({ isActive }) => (isActive ? styles.active : '')}>내역조회</NavLink>
                     </li>
                   </ul>
                 </li>
                 <li className={styles.menuItem6} onClick={() => changeColor(6)}>
-                  <NavLink to="car" activeClassName={styles.active}>물류시스템관리</NavLink>
-                  <ul className={styles.submenu}>
-                    <li>
-                      {/* <NavLink to="#submenu1-6-1" activeClassName={styles.active}>6-1</NavLink> */}
-                      {/* <ul className={styles.submenu}> */}
-                        {/* <li><NavLink to="#submenu1-6-2" activeClassName={styles.active}>6-2</NavLink></li> */}
-                      {/* </ul> */}
-                    </li>
-                  </ul>
+                  <NavLink to="car" className={({ isActive }) => (isActive ? styles.active : '')}>물류시스템관리</NavLink>
                 </li>
                 <li className={styles.menuItem7} onClick={() => changeColor(7)}>
-                  <NavLink to="paper/newReports" activeClassName={styles.active}>보고서 작성</NavLink>
+                  <NavLink to="paper/newReports" className={({ isActive }) => (isActive ? styles.active : '')}>보고서 작성</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="paper/reports" activeClassName={styles.active}>보고서 조회</NavLink>
-                      {/* <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-7-2" activeClassName={styles.active}>7-2</NavLink></li>
-                      </ul> */}
+                      <NavLink to="paper/reports" className={({ isActive }) => (isActive ? styles.active : '')}>보고서 조회</NavLink>
                     </li>
                   </ul>
                 </li>
                 <li className={styles.menuItem8} onClick={() => changeColor(8)}>
-                <NavLink to="members/employee" activeClassName={styles.active}>직원</NavLink>
+                  <NavLink to="members/employee" className={({ isActive }) => (isActive ? styles.active : '')}>직원</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="members/branch" activeClassName={styles.active}>지점장</NavLink>
+                      <NavLink to="members/branch" className={({ isActive }) => (isActive ? styles.active : '')}>지점장</NavLink>
                       <ul className={styles.submenu}>
                         <li>
-                          <NavLink to="members/driver" activeClassName={styles.active}>차량기사</NavLink>
+                          <NavLink to="members/driver" className={({ isActive }) => (isActive ? styles.active : '')}>차량기사</NavLink>
                           <ul className={styles.submenu}>
-                            <li><NavLink to="members/temp" activeClassName={styles.active}>보류기록</NavLink></li>
+                            <li><NavLink to="members/temp" className={({ isActive }) => (isActive ? styles.active : '')}>보류기록</NavLink></li>
                           </ul>
                         </li>
                       </ul>
                     </li>
                   </ul>
-
                 </li>
               </ul>
             </div>
