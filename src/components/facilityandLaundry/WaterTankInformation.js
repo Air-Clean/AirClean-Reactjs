@@ -4,21 +4,17 @@ import React, { useState, useEffect } from 'react';
 import { fetchWaterLevel } from '../../apis/LandryAPICall';
 import { useDispatch, useSelector } from 'react-redux';
 import WaterTankModal from './WaterTankModal';
+import jwt_decode from 'jwt-decode';
 
-import jwt_decode from 'jwt-decode'
-import { callBranchData } from '../../apis/MemberAPICalls';
-
-function WaterTankInformation() {
+function WaterTankInformation({ onModalConfirmed }) { // 추가된 콜백 함수 prop
     const dispatch = useDispatch();
     const waterTanks = useSelector(state => state.waterLevelReducer.waterTanks);
     const [waterLevel, setWaterLevel] = useState(null);
-    const [showModal, setShowModal] = useState(false); // 모달 상태 추가
+    const [showModal, setShowModal] = useState(false);
     const [branchCode, setBranchCode] = useState(null);
+    const [modalConfirmed, setModalConfirmed] = useState(false);
 
-
-// ------------------- layout 에서 옮긴 코드 -----------------------
-
-    const members = jwt_decode(window.localStorage.getItem('accessToken'))
+    const members = jwt_decode(window.localStorage.getItem('accessToken'));
 
     useEffect(() => {
         try {
@@ -31,11 +27,9 @@ function WaterTankInformation() {
         }
     }, [members]);
 
-    // 
     useEffect(() => {
         dispatch(fetchWaterLevel());
-    }, [dispatch]);
-
+    }, [dispatch, modalConfirmed]);
 
     useEffect(() => {
         if (branchCode && waterTanks.length > 0) {
@@ -43,13 +37,12 @@ function WaterTankInformation() {
             if (tank) {
                 setWaterLevel(tank.waterCurCapacity);
             } else {
-                setWaterLevel(null); // or some default value
+                setWaterLevel(null);
             }
         }
     }, [branchCode, waterTanks]);
 
-    
-    console.log("여기 "+ branchCode)
+    console.log("여기 "+ branchCode);
 
     const calculateTopValue = (level) => {
         const minLevel = 0;
@@ -59,7 +52,7 @@ function WaterTankInformation() {
 
         const ratio = (maxTop - minTop) / (maxLevel - minLevel);
         return minTop + ratio * (maxLevel - level);
-    }
+    };
 
     const topValue = calculateTopValue(waterLevel);
 
@@ -73,7 +66,8 @@ function WaterTankInformation() {
 
     const handleConfirmModal = () => {
         setShowModal(false);
-        // 급수 로직 추가
+        setModalConfirmed(prevState => !prevState); // modalConfirmed 상태 변경
+        onModalConfirmed(); // 콜백 함수 호출
         console.log("급수 완료");
     };
 
@@ -110,8 +104,8 @@ function WaterTankInformation() {
                 showModal={showModal}
                 handleClose={handleCloseModal}
                 handleConfirm={handleConfirmModal}
-                waterLevel={waterLevel} // waterLevel prop 전달
-                branchCode={branchCode} // branchCode prop 추가
+                waterLevel={waterLevel}
+                branchCode={branchCode}
             />
         </>
     );

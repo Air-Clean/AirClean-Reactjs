@@ -21,6 +21,8 @@ import {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branch
 
 import {waterLevelReducer} from "./LandlyModule";
 import {selectLocationWater} from "./LandlyModule";
+import {selectWaterSupply} from "./LandlyModule";
+
 
 
 const rootReducer = combineReducers({
@@ -61,7 +63,8 @@ const rootReducer = combineReducers({
 
 
     waterLevelReducer,
-    selectLocationWater
+    selectLocationWater,
+    selectWaterSupply
 
 
 })
