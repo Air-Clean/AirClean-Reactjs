@@ -10,7 +10,7 @@ import { branchReducer ,branchInfoReducer,branchFacilityInfoReducer,branchManage
 
 // 도아 - 보고서 
 import { 
-    branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer,updateBranchSalesReducer
+    branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer,updateBranchSalesReducer, deleteBranchSalesReducer
     , vehicleRepairReducer, detailVehicleRepairReducer
     , expenseReducer, detailExpenseReducer, newExpenseReducer
     , findAllRepairReducer,detailRepairReducer, newRepairReducer
@@ -42,6 +42,7 @@ const rootReducer = combineReducers({
     detailBranchSalesReducer,
     newBranchSalesReducer,
     updateBranchSalesReducer,
+    deleteBranchSalesReducer,
     vehicleRepairReducer,
     expenseReducer,
     detailExpenseReducer,
