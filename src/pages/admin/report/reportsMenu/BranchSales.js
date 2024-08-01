@@ -143,13 +143,12 @@ function BranchSales() {
                 <tr key={repair.repairReportCode}>
                 <td>{repair.repairReportCode}</td>
                 <td>{repair.branchName}</td>  
-                <td>{repair.facilityCode}</td>   {/* 종류 */}
+                <td>{repair.facilityType}</td>   {/* 종류 */}
                 <td>{new Date(repair.repairSubmissionDate).toLocaleDateString()}</td>
                 <td>{repair.repairReportStatus}</td> 
                 <td><button onClick={() => navigate(`/company/paper/reports/repairReports/${repair.repairReportCode}`)}>View</button></td>
             </tr>
               ))}
-             
             </tbody>
           </table>
         );

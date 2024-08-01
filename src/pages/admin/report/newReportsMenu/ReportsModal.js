@@ -147,7 +147,7 @@ function ReportsModal({ show, onClose }) {
     }
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     const formData = new FormData();
     formData.append('vehicleReportStatus', form.vehicleReportStatus);
     formData.append('vehicleRemark', form.vehicleRemark);
@@ -164,11 +164,14 @@ function ReportsModal({ show, onClose }) {
     formData.append('beforeImage', form.beforeVehiclePhoto);
     formData.append('afterImage', form.afterVehiclePhoto);
   
+    const newVehicleRepairResult = await 
     dispatch(callNewVehicleRepairAPI({ form: formData }));
-
-    alert('등록이 완료되었습니다');  // 여기서 알림창 표시
-    onClose();
-  
+    if (newVehicleRepairResult.ok) {  
+      alert('등록이 완료되었습니다!');
+      onClose();
+      } else {
+      alert('등록에 실패하였습니다. 다시 시도해주세요.');
+      }
   };
 
   

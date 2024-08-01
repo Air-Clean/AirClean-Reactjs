@@ -208,13 +208,12 @@ export const callCarMembersAPI = () => {
 export const callNewVehicleRepairAPI = ({form}) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/vehicle-repair`; 
 
-  
-        
         console.log('[formdata ]', form.get("beforeImage"))
         console.log('[formdata ]', form.get("afterImage"))
         
-
+  
   return async (dispatch, getState) => {
+    try{
     const newVehicleRepairResult = await fetch(requestURL, {
       method: 'POST',
       headers: {
@@ -227,10 +226,19 @@ export const callNewVehicleRepairAPI = ({form}) => {
     console.log('차량수리보고서 등록 API 응답하니? :', newVehicleRepairResult);
     
     if(newVehicleRepairResult.status === 200){
+      const data = await newVehicleRepairResult.json();
       dispatch({type: NEWVEHICLEREPAIR, payload: newVehicleRepairResult.data})
+    }else{
+      console.error('차량수리보고서 등록 실패',newVehicleRepairResult.statusText )
     }
+      return newVehicleRepairResult;
+  } catch(error){
+    console.error('Error during API call:', error);
+    return { ok: false, status: 500 };
   }
-}
+  };
+};
+
 
 
 // 지점 수리보고서 전체조회 API
