@@ -93,6 +93,18 @@ function LocationBranchSalesDetail() {
         }
     }
 
+    const handleDeleteClick = async () => {
+        if (window.confirm('정말 삭제하시겠습니까?')) {
+            const deleteBranchSalesResult = await dispatch(callDeleteBranchSalesAPI({branchReportCode: formData.branchReportCode}));
+            if (deleteBranchSalesResult.ok) {
+                alert('삭제가 완료되었습니다.');
+                navigate('/location/paper/myReports/', { state: { activeTable: '매출' } });
+            } else {
+                alert('삭제에 실패하였습니다.');
+            }
+        }
+    };
+
     const handleClose = () => {
         navigate('/location/paper/myReports/', { state: { activeTable: '매출' } });
     };
@@ -226,7 +238,7 @@ function LocationBranchSalesDetail() {
                     ) : (
                     <button onClick={handleEditClick}>수정</button>
                     )}
-                    <button>삭제</button>
+                    <button onClick={handleDeleteClick}>삭제</button>
                     <button onClick={handleClose}>닫기</button>
                 </>
                 ) : (
