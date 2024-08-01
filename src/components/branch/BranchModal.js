@@ -16,60 +16,52 @@ import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import styles from './BranchModal.module.css';
-import axios from 'axios';
+import { registManager } from "../../apis/CallBranchInfoApi";
+import { useDispatch } from "react-redux";
+
+const seoulAreas = {
+  중앙: ['종로구', '중구', '용산구','마포구','영등포구'],
+  동부: ['동대문구', '성동구', '광진구', '중랑구'],
+  서부: ['서대문구',  '은평구', '강서구', '양천구','동작구'],
+  남부: ['강남구', '서초구',  '관악구', '송파구', '강동구'],
+  북부: ['성북구', '강북구', '도봉구', '노원구'],
+};
+
+// 주소를 구역으로 분류하는 함수
+const classifyAddress = (address, areas) => {
+  for (const [area, districts] of Object.entries(areas)) {
+    if (districts.some(district => address.includes(district))) {
+      return area;
+    }
+  }
+  return '알 수 없음';
+};
 
 export default function BranchModal({ show, onClose, onSubmit, man }) {
   const [form, setForm] = useState({
-    branchCode: "",
-    branchRegion: "",
     branchName: "",
     branchPhone: "",
     branchAddress: "",
     branchImage: null,
     branchOpenDate: "",
-    memberId: ""
+    memberId: "",
   });
 
   const [postcodeVisible, setPostcodeVisible] = useState(false);
-  const [members, setMembers] = useState([]);
+  
 
   useEffect(() => {
     if (show) {
       setForm({
-        branchCode: "",
-        branchRegion: "",
         branchName: "",
         branchPhone: "",
         branchAddress: "",
         branchImage: null,
         branchOpenDate: "",
-        memberId: ""
+        memberId: "",
       });
-      fetchMembers();
     }
   }, [show]);
-
-
-  const fetchMembers = async () => {
-    try {
-      const token = window.localStorage.getItem('accessToken');
-      const response = await axios.get('http://localhost:3000/branch/members', {
-        headers: {
-          Authorization: 'Bearer ' + token
-        }
-      });
-  
-      if (response.data && response.data.data && Array.isArray(response.data.data.members)) {
-        setMembers(response.data.data.members);
-      } else {
-        console.error('API 응답이 예상과 다릅니다:', response.data);
-        setMembers([]);
-      }
-    } catch (error) {
-      console.error('Error fetching members:', error);
-      setMembers([]);
-    }
-  };
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -108,37 +100,33 @@ export default function BranchModal({ show, onClose, onSubmit, man }) {
     setPostcodeVisible(!postcodeVisible);
   };
 
+  const dispatch = useDispatch();
+
   const handleSubmit = async () => {
     const formData = new FormData();
-    formData.append("branchCode", form.branchCode || '');
-    formData.append("branchRegion", form.branchRegion || '');
-    formData.append("branchName", form.branchName || '');
-    formData.append("branchPhone", form.branchPhone || '');
-    formData.append("branchAddress", form.branchAddress || '');
-    formData.append("branchImageFile", form.branchImage || new Blob()); // 빈 Blob 객체를 기본값으로 사용
-    formData.append("branchOpenDate", form.branchOpenDate || '');
-    formData.append("memberId", form.memberId || '');
 
-    try {
-        const token = window.localStorage.getItem('accessToken');
-        const response = await axios.post('http://localhost:3000/branch/register', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: 'Bearer ' + token
-            }
-        });
+    formData.append("branchName", form.branchName);
+    formData.append("branchPhone", form.branchPhone );
+    formData.append("branchAddress", form.branchAddress );
+    formData.append("branchOpenDate", form.branchOpenDate );
+    formData.append("memberId", form.memberId);
 
-        console.log('서버 응답:', response.data);
-
-        onSubmit(response.data); // 필요한 경우 응답 결과를 상위 컴포넌트로 전달
-        onClose();
-    } catch (error) {
-        console.error('에러 발생:', error);
-        if (error.response && error.response.data) {
-            console.error('서버 응답 오류 메시지:', error.response.data.message);
-        }
+    if(form.branchImage){
+      formData.append("image",form.branchImage)
     }
+
+    
+
+    const classifyArea = classifyAddress(form.branchAddress,seoulAreas);
+    formData.append("branchRegion", classifyArea);
+
+    dispatch(registManager({form : formData}));
+
+    window.location.reload();
+
   };
+
+  
 
   return (
     <Modal isOpen={show} toggle={onClose} centered className="custom-modal">
@@ -160,23 +148,11 @@ export default function BranchModal({ show, onClose, onSubmit, man }) {
               {postcodeVisible && (
                 <Card>
                   <CardBody>
-                    <DaumPostcodeEmbed onComplete={handleAddressSelect} style={{ height: "400px" }} />
+                    <DaumPostcodeEmbed onComplete={handleAddressSelect} style={{ height: "200px" }} />
                   </CardBody>
                 </Card>
               )}
             </FormGroup>
-            
-            {/* <FormGroup>
-              <Label for="branchRegion">지점 지역</Label>
-              <Input
-                type="text"
-                name="branchRegion"
-                id="branchRegion"
-                value={form.branchRegion}
-                onChange={inputHandler}
-                placeholder="지점 지역을 입력해주세요"
-              />
-            </FormGroup> */}
             <FormGroup>
               <Label for="branchName">지점명</Label>
               <Input
