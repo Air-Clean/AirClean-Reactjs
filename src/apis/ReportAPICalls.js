@@ -1,6 +1,6 @@
 // apis/ReportAPICalls.js
 import { 
-  BRANCHSALES, DETAILBRANCHSALES, NEWBRANCHSALES
+  BRANCHSALES, DETAILBRANCHSALES, NEWBRANCHSALES, UPDATEBRANCHSALES
   , VEHICLEREPAIR, DETAILVEHICLEREPAIR
   , EXPENSE, DETAILEXPENSE, NEWEXPENSE
   , REPAIR, DETAILREPAIR
@@ -25,7 +25,7 @@ export const callFindBranchSalesAPI = () => {
     }).then((response) => response.json());
 
     // 응답 데이터 로그 출력
-    console.log('API 응답:', branchSalesResult);
+    console.log('매출 보고서 API 응답:', branchSalesResult);
 
     // 액션 디스패치
     dispatch({ type: BRANCHSALES, payload: branchSalesResult.data });
@@ -47,7 +47,7 @@ export const calldetailBranchSalesAPI = ({branchReportCode}) => {
     }).then((response) => response.json());
 
     // 응답 데이터 로그 출력
-    console.log('지출 부분조회 API 응답:', detailBranchSalesResult);
+    console.log('매출보고서 부분조회 API 응답:', detailBranchSalesResult);
 
     // 액션 디스패치
     dispatch({ type: DETAILBRANCHSALES, payload: detailBranchSalesResult.data})
@@ -78,6 +78,39 @@ export const callNewBranchSalesAPI = (data) => {
 }
 }
 
+// 매출 보고서 수정
+export const callUpdateBranchSalesAPI = ({branchReportCode, data}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/reports/${branchReportCode}`; 
+  return async (dispatch, getState) => {
+    try {
+      const updateBranchSalesResult = await fetch(requestURL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(data)
+      });
+
+      console.log('매출보고서 수정 API : ', updateBranchSalesResult)
+
+      if (updateBranchSalesResult.status === 200) {
+        const data = await updateBranchSalesResult.json();
+        dispatch({ type: 'UPDATEBRANCHSALES', payload: data });
+      } else {
+        console.error('매출보고서 수정 실패: ', updateBranchSalesResult.statusText);
+      }
+
+      return updateBranchSalesResult;
+    } catch (error) {
+      console.error('Error during API call:', error);
+      return { ok: false, status: 500 };
+    }
+  };
+};
+// 매출 보고서 삭제
+
 
 // 지출보고서 전체 조회 API
 export const callFindExpenseAPI = () => {
@@ -93,7 +126,7 @@ export const callFindExpenseAPI = () => {
       },
     }).then((response) => response.json())
 
-    console.log('expense API 나오나? :', expenseResult)
+    console.log('지출보고서 API 나오나? :', expenseResult)
 
     dispatch({type: EXPENSE, payload: expenseResult.data})
   }
@@ -113,7 +146,7 @@ export const callDetailExpenseAPI = ({expenseReportCode}) => {
       },
     }).then((response) => response.json())
 
-    console.log('expense 부분조회 API 나오나? :', detailExpenseResult)
+    console.log('지출보고서 부분조회 API 나오나? :', detailExpenseResult)
 
     dispatch({type: DETAILEXPENSE, payload: detailExpenseResult.data})
   }
@@ -157,7 +190,7 @@ export const callFindVehicleRepairAPI = () => {
       },
     }).then((response) => response.json());
 
-    console.log('API 응답하니? :', result);
+    console.log('차량수리보고서 API 응답하니? :', result);
 
     dispatch({type: VEHICLEREPAIR, payload: result.data})
   }
@@ -208,37 +241,36 @@ export const callCarMembersAPI = () => {
 export const callNewVehicleRepairAPI = ({form}) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/vehicle-repair`; 
 
-        console.log('[formdata ]', form.get("beforeImage"))
-        console.log('[formdata ]', form.get("afterImage"))
-        
+  console.log('[formdata ]', form.get("beforeImage"))
+  console.log('[formdata ]', form.get("afterImage"))
   
   return async (dispatch, getState) => {
     try{
-    const newVehicleRepairResult = await fetch(requestURL, {
-      method: 'POST',
-      headers: {
-        Accept: '*/*',
-        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-      },
-      body: form
-    })
+      const newVehicleRepairResult = await fetch(requestURL, {
+        method: 'POST',
+        headers: {
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: form
+      })
 
-    console.log('차량수리보고서 등록 API 응답하니? :', newVehicleRepairResult);
-    
-    if(newVehicleRepairResult.status === 200){
-      const data = await newVehicleRepairResult.json();
-      dispatch({type: NEWVEHICLEREPAIR, payload: newVehicleRepairResult.data})
-    }else{
-      console.error('차량수리보고서 등록 실패',newVehicleRepairResult.statusText )
-    }
+      console.log('차량수리보고서 등록 API 응답하니? :', newVehicleRepairResult);
+      
+      if(newVehicleRepairResult.status === 200){
+        const data = await newVehicleRepairResult.json();
+        console.log('응답 데이터:', data); // 데이터를 사용하는 예시
+        dispatch({type: NEWVEHICLEREPAIR, payload: data})
+      }else{
+        console.error('차량수리보고서 등록 실패', newVehicleRepairResult.statusText)
+      }
       return newVehicleRepairResult;
-  } catch(error){
-    console.error('Error during API call:', error);
-    return { ok: false, status: 500 };
-  }
+    } catch(error){
+      console.error('Error during API call:', error);
+      return { ok: false, status: 500 };
+    }
   };
 };
-
 
 
 // 지점 수리보고서 전체조회 API
@@ -316,5 +348,3 @@ export const callNewRepairAPI = ({ form }) => {
     }
   };
 };
-
-

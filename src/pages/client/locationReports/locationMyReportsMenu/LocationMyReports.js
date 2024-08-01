@@ -55,7 +55,7 @@ function LocationMyReports() {
                     <td>{item.branchName}</td>
                     <td>{new Date(item.branchSubmissionDate).toLocaleDateString()}</td>
                     <td>{item.branchReportStatus}</td>
-                    <td><button onClick={() => navigate(`/company/paper/reports/branchSales/${item.branchReportCode}`)}>View</button></td>
+                    <td><button onClick={() => navigate(`/location/paper/myReports/branchSales/${item.branchReportCode}`)}>View</button></td>
                 </tr>
                 ))}
             </tbody>

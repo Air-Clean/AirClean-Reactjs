@@ -25,6 +25,7 @@ import RepairDetail from './pages/admin/report/reportsMenu/RepairDetail'
 // /지점장
 import LocationMyReports from './pages/client/locationReports/locationMyReportsMenu/LocationMyReports';
 import LocationNewReports from './pages/client/locationReports/locationNewReportsMenu/LocationNewReports'; 
+import LocationBranchSalesDetail from './pages/client/locationReports/locationMyReportsMenu/LocationBranchSalesDetail';
 
 import StockApplication from './pages/admin/stock/StockApplication';
 import StockHistory from './pages/admin/stock/StockHistory';
@@ -114,6 +115,7 @@ function App() {
                 <Route index element={<LocationNewReports/>}/>
                 <Route path='locationNewReports' element={<LocationNewReports/>}/>
                 <Route path='myReports' element={<LocationMyReports/>}/>
+                <Route path='myReports/branchSales/:branchReportCode' element={<LocationBranchSalesDetail/>}/>
             </Route>
 
             <Route path="branchClient">
