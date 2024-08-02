@@ -2,8 +2,8 @@ import { combineReducers } from "redux";
 import {memberReducer , getBranchReducer} from "./MemberModule";
 import askReducer from "./AskModule";
 import {humanReducer , humanBranchReducer} from "./HRModule";
-import carReducer from "./CarModule";
 
+import { carDriverReducer, carReducer } from "./CarModule"; 
 // import carInfoReducer from "./CarModule";
 
 import { branchReducer ,branchInfoReducer,branchFacilityInfoReducer,branchManagerReducer} from "./BranchModule";
@@ -39,7 +39,7 @@ const rootReducer = combineReducers({
     humanBranchReducer,
 
     carReducer,
-
+    carDriverReducer,
 
     branchSalesReducer,
     detailBranchSalesReducer,

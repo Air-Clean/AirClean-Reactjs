@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Car.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { callCarInfoListAPI } from '../../../apis/CarAPICalls';
+import { callCarInfoListAPI ,callDriverWithNoAssigned} from '../../../apis/CarAPICalls';
 import Paging from '../../../components/paging/Paging';
 
 function Car() {
@@ -52,6 +52,14 @@ function Car() {
             setNewCar({ ...newCar, [name]: value });
         }
     };
+
+    const callApiHandler=()=>{
+        dispatch(callDriverWithNoAssigned())
+    }
+
+    const noDriver = useSelector(state=>state.carDriverReducer)
+
+    console.log('noDriver list ',noDriver)
 
     const handleRegisterSubmit = () => {
         if (newCar.carNumber && newCar.carDate && newCar.carPhoto1 && newCar.carPhoto2 && newCar.carEtc && !carDateError) {
@@ -151,8 +159,9 @@ function Car() {
                                             <button
                                                 className={`${styles.button} ${styles.assign}`}
                                                 onClick={() => {
-                                                    setSelectedCar(car);
+                                                    setSelectedCar(car.carNumber);
                                                     setShowAssignForm(true);
+                                                    callApiHandler();
                                                 }}
                                             >
                                                 배정하기
@@ -211,9 +220,9 @@ function Car() {
                         <label>운전자 선택:</label>
                         <select value={selectedDriver} onChange={(e) => setSelectedDriver(e.target.value)}>
                             <option value="">운전자를 선택하세요</option>
-                            {drivers.map(driver => (
-                                <option key={driver.name} value={driver.name} disabled={driver.assigned}>
-                                    {driver.name} {driver.assigned && '(배정됨)'}
+                            {noDriver.map(driver => (
+                                <option key={driver.name} value={driver.memberId}>
+                                    {driver.memberName}
                                 </option>
                             ))}
                         </select>
