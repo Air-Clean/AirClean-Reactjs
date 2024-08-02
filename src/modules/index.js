@@ -12,7 +12,7 @@ import { branchReducer ,branchInfoReducer,branchFacilityInfoReducer,branchManage
 import { 
     branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer,updateBranchSalesReducer, deleteBranchSalesReducer
     , vehicleRepairReducer, detailVehicleRepairReducer
-    , expenseReducer, detailExpenseReducer, newExpenseReducer
+    , expenseReducer, detailExpenseReducer, newExpenseReducer, updateEXpenseReducer, deleteEXpenseReducer
     , findAllRepairReducer,detailRepairReducer, newRepairReducer
     , carMembersReducer
 } from "./ReportsModule";
@@ -49,7 +49,9 @@ const rootReducer = combineReducers({
     vehicleRepairReducer,
     expenseReducer,
     detailExpenseReducer,
+    updateEXpenseReducer,
     newExpenseReducer,
+    deleteEXpenseReducer,
     detailVehicleRepairReducer,
     findAllRepairReducer,
     detailRepairReducer,

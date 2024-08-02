@@ -12,6 +12,8 @@ export const DELETEBRANCHSALES = 'DELETEBRANCHSALES'
 export const EXPENSE = 'EXPENSE'
 export const DETAILEXPENSE = 'DETAILEXPENSE'
 export const NEWEXPENSE = 'NEWEXPENSE'
+export const UPDATEEXPENSE = 'UPDATEEXPENSE'
+export const DELETEEXPENSE = 'DELETEEXPENSE'
 export const VEHICLEREPAIR = 'VEHICLEREPAIR'
 export const DETAILVEHICLEREPAIR = 'DETAILVEHICLEREPAIR'
 export const NEWVEHICLEREPAIR = 'NEWVEHICLEREPAIR'
@@ -30,6 +32,8 @@ createActions({
     [DELETEBRANCHSALES]: () => [],
     [UPDATEBRANCHSALES]: () => [],
     [NEWBRANCHSALES]: () => [],
+    [UPDATEEXPENSE]: () => [],
+    [DELETEEXPENSE]: () => [],
     [VEHICLEREPAIR] : () => [],
     [DETAILVEHICLEREPAIR] : () => [],
     [NEWVEHICLEREPAIR] : () => [],
@@ -128,6 +132,34 @@ const newExpenseReducer = handleActions({
         }
     }
     }, initialState)
+
+// 지출보고서 수정
+const updateEXpenseReducer = handleActions({
+
+    [UPDATEEXPENSE] : (state, {payload}) => {
+        console.log('expense 수정 reducer 나오니? :', payload)
+        return {
+            ...state,
+            ...payload
+        }
+    }
+    }, initialState)
+
+
+ // 지출보고서 삭제
+const deleteEXpenseReducer = handleActions({
+
+    [DELETEEXPENSE] : (state, {payload}) => {
+        console.log('expense 삭제 reducer 나오니? :', payload)
+        return {
+            ...state,
+            ...payload
+        }
+    }
+    }, initialState)
+
+
+
 // 차량수리보고서 전체 조회
 const vehicleRepairReducer = handleActions({
     [VEHICLEREPAIR] : (state, {payload}) => {
@@ -202,7 +234,7 @@ const newRepairReducer = handleActions({
 export  {
     branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer, updateBranchSalesReducer, deleteBranchSalesReducer
     , vehicleRepairReducer , detailVehicleRepairReducer,newVehicleRepairReducer
-    , expenseReducer, detailExpenseReducer, newExpenseReducer
+    , expenseReducer, detailExpenseReducer, newExpenseReducer, updateEXpenseReducer, deleteEXpenseReducer
     , findAllRepairReducer, detailRepairReducer, newRepairReducer
     , carMembersReducer
 };
