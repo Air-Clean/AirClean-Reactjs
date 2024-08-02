@@ -4,7 +4,7 @@ import askReducer from "./AskModule";
 import {humanReducer , humanBranchReducer} from "./HRModule";
 import carReducer from "./CarModule";
 
-import carInfoReducer from "./CarModule";
+// import carInfoReducer from "./CarModule";
 
 import { branchReducer ,branchInfoReducer,branchFacilityInfoReducer,branchManagerReducer} from "./BranchModule";
 
@@ -17,7 +17,7 @@ import {
     , carMembersReducer
 } from "./ReportsModule";
 
-import {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer}  from "./StockModule";
+import  {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer}  from "./StockModule";
 
 import facilityDetailInfoReducer from "./FacilityModule";
 
@@ -40,7 +40,6 @@ const rootReducer = combineReducers({
 
     carReducer,
 
-    carInfoReducer,
 
     branchSalesReducer,
     detailBranchSalesReducer,
