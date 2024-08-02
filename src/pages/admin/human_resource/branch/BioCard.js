@@ -35,9 +35,9 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
   console.log("biocard=============================");
 
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
-      let image =branch.memberDTO.memberImage;
+      let image =branch?.memberDTO?.memberImage;
 
-    console.log(image.split('/')[4])
+    console.log(image?.split('/')[4])
 
     console.log('image anjsi',image);
 
@@ -174,15 +174,15 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
     const [highlight, setHighlight] = useState(false);
     const [modal, setModal] = useState(false);
     const [form, setForm] = useState({
-      memberId: branch.memberDTO.memberId,
-      memberName: branch.memberDTO.memberName,
+      memberId: branch?.memberDTO?.memberId,
+      memberName: branch?.memberDTO?.memberName,
       isPass: false,
-      phone: branch.memberDTO.memberPhoneNumber,
-      branchPhone : branch.branchPhone,
-      email: branch.memberDTO.memberEmail,
-      address: branch.memberDTO.memberAddress,
+      phone: branch?.memberDTO?.memberPhoneNumber,
+      branchPhone : branch?.branchPhone,
+      email: branch?.memberDTO?.memberEmail,
+      address: branch?.memberDTO?.memberAddress,
       image: null,
-      imagePreview: branch.memberDTO.memberImage,
+      imagePreview: branch?.memberDTO?.memberImage,
       
     });
 
@@ -192,20 +192,20 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
       setModal(!modal);
 
       setForm({
-        memberId: branch.memberDTO.memberId,
-        memberName: branch.memberDTO.memberName,
+        memberId: branch?.memberDTO?.memberId,
+        memberName: branch?.memberDTO?.memberName,
         isPass: false,
-        phone: branch.memberDTO.memberPhoneNumber,
-        branchPhone : branch.branchPhone,
-        email: branch.memberDTO.memberEmail,
-        address: branch.memberDTO.memberAddress,
+        phone: branch?.memberDTO?.memberPhoneNumber,
+        branchPhone : branch?.branchPhone,
+        email: branch?.memberDTO?.memberEmail,
+        address: branch?.memberDTO?.memberAddress,
         image: null,
-        imagePreview: branch.memberDTO.memberImage,
+        imagePreview: branch?.memberDTO?.memberImage,
         
       });
       Swal.close();
     };
-    const role = members.memberRole;
+    const role = members?.memberRole;
 
     const deleteHandler = (e) => {
       setHighlight(!highlight);
@@ -228,7 +228,7 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
       }
       return array;
     }
-    const phone = getPhoneNumber(branch?.memberDTO.memberPhoneNumber)
+    const phone = getPhoneNumber(branch?.memberDTO?.memberPhoneNumber)
 
     return (
       <Grid item xs={6} sm={6} mg={4} lg={3} className="bio_card">
@@ -241,7 +241,7 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
           }}
         >
           <CardContent sx={{ alignItems: "center", textAlign: "center" }}>
-            <Avatar src={branch.memberDTO.memberImage || "/static/images/avatar/1.jpg"} sx={{ '--Avatar-size': '4rem' }} />
+            <Avatar src={branch?.memberDTO?.memberImage || "/static/images/avatar/1.jpg"} sx={{ '--Avatar-size': '4rem' }} />
             <Chip
               size="sm"
               variant="soft"
@@ -253,11 +253,11 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
                 borderColor: "background.surface",
               }}
             >
-              {branch.branchDTO ? branch.branchDTO.branchName : 'no site'}
+              {branch?.branchDTO ? branch?.branchDTO?.branchName : 'no site'}
             </Chip>
-            <Typography level="title-lg">{branch?.memberDTO.memberName}</Typography>
+            <Typography level="title-lg">{branch?.memberDTO?.memberName}</Typography>
             <Typography level="body-sm" sx={{ maxWidth: "24ch" }}>
-              {branch.branchDTO ? branch.branchDTO.branchRegion : ''} 
+              {branch?.branchDTO ? branch?.branchDTO?.branchRegion : ''} 
               <br />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -349,8 +349,8 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
                 variant="outlined"
                 sx={{ bgcolor: "background.surface" }}
               >
-                <Button onClick={showBusinessCard} name={branch.memberDTO.memberId}>Detail</Button>
-                {role==='a' && <Button color='danger' onClick={deleteHandler} name={branch.memberDTO.memberId}>Delete</Button>}
+                <Button onClick={showBusinessCard} name={branch?.memberDTO?.memberId}>Detail</Button>
+                {role==='a' && <Button color='danger' onClick={deleteHandler} name={branch?.memberDTO?.memberId}>Delete</Button>}
               </ButtonGroup>
             </CardActions>
           </CardOverflow>
@@ -368,38 +368,38 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
             <img src={logo} alt="이미지 없음" className="top-text" />
             <div className="content">
                 <img src={image} alt="사진 없음" className="profile" />
-                <div className="name">{branch.memberDTO.memberName}</div>
-                <div className="handle">{branch.branchDTO ? branch.branchDTO.branchName : 'no site'}</div>
+                <div className="name">{branch?.memberDTO?.memberName}</div>
+                <div className="handle">{branch?.branchDTO ? branch?.branchDTO?.branchName : 'no site'}</div>
                 <div className="contact-info">
                     <div>
-                        {branch.branchDTO ? branch.branchDTO.branchRegion : ''}
+                        {branch?.branchDTO ? branch?.branchDTO?.branchRegion : ''}
                     </div>
-                    <div>{branch.memberDTO.memberId}</div>
+                    <div>{branch?.memberDTO?.memberId}</div>
                     <hr />
                     <div>
 
-                      {branch.branchDTO ? 
+                      {branch?.branchDTO ? 
                       <div>
                         <LocalLaundryServiceIcon/>
-                        {getPhoneNumber(branch.branchDTO.branchPhone)}
+                        {getPhoneNumber(branch?.branchDTO?.branchPhone)}
                       </div>
                             
                        : ''}
                       <div style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
                         <StayCurrentPortraitIcon/>
-                        {getPhoneNumber(branch.memberDTO.memberPhoneNumber)}
+                        {getPhoneNumber(branch?.memberDTO?.memberPhoneNumber)}
                       </div>
                     </div>
                     <div>
                       <div style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
                         <EmailIcon/>
-                        {branch.memberDTO.memberEmail}
+                        {branch?.memberDTO?.memberEmail}
                       </div>
                     </div>
                     <div>
                       <div>
                         <GiteIcon/>
-                        {branch.memberDTO.memberAddress}
+                        {branch?.memberDTO?.memberAddress}
                       </div>
                     </div>
                 </div>
@@ -422,18 +422,18 @@ function BusinessCardBack({car}){
       <div class="license-card-back">
         <div className="license-card-back-photo">
           <div className="car-front">
-            <img src={car.carPhoto} alt="이미지 없음"/>
+            <img src={car?.carPhoto} alt="이미지 없음"/>
           </div>
           <div className="car-rear">
-            <img src={car.carPhoto} alt="이미지 없음"/>
+            <img src={car?.carPhoto} alt="이미지 없음"/>
           </div>
         </div>
         <div class='license-card-back-text' style={{display : 'flex' ,alignItems : 'center'}}>
-          <div><h4>{car.carNumber}</h4></div>
+          <div><h4>{car?.carNumber}</h4></div>
           <div>
             <ul style={{listStyle : 'none' , textAlign : 'left'}}>
-              <li>출고일 : {car.carDate}</li>
-              <li>특이사항 : {car.carEtc}</li>
+              <li>출고일 : {car?.carDate}</li>
+              <li>특이사항 : {car?.carEtc}</li>
             </ul>
           </div>
         </div>

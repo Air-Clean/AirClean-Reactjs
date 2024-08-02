@@ -34,11 +34,11 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
 
   function showBusinessCard() {
 
-    let image =emp.memberDTO.memberImage;
-    console.log(image.split('/')[4])
+    let image =emp?.memberDTO?.memberImage;
+    console.log(image?.split('/')[4])
     console.log('image anjsi',image);
 
-    if(image.split('/')[4]==='null'){
+    if(image?.split('/')[4]==='null'){
       image = noProfile;
     }
 
@@ -84,16 +84,16 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
   const [highlight , setHighlight] = useState(false)
   const [modal,setModal] = useState(false);
   const [form, setForm] = useState({
-    memberId: emp.memberDTO.memberId,
-    memberName: emp.memberDTO.memberName,
-    dept: emp.employeeDept,
-    position: emp.employeePosition,
+    memberId: emp?.memberDTO?.memberId,
+    memberName: emp?.memberDTO?.memberName,
+    dept: emp?.employeeDept,
+    position: emp?.employeePosition,
     isPass: false,
-    phone: emp.memberDTO.memberPhoneNumber,
-    email: emp.memberDTO.memberEmail,
-    address: emp.memberDTO.memberAddress,
+    phone: emp?.memberDTO?.memberPhoneNumber,
+    email: emp?.memberDTO?.memberEmail,
+    address: emp?.memberDTO?.memberAddress,
     image: null,
-    imagePreview: emp.memberDTO.memberImage,
+    imagePreview: emp?.memberDTO?.memberImage,
   });
 
   const members =jwtDecode(window.localStorage.getItem('accessToken'))
@@ -104,21 +104,21 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
     console.log('수정버튼');
     setModal(!modal)
     setForm({
-      memberId: emp.memberDTO.memberId,
-      memberName: emp.memberDTO.memberName,
-      dept: emp.employeeDept,
-      position: emp.employeePosition,
+      memberId: emp?.memberDTO?.memberId,
+      memberName: emp?.memberDTO?.memberName,
+      dept: emp?.employeeDept,
+      position: emp?.employeePosition,
       isPass: false,
-      phone: emp.memberDTO.memberPhoneNumber,
-      email: emp.memberDTO.memberEmail,
-      address: emp.memberDTO.memberAddress,
+      phone: emp?.memberDTO?.memberPhoneNumber,
+      email: emp?.memberDTO?.memberEmail,
+      address: emp?.memberDTO?.memberAddress,
       image: null,
-      imagePreview: emp.memberDTO.memberImage,
+      imagePreview: emp?.memberDTO?.memberImage,
     });
     Swal.close();
 
   }
-  const role = members.memberRole;
+  const role = members?.memberRole;
 
   
 
@@ -147,7 +147,7 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
     }
     return array;
   }
-  const phone = getPhoneNumber(emp?.memberDTO.memberPhoneNumber)
+  const phone = getPhoneNumber(emp?.memberDTO?.memberPhoneNumber)
 
   
   return (
@@ -161,7 +161,7 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
       }}
     >
       <CardContent sx={{ alignItems: 'center', textAlign: 'center' }}>
-        <Avatar src={emp.memberDTO.memberImage || "/static/images/avatar/1.jpg"} sx={{ '--Avatar-size': '4rem' }} />
+        <Avatar src={emp?.memberDTO?.memberImage || "/static/images/avatar/1.jpg"} sx={{ '--Avatar-size': '4rem' }} />
         <Chip
           size="sm"
           variant="soft"
@@ -175,7 +175,7 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
         >
           {emp?.employeePosition}
         </Chip>
-        <Typography level="title-lg">{emp?.memberDTO.memberName}</Typography>
+        <Typography level="title-lg">{emp?.memberDTO?.memberName}</Typography>
         <Typography level="body-sm" sx={{ maxWidth: '24ch' }}>
           {emp?.employeeDept}
           <br/>
@@ -260,8 +260,8 @@ export default function BioCard({emp, setDeleteMember, deleteMember}) {
       <CardOverflow sx={{ bgcolor: 'background.level1' }}>
         <CardActions buttonFlex="1">
           <ButtonGroup variant="outlined" sx={{ bgcolor: 'background.surface' }}>
-            <Button onClick={showBusinessCard} name={emp.memberDTO.memberId}>Detail</Button>
-            {role==='a' && <Button color='danger' onClick={deleteHandler} name={emp.memberDTO.memberId}>Delete</Button>}
+            <Button onClick={showBusinessCard} name={emp?.memberDTO?.memberId}>Detail</Button>
+            {role==='a' && <Button color='danger' onClick={deleteHandler} name={emp?.memberDTO?.memberId}>Delete</Button>}
           </ButtonGroup>
         </CardActions>
       </CardOverflow>
@@ -280,17 +280,17 @@ function BusinessCard({ members, emp, logo, image , phone}) {
         <img src={logo} alt="이미지 없음" class="top-text"/>
         <div class="content">
             <img src={image} alt="사진 없음" class="profile"/>
-            <div class="name">{emp.memberDTO.memberName}</div>
-            <div class="handle">{emp.employeePosition}</div>
+            <div class="name">{emp?.memberDTO?.memberName}</div>
+            <div class="handle">{emp?.employeePosition}</div>
             <div class="contact-info">
-                <div>{emp.employeeDept}</div>
-                <div>{emp.memberDTO.memberId}</div>
+                <div>{emp?.employeeDept}</div>
+                <div>{emp?.memberDTO?.memberId}</div>
                 <hr/>
                 <div>{phone}</div>
-                <div>{emp.memberDTO.memberEmail}</div>
-                <div>{emp.memberDTO.memberAddress}</div>
+                <div>{emp?.memberDTO?.memberEmail}</div>
+                <div>{emp?.memberDTO?.memberAddress}</div>
             </div>
-            {(members.memberRole === 'a' || members.sub === emp.memberDTO.memberId) &&
+            {(members?.memberRole === 'a' || members?.sub === emp?.memberDTO?.memberId) &&
             <div class="modifybutton">
               <button class="button-19" id="modifyButton">Modify</button>
             </div>

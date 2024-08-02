@@ -60,15 +60,15 @@ function AccordionComponent({
   isSave,
 }) {
   console.log("accorion emp", emp);
-  console.log("dslkjdslkdsjf", emp.memberDTO.memberId);
+  console.log("dslkjdslkdsjf", emp.memberDTO?.memberId);
   const [expanded, setExpanded] = useState(null);
   const [canSave, setCanSave] = useState(false);
   const [canDelete, setCanDelete] = useState(false);
 
   const [deleteChecked, setDeleteChecked] = useState(false);
 
-  const image = emp.memberDTO.memberImage.split("/")[4];
-  const phone = getPhoneNumber(emp.memberDTO.memberPhoneNumber);
+  const image = emp.memberDTO?.memberImage.split("/")[4];
+  const phone = getPhoneNumber(emp.memberDTO?.memberPhoneNumber);
 
   // Handle delete button click
   const handleDeleteClick = (e) => {
@@ -136,8 +136,8 @@ function AccordionComponent({
                 width: "10vw",
               }}
             >
-              <Avatar src={image ? emp.memberDTO.memberImage : "profile"} />
-              <div>{emp.memberDTO.memberName}</div>
+              <Avatar src={image ? emp.memberDTO?.memberImage : "profile"} />
+              <div>{emp.memberDTO?.memberName}</div>
             </div>
             <div>{emp.employeeDept}</div>
             <div>{emp.employeePosition}</div>
@@ -155,7 +155,7 @@ function AccordionComponent({
                 <IconButton
                   disabled={isSave}
                   onClick={handleDeleteClick}
-                  name={emp.memberDTO.memberId}
+                  name={emp.memberDTO?.memberId}
                 >
                   <Avatar style={{ backgroundColor: canDelete && "red" }}>
                   <DeleteIcon />
@@ -166,7 +166,7 @@ function AccordionComponent({
                 <IconButton
                   disabled={isDelete}
                   onClick={handleRotateClick}
-                  name={emp.memberDTO.memberId}
+                  name={emp.memberDTO?.memberId}
                 >
                   <Avatar style={{ backgroundColor: canSave && "blue" }}>
                   <RotateLeftIcon />
@@ -182,10 +182,10 @@ function AccordionComponent({
               <div className="info-group left">
                 <div className="info-item">
                   <strong>Name : </strong>{" "}
-                  <span>{emp.memberDTO.memberName}</span>
+                  <span>{emp.memberDTO?.memberName}</span>
                 </div>
                 <div className="info-item">
-                  <strong>ID : </strong> <span>{emp.memberDTO.memberId}</span>
+                  <strong>ID : </strong> <span>{emp.memberDTO?.memberId}</span>
                 </div>
                 <div className="info-item">
                   <strong>Position :</strong>{" "}
@@ -198,14 +198,14 @@ function AccordionComponent({
               <div className="info-group right">
                 <div className="info-item">
                   <strong>E-mail :</strong>{" "}
-                  <span>{emp.memberDTO.memberEmail}</span>
+                  <span>{emp.memberDTO?.memberEmail}</span>
                 </div>
                 <div className="info-item">
                   <strong>Phone :</strong> <span>{phone}</span>
                 </div>
                 <div className="info-item">
                   <strong>Address : </strong>{" "}
-                  <span>{emp.memberDTO.memberAddress}</span>
+                  <span>{emp.memberDTO?.memberAddress}</span>
                 </div>
               </div>
             </div>

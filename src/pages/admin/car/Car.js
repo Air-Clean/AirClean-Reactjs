@@ -279,7 +279,7 @@ function Car() {
                             </div>
                         </div>
                     )}
-                    <Paging setCurrent={setCurrent} end='3'/>
+                    {/* <Paging setCurrent={setCurrent} end={}/> */}
                 </div>
             </div>
         </div>

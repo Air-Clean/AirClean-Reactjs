@@ -30,6 +30,8 @@ export default function GarbageDriver({amount}) {
 
   console.log("N 직원 찾기", driver);
 
+  console.log(driver.data.totalPages)
+
   const deleteHandler=()=>{
     
     // console.log('삭제버튼')
