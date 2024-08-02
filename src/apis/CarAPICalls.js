@@ -1,4 +1,5 @@
-import { CARINFOLIST } from "../modules/CarModule";
+import { CARINFOLIST , CARDRIVER} from "../modules/CarModule";
+
 
 // 매출보고서 전체 조회 API
 export const callCarInfoListAPI = ({current}) => {
@@ -37,3 +38,26 @@ export const callCarInfoListAPI = ({current}) => {
         }
     };
 };
+
+export function callDriverWithNoAssigned(){
+    console.log("callDriverWithNoAssigned 동작")
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/driver`
+    
+    return async (dispatch, getState)=>{
+        const result = await fetch(requestURL,{
+            method:"GET",
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+
+        console.log('차량기사 조회 확인 ',result)
+
+        if(result.status===200){
+            dispatch({type : CARDRIVER , payload : result.data})
+        }
+    }
+}
