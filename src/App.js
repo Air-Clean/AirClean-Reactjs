@@ -34,6 +34,9 @@ import StockHistoryLayout from './pages/admin/stock/StockHistoryLayout';
 import BranchOrderHistory from './pages/admin/stock/BranchOrderHistory';
 
 import FacilityManagement from './pages/client/facilityManagement/FacilityManagement';
+import FacilityDrum from './pages/client/facilityManagement/FacilityDrum';
+import FacilityDryer from './pages/client/facilityManagement/FacilityDryer';
+import FacilityDryCleaner from './pages/client/facilityManagement/FacilityDryCleaner';
 
 import Branch from './pages/admin/branch/Branch';
 import BranchClient from './pages/client/branchClient/BranchClient';
@@ -41,6 +44,7 @@ import BranchClient from './pages/client/branchClient/BranchClient';
 
 import Car from './pages/admin/car/Car';
 import MainPage from './pages/admin/main_page/MainPage';
+
 
 
 
@@ -125,7 +129,10 @@ function App() {
             </Route>
 
             <Route path="facility" element={<FacilityManagement/>}>
-              <Route index element={<FacilityManagement/>}/>
+              <Route index element={<FacilityDrum/>}/>
+              <Route path="drum" element={<FacilityDrum/>}/>
+              <Route path="dryer" element={<FacilityDryer/>}/>
+              <Route path="dryCleaner" element={<FacilityDryCleaner/>}/>
             </Route>
 
           </Route>
