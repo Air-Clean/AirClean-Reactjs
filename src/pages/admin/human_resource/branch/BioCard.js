@@ -26,6 +26,8 @@ import StayCurrentPortraitIcon from '@mui/icons-material/StayCurrentPortrait';
 import GiteIcon from '@mui/icons-material/Gite';
 import EmailIcon from '@mui/icons-material/Email';
 import ReactDOMServer from 'react-dom/server'
+import ReactDOM from "react-dom";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 
@@ -33,9 +35,8 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
   console.log("biocard=============================");
 
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
+      let image =branch.memberDTO.memberImage;
 
-  function showBusinessCard() {
-    let image =branch.memberDTO.memberImage;
     console.log(image.split('/')[4])
 
     console.log('image anjsi',image);
@@ -44,42 +45,131 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
       image = noProfile;
     }
 
+  // function showBusinessCard() {
+
+
+  //   const businessCardHtml = ReactDOMServer.renderToString(
+  //     <BusinessCard branch={branch} logo={logo} image={image} members={members}/>
+  //   )
+
+  //       Swal.fire({
+  //           showClass: {
+  //         popup: `
+  //           animate__animated
+  //           animate__fadeInUp
+  //           animate__faster
+  //         `
+  //       },
+  //       hideClass: {
+  //         popup: `
+  //           animate__animated
+  //           animate__fadeOutDown
+  //           animate__faster
+  //         `
+  //       },
+  //           html: businessCardHtml,
+  //           width: 'auto',
+  //           padding: '10px',
+  //           background: 'transparent', // 배경 제거
+  //           customClass: {
+  //               container: 'swal2-container'
+  //           },
+  //           showConfirmButton: false,
+  //           didRender: () => {
+  //             // Swal.fire가 렌더링 된 후에 이벤트 리스너를 추가합니다.
+  //             if(document.getElementById('modifyButton')){
+  //               document.getElementById('modifyButton').addEventListener('click', toggle);
+  //             }
+              
+  //         }
+  //       });
+  //   }
+
+  function showBusinessCard() {
     const businessCardHtml = ReactDOMServer.renderToString(
       <BusinessCard branch={branch} logo={logo} image={image} members={members}/>
-    )
-
-        Swal.fire({
-            showClass: {
-          popup: `
-            animate__animated
-            animate__fadeInUp
-            animate__faster
-          `
-        },
-        hideClass: {
-          popup: `
-            animate__animated
-            animate__fadeOutDown
-            animate__faster
-          `
-        },
-            html: businessCardHtml,
-            width: 'auto',
-            padding: '10px',
-            background: 'transparent', // 배경 제거
-            customClass: {
-                container: 'swal2-container'
-            },
-            showConfirmButton: false,
-            didRender: () => {
-              // Swal.fire가 렌더링 된 후에 이벤트 리스너를 추가합니다.
-              if(document.getElementById('modifyButton')){
-                document.getElementById('modifyButton').addEventListener('click', toggle);
-              }
-              
-          }
-        });
-    }
+    );
+  
+    Swal.fire({
+      showClass: {
+        popup: `
+          animate__animated
+          animate__fadeInUp
+          animate__faster
+        `,
+      },
+      hideClass: {
+        popup: `
+          animate__animated
+          animate__fadeOutDown
+          animate__faster
+        `,
+      },
+      html: '<div id="business-card-container"></div>',
+      width: "auto",
+      padding: "10px",
+      background: "transparent",
+      customClass: {
+        container: "swal2-container",
+      },
+      showConfirmButton: false,
+      didRender: () => {
+        ReactDOM.render(
+          <BusinessCard
+            branch={branch}
+            logo={logo}
+            image={image}
+          />,
+          document.getElementById("business-card-container")
+        );
+  
+        if (document.getElementById("modifyButton")) {
+          document.getElementById("modifyButton").addEventListener("click", toggle);
+        }
+  
+        if (document.getElementById("rightButton")) {
+          document.getElementById("rightButton").addEventListener("click", showBusinessCardBack);
+        }
+      },
+    });
+  }
+  
+  function showBusinessCardBack() {
+    Swal.fire({
+      showClass: {
+        popup: `
+          animate__animated
+          animate__fadeInUp
+          animate__faster
+        `,
+      },
+      hideClass: {
+        popup: `
+          animate__animated
+          animate__fadeOutDown
+          animate__faster
+        `,
+      },
+      html: '<div id="business-card-back"></div>',
+      width: "auto",
+      padding: "10px",
+      background: "transparent",
+      customClass: {
+        container: "swal2-container",
+      },
+      showConfirmButton: false,
+      didRender: () => {
+        ReactDOM.render(
+          <BusinessCardBack car={branch}/>,
+          document.getElementById("business-card-back")
+        );
+  
+        if (document.getElementById("leftButton")) {
+          document.getElementById("leftButton").addEventListener("click", showBusinessCard);
+        }
+      },
+    });
+  }
 
     const [highlight, setHighlight] = useState(false);
     const [modal, setModal] = useState(false);
@@ -273,6 +363,7 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
 
   function BusinessCard({ members, branch, logo, image}) {
     return (
+      <div className="hr-branch-modal">
         <div className="business-card">
             <img src={logo} alt="이미지 없음" className="top-text" />
             <div className="content">
@@ -287,37 +378,68 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
                     <hr />
                     <div>
 
-                      {branch.branchDTO ? <Avatar style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
-                            <LocalLaundryServiceIcon/>
-                            {getPhoneNumber(branch.branchDTO.branchPhone)}
-                      </Avatar> : ''}
-                      <Avatar style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
+                      {branch.branchDTO ? 
+                      <div>
+                        <LocalLaundryServiceIcon/>
+                        {getPhoneNumber(branch.branchDTO.branchPhone)}
+                      </div>
+                            
+                       : ''}
+                      <div style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
                         <StayCurrentPortraitIcon/>
                         {getPhoneNumber(branch.memberDTO.memberPhoneNumber)}
-                      </Avatar>
+                      </div>
                     </div>
                     <div>
-                      <Avatar style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
+                      <div style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
                         <EmailIcon/>
                         {branch.memberDTO.memberEmail}
-                      </Avatar>
+                      </div>
                     </div>
                     <div>
-                      <Avatar>
+                      <div>
                         <GiteIcon/>
                         {branch.memberDTO.memberAddress}
-                      </Avatar>
+                      </div>
                     </div>
                 </div>
-                {(members.memberRole === 'a' || members.sub === branch.memberDTO.memberId) &&
+                {/* {(members.memberRole === 'a' || members.sub === branch.memberDTO.memberId) &&
                 <div className="modifybutton">
                   <button className="button-19" id="modifyButton">Modify</button>
                 </div>
-                } 
+                }  */}
                 
             </div>
+        </div>
+        <Button id='rightButton'><KeyboardArrowDownIcon/></Button>
         </div>
     );
 }
 
+function BusinessCardBack({car}){
+  return(
+    <div class='license-modal'>
+      <div class="license-card-back">
+        <div className="license-card-back-photo">
+          <div className="car-front">
+            <img src={car.carPhoto} alt="이미지 없음"/>
+          </div>
+          <div className="car-rear">
+            <img src={car.carPhoto} alt="이미지 없음"/>
+          </div>
+        </div>
+        <div class='license-card-back-text' style={{display : 'flex' ,alignItems : 'center'}}>
+          <div><h4>{car.carNumber}</h4></div>
+          <div>
+            <ul style={{listStyle : 'none' , textAlign : 'left'}}>
+              <li>출고일 : {car.carDate}</li>
+              <li>특이사항 : {car.carEtc}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <Button id="leftButton"><KeyboardArrowDownIcon/></Button>
+    </div>
+  )
+}
 
