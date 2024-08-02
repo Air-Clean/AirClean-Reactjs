@@ -1,10 +1,12 @@
 import { FACILITYDETAIL } from "../modules/FacilityModule";
 import jwtDecode from "jwt-decode";
 
-export const callFacilityDetailInfoAPI = () => {
+export const callFacilityDetailInfoAPI = ({branchCode}) => {
+
+    console.log("callFacilityDetailInfoAPI")
 
     const members = jwtDecode(window.localStorage.getItem('accessToken'));
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility?sub=${members.sub}`;
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility?branchCode=${branchCode}`;
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
