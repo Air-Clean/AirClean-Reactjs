@@ -80,7 +80,7 @@ function LocationMyReports() {
                     <td>{expense.branchName}</td>
                     <td>{new Date(expense.expenseSubmissionDate).toLocaleDateString()}</td>
                     <td>{expense.expenseReportStatus}</td>
-                    <td><button onClick={() => navigate(`/company/paper/reports/expenseReports/${expense.expenseReportCode}`)}>View</button></td>
+                    <td><button onClick={() => navigate(`/location/paper/myReports/expense/${expense.expenseReportCode}`)}>View</button></td>
                 </tr>
                 ))}
             </tbody>
@@ -107,7 +107,7 @@ function LocationMyReports() {
                     <td>{repair.facilityType}</td>
                     <td>{new Date(repair.repairSubmissionDate).toLocaleDateString()}</td>
                     <td>{repair.repairReportStatus}</td>
-                    <td><button onClick={() => navigate(`/company/paper/reports/repairReports/${repair.repairReportCode}`)}>View</button></td>
+                    <td><button onClick={() => navigate(`/location/paper/myReports/repair/${repair.repairReportCode}`)}>View</button></td>
                 </tr>
                 ))}
             </tbody>
