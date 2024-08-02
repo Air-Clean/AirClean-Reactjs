@@ -30,8 +30,8 @@ export default function DriverResource() {
 
     console.log("result 값",result)
 
-    const driver = result.data.content;
-    const totalPage = result.data.totalPages;
+    const driver = result?.data?.content;
+    const totalPage = result?.data?.totalPages;
 
     console.log("driver",driver)
     
