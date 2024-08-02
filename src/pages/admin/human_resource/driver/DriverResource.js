@@ -28,13 +28,13 @@ export default function DriverResource() {
 
     const result = useSelector(state=>state.humanReducer);
 
-    const branch = result.data?.content;
-    const totalPage = result.data?.totalPages;
-
-    
-
-    console.log("branch",branch)
     console.log("result 값",result)
+
+    const driver = result.data.content;
+    const totalPage = result.data.totalPages;
+
+    console.log("driver",driver)
+    
 
 
     useEffect(()=>{
@@ -72,8 +72,8 @@ export default function DriverResource() {
           <Searchbar setRegist={setIsRegist} isRegist={isRegist} />
         </div>
         <Grid container spacing={1} justifyContent="flex-start">
-          {branch?.map((b) => (
-              <BioCard branch={b} key={b.memberDTO.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
+          {driver?.map((b) => (
+              <BioCard driver={b} key={b.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
           ))}
           {isButtonVisible && (
           <div className={`deleteButtonCss ${animationClass}`}>

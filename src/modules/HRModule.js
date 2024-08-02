@@ -20,6 +20,9 @@ export const humanReducer = handleActions({
     },
     [BRANCH] : (state,{payload})=>{
         return payload
+    },
+    [DRIVER] : (state,{payload})=>{
+        return payload
     }
 },initState)
 

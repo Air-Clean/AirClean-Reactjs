@@ -1,3 +1,7 @@
+.hr-branch-modal{
+  display: flex;
+  flex-direction: column;
+}
 .business-card {
     width: 350px;
     height: 600px;

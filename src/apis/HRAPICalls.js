@@ -1,5 +1,5 @@
 
-import { BRANCH, EMPLOYEE ,BRANCH_WITHOUT_OWNER} from "../modules/HRModule";
+import { BRANCH, EMPLOYEE ,BRANCH_WITHOUT_OWNER, DRIVER} from "../modules/HRModule";
 
 // employee
 export const callEmployeeList=({current})=>{
@@ -418,7 +418,7 @@ export const callDriverList=({current})=>{
         if(result.status === 200){
             console.log('callDriverList 조회 성공 ',result)
 
-            dispatch({type : EMPLOYEE , payload : result.data })
+            dispatch({type : DRIVER , payload : result.data })
         }
     }
 }
@@ -451,6 +451,45 @@ export function callSoftDeleteDriver({deleteMember}){
     }
 
 
+}
+
+export function softDeleteDriver({current,amount}){
+    console.log('softDeleteEmployee 동작')
+
+    let requestURL= null;
+    
+    if(current){
+
+        if(amount){
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/driver/unstatus?offset=${current}&amount=${amount}`
+        }
+        else{
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/driver/unstatus?offset=${current}`
+        }
+    }else{
+        if(amount){
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/driver/unstatus?amount=${amount}`
+        }
+        else{
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/driver/unstatus`
+        }
+       
+    }
+
+    return async (dispatch,getStatae) =>{
+        const result= await fetch(requestURL,{
+            method : "GET",
+            headers : {
+                'Content-Type' : "application/json",
+                Accept : "*/*",
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+        
+        if(result.status===200){
+            dispatch({type: DRIVER , payload : result.data})
+        }
+    }
 }
 
 

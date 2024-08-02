@@ -61,6 +61,107 @@
     height: auto;
 }
 
+/* 면허증 */
+
+.license-card {
+  width: 500px;
+  height: 300px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+  display : grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 40px 220px;
+  grid-template-areas: "header"
+                        "body";
+}
+.license-card-back{
+  width: 500px;
+  height: 300px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+  display : grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 70% 30%;
+  grid-template-areas: "top" "bottom";
+}
+.license-card-back-photo{
+  
+  grid-area: top;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 100%;
+  grid-template-areas:"front rear";
+
+}
+.car-front{
+  
+  grid-area: front;
+}
+.car-rear{
+  
+  grid-area: rear;
+}
+.license-card-back-text{
+  
+  grid-area: bottom;
+}
+
+.license-header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.license-header img {
+  height: 40px;
+}
+.license-body {
+  grid-area: body;
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-template-rows: 100%;
+  grid-template-areas: "photo text";
+}
+.license-photo {
+  grid-area: photo;
+  
+  display: flex;
+  align-items: center;
+  
+}
+.license-text{
+  grid-area: text;
+  
+}
+.license-modal{
+  display: flex;
+}
+.license-modify{
+  background-color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px ;
+  font-size: 1em ;
+
+}
+.license-details {
+  font-size: 14px;
+}
+.license-details dt {
+  font-weight: bold;
+}
+.license-details dd {
+  margin: 0;
+  margin-bottom: 5px;
+}
 /* button 57 */
 
 .button-19 {

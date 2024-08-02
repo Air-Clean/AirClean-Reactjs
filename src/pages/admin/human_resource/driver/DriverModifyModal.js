@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { modifyEmployee } from "../../../../apis/HRAPICalls";
 import jwtDecode from "jwt-decode";
 
-export default function DriverModifyModal({ modal, toggle, branch ,form, setForm}) {
+export default function DriverModifyModal({ modal, toggle, driver ,form, setForm}) {
   const dispatch = useDispatch();
 
   const members = jwtDecode(window.localStorage.getItem('accessToken'))
