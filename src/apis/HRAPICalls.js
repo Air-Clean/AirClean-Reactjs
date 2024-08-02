@@ -1,5 +1,5 @@
 
-import { BRANCH, EMPLOYEE ,BRANCH_WITHOUT_OWNER} from "../modules/HRModule";
+import { BRANCH, EMPLOYEE ,BRANCH_WITHOUT_OWNER, DRIVER} from "../modules/HRModule";
 
 // employee
 export const callEmployeeList=({current})=>{
@@ -361,6 +361,31 @@ export function callBranchBackApi({saveMember}){
     }
 }
 
+export function registBranch({form}){
+
+    console.log('registBranch 동작')
+
+    
+
+    return async (dispacth , getState) =>{
+        const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch`;
+        console.log(requestUrl)
+
+        const result = fetch(requestUrl,{
+            method : "POST",
+            headers : {
+                Accept : '*/*',
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
+            },
+            body : form
+        })
+
+        if(result.status === 200){
+            dispacth({type : BRANCH , payload : result.data})
+        }
+    }
+}
+
 
 // driver
 
@@ -393,10 +418,84 @@ export const callDriverList=({current})=>{
         if(result.status === 200){
             console.log('callDriverList 조회 성공 ',result)
 
-            dispatch({type : EMPLOYEE , payload : result.data })
+            dispatch({type : DRIVER , payload : result.data })
         }
     }
 }
+
+
+export function callSoftDeleteDriver({deleteMember}){
+
+    console.log(JSON.stringify(deleteMember))
+    console.log("callSoftDeleteBranch 동작")
+    console.log("parameter 값",deleteMember)
+    
+    return async (dispatch,getState)=>{
+        const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch/soft-delete`;
+
+        console.log(requestUrl)
+        const result = await fetch(requestUrl,{
+            method : 'PUT',
+            headers :{
+                'Content-Type' : 'application/json',
+                Accept: "*/*",
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken'),
+            },
+            body : JSON.stringify(deleteMember)
+        }).then(res=>res.json())
+
+        if(result.status ===200){
+            console.log('삭제성공')
+            dispatch({type : EMPLOYEE , payload : result.data})
+        }
+    }
+
+
+}
+
+export function softDeleteDriver({current,amount}){
+    console.log('softDeleteEmployee 동작')
+
+    let requestURL= null;
+    
+    if(current){
+
+        if(amount){
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/driver/unstatus?offset=${current}&amount=${amount}`
+        }
+        else{
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/driver/unstatus?offset=${current}`
+        }
+    }else{
+        if(amount){
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/driver/unstatus?amount=${amount}`
+        }
+        else{
+            requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/driver/unstatus`
+        }
+       
+    }
+
+    return async (dispatch,getStatae) =>{
+        const result= await fetch(requestURL,{
+            method : "GET",
+            headers : {
+                'Content-Type' : "application/json",
+                Accept : "*/*",
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+        
+        if(result.status===200){
+            dispatch({type: DRIVER , payload : result.data})
+        }
+    }
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////
 
 export function callBranchWithoutOwner(){
 
@@ -422,27 +521,6 @@ export function callBranchWithoutOwner(){
     }
 }
 
-export function registBranch({form}){
 
-    console.log('registBranch 동작')
 
-    
 
-    return async (dispacth , getState) =>{
-        const requestUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch`;
-        console.log(requestUrl)
-
-        const result = fetch(requestUrl,{
-            method : "POST",
-            headers : {
-                Accept : '*/*',
-                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
-            },
-            body : form
-        })
-
-        if(result.status === 200){
-            dispacth({type : BRANCH , payload : result.data})
-        }
-    }
-}

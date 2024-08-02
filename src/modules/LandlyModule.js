@@ -45,3 +45,29 @@ export const selectLocationWater = handleActions({
         };
     }
 }, initialState);
+
+
+
+// waterSupply 관련 액션 타입 정의
+export const SET_WATER_SUPPLY = 'SET_WATER_SUPPLY';
+
+// 초기 상태 정의
+const initialState2 = {
+    waterCondition: null,
+};
+
+// 액션 생성자 정의
+export const { setWaterSupply } = createActions({
+    [SET_WATER_SUPPLY]: payload => payload,
+});
+
+// 리듀서 정의
+export const selectWaterSupply = handleActions({
+    [SET_WATER_SUPPLY]: (state, { payload }) => {
+        console.log('리듀서 호출: SET_WATER_SUPPLY', payload);
+        return {
+            ...state,
+            waterSupply: payload // 서버에서 받아온 데이터를 payload에 저장
+        };
+    }
+}, initialState2);

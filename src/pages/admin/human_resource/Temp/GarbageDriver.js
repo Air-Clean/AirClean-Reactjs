@@ -5,10 +5,11 @@ import { softDeleteDriver } from "../../../../apis/HRAPICalls";
 import Paging from "../../../../components/paging/Paging";
 import './GarbageEmp.css'
 import 'animate.css';
-import { callDriverDeleteApi ,callDriverBackApi} from "../../../../apis/HRAPICalls";
+import AccordionDriverComponent from "./AccordionDriverComponent";
+// import { callDriverDeleteApi ,callDriverBackApi} from "../../../../apis/HRAPICalls";
 
 
-export default function GarbageEmp({amount}) {
+export default function GarbageDriver({amount}) {
   const [current, setCurrent] = useState(1);
 
   const [isButtonVisible, setIsButtonVisible] = useState(false);
@@ -31,18 +32,18 @@ export default function GarbageEmp({amount}) {
 
   const deleteHandler=()=>{
     
-    console.log('삭제버튼')
+    // console.log('삭제버튼')
 
-    dispatch(callDriverDeleteApi({killMember}));
+    // dispatch(callDriverDeleteApi({killMember}));
 
-    window.location.reload();
+    // window.location.reload();
   }
 
   const saveHandler=()=>{
-    console.log('살려줘')
+    // console.log('살려줘')
 
-    dispatch(callDriverBackApi({saveMember}))
-    window.location.reload();
+    // dispatch(callDriverBackApi({saveMember}))
+    // window.location.reload();
   }
 
   useEffect(() => {
@@ -88,7 +89,7 @@ export default function GarbageEmp({amount}) {
       <div style={{ display: "flex", flexDirection: "column" }}>
         {driver.data.content.length > 0 ? (
           driver.data.content.map((emp) => (
-            <AccordionComponent emp={emp} killMember={killMember} setKillMember={setKillMember} saveMember={saveMember} setSaveMember={setSaveMember} key={emp.employeeId} isDelete={isDelete} isSave={isSave} />
+            <AccordionDriverComponent emp={emp} killMember={killMember} setKillMember={setKillMember} saveMember={saveMember} setSaveMember={setSaveMember} key={emp.employeeId} isDelete={isDelete} isSave={isSave} />
           ))
         ) : (
           <div>No employees found.</div>

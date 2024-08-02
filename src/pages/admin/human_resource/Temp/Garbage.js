@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import GarbageEmp from "./GarbageEmp";
 import GarbageBranch from './GarbageBranch'
+import GarbageDriver from "./GarbageDriver";
 import Paging from "../../../../components/paging/Paging";
 
 import { useState } from "react";
@@ -89,7 +90,7 @@ export default function GarbageResource({direction}) {
         <GarbageBranch amount={amount}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        차량기사
+        <GarbageDriver amount={amount}/>
       </CustomTabPanel>
       <Paging setCurrent='1' end='3'/>
     </Box>

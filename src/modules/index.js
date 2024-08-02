@@ -10,7 +10,7 @@ import { branchReducer ,branchInfoReducer,branchFacilityInfoReducer,branchManage
 
 // 도아 - 보고서 
 import { 
-    branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer
+    branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer,updateBranchSalesReducer, deleteBranchSalesReducer
     , vehicleRepairReducer, detailVehicleRepairReducer
     , expenseReducer, detailExpenseReducer, newExpenseReducer
     , findAllRepairReducer,detailRepairReducer, newRepairReducer
@@ -23,6 +23,8 @@ import facilityDetailInfoReducer from "./FacilityModule";
 
 import {waterLevelReducer} from "./LandlyModule";
 import {selectLocationWater} from "./LandlyModule";
+import {selectWaterSupply} from "./LandlyModule";
+
 
 
 const rootReducer = combineReducers({
@@ -43,6 +45,8 @@ const rootReducer = combineReducers({
     branchSalesReducer,
     detailBranchSalesReducer,
     newBranchSalesReducer,
+    updateBranchSalesReducer,
+    deleteBranchSalesReducer,
     vehicleRepairReducer,
     expenseReducer,
     detailExpenseReducer,
@@ -64,7 +68,8 @@ const rootReducer = combineReducers({
 
 
     waterLevelReducer,
-    selectLocationWater
+    selectLocationWater,
+    selectWaterSupply
 
 
 })

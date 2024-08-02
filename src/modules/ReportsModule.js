@@ -7,6 +7,8 @@ const initialState = [];
 export const BRANCHSALES = 'BRANCHSALES'
 export const DETAILBRANCHSALES = 'DETAILBRANCHSALES'
 export const NEWBRANCHSALES = 'NEWBRANCHSALES'
+export const UPDATEBRANCHSALES = 'UPDATEBRANCHSALES'
+export const DELETEBRANCHSALES = 'DELETEBRANCHSALES'
 export const EXPENSE = 'EXPENSE'
 export const DETAILEXPENSE = 'DETAILEXPENSE'
 export const NEWEXPENSE = 'NEWEXPENSE'
@@ -25,6 +27,9 @@ createActions({
     [BRANCHSALES]: ()=>[],
     [DETAILBRANCHSALES]: () => [],
     [NEWBRANCHSALES]: () => [],
+    [DELETEBRANCHSALES]: () => [],
+    [UPDATEBRANCHSALES]: () => [],
+    [NEWBRANCHSALES]: () => [],
     [VEHICLEREPAIR] : () => [],
     [DETAILVEHICLEREPAIR] : () => [],
     [NEWVEHICLEREPAIR] : () => [],
@@ -35,7 +40,6 @@ createActions({
     [DETAILREPAIR] : () => [],
     [NEWREPAIR] : () => [],
     [CARMEMBERS] : () => [],
-  
 
 })
 
@@ -63,6 +67,30 @@ const detailBranchSalesReducer = handleActions({
 const newBranchSalesReducer = handleActions({
     [NEWBRANCHSALES]: (state, {payload}) => {
         console.log('매출보고서 등록 리듀서 payload :', payload)
+        return {
+            ...state,
+            ...payload
+        }
+    }
+}, initialState
+)
+
+// 매출보고서 수정
+const updateBranchSalesReducer = handleActions({
+    [UPDATEBRANCHSALES]: (state, {payload}) => {
+        console.log('매출보고서 수정 리듀서 payload :', payload)
+        return {
+            ...state,
+            ...payload
+        }
+    }
+}, initialState
+)
+
+// 매출보고서 삭제
+const deleteBranchSalesReducer = handleActions({
+    [DELETEBRANCHSALES]: (state, {payload}) => {
+        console.log('매출보고서 삭제 리듀서 payload :', payload)
         return {
             ...state,
             ...payload
@@ -172,7 +200,7 @@ const newRepairReducer = handleActions({
 
 
 export  {
-    branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer
+    branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer, updateBranchSalesReducer, deleteBranchSalesReducer
     , vehicleRepairReducer , detailVehicleRepairReducer,newVehicleRepairReducer
     , expenseReducer, detailExpenseReducer, newExpenseReducer
     , findAllRepairReducer, detailRepairReducer, newRepairReducer

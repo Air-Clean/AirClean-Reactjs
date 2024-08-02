@@ -1,128 +1,238 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import "./BranchinformationCss.css";
+import React, { useEffect, useState } from "react";
 
-function BranchInformation({ branch }) {
-    const [branchList, setBranchList] = useState(null);
-    const [memberList, setMemberList] = useState(null);
-    const [facilityCodeCounts, setFacilityCodeCounts] = useState({});
-    const [facilityIdNumbersWithDStatus, setFacilityIdNumbersWithDStatus] = useState([]);
-    const [facilityIdNumbersWithFStatus, setFacilityIdNumbersWithFStatus] = useState([]);
-    const [error, setError] = useState(null);
+import Box from "@mui/material/Box";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Badge from '@mui/material/Badge';
 
-    useEffect(() => {
-        const accessToken = window.localStorage.getItem('accessToken');
-        if (!accessToken) {
-            setError('No access token found');
-            return;
-        }
-        
-        let userData;
-        try {
-            userData = jwt_decode(accessToken);
-        } catch (err) {
-            setError('Failed to decode access token');
-            return;
-        }
+import Avatar from "@mui/joy/Avatar";
 
-        const subValue = userData.sub;
+export default function BranchInformation({ branch, facility }) {
+  const [manager, setManager] = useState("");
 
-        const fetchBranchData = async () => {
-            try {
-                const response = await axios.get(branch ? '/branch/branchInformation' : '/branch/defaltBranchInformation', {
-                    params: branch ? { sub: subValue, branchName: branch } : { sub: subValue },
-                    headers: { Authorization: `Bearer ${accessToken}` }
-                });
-
-                const data = response.data.data;
-                setBranchList(data.branchList);
-                setMemberList(data.memberList);
-                setFacilityCodeCounts(data.facilityCodeCounts);
-                setFacilityIdNumbersWithDStatus(data.facilityIdNumbersWithDStatus);
-                setFacilityIdNumbersWithFStatus(data.facilityIdNumbersWithFStatus);
-            } catch (error) {
-                setError(error.message);
-            }
-        };
-
-        fetchBranchData();
-    }, [branch]);
-
-    if (error) {
-        return <div>Error: {error}</div>;
+  useEffect(() => {
+    if (branch) {
+        console.log(' branch 있는거 아니야 ? ',branch)
+      if (branch.branchOwnerPageDTOS.length !== 0) {
+        setManager(branch.branchOwnerPageDTOS[0].membersPageDTO);
+      } else {
+        setManager("");
+      }
     }
+  }, [branch]);
 
-    return (
-        <div style={{ backgroundColor: '#fbfcfe', width: '450px', height: '100%', borderRadius: '10px', border: '1px solid #cfd7e0', padding: '10px' }}>
-            {branchList ? (
-                branchList.map((branch, index) => (
-                    <div key={index}>
-                        <div>
-                            <div style={{ display: 'flex', alignItems: 'center', fontSize: '16px'}}>
-                                <strong>지점상세 정보: </strong><p style={{ margin: '0 0 0 5px' }}>{branch.branchName}</p>
-                            </div> <br></br>
-                            <div style={{display:'flex'}}>
-                                <div style={{ width: '60%'}}>
-                                    <p style={{fontSize:'12px'}}><strong>지점코드:</strong> {branch.branchCode}</p>
-                                    <p style={{fontSize:'12px'}}><strong>전화번호:</strong> {branch.branchPhone}</p>
-                                    <p style={{fontSize:'12px'}}><strong>주소:</strong> {branch.branchAddress}</p>
-                                    <p style={{fontSize:'12px'}}><strong>오픈날짜:</strong> {branch.branchOpenDate}</p>
-                                </div>
-                                <img src={branch.branchImage} alt={branch.branchName} style={{ width: '40%', height: 'auto', borderRadius: '10px', marginRight: '10px' }} />
-                            </div>    
-                        </div>
-                    </div>
-                ))
-            ) : 'Loading...'}
-            <hr></hr>
-            <div>
-                {memberList ? (
-                    memberList.map((member, index) => (
-                        <div key={index} style={{ margin: '3px 2.5%'}}>
-                        
-                            <div style={{ display: 'flex', alignItems: 'center', fontSize: '16px'}}>
-                                <strong>지점장 정보: </strong><p style={{ margin: '0 0 0 5px' }}>{member.memberName}</p>
-                            </div> <br></br>
-                            <div style={{display: 'flex'}}>
-                                <div style={{width:'50%', fontSize:'12px'}}>
-                                    <p><strong>이메일:</strong> {member.memberEmail}</p>
-                                    <p><strong>전화번호:</strong> {member.memberPhoneNumber}</p>
-                                    <p><strong>생년월일:</strong> {member.memberBirthDate}</p>
-                                </div>
-                                <div style={{width:'50%', fontSize:'12px'}}>
-                                    <p><strong>성별:</strong> {member.memberGender}</p>
-                                    <p><strong>주소:</strong> {member.memberAddress}</p>
-                                </div>    
-                            </div>    
-                        
-                        </div>
-                    ))
-                ) : 'Loading...'}
-            </div>
-            <hr></hr>
-            <div>
-                <div>
-                    <div style={{ margin: '3px 2.5%' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', fontSize: '16px' }}>
-                            <strong>시설물 정보</strong>
-                        </div>
-                        <br></br>
-                        <div style={{ display: 'flex' }}>
-                            <div style={{ width: '40%', fontSize: '12px' }}>
-                                <p><strong>세탁기:</strong> {facilityCodeCounts[1]}<strong>개</strong> </p>
-                                <p><strong>건조기:</strong> {facilityCodeCounts[2]}<strong>개</strong> </p>
-                                <p><strong>드라이 클리너:</strong> {facilityCodeCounts[3]}<strong>개</strong> </p>
-                            </div>
-                            <div style={{ width: '60%', fontSize: '12px' }}>
-                                <p><strong>수리중 시설물 코드:</strong> {facilityIdNumbersWithDStatus.join(', ')}</p>
-                                <p><strong>운영중단 시설물 코드:</strong> {facilityIdNumbersWithFStatus.join(', ')}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div
+      style={{
+        backgroundColor: "#fbfcfe",
+        width: "600px",
+        height: "100%",
+        borderRadius: "10px",
+        border: "1px solid #cfd7e0",
+        padding: "10px",
+      }}
+      className="branchInformationBox"
+    >
+      <div className="branchInformationHeader">
+        {branch ? (<><div className="branchInfromationImage">
+          <img
+            src={branch.branchImage}
+            alt="이미지 준비중"
+            width={"90%"}
+            height={"60%"}
+            style={{ borderRadius: "5px" }}
+          />
+          <div>{branch.branchName}</div>
         </div>
-    );
+        <div className="branchInfromationText">
+          <p>
+            <strong>지점 코드 : </strong>
+            {branch.branchCode}
+          </p>
+          <p>
+            <strong>전화 번호 : </strong>
+            {branch.branchPhone}
+          </p>
+          <p>
+            <strong>주소 : </strong>
+            {branch.branchAddress}
+          </p>
+          <p>
+            <strong>개점일 : </strong>
+            {branch.branchOpenDate}
+          </p>
+        </div></>) : ''}
+        
+      </div>
+      <div className="branchInformationContent">
+        {branch ? (
+            <>
+                <div>
+          <Avatar
+            src={manager.memberImage || "/static/images/avatar/1.jpg"}
+            sx={{ "--Avatar-size": "6rem" }}
+          />
+        </div>
+        <div
+          style={{
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <div>
+            <strong>E-mail</strong> : {manager.memberEmail}
+          </div>
+          <div>
+            <strong>Phone</strong> : {manager.memberPhoneNumber}
+          </div>
+          <div>
+            <strong>Birth</strong> : {manager.memberBirthDate}
+          </div>
+          <div>
+            <strong>Gender</strong> : {manager.memberGender}
+          </div>
+          <div>
+            <strong>Address</strong> : {manager.memberAddress}
+          </div>
+        </div>
+            </>
+        ) : <div style={{fontWeight : 'bolder'}}>Select Branch</div>}
+        
+      </div>
+      <div className="branchInformationFooter">
+        <h5>시설물 정보</h5>
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            ontSize: "12px",
+            overflow: "hidden",
+          }}
+        >
+          <TableContainer component={Paper} sx={{ maxHeight: "100%" }}>
+            <Table stickyHeader aria-label="collapsible table">
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Facility</TableCell>
+                  <TableCell>전체</TableCell>
+                  <TableCell>유휴</TableCell>
+                  <TableCell>수리중</TableCell>
+                  <TableCell>폐기</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <Row row={facility.laundry} name={"세탁기"} />
+                <Row row={facility.dry} name={"건조기"} />
+                <Row row={facility.cleaner} name={"드라이클리너"} />
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default BranchInformation;
+function Row({ row, name }) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+        <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          {name}
+        </TableCell>
+        <TableCell>{row.length}</TableCell>
+        <TableCell>
+          {row.filter((r) => r.facilityStatus === "H").length}
+        </TableCell>
+        <TableCell>
+          {row.filter((r) => r.facilityStatus === "F").length}
+        </TableCell>
+        <TableCell>
+          {row.filter((r) => r.facilityStatus === "D").length}
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>시설번호</TableCell>
+                    <TableCell>상태</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {row.map((r) => (
+                    <TableRow key={r.facilityId} >
+                      <TableCell>{r.facilityId}</TableCell>
+                      <TableCell>
+                        {(() => {
+                          console.log("sdfsf");
+                          switch (r.facilityStatus) {
+                            case "W":
+                              return(
+                              <Badge variant="dot" color="primary" anchorOrigin={{vertical : 'top', horizontal: 'left'}}>
+                                사용중
+                              </Badge>
+                              )
+                              ;
+                            case "D":
+                              return(
+                                <Badge variant="dot" color="error" anchorOrigin={{vertical : 'top', horizontal: 'left'}}>
+                                  페기
+                                </Badge>
+                                )
+                              ;
+                            case "H":
+                              return(
+                                <Badge variant="dot" color="success" anchorOrigin={{vertical : 'top', horizontal: 'left'}}>
+                                  유휴
+                                </Badge>
+                                );
+                            case "F":
+                              return(
+                                <Badge variant="dot" color="warning" anchorOrigin={{vertical : 'top', horizontal: 'left'}}>
+                                  수리중
+                                </Badge>
+                                );
+                            default:
+                              return undefined;
+                          }
+                        })()}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
+  );
+}
