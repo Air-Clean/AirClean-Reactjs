@@ -2,7 +2,11 @@ import { createActions, handleActions } from "redux-actions";
 
 
 // 초기값
-const initialState = [];
+const initialState = {
+    content: [],
+    totalPages: 1,
+    currentPage: 1
+    };
 
 export const BRANCHSALES = 'BRANCHSALES'
 export const DETAILBRANCHSALES = 'DETAILBRANCHSALES'
@@ -19,6 +23,8 @@ export const DETAILVEHICLEREPAIR = 'DETAILVEHICLEREPAIR'
 export const NEWVEHICLEREPAIR = 'NEWVEHICLEREPAIR'
 export const REPAIR = 'REPAIR'
 export const DETAILREPAIR = 'DETAILREPAIR'
+export const UPDATEREPAIR = 'UPDATEREPAIR'
+export const DELETEREPAIR = 'DELETEREPAIR'
 export const NEWREPAIR = 'NEWREPAIR'
 export const CARMEMBERS = 'CARMEMBERS'
 
@@ -42,6 +48,8 @@ createActions({
     [NEWEXPENSE] : () => [],
     [REPAIR] : () => [],
     [DETAILREPAIR] : () => [],
+    [UPDATEREPAIR] : () => [],
+    [DELETEREPAIR] : () => [],
     [NEWREPAIR] : () => [],
     [CARMEMBERS] : () => [],
 
@@ -50,13 +58,18 @@ createActions({
 
 
 // 매출보고서 전체 조회
-const branchSalesReducer = handleActions({
-    [BRANCHSALES]: (state, {payload}) => {
-        console.log('리듀서 payload :', payload)
-        return payload;
+export const branchSalesReducer = handleActions({
+    [BRANCHSALES]: (state, { payload }) => {
+        console.log('리듀서 payload :', payload);
+        return {
+            ...state,
+            branchSalesList: payload.content,
+            totalPages: payload.totalPages,
+            currentPage: payload.currentPage,
+        };
     }
-}, initialState
-)
+}, initialState);
+
 
 // 매출보고서 부분 조회
 const detailBranchSalesReducer = handleActions({
@@ -103,12 +116,15 @@ const deleteBranchSalesReducer = handleActions({
 }, initialState
 )
 
-
 // 지출보고서 전체 조회
-const expenseReducer = handleActions({
-    [EXPENSE] : (state, {payload}) => {
-        console.log('expense reducer 나오니? :', payload)
-        return payload
+export const expenseReducer = handleActions({
+    [EXPENSE]: (state, {payload}) => {
+        return{
+            ...state,
+            expenseList: payload.content,
+            totalPages: payload.totalPages,
+            currentPage: payload.currentPage,
+        }
     }
 }, initialState)
 
@@ -161,10 +177,14 @@ const deleteEXpenseReducer = handleActions({
 
 
 // 차량수리보고서 전체 조회
-const vehicleRepairReducer = handleActions({
-    [VEHICLEREPAIR] : (state, {payload}) => {
-        console.log('리듀서 payload : ', payload)
-        return payload
+export const vehicleRepairReducer = handleActions({
+    [VEHICLEREPAIR]: (state, {payload}) => {
+        return{
+            ...state,
+            vehicleRepairList: payload.content,
+            totalPages: payload.totalPages,
+            currentPage: payload.currentPage,
+        }
     }
 }, initialState)
 
@@ -200,13 +220,17 @@ const newVehicleRepairReducer = handleActions({
 }, initialState)
 
 // 시설물 수리보고서 전체조회
-const findAllRepairReducer = handleActions({
-
-    [REPAIR] : (state, {payload}) => {
-        console.log("지점 수리보고서  전체조회 reducer : ", payload)
-        return payload;
+export const findAllRepairReducer = handleActions({
+    [REPAIR]: (state, {payload}) => {
+        return{
+            ...state,
+            repairList: payload.content,
+            totalPages: payload.totalPages,
+            currentPage: payload.currentPage,
+        }
     }
 }, initialState)
+
 
 // 시설물 수리보고서 세부조회
 const detailRepairReducer = handleActions({
@@ -229,12 +253,39 @@ const newRepairReducer = handleActions({
     }
 }, initialState)
 
+// 시설물수리보고서 수정
+const updateRepairReducer = handleActions({
+
+    [UPDATEREPAIR] : (state, {payload}) => {
+        console.log("시설물수리보고서 수정 reducer : ", payload)
+        return{
+            ...state,
+            ...payload,
+        }
+    }
+}, initialState)
+
+// 시설물수리보고서 삭제
+const deleteRepairReducer = handleActions({
+
+    [DELETEREPAIR] : (state, {payload}) => {
+        console.log("시설물수리보고서 삭제 reducer : ", payload)
+        return{
+            ...state,
+            ...payload,
+        }
+    }
+}, initialState)
 
 
 export  {
-    branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer, updateBranchSalesReducer, deleteBranchSalesReducer
-    , vehicleRepairReducer , detailVehicleRepairReducer,newVehicleRepairReducer
-    , expenseReducer, detailExpenseReducer, newExpenseReducer, updateEXpenseReducer, deleteEXpenseReducer
-    , findAllRepairReducer, detailRepairReducer, newRepairReducer
+    // branchSalesReducer,
+      detailBranchSalesReducer, newBranchSalesReducer, updateBranchSalesReducer, deleteBranchSalesReducer
+    // , vehicleRepairReducer 
+    , detailVehicleRepairReducer,newVehicleRepairReducer
+    // , expenseReducer, 
+    , detailExpenseReducer, newExpenseReducer, updateEXpenseReducer, deleteEXpenseReducer
+    // , findAllRepairReducer
+    , detailRepairReducer, newRepairReducer, updateRepairReducer,deleteRepairReducer
     , carMembersReducer
 };
