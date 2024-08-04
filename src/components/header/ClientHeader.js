@@ -110,12 +110,12 @@ const AdminHeader = () => {
             >
               <div>재고관리</div>
             </li>
-            {/* <li
+            <li
               className={`${styles.menuItem} ${activeMenu === 4 ? styles.active : ''}`}
               onClick={() => changeColor(4)}
             >
               <div>물류시스템</div>
-            </li> */}
+            </li>
             <li
               className={`${styles.menuItem} ${activeMenu === 5 ? styles.active : ''}`}
               onClick={() => changeColor(5)}
