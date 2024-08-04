@@ -2,25 +2,29 @@ import { combineReducers } from "redux";
 import {memberReducer , getBranchReducer} from "./MemberModule";
 import askReducer from "./AskModule";
 import {humanReducer , humanBranchReducer} from "./HRModule";
-import carReducer from "./CarModule";
 
-import carInfoReducer from "./CarModule";
+import { carDriverReducer, carReducer } from "./CarModule"; 
+// import carInfoReducer from "./CarModule";
 
 import { branchReducer ,branchInfoReducer,branchFacilityInfoReducer,branchManagerReducer} from "./BranchModule";
 
 // 도아 - 보고서 
 import { 
-    branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer
+    branchSalesReducer , detailBranchSalesReducer, newBranchSalesReducer,updateBranchSalesReducer, deleteBranchSalesReducer
     , vehicleRepairReducer, detailVehicleRepairReducer
-    , expenseReducer, detailExpenseReducer, newExpenseReducer
-    , findAllRepairReducer,detailRepairReducer, newRepairReducer
+    , expenseReducer, detailExpenseReducer, newExpenseReducer, updateEXpenseReducer, deleteEXpenseReducer
+    , findAllRepairReducer,detailRepairReducer, newRepairReducer, updateRepairReducer,deleteRepairReducer
     , carMembersReducer
 } from "./ReportsModule";
 
-import {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer}  from "./StockModule";
+import  {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer}  from "./StockModule";
+
+import facilityDetailInfoReducer from "./FacilityModule";
 
 import {waterLevelReducer} from "./LandlyModule";
 import {selectLocationWater} from "./LandlyModule";
+import {selectWaterSupply, selectLaundry} from "./LandlyModule";
+
 
 
 const rootReducer = combineReducers({
@@ -35,19 +39,24 @@ const rootReducer = combineReducers({
     humanBranchReducer,
 
     carReducer,
-
-    carInfoReducer,
+    carDriverReducer,
 
     branchSalesReducer,
     detailBranchSalesReducer,
     newBranchSalesReducer,
+    updateBranchSalesReducer,
+    deleteBranchSalesReducer,
     vehicleRepairReducer,
     expenseReducer,
     detailExpenseReducer,
+    updateEXpenseReducer,
     newExpenseReducer,
+    deleteEXpenseReducer,
     detailVehicleRepairReducer,
     findAllRepairReducer,
     detailRepairReducer,
+    updateRepairReducer,
+    deleteRepairReducer,
     carMembersReducer,
     newRepairReducer,
     
@@ -56,11 +65,15 @@ const rootReducer = combineReducers({
     headStockHistoryReducer,
     branchStockHistoryReducer,
 
+    facilityDetailInfoReducer,
+
     branchReducer,
 
 
     waterLevelReducer,
-    selectLocationWater
+    selectLocationWater,
+    selectWaterSupply,
+    selectLaundry
 
 
 })
@@ -68,4 +81,3 @@ const rootReducer = combineReducers({
 
 
 export default rootReducer;
-

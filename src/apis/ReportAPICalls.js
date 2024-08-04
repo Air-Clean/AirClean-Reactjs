@@ -1,9 +1,12 @@
 // apis/ReportAPICalls.js
 import { 
   BRANCHSALES, DETAILBRANCHSALES, NEWBRANCHSALES
+  // UPDATEBRANCHSALES, DELETEBRANCHSALES
   , VEHICLEREPAIR, DETAILVEHICLEREPAIR
   , EXPENSE, DETAILEXPENSE, NEWEXPENSE
+  // ,UPDATEEXPENSE,DELETEEXPENSE
   , REPAIR, DETAILREPAIR
+  // , UPDATEREPAIR,DELETEREPAIR
   , NEWVEHICLEREPAIR
   , CARMEMBERS
 
@@ -11,8 +14,9 @@ import {
 
 
 // 매출보고서 전체 조회 API
-export const callFindBranchSalesAPI = () => {
-  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/reports`;
+export const callFindBranchSalesAPI = ({current}) => {
+
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/reports?offset=${current}`;
 
   return async (dispatch, getState) => {
     const branchSalesResult = await fetch(requestURL, {
@@ -25,7 +29,7 @@ export const callFindBranchSalesAPI = () => {
     }).then((response) => response.json());
 
     // 응답 데이터 로그 출력
-    console.log('API 응답:', branchSalesResult);
+    console.log('매출 보고서 API 응답:', branchSalesResult);
 
     // 액션 디스패치
     dispatch({ type: BRANCHSALES, payload: branchSalesResult.data });
@@ -47,7 +51,7 @@ export const calldetailBranchSalesAPI = ({branchReportCode}) => {
     }).then((response) => response.json());
 
     // 응답 데이터 로그 출력
-    console.log('지출 부분조회 API 응답:', detailBranchSalesResult);
+    console.log('매출보고서 부분조회 API 응답:', detailBranchSalesResult);
 
     // 액션 디스패치
     dispatch({ type: DETAILBRANCHSALES, payload: detailBranchSalesResult.data})
@@ -78,10 +82,73 @@ export const callNewBranchSalesAPI = (data) => {
 }
 }
 
+// 매출 보고서 수정
+export const callUpdateBranchSalesAPI = ({branchReportCode, data}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/reports/${branchReportCode}`; 
+  return async (dispatch, getState) => {
+    try {
+      const updateBranchSalesResult = await fetch(requestURL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(data)
+      });
+
+      console.log('매출보고서 수정 API : ', updateBranchSalesResult)
+
+      if (updateBranchSalesResult.status === 200) {
+        const data = await updateBranchSalesResult.json();
+        dispatch({ type: 'UPDATEBRANCHSALES', payload: data });
+      } else {
+        console.error('매출보고서 수정 실패: ', updateBranchSalesResult.statusText);
+      }
+
+      return updateBranchSalesResult;
+    } catch (error) {
+      console.error('Error during API call:', error);
+      return { ok: false, status: 500 };
+    }
+  };
+};
+
+// 매출 보고서 삭제
+export const callDeleteBranchSalesAPI = ({branchReportCode, data}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/reports/${branchReportCode}`; 
+  return async (dispatch, getState) => {
+    try {
+      const deleteBranchSalesResult = await fetch(requestURL, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(data)
+      });
+
+      console.log('매출보고서 삭제 API : ', deleteBranchSalesResult)
+
+      if (deleteBranchSalesResult.status === 200) {
+        const data = await deleteBranchSalesResult.json();
+        dispatch({ type: 'DELETEBRANCHSALES', payload: data });
+      } else {
+        console.error('매출보고서 삭제 실패: ', deleteBranchSalesResult.statusText);
+      }
+
+      return deleteBranchSalesResult;
+    } catch (error) {
+      console.error('Error during API call:', error);
+      return { ok: false, status: 500 };
+    }
+  };
+};
 
 // 지출보고서 전체 조회 API
-export const callFindExpenseAPI = () => {
-  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/expenseReports`; 
+export const callFindExpenseAPI = ({current}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/expenseReports?offset=${current}`; 
 
   return async (dispatch, getState) => {
     const expenseResult = await fetch(requestURL, {
@@ -93,7 +160,7 @@ export const callFindExpenseAPI = () => {
       },
     }).then((response) => response.json())
 
-    console.log('expense API 나오나? :', expenseResult)
+    console.log('지출보고서 API 나오나? :', expenseResult)
 
     dispatch({type: EXPENSE, payload: expenseResult.data})
   }
@@ -113,7 +180,7 @@ export const callDetailExpenseAPI = ({expenseReportCode}) => {
       },
     }).then((response) => response.json())
 
-    console.log('expense 부분조회 API 나오나? :', detailExpenseResult)
+    console.log('지출보고서 부분조회 API 나오나? :', detailExpenseResult)
 
     dispatch({type: DETAILEXPENSE, payload: detailExpenseResult.data})
   }
@@ -142,10 +209,74 @@ export const callNewExpenseAPI = (data) => {
 }
 }
 
+// 지출보고서 수정
+export const callUpdateExpenseAPI = ({expenseReportCode, data}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/updateExpense/${expenseReportCode}`; 
+  return async (dispatch, getState) => {
+    try {
+      const updateExpenseResult = await fetch(requestURL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(data)
+      });
+
+      console.log('지출보고서 수정 API : ', updateExpenseResult)
+
+      if (updateExpenseResult.status === 200) {
+        const data = await updateExpenseResult.json();
+        dispatch({ type: 'UPDATEEXPENSE', payload: data });
+      } else {
+        console.error('지출보고서 수정 실패: ', updateExpenseResult.statusText);
+      }
+
+      return updateExpenseResult;
+    } catch (error) {
+      console.error('Error during API call:', error);
+      return { ok: false, status: 500 };
+    }
+  };
+};
+
+// 지출보고서 삭제
+export const callDeleteExpenseAPI = ({expenseReportCode, data}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/deleteExpense/${expenseReportCode}`; 
+  return async (dispatch, getState) => {
+    try {
+      const deleteExpenseResult = await fetch(requestURL, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(data)
+      });
+
+      console.log('지출보고서 삭제 API : ', deleteExpenseResult)
+
+      if (deleteExpenseResult.status === 200) {
+        const data = await deleteExpenseResult.json();
+        dispatch({ type: 'DELETEEXPENSE', payload: data });
+      } else {
+        console.error('지출보고서 삭제 실패: ', deleteExpenseResult.statusText);
+      }
+
+      return deleteExpenseResult;
+    } catch (error) {
+      console.error('Error during API call:', error);
+      return { ok: false, status: 500 };
+    }
+  };
+};
+
 
 // 차량 수리보고서 전체 조회 API 
-export const callFindVehicleRepairAPI = () => {
-  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/newReports`; 
+export const callFindVehicleRepairAPI = ({current}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/newReports?offset=${current}`; 
 
   return async (dispatch, getState) => {
     const result = await fetch(requestURL, {
@@ -157,7 +288,7 @@ export const callFindVehicleRepairAPI = () => {
       },
     }).then((response) => response.json());
 
-    console.log('API 응답하니? :', result);
+    console.log('차량수리보고서 API 응답하니? :', result);
 
     dispatch({type: VEHICLEREPAIR, payload: result.data})
   }
@@ -208,42 +339,41 @@ export const callCarMembersAPI = () => {
 export const callNewVehicleRepairAPI = ({form}) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/vehicle-repair`; 
 
-        console.log('[formdata ]', form.get("beforeImage"))
-        console.log('[formdata ]', form.get("afterImage"))
-        
+  console.log('[formdata ]', form.get("beforeImage"))
+  console.log('[formdata ]', form.get("afterImage"))
   
   return async (dispatch, getState) => {
     try{
-    const newVehicleRepairResult = await fetch(requestURL, {
-      method: 'POST',
-      headers: {
-        Accept: '*/*',
-        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-      },
-      body: form
-    })
+      const newVehicleRepairResult = await fetch(requestURL, {
+        method: 'POST',
+        headers: {
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: form
+      })
 
-    console.log('차량수리보고서 등록 API 응답하니? :', newVehicleRepairResult);
-    
-    if(newVehicleRepairResult.status === 200){
-      const data = await newVehicleRepairResult.json();
-      dispatch({type: NEWVEHICLEREPAIR, payload: newVehicleRepairResult.data})
-    }else{
-      console.error('차량수리보고서 등록 실패',newVehicleRepairResult.statusText )
-    }
+      console.log('차량수리보고서 등록 API 응답하니? :', newVehicleRepairResult);
+      
+      if(newVehicleRepairResult.status === 200){
+        const data = await newVehicleRepairResult.json();
+        console.log('응답 데이터:', data); // 데이터를 사용하는 예시
+        dispatch({type: NEWVEHICLEREPAIR, payload: data})
+      }else{
+        console.error('차량수리보고서 등록 실패', newVehicleRepairResult.statusText)
+      }
       return newVehicleRepairResult;
-  } catch(error){
-    console.error('Error during API call:', error);
-    return { ok: false, status: 500 };
-  }
+    } catch(error){
+      console.error('Error during API call:', error);
+      return { ok: false, status: 500 };
+    }
   };
 };
 
 
-
-// 지점 수리보고서 전체조회 API
-export const callFindRepairAPI = () => {
-  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/repair`; 
+// 시설물수리보고서 전체조회 API
+export const callFindRepairAPI = ({current}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/repair?offset=${current}`; 
 
   return async (dispatch, getState) => {
     const repairResult = await fetch(requestURL, {
@@ -262,7 +392,7 @@ export const callFindRepairAPI = () => {
 
 }
 
-// 지점 수리보고서 상세조회 API
+// 시설물수리보고서 상세조회 API
 export const callDetailRepairAPI = ({repairReportCode}) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/repair/${repairReportCode}`;
 
@@ -282,7 +412,7 @@ export const callDetailRepairAPI = ({repairReportCode}) => {
   }
 }
 
-// 수리보고서 등록 API
+// 시설물수리보고서 등록 API
 export const callNewRepairAPI = ({ form }) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/newRepair`;
 
@@ -317,4 +447,68 @@ export const callNewRepairAPI = ({ form }) => {
   };
 };
 
+// 시설물수리보고서 수정
+export const callUpdateRepairAPI = ({repairReportCode, data}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/repair/${repairReportCode}`; 
 
+  // console.log('[formdata ]', form.get("repairImage"))
+  return async (dispatch, getState) => {
+    try {
+      const updateRepairResult = await fetch(requestURL, {
+        method: 'PUT',
+        headers: {
+          // 'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: data
+      });
+
+      console.log('시설물수리보고서 수정 API : ', updateRepairResult)
+
+      if (updateRepairResult.status === 200) {
+        const data = await updateRepairResult.json();
+        dispatch({ type: 'UPDATEREPAIR', payload: data });
+      } else {
+        console.error('시설물수리보고서 수정 실패: ', updateRepairResult.statusText);
+      }
+
+      return updateRepairResult;
+    } catch (error) {
+      console.error('Error during API call:', error);
+      return { ok: false, status: 500 };
+    }
+  };
+};
+
+// 시설물수리보고서 삭제
+export const callDeleteRepairAPI = ({repairReportCode, data}) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/repair/${repairReportCode}`; 
+  return async (dispatch, getState) => {
+    try {
+      const deleteRepairResult = await fetch(requestURL, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(data)
+      });
+
+      console.log('시설물수리보고서 삭제 API : ', deleteRepairResult)
+
+      if (deleteRepairResult.status === 200) {
+        const data = await deleteRepairResult.json();
+        dispatch({ type: 'DELETEREPAIR', payload: data });
+      } else {
+        console.error('시설물수리보고서 삭제 실패: ', deleteRepairResult.statusText);
+      }
+
+      return deleteRepairResult;
+    } catch (error) {
+      console.error('Error during API call:', error);
+      return { ok: false, status: 500 };
+    }
+  };
+};

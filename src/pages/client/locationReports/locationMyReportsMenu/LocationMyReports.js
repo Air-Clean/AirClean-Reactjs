@@ -4,35 +4,51 @@ import { callFindBranchSalesAPI, callFindExpenseAPI, callFindRepairAPI } from '.
 import { useNavigate, useLocation } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import './LocationMyReports.css';
+import Paging from '../../../../components/paging/Paging';
 
 function LocationMyReports() {
     const location = useLocation();
     const [activeTable, setActiveTable] = useState(location.state?.activeTable || '매출');
     const dispatch = useDispatch();
-    
-  // 매출보고서
-    const branchSalesResult = useSelector(state => state.branchSalesReducer);
-    const navigate = useNavigate();
-  // 지출보고서
-    const expenseResult = useSelector(state => state.expenseReducer);
-  // 지점 수리보고서
-    const repairResult = useSelector(state => state.findAllRepairReducer);
+    const [current, setCurrent] = useState(1);
+
+  // 매출보고서 
+  const branchSalesResult = useSelector(state => state.branchSalesReducer);
+  const branchSalesList = branchSalesResult.branchSalesList || [];
+  const branchSalesTotalPages = branchSalesResult.totalPages || 1;
+
+  // 매출보고서 페이지 이동
+  const navigate = useNavigate();
+
+  // 지출보고서 
+  const expenseResult = useSelector(state => state.expenseReducer);
+  const expenseList = expenseResult.expenseList || [];
+  const expenseTotalPages = expenseResult.totalPages || 1;
+
+  // 지점 수리보고서 
+  const repairResult = useSelector(state => state.findAllRepairReducer);
+  const repairList = repairResult.repairList || [];
+  const repairTotalPages = repairResult.totalPages || 1;
+
+
   // 로그인한 사용자 정보 가져오기
     const member = jwtDecode(window.localStorage.getItem('accessToken'));
     const memberName = member.memberName;
     console.log('로그인정보 : ', member);
 
     useEffect(() => {
-    console.log('리덕스 상태 result:', { branchSalesResult, expenseResult });
-    if (activeTable === '매출') {
-        dispatch(callFindBranchSalesAPI());
-    } else if (activeTable === '지출') {
-        dispatch(callFindExpenseAPI());
-    } else if (activeTable === '시설물수리') {
-        dispatch(callFindRepairAPI());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [activeTable, dispatch]);
+        console.log('리덕스 상태 result:', { branchSalesResult, expenseResult, repairResult });
+        if (activeTable === '매출') {
+          dispatch(callFindBranchSalesAPI({ current }));
+        } else if (activeTable === '지출') {
+          dispatch(callFindExpenseAPI({ current }));
+        } else if (activeTable === '시설물수리') {
+          dispatch(callFindRepairAPI({ current }));
+        }
+        
+        // 이 주석은 ESLint 경고를 비활성화합니다.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [activeTable, dispatch, current]); // result를 의존성 배열에 포함
 
     const renderTable = () => {
     switch (activeTable) {
@@ -49,13 +65,13 @@ function LocationMyReports() {
                 </tr>
             </thead>
             <tbody>
-                {branchSalesResult.filter(item => item.memberName === memberName).map((item) => (
+                {branchSalesList.filter(item => item.memberName === memberName).map((item) => (
                 <tr key={item.branchReportCode}>
                     <td>{item.branchReportCode}</td>
                     <td>{item.branchName}</td>
                     <td>{new Date(item.branchSubmissionDate).toLocaleDateString()}</td>
                     <td>{item.branchReportStatus}</td>
-                    <td><button onClick={() => navigate(`/company/paper/reports/branchSales/${item.branchReportCode}`)}>View</button></td>
+                    <td><button onClick={() => navigate(`/location/paper/myReports/branchSales/${item.branchReportCode}`)}>View</button></td>
                 </tr>
                 ))}
             </tbody>
@@ -74,13 +90,13 @@ function LocationMyReports() {
                 </tr>
             </thead>
             <tbody>
-                {expenseResult.filter(expense => expense.memberName === memberName).map((expense) => (
+                {expenseList.filter(expense => expense.memberName === memberName).map((expense) => (
                 <tr key={expense.expenseReportCode}>
                     <td>{expense.expenseReportCode}</td>
                     <td>{expense.branchName}</td>
                     <td>{new Date(expense.expenseSubmissionDate).toLocaleDateString()}</td>
                     <td>{expense.expenseReportStatus}</td>
-                    <td><button onClick={() => navigate(`/company/paper/reports/expenseReports/${expense.expenseReportCode}`)}>View</button></td>
+                    <td><button onClick={() => navigate(`/location/paper/myReports/expense/${expense.expenseReportCode}`)}>View</button></td>
                 </tr>
                 ))}
             </tbody>
@@ -100,14 +116,14 @@ function LocationMyReports() {
                 </tr>
             </thead>
             <tbody>
-                {repairResult.filter(repair => repair.memberName === memberName).map((repair) => (
+                {repairList.filter(repair => repair.memberName === memberName).map((repair) => (
                 <tr key={repair.repairReportCode}>
                     <td>{repair.repairReportCode}</td>
                     <td>{repair.branchName}</td>
                     <td>{repair.facilityType}</td>
                     <td>{new Date(repair.repairSubmissionDate).toLocaleDateString()}</td>
                     <td>{repair.repairReportStatus}</td>
-                    <td><button onClick={() => navigate(`/company/paper/reports/repairReports/${repair.repairReportCode}`)}>View</button></td>
+                    <td><button onClick={() => navigate(`/location/paper/myReports/repair/${repair.repairReportCode}`)}>View</button></td>
                 </tr>
                 ))}
             </tbody>
@@ -117,6 +133,19 @@ function LocationMyReports() {
         return null;
     }
     };
+
+    const getTotalPages = () => {
+        switch (activeTable) {
+          case '매출':
+            return branchSalesTotalPages;
+          case '지출':
+            return expenseTotalPages;
+          case '시설물수리':
+            return repairTotalPages;
+          default:
+            return 1;
+        }
+      };
 
     return (
     <div className="menu1_layout">
@@ -146,11 +175,7 @@ function LocationMyReports() {
             <div className="table-container">
             {renderTable()}
             </div>
-            <div className="pagination">
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            </div>
+            <Paging setCurrent={setCurrent} end={getTotalPages()} />
         </div>
         </div>
     </div>

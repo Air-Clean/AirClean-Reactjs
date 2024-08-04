@@ -1,18 +1,39 @@
-import { createActions, handleActions } from "redux-actions";
+// src/modules/CarModule.js
+
+import {createActions, handleActions} from "redux-actions";
 
 const initialState = [];
 
-export const CARINFOLIST = 'CARINFOLIST'
+export const CARINFOLIST = 'CARINFOLIST';
+export const CARDRIVER = 'CARDRIVER';
 
 createActions({
-    [CARINFOLIST]: ()=>{}
+    [CARINFOLIST]: ()=>[]
 })
 
-const carInfoReducer = handleActions({
-    [CARINFOLIST]: (state, {payload}) => {
-        console.log('차량정보리스트리듀서 payload : ', payload)
+createActions({
+    [CARDRIVER] : ()=>{}
+})
+
+// 리듀서 정의
+export const carReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case CARINFOLIST:
+            return {
+                ...state,
+                carList: action.payload,
+            };
+        default:
+            return state;
+    }
+};
+
+export const carDriverReducer= handleActions({
+    [CARDRIVER] : (state , {payload})=>{
         return payload;
     }
-}, initialState)
+},initialState)
 
-export default carInfoReducer;
+
+
+

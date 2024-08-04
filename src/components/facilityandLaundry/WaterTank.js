@@ -1,74 +1,72 @@
 import WaterTankInformation from "./WaterTankInformation";
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchWaterLevel } from "../../apis/CallWaterConditionApi";
 import './WaterTank.css';
 
 import jwt_decode from 'jwt-decode'
 import { callBranchData } from '../../apis/MemberAPICalls';
+import { fetchWaterSupply } from "../../apis/LandryAPICall";
+
 
 function WaterTank() {
     const dispatch = useDispatch();
     const waterCondition = useSelector(state => state.selectLocationWater.waterCondition);
+    const waterSupply = useSelector(state => state.selectWaterSupply.waterSupply);
     
-// ------------------- layout 에서 옮긴 코드 -----------------------
+    // ------------------- layout 에서 옮긴 코드 -----------------------
 
+    useEffect(() => {
+        const members = jwt_decode(window.localStorage.getItem('accessToken'))
+        const memberId = members.sub;
+        console.log("waterTank 컴포넌트 입니다.")
 
-useEffect(()=>{
-    const members = jwt_decode(window.localStorage.getItem('accessToken'))
-    const memberId = members.sub;
+        console.log("브런치 코드 등록 시작")
+        if (members.memberRole === 'b') {
+            dispatch(callBranchData({ memberId }));
+        }
+    }, [dispatch])
     
+    const branch = useSelector(state => state.getBranchReducer)
     
-    if(members.memberRole==='b'){
-        dispatch(callBranchData({memberId}));
-    }
-    
-    },[])
-    
-    const branch = useSelector(state=>state.getBranchReducer)
-    
-    useEffect(()=>{
-        // console.log('branch 정보 들어 왔나요?', branch)
-        window.localStorage.setItem('branch',JSON.stringify(branch))
+    useEffect(() => {
+        console.log("컴포넌트 1의 브런치 코드 등록입니다")
+        window.localStorage.setItem('branch', JSON.stringify(branch))
         dispatch(fetchWaterLevel());
-    },[branch, dispatch])
+        dispatch(fetchWaterSupply());
+    }, [branch, dispatch])
     
-  // ------------------------------------------
+    // ------------------------------------------
+
+    
+    const handleModalConfirmed = useCallback(() => {
+        dispatch(fetchWaterSupply());
+    }, [dispatch]);
 
 
-    //  위로 합침
-    // useEffect(() => {
-    //     dispatch(fetchWaterLevel());
-    // }, [dispatch]);
-
-    console.log(" waterCondition:", waterCondition);
-
-    // siteId, msrDate, wtoc를 제외한 나머지 키와 값을 필터링합니다.
     const filteredWaterCondition = waterCondition ? Object.entries(waterCondition).filter(([key]) => key !== 'wToc' && key !== 'siteId' && key !== 'msrDate') : [];
 
-    // 상태에 따른 이모티콘을 반환하는 함수
     const getStatusEmoji = (key, value) => {
         switch (key) {
             case 'wTemp':
-                return value < 20 ? '🟢' : value < 25 ? '🟡' : '🔴';
+                return value < 20 ? '🟢' : (value < 25 ? '🟡' : '🔴');
             case 'wPh':
-                return value >= 6.5 && value <= 8.5 ? '🟢' : value >= 6.0 && value < 6.5 || value > 8.5 && value <= 9.0 ? '🟡' : '🔴';
+                return (value >= 6.5 && value <= 8.5) ? '🟢' : ((value >= 6.0 && value < 6.5) || (value > 8.5 && value <= 9.0)) ? '🟡' : '🔴';
             case 'wDo':
-                return value > 7.5 ? '🟢' : value > 5.0 ? '🟡' : '🔴';
+                return value > 7.5 ? '🟢' : (value > 5.0 ? '🟡' : '🔴');
             case 'wTn':
-                return value < 1 ? '🟢' : value < 3 ? '🟡' : '🔴';
+                return value < 1 ? '🟢' : (value < 3 ? '🟡' : '🔴');
             case 'wTp':
-                return value < 0.1 ? '🟢' : value < 0.2 ? '🟡' : '🔴';
+                return value < 0.1 ? '🟢' : (value < 0.2 ? '🟡' : '🔴');
             case 'wPhen':
-                return value < 0.005 ? '🟢' : value < 0.01 ? '🟡' : '🔴';
+                return value < 0.005 ? '🟢' : (value < 0.01 ? '🟡' : '🔴');
             case 'wCn':
-                return value < 0.05 ? '🟢' : value < 0.1 ? '🟡' : '🔴';
+                return value < 0.05 ? '🟢' : (value < 0.1 ? '🟡' : '🔴');
             default:
                 return '🟢';
         }
     };
 
-    // 키에 대한 한글 이름 매핑 및 단위 추가
     const keyToKorean = {
         wTemp: '수온',
         wPh: 'pH',
@@ -79,7 +77,6 @@ useEffect(()=>{
         wCn: '시안'
     };
 
-    // 단위 매핑
     const keyToUnit = {
         wTemp: '℃',
         wPh: '',
@@ -90,14 +87,34 @@ useEffect(()=>{
         wCn: 'mg/L'
     };
 
+    const keyToKorean2 = {
+        waterSupplyCode: '급수일지번호',
+        msrDate: '측정 날짜',
+        waterTankNo: '물탱크 번호',
+        waterVolume: '급수량',
+        siteId: '측정소 ID',
+        wTemp: '수온',
+        wPh: 'pH',
+        wDo: '용존 산소',
+        wTn: '총 질소',
+        wTp: '총 인',
+        wCn: '시안',
+        wPhen: '페놀'
+    };
+
+    const keyOrder = [
+        'waterSupplyCode', 'msrDate', 'waterTankNo', 'waterVolume',
+        'siteId', 'wTemp', 'wPh', 'wDo', 'wTn', 'wTp', 'wCn', 'wPhen'
+    ];
+
     return (
         <>  
             <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center' }}>
                 <div style={{ display: 'flex', width: '90%', height: '240px' }}>
-                    <WaterTankInformation waterCondition={waterCondition} />
+                    <WaterTankInformation waterCondition={waterCondition} onModalConfirmed={handleModalConfirmed} />
                     <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center' }}>
                         <div style={{ width: '90%', height: '100%' }}>
-                            <div style={{width: '100%', height: '90px'}}>
+                            <div style={{width: '100%', height: '70px'}}>
                                 <table className="styled-table">
                                     <thead>
                                         <tr>
@@ -115,8 +132,26 @@ useEffect(()=>{
                                     </tbody>
                                 </table>
                             </div>
-                            <div>
-                                {/* 추가 콘텐츠를 여기에 넣으세요 */}
+                            <h6 style={{color:'black'}}>급수일지</h6>
+                            <div style={{ width: '100%', height: '143px', overflow: 'auto' }}>
+                                <table className="styled-table">
+                                    <thead>
+                                        <tr>
+                                            {waterSupply && waterSupply.length > 0 && keyOrder.map(key => (
+                                                <th key={key} style={{ padding: '5px', textAlign: 'center' }}>{keyToKorean2[key]}</th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {waterSupply && waterSupply.map((supply, rowIndex) => (
+                                            <tr key={rowIndex}>
+                                                {keyOrder.map((key, colIndex) => (
+                                                    <td key={colIndex} style={{ padding: '5px', textAlign: 'center' }}>{supply[key]}</td>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
