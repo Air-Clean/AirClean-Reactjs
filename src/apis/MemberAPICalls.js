@@ -1,5 +1,5 @@
 import { POST_LOGIN ,AFTER_LOGIN } from "../modules/MemberModule";
-import {FIND_MEMBER} from "../modules/AskModule";
+import {FIND_MEMBER , ALARM_MESSAGE} from "../modules/AskModule";
 
 export const callLoginAPI= ({ form }) => {
     const requestURL= `http://${process.env.REACT_APP_RESTAPI_IP}:8080/auth/login`;
@@ -97,5 +97,48 @@ export function callBranchData({memberId}){
                 type : AFTER_LOGIN ,payload : result.data
             })
         }
+    }
+}
+
+export function callAlarmMessage(){
+
+    console.log('callAlarmMessage 동작')
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/auth/message`
+
+    return async (dispatch , getState)=> {
+        const result = await fetch(requestURL, {
+            method : "GET",
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+
+        console.log('메세지 확인 ',result)
+
+        if(result.status === 200){
+            dispatch({type: ALARM_MESSAGE , payload : result.data})
+        }
+    }
+}
+
+export function callMemberChangePassword({memberId}){
+    console.log("callMemberChangePassword 동작" , memberId)
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/auth/message`
+
+    return async (dispatch , getState) => {
+        const result = await fetch(requestURL,{
+            method : "PUT",
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+            },
+            body : memberId
+        })
+
     }
 }
