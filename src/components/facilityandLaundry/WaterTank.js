@@ -19,9 +19,9 @@ function WaterTank() {
     useEffect(() => {
         const members = jwt_decode(window.localStorage.getItem('accessToken'))
         const memberId = members.sub;
-        console.log("waterTank 컴포넌트 입니다.")
+        // console.log("waterTank 컴포넌트 입니다.")
 
-        console.log("브런치 코드 등록 시작")
+        // console.log("브런치 코드 등록 시작")
         if (members.memberRole === 'b') {
             dispatch(callBranchData({ memberId }));
         }
@@ -30,7 +30,7 @@ function WaterTank() {
     const branch = useSelector(state => state.getBranchReducer)
     
     useEffect(() => {
-        console.log("컴포넌트 1의 브런치 코드 등록입니다")
+        // console.log("컴포넌트 1의 브런치 코드 등록입니다")
         window.localStorage.setItem('branch', JSON.stringify(branch))
         dispatch(fetchWaterLevel());
         dispatch(fetchWaterSupply());
