@@ -38,11 +38,11 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
 
   
   let image = driver.memberImage;
-    console.log(image.split("/")[4]);
+    console.log(image?.split("/")[4]);
 
     console.log("image anjsi", image);
 
-    if (image.split("/")[4] === "null") {
+    if (image?.split("/")[4] === "null") {
       image = noProfile;
     }
 
@@ -215,7 +215,7 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
               borderColor: "background.surface",
             }}
           >
-            {driver.driverAndCarDTO.driverRegion}
+            {driver?.driverAndCarDTO?.driverRegion}
           </Chip>
           <Typography level="title-lg">{driver?.memberName}</Typography>
           <Typography level="body-sm" sx={{ maxWidth: "24ch" }}>
@@ -239,12 +239,12 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
               "& > button": { borderRadius: "2rem" },
             }}
           >
-            <Tooltip title={driver.driverAndCarDTO.driverLicenseNumber}>
+            <Tooltip title={driver?.driverAndCarDTO?.driverLicenseNumber}>
             <IconButton size="sm" variant="plain" color="neutral">
               <DirectionsCarIcon/>
             </IconButton>
             </Tooltip>
-            <Tooltip title={driver.memberEmail} variant='solid'>
+            <Tooltip title={driver?.memberEmail} variant='solid'>
             <IconButton size="sm" variant="plain" color="neutral">
               <EmailIcon/>
             </IconButton>
@@ -257,7 +257,7 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
               variant="outlined"
               sx={{ bgcolor: "background.surface" }}
             >
-              <Button onClick={showBusinessCard} name={driver.memberId}>
+              <Button onClick={showBusinessCard} name={driver?.memberId}>
                 Detail
               </Button>
               {role === "a" && (
