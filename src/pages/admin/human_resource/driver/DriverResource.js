@@ -9,12 +9,30 @@ import { useDispatch,useSelector } from "react-redux";
 import { callDriverList, callSoftDeleteDriver } from "../../../../apis/HRAPICalls";
 import { Grid } from "@mui/material";
 import 'animate.css';
+import Snackbar from '@mui/material/Snackbar';
 
 
 
 export default function DriverResource() {
   console.log("====================================차량기사페이지 입니다");
 
+    const [state, setState] = useState({
+        open : false,
+        vertical : 'top',
+        horizontal : 'left',
+    })
+    const [copy , setCopy] = useState('');
+    const {vertical , horizontal , open}=state;
+
+    const handleClick=()=>{
+        setState({...state,open : true})
+    }
+    const handleClose = () => {
+        setCopy('')
+        setState({ ...state, open: false });
+    };
+
+    
 
     const [isRegist , setIsRegist] = useState('');
     const [current , setCurrent] = useState(1);
@@ -57,7 +75,7 @@ export default function DriverResource() {
 
     const softDeleteHandler=()=>{
         dispatch(
-            callSoftDeleteDriver({deleteMember: deleteMember})
+            callSoftDeleteDriver({deleteMember: deleteMember ,})
         )
         
         window.location.reload();
@@ -73,7 +91,7 @@ export default function DriverResource() {
         </div>
         <Grid container spacing={1} justifyContent="flex-start">
           {driver?.map((b) => (
-              <BioCard driver={b} key={b.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
+              <BioCard driver={b} key={b.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember} setCopy={setCopy} handleClick={handleClick}/>
           ))}
           {isButtonVisible && (
           <div className={`deleteButtonCss ${animationClass}`}>
@@ -86,6 +104,16 @@ export default function DriverResource() {
         
         
           <Paging setCurrent={setCurrent} end={totalPage} />
+          <Snackbar
+          anchorOrigin={{vertical , horizontal}}
+          open={open}
+          onClose={handleClose}
+          message={`${copy} Copied!`}
+          key={vertical+horizontal}
+          />
+          <Snackbar
+
+          />
         </div>
       </div>
     </>

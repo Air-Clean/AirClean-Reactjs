@@ -230,7 +230,10 @@ function Car() {
                             <button type="button" className={styles.button} onClick={handleAssign}>배정</button>
                             <button type="button" className={styles.button} onClick={() => setShowAssignForm(false)}>취소</button>
                         </div>
+
+
                     </div>
+
                 </div>
             )}
             {showUnassignConfirm && (

@@ -14,6 +14,7 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Badge from '@mui/material/Badge';
+import Skeleton from '@mui/material/Skeleton';
 
 import Avatar from "@mui/joy/Avatar";
 
@@ -70,7 +71,20 @@ export default function BranchInformation({ branch, facility }) {
             <strong>개점일 : </strong>
             {branch.branchOpenDate}
           </p>
-        </div></>) : ''}
+        </div></>) : 
+        (<>
+        <div className="branchInfromationImage">
+          <Skeleton variant="rectangular" width={'90%'} height={'60%'}/>
+          <Skeleton variant="rectangular" width={'90%'} height={'20%'}/>
+        </div>
+        <div className="branchInfromationText">
+          <Skeleton width={'80%'} height={'20%'}/>
+          <Skeleton width={'80%'} height={'20%'}/>
+          <Skeleton width={'80%'} height={'20%'}/>
+          <Skeleton width={'80%'} height={'20%'}/>
+        </div>
+        </>
+        )}
         
       </div>
       <div className="branchInformationContent">
@@ -107,7 +121,21 @@ export default function BranchInformation({ branch, facility }) {
           </div>
         </div>
             </>
-        ) : <div style={{fontWeight : 'bolder'}}>Select Branch</div>}
+        ) : 
+        (
+          <>
+            <div >
+              <Skeleton variant="circular" width={'6rem'} height={'6rem'}/>
+            </div>
+            <div>
+              <Skeleton width={'15rem'} height={'10%'} />
+              <Skeleton width={'15rem'} height={'10%'} />
+              <Skeleton width={'15rem'} height={'10%'} />
+              <Skeleton width={'15rem'} height={'10%'} />
+              <Skeleton width={'15rem'} height={'10%'} />
+            </div>
+          </>
+        )}
         
       </div>
       <div className="branchInformationFooter">

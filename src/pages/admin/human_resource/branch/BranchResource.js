@@ -28,8 +28,8 @@ export default function BranchResource() {
 
     const result = useSelector(state=>state.humanReducer);
 
-    const branch = result.data?.content;
-    const totalPage = result.data?.totalPages;
+    const branch = result?.data?.content;
+    const totalPage = result?.data?.totalPages;
 
     
 
@@ -44,10 +44,10 @@ export default function BranchResource() {
     },[current, dispatch])
 
     useEffect(() => {
-      if (deleteMember.length > 0) {
+      if (deleteMember?.length > 0) {
         setAnimationClass('animate__animated animate__fadeInUp');
         setIsButtonVisible(true);
-      } else if (deleteMember.length === 0 && isButtonVisible) {
+      } else if (deleteMember?.length === 0 && isButtonVisible) {
         setAnimationClass('animate__animated animate__fadeOutDown');
         setTimeout(() => setIsButtonVisible(false), 1000); // 애니메이션 시간 후에 버튼 숨기기
       }
@@ -73,12 +73,12 @@ export default function BranchResource() {
         </div>
         <Grid container spacing={1} justifyContent="flex-start">
           {branch?.map((b) => (
-              <BioCard branch={b} key={b.memberDTO.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
+              <BioCard branch={b} key={b?.memberDTO?.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
           ))}
           {isButtonVisible && (
           <div className={`deleteButtonCss ${animationClass}`}>
             <button className="button-45" onClick={softDeleteHandler}>
-              {deleteMember.length} 명을 삭제하시겠습니까?
+              {deleteMember?.length} 명을 삭제하시겠습니까?
             </button>
           </div>
         )}

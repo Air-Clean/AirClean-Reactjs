@@ -33,11 +33,13 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 
 
-export default function BioCard({ driver, setDeleteMember, deleteMember }) {
+
+export default function BioCard({ driver, setDeleteMember, deleteMember ,setCopy,handleClick}) {
   console.log("biocard=============================");
 
-  
-  let image = driver.memberImage;
+
+  let image = driver?.memberImage;
+
     console.log(image?.split("/")[4]);
 
     console.log("image anjsi", image);
@@ -45,6 +47,18 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
     if (image?.split("/")[4] === "null") {
       image = noProfile;
     }
+
+    const copyToClipboard = (text) => {
+      navigator.clipboard.writeText(text).then(() => {
+        console.log('Text copied to clipboard');
+
+        setCopy(text)
+        handleClick({vertical : "top", horizontal : 'left'});
+
+      }).catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
+    };
 
  
     
@@ -123,7 +137,7 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
         showConfirmButton: false,
         didRender: () => {
           ReactDOM.render(
-            <BusinessCardBack car={driver.driverAndCarDTO.carDTO}/>,
+            <BusinessCardBack car={driver?.driverAndCarDTO?.carDTO}/>,
             document.getElementById("business-card-back")
           );
     
@@ -137,14 +151,14 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
   const [highlight, setHighlight] = useState(false);
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState({
-    memberId: driver.memberId,
-    memberName: driver.memberName,
+    memberId: driver?.memberId,
+    memberName: driver?.memberName,
     isPass: false,
-    phone: driver.memberPhoneNumber,
-    email: driver.memberEmail,
-    address: driver.memberAddress,
+    phone: driver?.memberPhoneNumber,
+    email: driver?.memberEmail,
+    address: driver?.memberAddress,
     image: null,
-    imagePreview: driver.memberImage,
+    imagePreview: driver?.memberImage,
   });
 
   const toggle = () => {
@@ -152,20 +166,20 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
     setModal(!modal);
 
     setForm({
-      memberId: driver.memberId,
-      memberName: driver.memberName,
+      memberId: driver?.memberId,
+      memberName: driver?.memberName,
       isPass: false,
-      phone: driver.memberPhoneNumber,
-      email: driver.memberEmail,
-      address: driver.memberAddress,
+      phone: driver?.memberPhoneNumber,
+      email: driver?.memberEmail,
+      address: driver?.memberAddress,
       image: null,
-      imagePreview: driver.memberImage,
+      imagePreview: driver?.memberImage,
     });
     Swal.close();
   };
 
   const members =jwtDecode( window.localStorage.getItem('accessToken'))
-  const role = members.memberRole;
+  const role = members?.memberRole;
 
   const deleteHandler = (e) => {
     setHighlight(!highlight);
@@ -201,7 +215,7 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
       >
         <CardContent sx={{ alignItems: "center", textAlign: "center" }}>
           <Avatar
-            src={driver.memberImage || "/static/images/avatar/1.jpg"}
+            src={driver?.memberImage || "/static/images/avatar/1.jpg"}
             sx={{ "--Avatar-size": "4rem" }}
           />
           <Chip
@@ -219,7 +233,7 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
           </Chip>
           <Typography level="title-lg">{driver?.memberName}</Typography>
           <Typography level="body-sm" sx={{ maxWidth: "24ch" }}>
-            {driver.branchDTO ? driver.branchDTO.branchRegion : ""}
+            {driver?.branchDTO ? driver.branchDTO?.branchRegion : ""}
             <br />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -240,12 +254,16 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
             }}
           >
             <Tooltip title={driver?.driverAndCarDTO?.driverLicenseNumber}>
-            <IconButton size="sm" variant="plain" color="neutral">
+
+            <IconButton size="sm" variant="plain" color="neutral" onClick={()=>copyToClipboard(driver?.driverAndCarDTO?.driverLicenseNumber)}>
+
               <DirectionsCarIcon/>
             </IconButton>
             </Tooltip>
             <Tooltip title={driver?.memberEmail} variant='solid'>
-            <IconButton size="sm" variant="plain" color="neutral">
+
+            <IconButton size="sm" variant="plain" color="neutral" onClick={e=>copyToClipboard(driver.memberEmail)}>
+
               <EmailIcon/>
             </IconButton>
             </Tooltip>
@@ -264,7 +282,7 @@ export default function BioCard({ driver, setDeleteMember, deleteMember }) {
                 <Button
                   color="danger"
                   onClick={deleteHandler}
-                  name={driver.memberId}
+                  name={driver?.memberId}
                 >
                   Delete
                 </Button>
@@ -301,15 +319,15 @@ function BusinessCard({ driver, logo, image }) {
             <img src={image} width={"100%"} alt="이미지 없음" />
           </div>
           <div class="license-text">
-            <h4>{driver.driverAndCarDTO.driverLicenseNumber}</h4>
+            <h4>{driver?.driverAndCarDTO?.driverLicenseNumber}</h4>
             <ul style={{ listStyle: "none", textAlign: "left" }}>
-              <li>이름 : {driver.memberName}</li>
-              <li>생일 : {driver.memberBirthDate}</li>
-              <li>주소 : {driver.memberAddress}</li>
-              <li>핸드폰 : {driver.memberPhoneNumber}</li>
-              <li>성별 : {driver.memberGender}</li>
-              <li>운전지역 : {driver.driverAndCarDTO.driverRegion}</li>
-              <li>입사일 : {driver.memberHireDate}</li>
+              <li>이름 : {driver?.memberName}</li>
+              <li>생일 : {driver?.memberBirthDate}</li>
+              <li>주소 : {driver?.memberAddress}</li>
+              <li>핸드폰 : {driver?.memberPhoneNumber}</li>
+              <li>성별 : {driver?.memberGender}</li>
+              <li>운전지역 : {driver?.driverAndCarDTO?.driverRegion}</li>
+              <li>입사일 : {driver?.memberHireDate}</li>
             </ul>
           </div>
         </div>
@@ -325,18 +343,18 @@ function BusinessCardBack({car}){
       <div class="license-card-back">
         <div className="license-card-back-photo">
           <div className="car-front">
-            <img src={car.carPhoto} alt="이미지 없음"/>
+            <img src={car?.carFrontImage} width={'100%'} alt="이미지 없음"/>
           </div>
           <div className="car-rear">
-            <img src={car.carPhoto} alt="이미지 없음"/>
+            <img src={car?.carRearImage} width={'100%'} alt="이미지 없음"/>
           </div>
         </div>
         <div class='license-card-back-text' style={{display : 'flex' ,alignItems : 'center'}}>
-          <div><h4>{car.carNumber}</h4></div>
+          <div><h4>{car?.carNumber}</h4></div>
           <div>
             <ul style={{listStyle : 'none' , textAlign : 'left'}}>
-              <li>출고일 : {car.carDate}</li>
-              <li>특이사항 : {car.carEtc}</li>
+              <li>출고일 : {car?.carDate}</li>
+              <li>특이사항 : {car?.carEtc}</li>
             </ul>
           </div>
         </div>
