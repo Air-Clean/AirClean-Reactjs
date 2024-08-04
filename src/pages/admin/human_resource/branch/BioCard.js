@@ -416,30 +416,61 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
     );
 }
 
-function BusinessCardBack({car}){
+function BusinessCardBack(){
   return(
-    <div class='license-modal'>
-      <div class="license-card-back">
-        <div className="license-card-back-photo">
-          <div className="car-front">
-            <img src={car?.carPhoto} alt="이미지 없음"/>
-          </div>
-          <div className="car-rear">
-            <img src={car?.carPhoto} alt="이미지 없음"/>
-          </div>
+
+
+    <div className="hr-branch-modal">
+        <div className="business-card">
+            <img src={logo} alt="이미지 없음" className="top-text" />
+            <div className="content">
+                {/* <img src={image} alt="사진 없음" className="profile" />
+                <div className="name">{branch.memberDTO.memberName}</div>
+                <div className="handle">{branch.branchDTO ? branch.branchDTO.branchName : 'no site'}</div> */}
+                <div className="contact-info">
+                    <div>
+                        {/* {branch.branchDTO ? branch.branchDTO.branchRegion : ''} */}
+                    </div>
+                    {/* <div>{branch.memberDTO.memberId}</div> */}
+                    <hr />
+                    <div>
+
+                      {/* {branch.branchDTO ? 
+                      <div>
+                        <LocalLaundryServiceIcon/>
+                        {getPhoneNumber(branch.branchDTO.branchPhone)}
+                      </div>
+                            
+                       : ''} */}
+                      <div style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
+                        <StayCurrentPortraitIcon/>
+                        {/* {getPhoneNumber(branch.memberDTO.memberPhoneNumber)} */}
+                      </div>
+                    </div>
+                    <div>
+                      <div style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
+                        <EmailIcon/>
+                        {/* {branch.memberDTO.memberEmail} */}
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <GiteIcon/>
+                        {/* {branch.memberDTO.memberAddress} */}
+                      </div>
+                    </div>
+                </div>
+                {/* {(members.memberRole === 'a' || members.sub === branch.memberDTO.memberId) &&
+                <div className="modifybutton">
+                  <button className="button-19" id="modifyButton">Modify</button>
+                </div>
+                }  */}
+                
+            </div>
         </div>
-        <div class='license-card-back-text' style={{display : 'flex' ,alignItems : 'center'}}>
-          <div><h4>{car?.carNumber}</h4></div>
-          <div>
-            <ul style={{listStyle : 'none' , textAlign : 'left'}}>
-              <li>출고일 : {car?.carDate}</li>
-              <li>특이사항 : {car?.carEtc}</li>
-            </ul>
-          </div>
+        <Button id='leftButton'><KeyboardArrowDownIcon/></Button>
+
         </div>
-      </div>
-      <Button id="leftButton"><KeyboardArrowDownIcon/></Button>
-    </div>
   )
 }
 

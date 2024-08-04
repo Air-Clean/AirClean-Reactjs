@@ -37,8 +37,9 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 export default function BioCard({ driver, setDeleteMember, deleteMember ,setCopy,handleClick}) {
   console.log("biocard=============================");
 
-  
+
   let image = driver?.memberImage;
+
     console.log(image?.split("/")[4]);
 
     console.log("image anjsi", image);
@@ -253,12 +254,16 @@ export default function BioCard({ driver, setDeleteMember, deleteMember ,setCopy
             }}
           >
             <Tooltip title={driver?.driverAndCarDTO?.driverLicenseNumber}>
+
             <IconButton size="sm" variant="plain" color="neutral" onClick={()=>copyToClipboard(driver?.driverAndCarDTO?.driverLicenseNumber)}>
+
               <DirectionsCarIcon/>
             </IconButton>
             </Tooltip>
             <Tooltip title={driver?.memberEmail} variant='solid'>
+
             <IconButton size="sm" variant="plain" color="neutral" onClick={e=>copyToClipboard(driver.memberEmail)}>
+
               <EmailIcon/>
             </IconButton>
             </Tooltip>
