@@ -51,7 +51,7 @@ export function fetchWaterSupply() {
                 }
             }).then(res => res.json());
 
-            console.log('supply result: ', result);
+            // console.log('supply result: ', result);
 
             dispatch({
                 type: SET_WATER_SUPPLY,
@@ -65,8 +65,8 @@ export function fetchWaterSupply() {
 }
 
 export function fetchLaundrySelect(branchCode) {
-    console.log("패치 실행되었습니다");
-    console.log("패치 안에서의 출력입니다: ", branchCode);
+    // console.log("패치 실행되었습니다");
+    // console.log("패치 안에서의 출력입니다: ", branchCode);
 
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/management/selectLaundry/${branchCode}`;
 
@@ -81,7 +81,7 @@ export function fetchLaundrySelect(branchCode) {
                 }
             }).then(res => res.json());
 
-            console.log('supply result: ', result);
+            // console.log('supply result: ', result);
 
             dispatch({
                 type: SET_LAUNDRY_SELECT,

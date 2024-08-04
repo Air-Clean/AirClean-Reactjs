@@ -1,0 +1,11 @@
+/* LaundryDerivation.css */
+
+.table-row {
+    border: 1px solid #cfd7e0;
+    padding: 8px;
+}
+
+.table1 .table-row:hover {
+    background-color: #b2dbf5; /* Change to your desired hover color */
+    cursor: pointer;
+}

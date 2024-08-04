@@ -17,7 +17,7 @@ function WaterTankInformation({ onModalConfirmed }) { // 추가된 콜백 함수
     const members = jwt_decode(window.localStorage.getItem('accessToken'));
 
     useEffect(() => {
-        console.log("컴포넌트 2입니다.")
+        // console.log("컴포넌트 2입니다.")
         try {
             const branchState = JSON.parse(window.localStorage.getItem('branch'));
             if (branchState) {

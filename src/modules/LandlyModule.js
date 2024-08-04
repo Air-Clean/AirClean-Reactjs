@@ -91,7 +91,7 @@ export const { setLaundrySelect } = createActions({
 // 리듀서 정의
 export const selectLaundry = handleActions({
     [SET_LAUNDRY_SELECT]: (state, { payload }) => {
-        console.log('리듀서 호출: SET_LAUNDRY_SELECT', payload);
+        // console.log('리듀서 호출: SET_LAUNDRY_SELECT', payload);
         return {
             ...state,
             waterSupply: payload // 서버에서 받아온 데이터를 payload에 저장
