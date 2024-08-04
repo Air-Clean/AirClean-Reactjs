@@ -12,7 +12,7 @@ export function fetchWaterLevel() {
     }
 
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/water/${branchCode}`;
-    console.log('Request URL:', requestURL);  // URL이 올바른지 확인
+    // console.log('Request URL:', requestURL);  // URL이 올바른지 확인
 
     return async (dispatch) => {
         try {
@@ -30,7 +30,7 @@ export function fetchWaterLevel() {
             }
 
             const result = await response.json();
-            console.log('[fetchWaterLevel] fetchWaterLevel result: ', result);
+            // console.log('[fetchWaterLevel] fetchWaterLevel result: ', result);
 
             dispatch({
                 type: LOCATION_WATER,

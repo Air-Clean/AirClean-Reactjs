@@ -17,6 +17,7 @@ function WaterTankInformation({ onModalConfirmed }) { // 추가된 콜백 함수
     const members = jwt_decode(window.localStorage.getItem('accessToken'));
 
     useEffect(() => {
+        console.log("컴포넌트 2입니다.")
         try {
             const branchState = JSON.parse(window.localStorage.getItem('branch'));
             if (branchState) {
@@ -42,7 +43,7 @@ function WaterTankInformation({ onModalConfirmed }) { // 추가된 콜백 함수
         }
     }, [branchCode, waterTanks]);
 
-    console.log("여기 "+ branchCode);
+    // console.log("여기 "+ branchCode);
 
     const calculateTopValue = (level) => {
         const minLevel = 0;

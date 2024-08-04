@@ -1,0 +1,56 @@
+.laundry-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.laundry-table thead tr {
+    background-color: #f2f2f2;
+    color: #333;
+    text-align: left;
+    font-weight: bold;
+}
+
+.laundry-table th,
+.laundry-table td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+}
+
+.laundry-table tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.laundry-table tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+
+.laundry-table button {
+    border: 2px solid #989898;
+    border-radius: 20px;
+    padding: 3px 15px;
+    width: 90px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #000000;
+}
+
+.laundry-table button.approved,
+.laundry-table button.arrived {
+    background-color: #1270c7;
+    color: #fff;
+}
+
+.laundry-table button.not-approved,
+.laundry-table button.not-arrived {
+    background-color: #fff;
+    color: #000000;
+}
+
+.laundry-table button:hover {
+    border-color: #4da7fb;
+    color: #1270c7;
+}
