@@ -19,18 +19,18 @@ function WaterTank() {
     useEffect(() => {
         const members = jwt_decode(window.localStorage.getItem('accessToken'))
         const memberId = members.sub;
+        console.log("waterTank 컴포넌트 입니다.")
 
-        console.log(members)
-        
+        console.log("브런치 코드 등록 시작")
         if (members.memberRole === 'b') {
             dispatch(callBranchData({ memberId }));
         }
-        
     }, [dispatch])
     
     const branch = useSelector(state => state.getBranchReducer)
     
     useEffect(() => {
+        console.log("컴포넌트 1의 브런치 코드 등록입니다")
         window.localStorage.setItem('branch', JSON.stringify(branch))
         dispatch(fetchWaterLevel());
         dispatch(fetchWaterSupply());
@@ -38,12 +38,11 @@ function WaterTank() {
     
     // ------------------------------------------
 
+    
     const handleModalConfirmed = useCallback(() => {
         dispatch(fetchWaterSupply());
     }, [dispatch]);
 
-    console.log(" waterCondition:", waterCondition);
-    console.log('waterSupply from state: ', waterSupply);
 
     const filteredWaterCondition = waterCondition ? Object.entries(waterCondition).filter(([key]) => key !== 'wToc' && key !== 'siteId' && key !== 'msrDate') : [];
 

@@ -15,26 +15,26 @@ function WaterTankModal({ showModal, handleClose, handleConfirm, waterLevel, bra
         dispatch(fetchWaterLevel());
     }, [dispatch]);
 
-    const getStatusEmoji = (key, value) => {
-        switch (key) {
-            case 'wTemp':
-                return value < 20 ? '🟢' : value < 25 ? '🟡' : '🔴';
-            case 'wPh':
-                return value >= 6.5 && value <= 8.5 ? '🟢' : value >= 6.0 && value < 6.5 || value > 8.5 && value <= 9.0 ? '🟡' : '🔴';
-            case 'wDo':
-                return value > 7.5 ? '🟢' : value > 5.0 ? '🟡' : '🔴';
-            case 'wTn':
-                return value < 1 ? '🟢' : value < 3 ? '🟡' : '🔴';
-            case 'wTp':
-                return value < 0.1 ? '🟢' : value < 0.2 ? '🟡' : '🔴';
-            case 'wPhen':
-                return value < 0.005 ? '🟢' : value < 0.01 ? '🟡' : '🔴';
-            case 'wCn':
-                return value < 0.05 ? '🟢' : value < 0.1 ? '🟡' : '🔴';
-            default:
-                return '🟢';
-        }
-    };
+   const getStatusEmoji = (key, value) => {
+    switch (key) {
+        case 'wTemp':
+            return value < 20 ? '🟢' : value < 25 ? '🟡' : '🔴';
+        case 'wPh':
+            return (value >= 6.5 && value <= 8.5) ? '🟢' : ((value >= 6.0 && value < 6.5) || (value > 8.5 && value <= 9.0)) ? '🟡' : '🔴';
+        case 'wDo':
+            return value > 7.5 ? '🟢' : value > 5.0 ? '🟡' : '🔴';
+        case 'wTn':
+            return value < 1 ? '🟢' : value < 3 ? '🟡' : '🔴';
+        case 'wTp':
+            return value < 0.1 ? '🟢' : value < 0.2 ? '🟡' : '🔴';
+        case 'wPhen':
+            return value < 0.005 ? '🟢' : value < 0.01 ? '🟡' : '🔴';
+        case 'wCn':
+            return value < 0.05 ? '🟢' : value < 0.1 ? '🟡' : '🔴';
+        default:
+            return '🟢';
+    }
+};
 
     if (!showModal) {
         return null;
