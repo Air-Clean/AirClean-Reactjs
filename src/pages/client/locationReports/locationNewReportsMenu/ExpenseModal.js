@@ -33,8 +33,11 @@ function ExpenseModal({show, onClose}) {
         totalExpenseCost: '',
         expenseReportStatus: '접수',
         expenseSubmissionDate: '',
+        monthDate: '',
         branchName: branch.branchName,
-        memberName: member.memberName
+        memberName: member.memberName,
+        branchCode  : branch.branchCode
+
     });
     const handleSubmit = () => {
         const data = {
@@ -80,6 +83,7 @@ function ExpenseModal({show, onClose}) {
         setForm({
         expenseReportStatus: '접수',
         expenseSubmissionDate: '',
+        monthDate: '',
         electricityBill: '',
         waterBill: '',
         gasBill: '',
@@ -88,9 +92,10 @@ function ExpenseModal({show, onClose}) {
         repairCost: '',
         totalExpenseCost: '',
         branchName: branch.branchName,
-        memberName: member.memberName
+        memberName: member.memberName,
+        branchCode  : branch.branchCode
         });
-    }, [show, branch.branchName, member.memberName]);
+    }, [show, branch.branchName, member.memberName, branch.branchCode]);
 
     if (!show){
         return null;
@@ -146,8 +151,6 @@ function ExpenseModal({show, onClose}) {
                     />
                     </FormGroup>
                 </Col>
-            </Row>
-            <Row form>
                 <Col md={6}>
                     <FormGroup>
                     <Label for="waterBill">수도세 : </Label>
@@ -160,6 +163,8 @@ function ExpenseModal({show, onClose}) {
                     />
                     </FormGroup>
                 </Col>
+            </Row>
+            <Row form>
                 <Col md={6}>
                     <FormGroup>
                     <Label for="gasBill">가스비 : </Label>
@@ -172,8 +177,6 @@ function ExpenseModal({show, onClose}) {
                     />
                     </FormGroup>
                 </Col>
-            </Row>
-            <Row form>
                 <Col md={6}>
                     <FormGroup>
                     <Label for="partTimeSalary">알바비 : </Label>
@@ -186,6 +189,8 @@ function ExpenseModal({show, onClose}) {
                     />
                     </FormGroup>
                 </Col>
+            </Row>
+            <Row form>
                 <Col md={6}>
                     <FormGroup>
                     <Label for="repairCost">시설물수리비 : </Label>
@@ -226,6 +231,19 @@ function ExpenseModal({show, onClose}) {
                             </FormGroup>
                         </Col>
                         <Col md={6}>
+                            <FormGroup>
+                                <Label for="monthDate">지출 달</Label>
+                                <Input 
+                                    type="month" 
+                                    id="monthDate"
+                                    value={form.monthDate}
+                                    onChange={handleChange}
+                                />
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <Row form>
+                    <Col md={6}>
                             <FormGroup>
                                 <Label for="remarks">비고</Label>
                                 <Input 
