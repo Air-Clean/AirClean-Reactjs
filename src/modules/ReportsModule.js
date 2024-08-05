@@ -28,6 +28,8 @@ export const DELETEREPAIR = 'DELETEREPAIR'
 export const NEWREPAIR = 'NEWREPAIR'
 export const CARMEMBERS = 'CARMEMBERS'
 
+export const WATER_COST = 'WATER_COST'
+
 
 
 
@@ -52,7 +54,7 @@ createActions({
     [DELETEREPAIR] : () => [],
     [NEWREPAIR] : () => [],
     [CARMEMBERS] : () => [],
-
+    [WATER_COST] : ()=>{}
 })
 
 
@@ -277,6 +279,12 @@ const deleteRepairReducer = handleActions({
     }
 }, initialState)
 
+const waterCostReducer = handleActions({
+    [WATER_COST] : (state,{payload})=>{
+        return payload
+    }
+},initialState)
+
 
 export  {
     // branchSalesReducer,
@@ -287,5 +295,5 @@ export  {
     , detailExpenseReducer, newExpenseReducer, updateEXpenseReducer, deleteEXpenseReducer
     // , findAllRepairReducer
     , detailRepairReducer, newRepairReducer, updateRepairReducer,deleteRepairReducer
-    , carMembersReducer
+    , carMembersReducer , waterCostReducer
 };
