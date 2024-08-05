@@ -20,6 +20,11 @@ export default function GarbageEmp({amount}) {
   const [saveMember, setSaveMember] = useState([]);
   const [isDelete , setIsDelete] = useState(false);
   const [isSave,setIsSave] = useState(false);
+  const [selectMem , setSelectMem] = useState({
+    status : '',
+    members : []
+  })
+
   
 
 
@@ -88,7 +93,7 @@ export default function GarbageEmp({amount}) {
       <div style={{ display: "flex", flexDirection: "column" }}>
         {employee.data.content.length > 0 ? (
           employee.data.content.map((emp) => (
-            <AccordionComponent emp={emp} killMember={killMember} setKillMember={setKillMember} saveMember={saveMember} setSaveMember={setSaveMember} key={emp.employeeId} isDelete={isDelete} isSave={isSave} />
+            <AccordionComponent emp={emp} killMember={killMember} setKillMember={setKillMember} saveMember={saveMember} setSaveMember={setSaveMember} key={emp.employeeId} isDelete={isDelete} isSave={isSave} selectMem={selectMem} setSelectMem={setSelectMem} />
           ))
         ) : (
           <div>No employees found.</div>

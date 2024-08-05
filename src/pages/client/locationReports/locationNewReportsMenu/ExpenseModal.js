@@ -16,6 +16,8 @@ import {
 import jwt_decode from 'jwt-decode';
 import './Modal.css'; // 올바른 경로로 수정
 
+
+
 function ExpenseModal({show, onClose}) {
     const dispatch = useDispatch();
     const [minDate, setMinDate] = useState('');

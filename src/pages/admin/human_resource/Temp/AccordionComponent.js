@@ -58,6 +58,8 @@ function AccordionComponent({
   setSaveMember,
   isDelete,
   isSave,
+  selectMem,
+  setSelectMem
 }) {
   console.log("accorion emp", emp);
   console.log("dslkjdslkdsjf", emp.memberDTO?.memberId);
@@ -73,6 +75,10 @@ function AccordionComponent({
   // Handle delete button click
   const handleDeleteClick = (e) => {
     e.stopPropagation();
+
+    if(selectMem.status===''){
+      setSelectMem({...selectMem, status : 'd'})
+    }
 
     const changeDelete = toggleValue([...killMember], e.currentTarget.name);
 
