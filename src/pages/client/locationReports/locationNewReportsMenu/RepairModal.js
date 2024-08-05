@@ -30,7 +30,8 @@ function RepairModal({ show, onClose }) {
         repairPhoto: '',
         repairReportStatus: '접수',
         branchName: branch.branchName,
-        memberName: member.memberName
+        memberName: member.memberName,
+        branchCode  : branch.branchCode
     });
 
     const handleSubmit = async () => {
@@ -43,6 +44,7 @@ function RepairModal({ show, onClose }) {
         formData.append('repairReportStatus', form.repairReportStatus);
         formData.append('branchName', form.branchName);
         formData.append('memberName', form.memberName);
+        formData.append('branchCode', form.branchCode);
         const newRepirResult  = await dispatch(callNewRepairAPI({ form: formData }));
         if (newRepirResult.ok) {  // 불필요한 공백 제거
         alert('등록이 완료되었습니다!');
@@ -75,9 +77,10 @@ function RepairModal({ show, onClose }) {
             facilityType: '',
             repairPhoto: '',
             branchName: branch.branchName,
-            memberName: member.memberName
+            memberName: member.memberName,
+            branchCode  : branch.branchCode
         });
-    }, [show, branch.branchName, member.memberName]);
+    }, [show, branch.branchName, member.memberName, branch.branchCode]);
 
     const onDropImage = useCallback((acceptedFiles) => {
         const file = acceptedFiles[0];

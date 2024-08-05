@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './NewReports.css';
 import ReportsModal  from './ReportsModal';
 import { useDispatch } from 'react-redux';
-import { callFindVehicleRepairAPI } from '../../../../apis/ReportAPICalls';
+import { callCarMembersAPI } from '../../../../apis/ReportAPICalls';
 
 function NewReports() {
     console.log('보고서 작성 페이지')
@@ -25,7 +25,7 @@ function NewReports() {
     // API
     useEffect(() => {
       // console.log("리덕스 상태 :", result);
-      dispatch(callFindVehicleRepairAPI());
+      dispatch(callCarMembersAPI());
     }, [dispatch])
 
   //   useEffect(() => {
