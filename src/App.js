@@ -46,6 +46,7 @@ import BranchClient from './pages/client/branchClient/BranchClient';
 import Car from './pages/admin/car/Car';
 import MainPage from './pages/admin/main_page/MainPage';
 
+import Cardelivery from './pages/client/cardelivery/Cardelivery';
 
 
 
@@ -137,6 +138,10 @@ function App() {
               <Route path="drum" element={<FacilityDrum/>}/>
               <Route path="dryer" element={<FacilityDryer/>}/>
               <Route path="dryCleaner" element={<FacilityDryCleaner/>}/>
+            </Route>
+
+            <Route path="cardelivery">
+              <Route index element={<Cardelivery/>} />
             </Route>
 
           </Route>
