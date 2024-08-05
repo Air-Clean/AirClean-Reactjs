@@ -9,6 +9,7 @@ import {
   // , UPDATEREPAIR,DELETEREPAIR
   , NEWVEHICLEREPAIR
   , CARMEMBERS
+  ,WATER_COST
 
 } from "../modules/ReportsModule";
 
@@ -532,5 +533,9 @@ export function callWaterCost({branchCode, month}){
     }).then(res=>res.json())
 
     console.log("callWaterCost result 값",result)
+
+    if(result.status===200){
+      dispatch({type : WATER_COST , payload : result.data})
+    }
   }
 }
