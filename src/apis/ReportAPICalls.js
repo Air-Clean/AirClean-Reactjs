@@ -519,6 +519,7 @@ export const callDeleteRepairAPI = ({repairReportCode, data}) => {
 export function callWaterCost({branchCode, month}){
   console.log("callWaterCost",branchCode)
 
+  console.log('month',month)
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/water/cost?branchCode=${branchCode}&month=${month}`
 
   return async (dispatch,getState)=>{
