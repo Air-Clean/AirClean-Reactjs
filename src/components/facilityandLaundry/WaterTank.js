@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchWaterLevel } from "../../apis/CallWaterConditionApi";
 import './WaterTank.css';
 
-import jwt_decode from 'jwt-decode'
+import jwt_decode from 'jwt-decode';
 import { callBranchData } from '../../apis/MemberAPICalls';
 import { fetchWaterSupply } from "../../apis/LandryAPICall";
-
 
 function WaterTank() {
     const dispatch = useDispatch();
@@ -17,7 +16,7 @@ function WaterTank() {
     // ------------------- layout 에서 옮긴 코드 -----------------------
 
     useEffect(() => {
-        const members = jwt_decode(window.localStorage.getItem('accessToken'))
+        const members = jwt_decode(window.localStorage.getItem('accessToken'));
         const memberId = members.sub;
         // console.log("waterTank 컴포넌트 입니다.")
 
@@ -25,24 +24,22 @@ function WaterTank() {
         if (members.memberRole === 'b') {
             dispatch(callBranchData({ memberId }));
         }
-    }, [dispatch])
+    }, [dispatch]);
     
-    const branch = useSelector(state => state.getBranchReducer)
+    const branch = useSelector(state => state.getBranchReducer);
     
     useEffect(() => {
         // console.log("컴포넌트 1의 브런치 코드 등록입니다")
-        window.localStorage.setItem('branch', JSON.stringify(branch))
+        window.localStorage.setItem('branch', JSON.stringify(branch));
         dispatch(fetchWaterLevel());
         dispatch(fetchWaterSupply());
-    }, [branch, dispatch])
+    }, [branch, dispatch]);
     
     // ------------------------------------------
 
-    
     const handleModalConfirmed = useCallback(() => {
         dispatch(fetchWaterSupply());
     }, [dispatch]);
-
 
     const filteredWaterCondition = waterCondition ? Object.entries(waterCondition).filter(([key]) => key !== 'wToc' && key !== 'siteId' && key !== 'msrDate') : [];
 
@@ -89,7 +86,7 @@ function WaterTank() {
 
     const keyToKorean2 = {
         waterSupplyCode: '급수일지번호',
-        msrDate: '측정 날짜',
+        supplyDate: '측정 날짜',
         waterTankNo: '물탱크 번호',
         waterVolume: '급수량',
         siteId: '측정소 ID',
@@ -103,9 +100,17 @@ function WaterTank() {
     };
 
     const keyOrder = [
-        'waterSupplyCode', 'msrDate', 'waterTankNo', 'waterVolume',
+        'waterSupplyCode', 'supplyDate', 'waterTankNo', 'waterVolume',
         'siteId', 'wTemp', 'wPh', 'wDo', 'wTn', 'wTp', 'wCn', 'wPhen'
     ];
+
+    const formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
     return (
         <>  
@@ -146,7 +151,9 @@ function WaterTank() {
                                         {waterSupply && waterSupply.map((supply, rowIndex) => (
                                             <tr key={rowIndex}>
                                                 {keyOrder.map((key, colIndex) => (
-                                                    <td key={colIndex} style={{ padding: '5px', textAlign: 'center' }}>{supply[key]}</td>
+                                                    <td key={colIndex} style={{ padding: '5px', textAlign: 'center' }}>
+                                                        {key === 'supplyDate' ? formatDate(supply[key]) : supply[key]}
+                                                    </td>
                                                 ))}
                                             </tr>
                                         ))}

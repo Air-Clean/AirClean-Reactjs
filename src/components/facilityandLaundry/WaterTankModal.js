@@ -106,7 +106,7 @@ function WaterTankModal({ showModal, handleClose, handleConfirm, waterLevel, bra
                     <br></br>
                     <p>정말로 급수를 진행하시겠습니까?</p>
                     <label>
-                        급수량 (최대 {maxSupplyAmount} L):
+                        급수량 (최대 {maxSupplyAmount} KL):
                         <input
                             type="number"
                             value={supplyAmount}
