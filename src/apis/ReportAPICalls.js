@@ -512,3 +512,25 @@ export const callDeleteRepairAPI = ({repairReportCode, data}) => {
     }
   };
 };
+
+
+// 수도세 확인
+export function callWaterCost({branchCode, month}){
+  console.log("callWaterCost",branchCode)
+
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/water/cost?branchCode=${branchCode}&month=${month}`
+
+  return async (dispatch,getState)=>{
+    const result = await fetch(requestURL,{
+      method : "GET",
+      headers : {
+        'Content-Type' : 'application/json',
+        Accept : '*/*',
+        Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+      }
+
+    }).then(res=>res.json())
+
+    console.log("callWaterCost result 값",result)
+  }
+}
