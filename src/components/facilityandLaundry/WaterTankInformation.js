@@ -87,12 +87,12 @@ function WaterTankInformation({ onModalConfirmed }) { // 추가된 콜백 함수
                                     <div className="wave layer_1"></div>
                                 </div>
                             </div>
-                            <span className='waterText'>{waterLevel}L</span>
+                            <span className='waterText'>{waterLevel}KL</span>
                             <img src={waterTank} className='waterTank' alt="waterTank" style={{ width: '160px', height: 'auto' }} />
                         </div>
                         <div style={{ width: '165px', height: '20%', color: 'white', fontSize: '13px', position: 'relative' }}>
                             <div>
-                                <p style={{ position: 'absolute', top: '-20px' }}>*총 용량: 10000L</p>
+                                <p style={{ position: 'absolute', top: '-20px' }}>*총 용량: 10000KL</p>
                             </div>
                         </div>
                     </div>
