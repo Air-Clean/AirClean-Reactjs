@@ -50,6 +50,8 @@ function LocationMyReports() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [activeTable, dispatch, current]); // result를 의존성 배열에 포함
 
+      
+
     const renderTable = () => {
     switch (activeTable) {
         case '매출':

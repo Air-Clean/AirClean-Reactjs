@@ -6,9 +6,7 @@ import { useDropzone } from 'react-dropzone';
 import '../../../admin/report/reportsMenu/BranchSalesDetail.css';
 import jwtDecode from 'jwt-decode';
 
-const getRepairImageUrl = (repairPhoto) => {
-    return `http://${process.env.REACT_APP_RESTAPI_IP}:8080/memberimgs/${repairPhoto}`;
-};
+
 
 function LocationRepairDetail() {
     const params = useParams();
@@ -70,12 +68,10 @@ function LocationRepairDetail() {
         form.append('repairContent', formData.repairContent);
         form.append('facilityCount', formData.facilityCount);
         form.append('facilityType', formData.facilityType);
-        // if (formData.repairPhoto instanceof File) {
-        //     form.append('repairImages', formData.repairPhoto);
-        // } else {
-        //     form.append('repairImages', new Blob([JSON.stringify(formData.repairPhoto)], { type: 'application/json' }));
-        // }
-        form.append('repairImages', formData.repairPhoto)
+        // form.append('repairImages', formData.repairPhoto)
+        if (formData.repairPhoto) {
+            form.append('repairImages', formData.repairPhoto);
+        }
 
         const updateRepairResult = await dispatch(callUpdateRepairAPI({ repairReportCode: formData.repairReportCode, data: form }));
         setIsEditMode(false);
@@ -121,6 +117,10 @@ function LocationRepairDetail() {
             "image/*": [".jpeg", ".jpg", ".png"]
         }
     });
+
+    const getRepairImageUrl = (repairPhoto) => {
+        return `http://${process.env.REACT_APP_RESTAPI_IP}:8080/memberimgs/${repairPhoto}`;
+    };
 
     return (
         <div className="branchDetail_menu1_layout">
