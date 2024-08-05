@@ -1,15 +1,14 @@
 
-.menu1_layout {
+.facility_menu1_layout {
     display: flex;
     justify-content: center;
     width: 100vw;
-    background-color: rgb(211, 211, 211);
 }
   
-.flex_wrap {
+.facility_flex_wrap {
     width: 80vw;
-    background-color: rgb(255, 255, 255);
     padding: 20px;
+    height: 100vh;
     padding-left: 40px;
     padding-right: 40px;
 }
@@ -17,16 +16,16 @@
 .facility_navbar {
     display: flex;
     justify-content: flex-start; /* 버튼을 오른쪽으로 정렬 */
+    margin-bottom: 3%;
+    margin-top: 1.5%;
     padding: 10px 20px; /* 네비게이션 바의 내부 패딩 조정 */
-    background-color: #f4f4f4; /* 배경 색상 */
     width: 100%; /* 네비게이션 바의 너비를 100%로 설정 */
     box-sizing: border-box; /* 패딩과 테두리를 전체 너비에 포함 */
 }
 
 .facility_nav-button {
     padding: 10px 20px; /* 패딩 조정 */
-    background-color: #2196f3; /* 기본 배경 색상 */
-    color: white;
+    color: black;
     border: none;
     border-radius: 5px;
     text-decoration: none; /* 링크의 밑줄 제거 */
@@ -37,6 +36,9 @@
     margin-left: 10px; /* 버튼 간의 간격 추가 */
 }
 
-.facility_nav-button:hover {
-    background-color: #0056b3; /* 호버 시 배경 색상 */
+/* FacilityLayout.css */
+.facility_nav-button.active {
+    background-color: #007BFF;
+    color: white !important;  /* !important로 우선순위를 높여 적용 */
 }
+
