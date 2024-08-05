@@ -4,6 +4,7 @@ export const EMPLOYEE = 'EMPLOYEE'
 export const BRANCH = 'BRANCH'
 export const DRIVER = 'DRIVER'
 export const BRANCH_WITHOUT_OWNER = 'BRANCH_WITHOUT_OWNER'
+export const BRANCH_COUNT = 'BRANCH_COUNT'
 
 const initState = [];
 
@@ -12,6 +13,7 @@ createActions({
     [BRANCH] : ()=>{},
     [DRIVER] : ()=>{},
     [BRANCH_WITHOUT_OWNER] : ()=>{},
+    [BRANCH_COUNT] : ()=>{},
 })
 
 export const humanReducer = handleActions({
@@ -32,3 +34,9 @@ export const humanBranchReducer = handleActions({
     }
 },initState)
 
+
+export const branchCountReducer = handleActions({
+    [BRANCH_COUNT] : (state,{payload})=>{
+        return payload;
+    }
+},initState)

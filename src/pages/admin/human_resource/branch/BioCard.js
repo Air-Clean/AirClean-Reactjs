@@ -28,11 +28,13 @@ import EmailIcon from '@mui/icons-material/Email';
 import ReactDOMServer from 'react-dom/server'
 import ReactDOM from "react-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
+import Tooltip from '@mui/joy/Tooltip';
+import DrawIcon from '@mui/icons-material/Draw';
 
 
 export default function BioCard({ branch, setDeleteMember, deleteMember }) {
   console.log("biocard=============================");
+  console.log('branch',branch)
 
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
       let image =branch?.memberDTO?.memberImage;
@@ -40,50 +42,10 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
     console.log(image?.split('/')[4])
 
     console.log('image anjsi',image);
-
-    if(image.split('/')[4]==='null'){
+  
+    if(image?.split('/')[4]==='null'){
       image = noProfile;
     }
-
-  // function showBusinessCard() {
-
-
-  //   const businessCardHtml = ReactDOMServer.renderToString(
-  //     <BusinessCard branch={branch} logo={logo} image={image} members={members}/>
-  //   )
-
-  //       Swal.fire({
-  //           showClass: {
-  //         popup: `
-  //           animate__animated
-  //           animate__fadeInUp
-  //           animate__faster
-  //         `
-  //       },
-  //       hideClass: {
-  //         popup: `
-  //           animate__animated
-  //           animate__fadeOutDown
-  //           animate__faster
-  //         `
-  //       },
-  //           html: businessCardHtml,
-  //           width: 'auto',
-  //           padding: '10px',
-  //           background: 'transparent', // 배경 제거
-  //           customClass: {
-  //               container: 'swal2-container'
-  //           },
-  //           showConfirmButton: false,
-  //           didRender: () => {
-  //             // Swal.fire가 렌더링 된 후에 이벤트 리스너를 추가합니다.
-  //             if(document.getElementById('modifyButton')){
-  //               document.getElementById('modifyButton').addEventListener('click', toggle);
-  //             }
-              
-  //         }
-  //       });
-  //   }
 
   function showBusinessCard() {
     const businessCardHtml = ReactDOMServer.renderToString(
@@ -160,7 +122,7 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
       showConfirmButton: false,
       didRender: () => {
         ReactDOM.render(
-          <BusinessCardBack car={branch}/>,
+          <BusinessCardBack branch={branch} logo={logo}/>,
           document.getElementById("business-card-back")
         );
   
@@ -378,13 +340,7 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
                     <hr />
                     <div>
 
-                      {branch?.branchDTO ? 
-                      <div>
-                        <LocalLaundryServiceIcon/>
-                        {getPhoneNumber(branch?.branchDTO?.branchPhone)}
-                      </div>
-                            
-                       : ''}
+                      
                       <div style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
                         <StayCurrentPortraitIcon/>
                         {getPhoneNumber(branch?.memberDTO?.memberPhoneNumber)}
@@ -409,6 +365,14 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
                 </div>
                 }  */}
                 
+                
+            </div>
+            <div style={{display : 'flex' , alignSelf : 'flex-end'}}>
+            <Tooltip title='modify' variant='solid'>
+            <IconButton className="license-modify" id='modifyButton'>
+              <DrawIcon/>
+            </IconButton>
+          </Tooltip>
             </div>
         </div>
         <Button id='rightButton'><KeyboardArrowDownIcon/></Button>
@@ -416,7 +380,9 @@ export default function BioCard({ branch, setDeleteMember, deleteMember }) {
     );
 }
 
-function BusinessCardBack(){
+function BusinessCardBack({logo,branch}){
+
+  console.log('back branch',branch)
   return(
 
 
@@ -424,9 +390,9 @@ function BusinessCardBack(){
         <div className="business-card">
             <img src={logo} alt="이미지 없음" className="top-text" />
             <div className="content">
-                {/* <img src={image} alt="사진 없음" className="profile" />
-                <div className="name">{branch.memberDTO.memberName}</div>
-                <div className="handle">{branch.branchDTO ? branch.branchDTO.branchName : 'no site'}</div> */}
+                <img src={branch.branchDTO.branchImage} alt="이미지 없음" width={'100%'} height={'30%'}/>
+                <div className="name">{branch.branchDTO.branchName}</div>
+                <div className="handle">{branch.branchDTO.branchRegion}</div>
                 <div className="contact-info">
                     <div>
                         {/* {branch.branchDTO ? branch.branchDTO.branchRegion : ''} */}
@@ -435,28 +401,20 @@ function BusinessCardBack(){
                     <hr />
                     <div>
 
-                      {/* {branch.branchDTO ? 
+                      {branch.branchDTO ? 
                       <div>
                         <LocalLaundryServiceIcon/>
                         {getPhoneNumber(branch.branchDTO.branchPhone)}
                       </div>
                             
-                       : ''} */}
-                      <div style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
-                        <StayCurrentPortraitIcon/>
-                        {/* {getPhoneNumber(branch.memberDTO.memberPhoneNumber)} */}
-                      </div>
+                       : ''}
                     </div>
                     <div>
-                      <div style={{ display : 'flex' , justifyContent : 'space-evenly'}}>
-                        <EmailIcon/>
-                        {/* {branch.memberDTO.memberEmail} */}
-                      </div>
                     </div>
                     <div>
                       <div>
                         <GiteIcon/>
-                        {/* {branch.memberDTO.memberAddress} */}
+                        {branch.branchDTO.branchAddress}
                       </div>
                     </div>
                 </div>
