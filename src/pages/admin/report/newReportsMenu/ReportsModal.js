@@ -27,6 +27,7 @@ function ReportsModal({ show, onClose }) {
   const [selectedDriverLicenseNumber, setSelectedDriverLicenseNumber] = useState(''); // 추가된 상태
   const [selectedType, setSelectedType] = useState('');
 
+
   const [form, setForm] = useState({
     vehicleReportStatus: '접수',
     vehicleRemark: '',
@@ -55,7 +56,7 @@ function ReportsModal({ show, onClose }) {
       totalVehicleRepairCost: '',
       beforeVehiclePhoto: '',
       afterVehiclePhoto: '',
-      vehicleType: '' 
+      vehicleType: '' ,
     });
     setSelectedDriverName('');
     setSelectedDriverLicenseNumber(''); // 상태 초기화

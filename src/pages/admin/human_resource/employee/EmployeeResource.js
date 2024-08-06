@@ -9,6 +9,7 @@ import { useDispatch,useSelector } from "react-redux";
 import { callEmployeeList, callSoftDeleteEmployee } from "../../../../apis/HRAPICalls";
 import { Grid } from "@mui/material";
 import 'animate.css';
+import Snackbar from '@mui/material/Snackbar';
 
 
 
@@ -21,6 +22,22 @@ function EmployeeResource() {
     const [deleteMember, setDeleteMember] = useState([]);
     const [isButtonVisible, setIsButtonVisible] = useState(false);
     const [animationClass, setAnimationClass] = useState('animate__animated animate__fadeInUp');
+
+    const [state, setState] = useState({
+      open : false,
+      vertical : 'top',
+      horizontal : 'left',
+  })
+  const [copy , setCopy] = useState('');
+  const {vertical , horizontal , open}=state;
+
+  const handleClick=()=>{
+      setState({...state,open : true})
+  }
+  const handleClose = () => {
+      setCopy('')
+      setState({ ...state, open: false });
+  };
     
     // redux
 
@@ -75,7 +92,7 @@ function EmployeeResource() {
         </div>
         <Grid container spacing={1}  justifyContent="flex-start">
           {employee?.map((e) => (
-              <BioCard emp={e} key={e?.memberDTO?.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
+              <BioCard emp={e} key={e?.memberDTO?.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember} setCopy={setCopy} handleClick={handleClick}/>
           ))}
           {isButtonVisible && (
           <div className={`deleteButtonCss ${animationClass}`}>
@@ -91,7 +108,16 @@ function EmployeeResource() {
           </div>
         
         
-        
+          <Snackbar
+          anchorOrigin={{vertical , horizontal}}
+          open={open}
+          onClose={handleClose}
+          message={`${copy} Copied!`}
+          key={vertical+horizontal}
+          />
+          <Snackbar
+
+          />
         
       </div>
     </>

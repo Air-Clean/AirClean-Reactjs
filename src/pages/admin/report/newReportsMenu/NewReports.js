@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './NewReports.css';
 import ReportsModal  from './ReportsModal';
 import { useDispatch } from 'react-redux';
-import { callFindVehicleRepairAPI } from '../../../../apis/ReportAPICalls';
+// import { callCarMembersAPI } from '../../../../apis/ReportAPICalls';
 
 function NewReports() {
     console.log('보고서 작성 페이지')
@@ -11,7 +11,6 @@ function NewReports() {
     const [showModal, setShowModal] = useState(false);
     // API
     const dispatch = useDispatch();
-    // const result = useSelector(state => state.vehicleRepairReducer)
 
     // 모달창
     const handleOpenModal = () => {
@@ -22,27 +21,17 @@ function NewReports() {
       setShowModal(false);
     }
 
-    // API
-    useEffect(() => {
-      // console.log("리덕스 상태 :", result);
-      dispatch(callFindVehicleRepairAPI());
-    }, [dispatch])
+    // // API
+    // useEffect(() => {
+    //   dispatch(callCarMembersAPI());
+    // }, [dispatch])
 
-  //   useEffect(() => {
-  //     if (result) {
-  //         // result가 변경될 때 수행할 작업
-  //         console.log("result가 변경되었습니다:", result);
-  //     }
-  // }, [result]);
 
   return (
     <div className="menu1_layout">
       <div className='flex_wrap'>
         <div className="report-create">
           <h1>보고서 작성</h1>
-          {/* <div className="button-group">
-            <button className="register-button" onClick={handleOpenModal}>보고서 작성</button>
-          </div> */}
           <table className="report-table">
             <thead>
               <tr>
@@ -60,11 +49,6 @@ function NewReports() {
              </tr>
             </tbody>
           </table>
-          <div className="pagination">
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-          </div>
           <ReportsModal show={showModal} onClose={handleCloseModal}/>
         </div>
       </div>

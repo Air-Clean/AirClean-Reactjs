@@ -92,7 +92,7 @@ export default function GarbageResource({direction}) {
       <CustomTabPanel value={value} index={2}>
         <GarbageDriver amount={amount}/>
       </CustomTabPanel>
-      <Paging setCurrent='1' end='3'/>
+      {/* <Paging setCurrent='1' end='3'/> */}
     </Box>
   );
 }

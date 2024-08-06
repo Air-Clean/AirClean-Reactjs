@@ -92,7 +92,7 @@ export default function BranchInformation({ branch, facility }) {
             <>
                 <div>
           <Avatar
-            src={manager.memberImage || "/static/images/avatar/1.jpg"}
+            src={manager?.memberImage || "/static/images/avatar/1.jpg"}
             sx={{ "--Avatar-size": "6rem" }}
           />
         </div>
@@ -105,19 +105,19 @@ export default function BranchInformation({ branch, facility }) {
           }}
         >
           <div>
-            <strong>E-mail</strong> : {manager.memberEmail}
+            <strong>E-mail</strong> : {manager?.memberEmail}
           </div>
           <div>
-            <strong>Phone</strong> : {manager.memberPhoneNumber}
+            <strong>Phone</strong> : {manager?.memberPhoneNumber}
           </div>
           <div>
-            <strong>Birth</strong> : {manager.memberBirthDate}
+            <strong>Birth</strong> : {manager?.memberBirthDate}
           </div>
           <div>
-            <strong>Gender</strong> : {manager.memberGender}
+            <strong>Gender</strong> : {manager?.memberGender}
           </div>
           <div>
-            <strong>Address</strong> : {manager.memberAddress}
+            <strong>Address</strong> : {manager?.memberAddress}
           </div>
         </div>
             </>

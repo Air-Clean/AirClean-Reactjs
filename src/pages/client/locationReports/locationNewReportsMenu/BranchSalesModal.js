@@ -41,7 +41,8 @@ function BranchSalesModal({ show, onClose }) {
     dryerSheet: '',
     totalBranchSalesCost: '',
     branchName: branch.branchName,
-    memberName: member.memberName
+    memberName: member.memberName,
+    branchCode  : branch.branchCode
   });
 
   // 금액 입력 
@@ -60,9 +61,10 @@ function BranchSalesModal({ show, onClose }) {
       dryerSheet: '',
       totalBranchSalesCost: '',
       branchName: branch.branchName,
-      memberName: member.memberName
+      memberName: member.memberName,
+      branchCode: branch.branchCode
     });
-  }, [show, branch.branchName, member.memberName]);
+  }, [show, branch.branchName, member.memberName, branch.branchCode]);
 
   // 금액 
   useEffect(() => {

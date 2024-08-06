@@ -59,7 +59,7 @@ function AccordionDriverComponent({
   isDelete,
   isSave,
 }) {
-  console.log("accorion emp", emp);
+  console.log("accorion driver", emp);
 //   console.log("dslkjdslkdsjf", emp.memberDTO.memberId);
   const [expanded, setExpanded] = useState(null);
   const [canSave, setCanSave] = useState(false);
@@ -67,8 +67,8 @@ function AccordionDriverComponent({
 
   const [deleteChecked, setDeleteChecked] = useState(false);
 
-//   const image = emp.memberDTO.memberImage.split("/")[4];
-//   const phone = getPhoneNumber(emp.memberDTO.memberPhoneNumber);
+  const image = emp?.memberImage?.split("/")[4];
+  const phone = getPhoneNumber(emp.memberPhoneNumber);
 
   // Handle delete button click
   const handleDeleteClick = (e) => {
@@ -136,11 +136,11 @@ function AccordionDriverComponent({
                 width: "10vw",
               }}
             >
-              {/* <Avatar src={image ? emp.memberDTO.memberImage : "profile"} /> */}
-              {/* <div>{emp.memberDTO.memberName}</div> */}
+              <Avatar src={image ? emp.memberImage : "profile"} />
+              <div>{emp.memberName}</div>
             </div>
-            <div>{emp.employeeDept}</div>
-            <div>{emp.employeePosition}</div>
+            {/* <div>{emp.employeeDept}</div>
+            <div>{emp.employeePosition}</div> */}
 
             {/* Buttons aligned to the right */}
             <div
@@ -155,7 +155,7 @@ function AccordionDriverComponent({
                 <IconButton
                   disabled={isSave}
                   onClick={handleDeleteClick}
-                //   name={emp.memberDTO.memberId}
+                  name={emp.memberId}
                 >
                   <Avatar style={{ backgroundColor: canDelete && "red" }}>
                   <DeleteIcon />
@@ -166,7 +166,7 @@ function AccordionDriverComponent({
                 <IconButton
                   disabled={isDelete}
                   onClick={handleRotateClick}
-                //   name={emp.memberDTO.memberId}
+                  name={emp.memberId}
                 >
                   <Avatar style={{ backgroundColor: canSave && "blue" }}>
                   <RotateLeftIcon />
@@ -182,30 +182,30 @@ function AccordionDriverComponent({
               <div className="info-group left">
                 <div className="info-item">
                   <strong>Name : </strong>{" "}
-                  {/* <span>{emp.memberDTO.memberName}</span> */}
+                  <span>{emp.memberName}</span>
                 </div>
                 <div className="info-item">
-                  {/* <strong>ID : </strong> <span>{emp.memberDTO.memberId}</span> */}
+                  <strong>ID : </strong> <span>{emp.memberId}</span>
                 </div>
-                <div className="info-item">
+                {/* <div className="info-item">
                   <strong>Position :</strong>{" "}
                   <span>{emp.employeePosition}</span>
                 </div>
                 <div className="info-item">
                   <strong>Department :</strong> <span>{emp.employeeDept}</span>
-                </div>
+                </div> */}
               </div>
               <div className="info-group right">
                 <div className="info-item">
                   <strong>E-mail :</strong>{" "}
-                  {/* <span>{emp.memberDTO.memberEmail}</span> */}
+                  <span>{emp.memberEmail}</span>
                 </div>
                 <div className="info-item">
-                  {/* <strong>Phone :</strong> <span>{phone}</span> */}
+                  <strong>Phone :</strong> <span>{phone}</span>
                 </div>
                 <div className="info-item">
                   <strong>Address : </strong>{" "}
-                  {/* <span>{emp.memberDTO.memberAddress}</span> */}
+                  <span>{emp.memberAddress}</span>
                 </div>
               </div>
             </div>

@@ -47,6 +47,12 @@ import Car from './pages/admin/car/Car';
 import MainPage from './pages/admin/main_page/MainPage';
 
 
+import { useDispatch } from 'react-redux';
+import { POST_LOGIN } from './modules/MemberModule';
+
+import Cardelivery from './pages/client/cardelivery/Cardelivery';
+
+
 
 
 
@@ -61,6 +67,22 @@ import MainPage from './pages/admin/main_page/MainPage';
 
 
 function App() {
+
+  const dispatch = useDispatch();
+
+useEffect(() => {
+    const handleBeforeUnload = () => {
+        window.localStorage.removeItem('accessToken');
+        dispatch({ type: POST_LOGIN, payload: '' });
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+}, [dispatch]);
+
 
   return (
     <AuthProvider>
@@ -138,6 +160,10 @@ function App() {
               <Route path="drum" element={<FacilityDrum/>}/>
               <Route path="dryer" element={<FacilityDryer/>}/>
               <Route path="dryCleaner" element={<FacilityDryCleaner/>}/>
+            </Route>
+
+            <Route path="cardelivery">
+              <Route index element={<Cardelivery/>} />
             </Route>
 
           </Route>
