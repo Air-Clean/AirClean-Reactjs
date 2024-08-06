@@ -66,8 +66,6 @@ import Cardelivery from './pages/client/cardelivery/Cardelivery';
 // 12
 
 
-
-
 function App() {
 
 
