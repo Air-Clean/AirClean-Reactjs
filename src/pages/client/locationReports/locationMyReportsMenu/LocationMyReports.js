@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { callFindBranchSalesAPI, callFindExpenseAPI, callFindRepairAPI } from '../../../../apis/ReportAPICalls';
+import { callFindByMemberNameBranchSalesAPI, callFindByMemberNameExpenseAPI, callFindByMemberNameRepairAPI } from '../../../../apis/ReportAPICalls';
 import { useNavigate, useLocation } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import './LocationMyReports.css';
@@ -13,43 +13,55 @@ function LocationMyReports() {
     const [current, setCurrent] = useState(1);
 
   // 매출보고서 
-  const branchSalesResult = useSelector(state => state.branchSalesReducer);
-  const branchSalesList = branchSalesResult.branchSalesList || [];
-  const branchSalesTotalPages = branchSalesResult.totalPages || 1;
+    const branchSalesMemberNameResult = useSelector(state => state.branchSalesMemberNameReducer);
+    const branchSalesList = branchSalesMemberNameResult?.branchSalesList || [];
+    const branchSalesTotalPages = branchSalesMemberNameResult?.totalPages || 1;
 
   // 매출보고서 페이지 이동
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
   // 지출보고서 
-  const expenseResult = useSelector(state => state.expenseReducer);
-  const expenseList = expenseResult.expenseList || [];
-  const expenseTotalPages = expenseResult.totalPages || 1;
+    const expenseMemberNameResult = useSelector(state => state.expenseMemberNameReducer);
+    const expenseList = expenseMemberNameResult?.expenseList || [];
+    const expenseTotalPages = expenseMemberNameResult?.totalPages || 1;
+
+    console.log("expenseMemberNameResult",expenseMemberNameResult)
 
   // 지점 수리보고서 
-  const repairResult = useSelector(state => state.findAllRepairReducer);
-  const repairList = repairResult.repairList || [];
-  const repairTotalPages = repairResult.totalPages || 1;
+    const repairMemberNameResult = useSelector(state => state.repairMemberNameReducer);
+    const repairList = repairMemberNameResult?.repairList || [];
+    const repairTotalPages = repairMemberNameResult?.totalPages || 1;
 
-
+    console.log("repairMemberNameResult",repairMemberNameResult)
   // 로그인한 사용자 정보 가져오기
     const member = jwtDecode(window.localStorage.getItem('accessToken'));
     const memberName = member.memberName;
     console.log('로그인정보 : ', member);
 
     useEffect(() => {
-        console.log('리덕스 상태 result:', { branchSalesResult, expenseResult, repairResult });
+        console.log('리덕스 상태 result:', { branchSalesMemberNameResult, expenseMemberNameResult, repairMemberNameResult });
         if (activeTable === '매출') {
-          dispatch(callFindBranchSalesAPI({ current }));
+            dispatch(callFindByMemberNameBranchSalesAPI({ current, memberName }));
         } else if (activeTable === '지출') {
-          dispatch(callFindExpenseAPI({ current }));
+            dispatch(callFindByMemberNameExpenseAPI({ current, memberName }));
         } else if (activeTable === '시설물수리') {
-          dispatch(callFindRepairAPI({ current }));
+            dispatch(callFindByMemberNameRepairAPI({ current, memberName }));
         }
         
         // 이 주석은 ESLint 경고를 비활성화합니다.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [activeTable, dispatch, current]); // result를 의존성 배열에 포함
+      }, [activeTable, dispatch, current, memberName]); // result를 의존성 배열에 포함
 
+      const handlePageChange = (page) => {
+        setCurrent(page);
+        if (activeTable === '매출') {
+          dispatch(callFindByMemberNameBranchSalesAPI({ current: page, memberName }));
+        } else if (activeTable === '지출') {
+          dispatch(callFindByMemberNameExpenseAPI({ current: page, memberName }));
+        } else if (activeTable === '시설물수리') {
+          dispatch(callFindByMemberNameRepairAPI({ current: page, memberName }));
+        }
+      };
       
 
     const renderTable = () => {
@@ -67,7 +79,7 @@ function LocationMyReports() {
                 </tr>
             </thead>
             <tbody>
-                {branchSalesList.filter(item => item.memberName === memberName).map((item) => (
+                {branchSalesList.map((item) => (
                 <tr key={item.branchReportCode}>
                     <td>{item.branchReportCode}</td>
                     <td>{item.branchName}</td>
@@ -92,7 +104,7 @@ function LocationMyReports() {
                 </tr>
             </thead>
             <tbody>
-                {expenseList.filter(expense => expense.memberName === memberName).map((expense) => (
+                {expenseList.map((expense) => (
                 <tr key={expense.expenseReportCode}>
                     <td>{expense.expenseReportCode}</td>
                     <td>{expense.branchName}</td>
@@ -118,7 +130,7 @@ function LocationMyReports() {
                 </tr>
             </thead>
             <tbody>
-                {repairList.filter(repair => repair.memberName === memberName).map((repair) => (
+                {repairList.map((repair) => (
                 <tr key={repair.repairReportCode}>
                     <td>{repair.repairReportCode}</td>
                     <td>{repair.branchName}</td>
@@ -177,7 +189,7 @@ function LocationMyReports() {
             <div className="table-container">
             {renderTable()}
             </div>
-            <Paging setCurrent={setCurrent} end={getTotalPages()} />
+            <Paging setCurrent={handlePageChange} end={getTotalPages()} />
         </div>
         </div>
     </div>

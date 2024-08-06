@@ -23,7 +23,8 @@ function LocationExpenseDetail() {
         totalExpenseCost: '0',
         memberName: '',
         branchName: '',
-        expenseSubmissionDate: ''
+        expenseSubmissionDate: '',
+        monthDate: ''
     });
 
     console.log('members page', members);
@@ -47,7 +48,8 @@ function LocationExpenseDetail() {
                 totalExpenseCost: expenseDetail.totalExpenseCost?.toString() || '0',
                 memberName: expenseDetail.memberName || '',
                 branchName: expenseDetail.branchName || '',
-                expenseSubmissionDate: expenseDetail.expenseSubmissionDate || ''
+                expenseSubmissionDate: expenseDetail.expenseSubmissionDate || '',
+                monthDate: expenseDetail.monthDate || ''
             });
         }
     }, [expenseDetail]);
@@ -143,7 +145,9 @@ function LocationExpenseDetail() {
                                 <th>지점명</th>
                                 <td>{expenseDetail.branchName}</td>
                                 <th>제출일</th>
-                                <td colSpan="3">{new Date(expenseDetail.expenseSubmissionDate).toLocaleDateString()}</td>
+                                <td>{new Date(expenseDetail.expenseSubmissionDate).toLocaleDateString()}</td>
+                                <th>지출 달</th>
+                                <td>{expenseDetail.monthDate}</td>
                             </tr>
                         </thead>
                         <tbody>
