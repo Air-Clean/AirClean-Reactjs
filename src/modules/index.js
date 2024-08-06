@@ -23,7 +23,7 @@ import facilityDetailInfoReducer from "./FacilityModule";
 
 import {waterLevelReducer} from "./LandlyModule";
 import {selectLocationWater} from "./LandlyModule";
-import {selectWaterSupply, selectLaundry} from "./LandlyModule";
+import {selectWaterSupply, selectLaundry, selectLaundryWay} from "./LandlyModule";
 
 
 
@@ -75,7 +75,8 @@ const rootReducer = combineReducers({
     waterLevelReducer,
     selectLocationWater,
     selectWaterSupply,
-    selectLaundry
+    selectLaundry,
+    selectLaundryWay
 
 
 })
