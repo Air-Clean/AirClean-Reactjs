@@ -41,9 +41,9 @@ function ExpenseModal({ show, onClose }) {
   });
 
   const addComma = (price) => {
-            let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return returnString;
-        }
+    let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return returnString;
+     }
   const handleSubmit = () => {
     const data = {
       ...form,

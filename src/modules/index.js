@@ -15,6 +15,7 @@ import {
     , expenseReducer, detailExpenseReducer, newExpenseReducer, updateEXpenseReducer, deleteEXpenseReducer
     , findAllRepairReducer,detailRepairReducer, newRepairReducer, updateRepairReducer,deleteRepairReducer
     , carMembersReducer, waterCostReducer
+    , branchSalesMemberNameReducer, repairMemberNameReducer, expenseMemberNameReducer
 } from "./ReportsModule";
 
 import  {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer}  from "./StockModule";
@@ -61,6 +62,9 @@ const rootReducer = combineReducers({
     deleteRepairReducer,
     carMembersReducer,
     newRepairReducer,
+    branchSalesMemberNameReducer,
+    expenseMemberNameReducer,
+    repairMemberNameReducer,
     waterCostReducer,
     
     detergentsInfoReducer,

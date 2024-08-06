@@ -65,7 +65,9 @@ function ExpenseDetail() {
                 <th>지점명</th>
                 <td>{expenseDetail.branchName}</td>
                 <th>제출일</th>
-                <td colSpan="3">{new Date(expenseDetail.expenseSubmissionDate).toLocaleDateString()}</td>
+                <td>{new Date(expenseDetail.expenseSubmissionDate).toLocaleDateString()}</td>
+                <th>지출 달</th>
+                <td>{expenseDetail.monthDate}</td>
               </tr>
             </thead>
             <tbody>
