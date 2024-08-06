@@ -1,0 +1,67 @@
+/* src/pages/client/cardelivery/Cardelivery.module.css */
+
+/* .cardeliveryLayout {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    background-color: #f5f5f5;
+} */
+
+.flexWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.cardeliveryLayer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 30px;
+    width: 80%;
+    max-width: 1200px; /* 최대 너비 설정 */
+    min-width: 800px; /* 최소 너비 설정 */
+}
+
+.title {
+    color: #333;
+    margin: 0;
+    font-size: 2em;
+}
+
+.cardeliveryTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.cardeliveryTh, .cardeliveryTd {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.cardeliveryTh {
+    background-color: #f2f2f2;
+}
+
+.cardeliveryTr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.cardeliveryTr:hover {
+    background-color: #e0f7fa;
+}
+
+.assigned {
+    color: green;
+}
+
+.notAssigned {
+    color: red;
+}
