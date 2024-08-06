@@ -71,11 +71,15 @@ const AdminHeader = () => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
+  const goMain=()=>{
+    navigate("/company/financial", { replace: false });
+  }
+
   return (
     <>
       <div className={styles.headerContainer}>
         <header className={styles.header}>
-          <div className={styles.logo}>
+          <div className={styles.logo} onClick={goMain} style={{cursor : 'pointer'}}>
             <img src={logo} alt="Logo" />
           </div>
           <div className={styles.actions}>
