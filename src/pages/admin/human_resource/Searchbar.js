@@ -13,6 +13,7 @@ import { useState } from "react";
 import RegistEmployee from "./employee/RegistEmployee";
 import RegistBranch from "./branch/RegistBranch";
 import RegistDriver from './driver/RegistDriver'
+import jwtDecode from "jwt-decode";
 
 
 const Search = styled("div")(({ theme }) => ({
@@ -72,6 +73,7 @@ export default function Searchbar({isRegist , setIsRegist}) {
     setRegist(!regist);
   }
   
+  const members = jwtDecode(window.localStorage.getItem('accessToken'))
  
   
   return (
@@ -96,7 +98,10 @@ export default function Searchbar({isRegist , setIsRegist}) {
           >
             MUI
           </Typography> */}
-          <button class="button-54" role="button" onClick={openModal}>{amI(currentPosition)} 등록</button>
+          {
+            members.memberRole==='a' &&<button class="button-54" role="button" onClick={openModal}>{amI(currentPosition)} 등록</button>
+          }
+          
           <Search>
             <SearchIconWrapper>
               <SearchIcon />

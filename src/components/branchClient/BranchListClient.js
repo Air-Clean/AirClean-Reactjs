@@ -11,10 +11,15 @@ function BranchList({ locationName  , setSelectedBranch ,facility, setFacility ,
     
     const [showModal, setShowModal] = useState(false);
     
+    const branch = JSON.parse(window.localStorage.getItem('branch'))
+
+    console.log('branch.branchchch',branch)
     
     useEffect(()=>{
         dispatch(getManager())
     },[showModal])
+
+    console.log('지점 facility',facility)
 
 
     
@@ -27,9 +32,13 @@ function BranchList({ locationName  , setSelectedBranch ,facility, setFacility ,
         dispatch(callBranchFacility({branchCode : branch.branchCode}))
     };
 
+    useEffect(()=>{
+        dispatch(callBranchFacility({branchCode : branch.branchCode}))
+    },[])
+
     const facilityData = useSelector(state=> state.branchFacilityInfoReducer)
 
-    console.log('시설정보',facilityData)
+    console.log('client 시설정보',facilityData)
 
     useEffect(()=>{
         const laundry = facilityData.filter(f=>f.facilityDTO.facilityCode===1)
