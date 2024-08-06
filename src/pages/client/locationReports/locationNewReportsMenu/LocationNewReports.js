@@ -1,4 +1,4 @@
-import './LocationNewReports.css';
+import styles from './LocationNewReports.module.css';
 import BranchSalesModal from './BranchSalesModal';
 import ExpenseModal from './ExpenseModal';
 import RepairModal from './RepairModal';
@@ -33,12 +33,12 @@ function LocationNewReports() {
         setShowRepairModal(false);
     };
     return (
-        <div className="menu1_layout">
-            <div className="flex_wrap">
-                <div className="report-create">
+        <div className={styles.menu1_layout}>
+            <div className={styles.flex_wrap}>
+                <div className={styles['report-create']}>
                     <h1>보고서 양식</h1>
-                    <div className="button-group"></div>
-                    <table className="report-table">
+                    <div className={styles['button-group']}></div>
+                    <table className={styles['report-table']}>
                         <thead>
                             <tr>
                                 <th>보고서번호</th>
@@ -64,11 +64,6 @@ function LocationNewReports() {
                             </tr>
                         </tbody>
                     </table>
-                    <div className="pagination">
-                        <button>1</button>
-                        <button>2</button>
-                        <button>3</button>
-                    </div>
                     <BranchSalesModal show={showBranchSalesModal} onClose={handleBranchSalesCloseModal} />
                     <ExpenseModal show={showExpenseModal} onClose={handleExpenseCloseModal} />
                     <RepairModal show={showRepairModal} onClose={handleRepairCloseModal} />

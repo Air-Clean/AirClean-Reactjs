@@ -1,14 +1,16 @@
 // apis/ReportAPICalls.js
 import { 
-  BRANCHSALES, DETAILBRANCHSALES, NEWBRANCHSALES
+  BRANCHSALES, DETAILBRANCHSALES, NEWBRANCHSALES, BRANCHSALESMEMBERNAME
   // UPDATEBRANCHSALES, DELETEBRANCHSALES
   , VEHICLEREPAIR, DETAILVEHICLEREPAIR
-  , EXPENSE, DETAILEXPENSE, NEWEXPENSE
+  , EXPENSE, DETAILEXPENSE, NEWEXPENSE, EXPENSEMEMBERNAME
   // ,UPDATEEXPENSE,DELETEEXPENSE
-  , REPAIR, DETAILREPAIR
+  , REPAIR, DETAILREPAIR, REPAIRMEMBERNAME
   // , UPDATEREPAIR,DELETEREPAIR
   , NEWVEHICLEREPAIR
   , CARMEMBERS
+  ,WATER_COST
+
 
 } from "../modules/ReportsModule";
 
@@ -33,6 +35,29 @@ export const callFindBranchSalesAPI = ({current}) => {
 
     // 액션 디스패치
     dispatch({ type: BRANCHSALES, payload: branchSalesResult.data });
+  };
+};
+
+// 매출보고서 필터링페이지처리 전체조회
+export const callFindByMemberNameBranchSalesAPI = ({current, memberName}) => {
+
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/branch-sales?offset=${current}&memberName=${memberName}`;
+
+  return async (dispatch, getState) => {
+    const branchSalesMemberNameResult = await fetch(requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+    }).then((response) => response.json());
+
+    // 응답 데이터 로그 출력
+    console.log('매출 필텅링 API 응답:', branchSalesMemberNameResult);
+
+    // 액션 디스패치
+    dispatch({ type: BRANCHSALESMEMBERNAME, payload: branchSalesMemberNameResult.data });
   };
 };
 
@@ -165,6 +190,29 @@ export const callFindExpenseAPI = ({current}) => {
     dispatch({type: EXPENSE, payload: expenseResult.data})
   }
 }
+
+// 지출보고서 필터링페이지처리 전체조회
+export const callFindByMemberNameExpenseAPI = ({current, memberName}) => {
+
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/expense?offset=${current}&memberName=${memberName}`;
+
+  return async (dispatch, getState) => {
+    const expenseMemberNameResult = await fetch(requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+    }).then((response) => response.json());
+
+    // 응답 데이터 로그 출력
+    console.log('지출 필텅링 API 응답:', expenseMemberNameResult);
+
+    // 액션 디스패치
+    dispatch({ type: EXPENSEMEMBERNAME, payload: expenseMemberNameResult.data });
+  };
+};
 
 // 지출보고서 상세조회 API
 export const callDetailExpenseAPI = ({expenseReportCode}) => {
@@ -389,8 +437,32 @@ export const callFindRepairAPI = ({current}) => {
 
     dispatch({type: REPAIR, payload: repairResult.data})
   }
-
 }
+
+// 시설물수리보고서 필터링페이지처리 전체조회
+export const callFindByMemberNameRepairAPI = ({current, memberName}) => {
+
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/location/repair?offset=${current}&memberName=${memberName}`;
+
+  return async (dispatch, getState) => {
+    const repairMemberNameResult = await fetch(requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+    }).then((response) => response.json());
+
+    // 응답 데이터 로그 출력
+    console.log('시설물수리 필텅링 API 응답:', repairMemberNameResult);
+
+    // 액션 디스패치
+    dispatch({ type: REPAIRMEMBERNAME, payload: repairMemberNameResult.data });
+  };
+};
+
+
 
 // 시설물수리보고서 상세조회 API
 export const callDetailRepairAPI = ({repairReportCode}) => {
@@ -512,3 +584,30 @@ export const callDeleteRepairAPI = ({repairReportCode, data}) => {
     }
   };
 };
+
+
+// 수도세 확인
+export function callWaterCost({branchCode, month}){
+  console.log("callWaterCost",branchCode)
+
+  console.log('month',month)
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/water/cost?branchCode=${branchCode}&month=${month}`
+
+  return async (dispatch,getState)=>{
+    const result = await fetch(requestURL,{
+      method : "GET",
+      headers : {
+        'Content-Type' : 'application/json',
+        Accept : '*/*',
+        Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+      }
+
+    }).then(res=>res.json())
+
+    console.log("callWaterCost result 값",result)
+
+    if(result.status===200){
+      dispatch({type : WATER_COST , payload : result.data})
+    }
+  }
+}

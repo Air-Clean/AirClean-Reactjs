@@ -29,6 +29,10 @@ function BranchSalesDetail() {
     try {
       await axios.put(`/paper/company/reports/approve/${params.branchReportCode}`);
       alert('승인되었습니다.');
+            // 최신 데이터를 다시 가져옵니다.
+            dispatch(calldetailBranchSalesAPI({
+              branchReportCode: params.branchReportCode
+            }));
       navigate('/company/paper/reports', { state: { activeTable: '매출' } });
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
@@ -40,6 +44,10 @@ function BranchSalesDetail() {
     try {
       await axios.put(`/paper/company/reports/reject/${params.branchReportCode}`);
       alert('반려되었습니다.');
+            // 최신 데이터를 다시 가져옵니다.
+            dispatch(calldetailBranchSalesAPI({
+              branchReportCode: params.branchReportCode
+            }));
       navigate('/company/paper/reports', { state: { activeTable: '매출' } });
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
@@ -105,7 +113,7 @@ function BranchSalesDetail() {
           </table>
           <div className="formButtons">
             {
-              members.memberRole === 'a' && (
+              members.memberRole === 'a' && ( branchSalesDetail.branchReportStatus === 'N' &&
                 <>
                   <button onClick={handleApproval}>승인</button>
                   <button onClick={handleRejection}>반려</button>

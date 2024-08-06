@@ -15,7 +15,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { useDispatch, useSelector } from "react-redux";
-import { modifyEmployee } from "../../../../apis/HRAPICalls";
+import { modifyBranch } from "../../../../apis/HRAPICalls";
 import jwtDecode from "jwt-decode";
 
 
@@ -25,6 +25,7 @@ export default function BranchModifyModal({ modal, toggle, branch ,form, setForm
   const members = jwtDecode(window.localStorage.getItem('accessToken'))
 
   console.log('member token 확인',members)
+  console.log('branch 확인',branch)
 
   const [postcodeVisible, setPostcodeVisible] = useState(false);
 
@@ -85,8 +86,6 @@ export default function BranchModifyModal({ modal, toggle, branch ,form, setForm
 
     formData.append("memberId", form.memberId);
     formData.append("memberName", form.memberName);
-    formData.append("dept", form.dept);
-    formData.append("position", form.position);
     formData.append("isPass", form.isPass);
     formData.append("phone", form.phone);
     formData.append("email", form.email);
@@ -94,7 +93,7 @@ export default function BranchModifyModal({ modal, toggle, branch ,form, setForm
     formData.append("image", form.image);
 
     dispatch(
-      // modifyEmployee({ formData: formData, employeeCode: emp.employeeCode })
+      modifyBranch({ formData: formData, employeeCode: branch.memberDTO.memberId })
     );
 
     window.location.reload();
@@ -154,21 +153,6 @@ export default function BranchModifyModal({ modal, toggle, branch ,form, setForm
               name="phone"
               id="phone"
               value={form.phone}
-              onChange={inputHandler}
-              placeholder="Enter your phone number"
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="phone" sm={3}>
-            Branch Phone
-          </Label>
-          <Col sm={9}>
-            <Input
-              type="text"
-              name="branchPhone"
-              id="branchPhone"
-              value={form.branchPhone}
               onChange={inputHandler}
               placeholder="Enter your phone number"
             />

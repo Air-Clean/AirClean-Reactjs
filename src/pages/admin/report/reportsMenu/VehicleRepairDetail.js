@@ -27,6 +27,9 @@ function VehicleRepairDetail() {
     try {
       await axios.put(`/paper/company/reports/vehicleRepairApprove/${params.vehicleReportCode}`);
       alert('승인되었습니다.');
+      dispatch(callDetailVehicleRepairAPI({
+        vehicleReportCode: params.vehicleReportCode
+      }));
       navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
@@ -38,6 +41,9 @@ function VehicleRepairDetail() {
     try {
       await axios.put(`/paper/company/reports/vehicleRepairReject/${params.vehicleReportCode}`);
       alert('반려되었습니다.');
+      dispatch(callDetailVehicleRepairAPI({
+        vehicleReportCode: params.vehicleReportCode
+      }));
       navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
@@ -118,7 +124,7 @@ function VehicleRepairDetail() {
             </tbody>
           </table>
           <div className="formButtons">
-            {members.memberRole === 'a' && (
+            {members.memberRole === 'a' && ( vehicleRepairDetail.vehicleReportStatus === 'N' &&
               <>
                 <button onClick={handleApproval}>승인</button>
                 <button onClick={handleRejection}>반려</button>

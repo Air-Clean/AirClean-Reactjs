@@ -9,11 +9,13 @@ const initialState = {
     };
 
 export const BRANCHSALES = 'BRANCHSALES'
+export const BRANCHSALESMEMBERNAME = 'BRANCHSALESMEMBERNAME'
 export const DETAILBRANCHSALES = 'DETAILBRANCHSALES'
 export const NEWBRANCHSALES = 'NEWBRANCHSALES'
 export const UPDATEBRANCHSALES = 'UPDATEBRANCHSALES'
 export const DELETEBRANCHSALES = 'DELETEBRANCHSALES'
 export const EXPENSE = 'EXPENSE'
+export const EXPENSEMEMBERNAME = 'EXPENSEMEMBERNAME'
 export const DETAILEXPENSE = 'DETAILEXPENSE'
 export const NEWEXPENSE = 'NEWEXPENSE'
 export const UPDATEEXPENSE = 'UPDATEEXPENSE'
@@ -22,6 +24,7 @@ export const VEHICLEREPAIR = 'VEHICLEREPAIR'
 export const DETAILVEHICLEREPAIR = 'DETAILVEHICLEREPAIR'
 export const NEWVEHICLEREPAIR = 'NEWVEHICLEREPAIR'
 export const REPAIR = 'REPAIR'
+export const REPAIRMEMBERNAME = 'REPAIRMEMBERNAME'
 export const DETAILREPAIR = 'DETAILREPAIR'
 export const UPDATEREPAIR = 'UPDATEREPAIR'
 export const DELETEREPAIR = 'DELETEREPAIR'
@@ -29,15 +32,20 @@ export const NEWREPAIR = 'NEWREPAIR'
 export const CARMEMBERS = 'CARMEMBERS'
 
 
+export const WATER_COST = 'WATER_COST'
+
+
 
 
 createActions({
     [BRANCHSALES]: ()=>[],
+    [BRANCHSALESMEMBERNAME] : () => [],
     [DETAILBRANCHSALES]: () => [],
     [NEWBRANCHSALES]: () => [],
     [DELETEBRANCHSALES]: () => [],
     [UPDATEBRANCHSALES]: () => [],
     [NEWBRANCHSALES]: () => [],
+    [EXPENSEMEMBERNAME]: () => [],
     [UPDATEEXPENSE]: () => [],
     [DELETEEXPENSE]: () => [],
     [VEHICLEREPAIR] : () => [],
@@ -47,12 +55,14 @@ createActions({
     [DETAILEXPENSE] : () => [],
     [NEWEXPENSE] : () => [],
     [REPAIR] : () => [],
+    [REPAIRMEMBERNAME] : () => [],
     [DETAILREPAIR] : () => [],
     [UPDATEREPAIR] : () => [],
     [DELETEREPAIR] : () => [],
     [NEWREPAIR] : () => [],
     [CARMEMBERS] : () => [],
 
+    [WATER_COST] : ()=>{}
 })
 
 
@@ -76,6 +86,20 @@ const detailBranchSalesReducer = handleActions({
     [DETAILBRANCHSALES]: (state, {payload}) => {
         console.log('지출보고서 부분 조회 리듀서 payload :', payload)
         return payload;
+    }
+}, initialState
+)
+
+// 매출보고서 필터링 페이징 조회
+const branchSalesMemberNameReducer = handleActions({
+    [BRANCHSALESMEMBERNAME]: (state, {payload}) => {
+        console.log('매출보고서 필터링 리듀서 payload :', payload)
+        return {
+            ...state,
+            branchSalesList: payload.content,
+            totalPages: payload.totalPages,
+            currentPage: payload.currentPage,
+        }
     }
 }, initialState
 )
@@ -127,6 +151,20 @@ export const expenseReducer = handleActions({
         }
     }
 }, initialState)
+
+// 지출보고서 필터링 페이징 조회
+const expenseMemberNameReducer = handleActions({
+    [EXPENSEMEMBERNAME]: (state, {payload}) => {
+        console.log('지출보고서 필터링 리듀서 payload :', payload)
+        return {
+            ...state,
+            expenseList: payload.content,
+            totalPages: payload.totalPages,
+            currentPage: payload.currentPage,
+        }
+    }
+}, initialState
+)
 
 // 지출보고서 상세 조회 
 const detailExpenseReducer = handleActions({
@@ -231,6 +269,20 @@ export const findAllRepairReducer = handleActions({
     }
 }, initialState)
 
+// 시설물수리보고서 필터링 페이징 조회
+const repairMemberNameReducer = handleActions({
+    [REPAIRMEMBERNAME]: (state, {payload}) => {
+        console.log('시설물수리보고서 필터링 리듀서 payload :', payload)
+        return {
+            ...state,
+            repairList: payload.content,
+            totalPages: payload.totalPages,
+            currentPage: payload.currentPage,
+        }
+    }
+}, initialState
+)
+
 
 // 시설물 수리보고서 세부조회
 const detailRepairReducer = handleActions({
@@ -277,15 +329,22 @@ const deleteRepairReducer = handleActions({
     }
 }, initialState)
 
+const waterCostReducer = handleActions({
+    [WATER_COST] : (state,{payload})=>{
+        return payload
+    }
+},initialState)
+
 
 export  {
     // branchSalesReducer,
-      detailBranchSalesReducer, newBranchSalesReducer, updateBranchSalesReducer, deleteBranchSalesReducer
+      detailBranchSalesReducer, newBranchSalesReducer, updateBranchSalesReducer, deleteBranchSalesReducer  ,branchSalesMemberNameReducer
     // , vehicleRepairReducer 
     , detailVehicleRepairReducer,newVehicleRepairReducer
     // , expenseReducer, 
-    , detailExpenseReducer, newExpenseReducer, updateEXpenseReducer, deleteEXpenseReducer
+    , detailExpenseReducer, newExpenseReducer, updateEXpenseReducer, deleteEXpenseReducer, expenseMemberNameReducer
     // , findAllRepairReducer
-    , detailRepairReducer, newRepairReducer, updateRepairReducer,deleteRepairReducer
-    , carMembersReducer
+    , detailRepairReducer, newRepairReducer, updateRepairReducer,deleteRepairReducer, repairMemberNameReducer
+    , carMembersReducer , waterCostReducer
+   
 };

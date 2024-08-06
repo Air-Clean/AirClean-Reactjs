@@ -23,13 +23,13 @@ export default function EmployeeModifyModal({ modal, toggle, emp ,form , setForm
 
   const [postcodeVisible, setPostcodeVisible] = useState(false);
 
-  useEffect(() => {
-    if (modal) {
-      document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
-    }
-  }, [modal]);
+  // useEffect(() => {
+  //   if (modal) {
+  //     document.body.classList.add("no-scroll");
+  //   } else {
+  //     document.body.classList.remove("no-scroll");
+  //   }
+  // }, [modal]);
 
   const inputHandler = (e) => {
     const { name, value } = e.target;

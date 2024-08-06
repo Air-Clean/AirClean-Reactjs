@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Badge from '@mui/material/Badge';
 
+
 const AdminHeader = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
@@ -160,26 +161,26 @@ const AdminHeader = () => {
                   </ul>
                 </li>
                 <li className={styles.menuItem4} onClick={() => changeColor(4)}>
-                  <NavLink to="#submenu1-4" activeClassName={styles.active}>4</NavLink>
+                  <NavLink to="cardelivery" activeClassName={styles.active}>물류시스템</NavLink>
                   <ul className={styles.submenu}>
                     <li>
-                      <NavLink to="#submenu1-4-1" activeClassName={styles.active}>4-1</NavLink>
+                      {/* <NavLink to="#submenu1-4-1" activeClassName={styles.active}>4-1</NavLink> */}
                       <ul className={styles.submenu}>
-                        <li><NavLink to="#submenu1-4-2" activeClassName={styles.active}>4-2</NavLink></li>
+                        {/* <li><NavLink to="#submenu1-4-2" activeClassName={styles.active}>4-2</NavLink></li> */}
                       </ul>
                     </li>
                   </ul>
                 </li>
                 <li className={styles.menuItem5} onClick={() => changeColor(5)}>
-                  <NavLink to="facility" activeClassName={styles.active}>시설물정보</NavLink>
-                  <ul className={styles.submenu}>
+                  <NavLink to="facility" activeClassName={styles.active}>시설물현황</NavLink>
+                  {/* <ul className={styles.submenu}>
                     <li>
                       <NavLink to="#submenu1-5-1" activeClassName={styles.active}>5-1</NavLink>
                       <ul className={styles.submenu}>
                         <li><NavLink to="#submenu1-5-2" activeClassName={styles.active}>5-2</NavLink></li>
                       </ul>
                     </li>
-                  </ul>
+                  </ul> */}
                 </li>
               </ul>
             </div>

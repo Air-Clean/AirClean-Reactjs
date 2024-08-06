@@ -72,7 +72,17 @@ function BranchSales() {
                   <td>{item.branchReportCode}</td>
                   <td>{item.branchName}</td>     
                   <td>{new Date(item.branchSubmissionDate).toLocaleDateString()}</td>
-                  <td>{item.branchReportStatus}</td>
+                  <td>{
+                      (()=>{
+                        if(item.branchReportStatus==='N'){
+                          return('접수')
+                        }else if(item.branchReportApprove==="Y"){
+                          return('승인')
+                        }else{
+                          return('반려')
+                        }
+                      })()
+                    }</td>
                   <td><button onClick={() => navigate(`/company/paper/reports/branchSales/${item.branchReportCode}`)}>View</button></td>
                 </tr>
               ))}
@@ -97,7 +107,17 @@ function BranchSales() {
                   <td>{expense.expenseReportCode}</td>
                   <td>{expense.branchName}</td>  
                   <td>{new Date(expense.expenseSubmissionDate).toLocaleDateString()}</td>
-                  <td>{expense.expenseReportStatus}</td>
+                  <td>{
+                      (()=>{
+                        if(expense.expenseReportStatus==='N'){
+                          return('접수')
+                        }else if(expense.expenseApprove==="Y"){
+                          return('승인')
+                        }else{
+                          return('반려')
+                        }
+                      })()
+                    }</td>
                   <td><button onClick={() => navigate(`/company/paper/reports/expenseReports/${expense.expenseReportCode}`)}>View</button></td>
                 </tr>
               ))}
@@ -124,7 +144,17 @@ function BranchSales() {
                   <td>{vehicle.carNumber}</td>   
                   <td>{vehicle.memberName}</td> 
                   <td>{new Date(vehicle.vehicleSubmissionDate).toLocaleDateString()}</td>
-                  <td>{vehicle.vehicleReportStatus}</td> 
+                  <td>{
+                      (()=>{
+                        if(vehicle.vehicleReportStatus==='N'){
+                          return('접수')
+                        }else if(vehicle.vehicleRepairApprove==="Y"){
+                          return('승인')
+                        }else{
+                          return('반려')
+                        }
+                      })()
+                    }</td>
                   <td><button onClick={() => navigate(`/company/paper/reports/vehicleRepair/${vehicle.vehicleReportCode}`)}>View</button></td>
               </tr>
               ))}
@@ -151,7 +181,17 @@ function BranchSales() {
                 <td>{repair.branchName}</td>  
                 <td>{repair.facilityType}</td>   
                 <td>{new Date(repair.repairSubmissionDate).toLocaleDateString()}</td>
-                <td>{repair.repairReportStatus}</td> 
+                <td>{
+                      (()=>{
+                        if(repair.repairReportStatus==='N'){
+                          return('접수')
+                        }else if(repair.repairApprove==="Y"){
+                          return('승인')
+                        }else{
+                          return('반려')
+                        }
+                      })()
+                    }</td>
                 <td><button onClick={() => navigate(`/company/paper/reports/repairReports/${repair.repairReportCode}`)}>View</button></td>
             </tr>
               ))}
