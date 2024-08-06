@@ -15,15 +15,20 @@ import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { useDispatch, useSelector } from "react-redux";
-import { modifyEmployee } from "../../../../apis/HRAPICalls";
+import { modifyDriver , callBranchCount} from "../../../../apis/HRAPICalls";
 import jwtDecode from "jwt-decode";
 
-export default function DriverModifyModal({ modal, toggle, driver ,form, setForm}) {
+export default function DriverModifyModal({ modal, toggle, driver ,form, setForm,regionCount}) {
   const dispatch = useDispatch();
 
   const members = jwtDecode(window.localStorage.getItem('accessToken'))
 
+  console.log("regionCount",regionCount)
+  console.log("form.driverRegion",form.driverRegion)
+
   console.log('member token 확인',members)
+
+  console.log('동일값 확인',regionCount.filter(region=>region.driverRegion === form.driverRegion))
 
   const [postcodeVisible, setPostcodeVisible] = useState(false);
 
@@ -55,6 +60,8 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
     [form]
   );
 
+
+
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
@@ -62,9 +69,7 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
     },
   });
 
-  const changePass = () => {
-    setForm({ ...form, isPass: !form.isPass });
-  };
+
   const handleAddressSelect = (data) => {
     const fullAddress = data.address;
     setForm({
@@ -84,16 +89,14 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
 
     formData.append("memberId", form.memberId);
     formData.append("memberName", form.memberName);
-    formData.append("dept", form.dept);
-    formData.append("position", form.position);
-    formData.append("isPass", form.isPass);
+    formData.append("driverRegion",form.driverRegion)
     formData.append("phone", form.phone);
     formData.append("email", form.email);
     formData.append("address", form.address);
     formData.append("image", form.image);
 
     dispatch(
-      // modifyEmployee({ formData: formData, employeeCode: emp.employeeCode })
+      modifyDriver({ formData: formData, employeeCode: form.memberId })
     );
 
     window.location.reload();
@@ -120,30 +123,6 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="password" sm={3}>
-            Password
-          </Label>
-          <Col
-            sm={9}
-            className="d-flex align-items-center justify-content-between"
-          >
-            <span
-              className={`status-text ${
-                form.isPass ? "text-success" : "text-danger"
-              }`}
-            >
-              {form.isPass ? "Changed" : "Unchanged"}
-            </span>
-            <Button
-              color={form.isPass ? "secondary" : "primary"}
-              onClick={changePass}
-              className="ml-3" // 버튼과 텍스트 사이에 여백 추가
-            >
-              {form.isPass ? "Revert Changes" : "Change Password"}
-            </Button>
-          </Col>
-        </FormGroup>
-        <FormGroup row>
           <Label for="phone" sm={3}>
             Phone
           </Label>
@@ -159,18 +138,24 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="phone" sm={3}>
-            Branch Phone
+          <Label for="driverRegion" sm={3}>
+            운송 지역
           </Label>
           <Col sm={9}>
             <Input
-              type="text"
-              name="branchPhone"
-              id="branchPhone"
-              value={form.branchPhone}
+              type="select"
+              name="driverRegion"
+              id="driverRegion"
+              value={form.driverRegion}
               onChange={inputHandler}
-              placeholder="Enter your phone number"
-            />
+            >
+              <option value="">Select Position</option>
+              {regionCount?.map(
+                region => <option value={region.driverRegion}>
+                   {`${region.driverRegion} \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 차량기사 : ${region.regionCount} 명`}
+                </option>
+              )}
+            </Input>
           </Col>
         </FormGroup>
         <FormGroup row>
@@ -188,46 +173,6 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
             />
           </Col>
         </FormGroup>
-        {/* <FormGroup row>
-          <Label for="department" sm={3}>
-            직책 변경
-          </Label>
-          <Col sm={9}>
-            <Input
-              type="select"
-              name="position"
-              id="position"
-              value={form.position}
-              onChange={inputHandler}
-            >
-              <option value="">Select Position</option>
-              <option value="부장">부장</option>
-              <option value="과장">과장</option>
-              <option value="대리">대리</option>
-              <option value="사원">사원</option>
-            </Input>
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="position" sm={3}>
-            부서 이동
-          </Label>
-          <Col sm={9}>
-            <Input
-              type="select"
-              name="dept"
-              id="dept"
-              value={form.dept}
-              onChange={inputHandler}
-            >
-              <option value="">Select Department</option>
-              <option value="마케팅">Marketing</option>
-              <option value="운영">Operation</option>
-              <option value="인사">HR</option>
-              <option value="재무">Financial</option>
-            </Input>
-          </Col>
-        </FormGroup> */}
         <FormGroup row>
           <Label for="address" sm={3}>
             Address

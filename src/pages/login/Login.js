@@ -40,8 +40,6 @@ const Login = () => {
 
       // 앞으로 이방식으로 토큰값을 꺼내서 쓸수 있다
       const members =jwt_decode(window.localStorage.getItem('accessToken'))
-
-      console.log(members)
       
       if(members.memberRole==='b'){
         window.location.href='location'

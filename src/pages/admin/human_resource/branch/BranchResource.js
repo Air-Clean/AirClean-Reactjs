@@ -9,6 +9,7 @@ import { useDispatch,useSelector } from "react-redux";
 import { callBranchList, callSoftDeleteBranch } from "../../../../apis/HRAPICalls";
 import { Grid } from "@mui/material";
 import 'animate.css';
+import Snackbar from '@mui/material/Snackbar';
 
 
 
@@ -22,6 +23,21 @@ export default function BranchResource() {
     const [isButtonVisible, setIsButtonVisible] = useState(false);
     const [animationClass, setAnimationClass] = useState('animate__animated animate__fadeInUp');
     
+    const [state, setState] = useState({
+      open : false,
+      vertical : 'top',
+      horizontal : 'left',
+  })
+  const [copy , setCopy] = useState('');
+  const {vertical , horizontal , open}=state;
+
+  const handleClick=()=>{
+      setState({...state,open : true})
+  }
+  const handleClose = () => {
+      setCopy('')
+      setState({ ...state, open: false });
+  };
     // redux
 
     const dispatch = useDispatch();
@@ -73,7 +89,7 @@ export default function BranchResource() {
         </div>
         <Grid container spacing={1} justifyContent="flex-start">
           {branch?.map((b) => (
-              <BioCard branch={b} key={b?.memberDTO?.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember}/>
+              <BioCard branch={b} key={b?.memberDTO?.memberId} setDeleteMember={setDeleteMember} deleteMember={deleteMember} setCopy={setCopy} handleClick={handleClick}/>
           ))}
           {isButtonVisible && (
           <div className={`deleteButtonCss ${animationClass}`}>
@@ -87,6 +103,17 @@ export default function BranchResource() {
         
           <Paging setCurrent={setCurrent} end={totalPage} />
         </div>
+
+        <Snackbar
+          anchorOrigin={{vertical , horizontal}}
+          open={open}
+          onClose={handleClose}
+          message={`${copy} Copied!`}
+          key={vertical+horizontal}
+          />
+          <Snackbar
+
+          />
       </div>
     </>
   );
