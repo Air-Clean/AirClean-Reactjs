@@ -9,14 +9,14 @@ const ItemType = {
     ROW: 'row'
 };
 
-function LaundryDerivation() {
+function LaundryDerivation({ onComplete }) {
     const dispatch = useDispatch();
     const branch = useSelector(state => state.getBranchReducer);
     const branchCode = branch && branch.branchCode;
     const selectLandry = useSelector(state => state.selectLaundry.waterSupply);
     const [selectedItems, setSelectedItems] = useState([]);
-    const [loading, setLoading] = useState(false); // 로딩 상태 추가
-    const [loadingMessage, setLoadingMessage] = useState(''); // 로딩 메시지 상태 추가
+    const [loading, setLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState('');
 
     useEffect(() => {
         if (branchCode) {
@@ -54,10 +54,10 @@ function LaundryDerivation() {
     });
 
     const handleSubmit = async () => {
-        setLoading(true); // 로딩 시작
-        setLoadingMessage('도출 중입니다...'); // 로딩 메시지 설정
+        setLoading(true);
+        setLoadingMessage('도출 중입니다...');
 
-        const url = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/registration/registLaundryWay`; // 엔드포인트 URL을 입력하세요
+        const url = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/registration/registLaundryWay`;
         const requestBody = { selectedItems };
 
         try {
@@ -74,14 +74,15 @@ function LaundryDerivation() {
 
             console.log('Success:', response.data);
             alert('도출되었습니다.');
-            setSelectedItems([]); // 선택된 항목 초기화
-            dispatch(fetchLaundrySelect(branchCode)); // fetchLaundrySelect 함수 다시 호출
-            setLoading(false); // 로딩 종료
-            setLoadingMessage(''); // 로딩 메시지 초기화
+            setSelectedItems([]);
+            dispatch(fetchLaundrySelect(branchCode));
+            setLoading(false);
+            setLoadingMessage('');
+            onComplete(); // 도출 완료 후 부모 컴포넌트 상태 업데이트
         } catch (error) {
             console.error('Error:', error);
-            setLoading(false); // 로딩 종료
-            setLoadingMessage('도출 중 오류가 발생했습니다.'); // 오류 메시지 설정
+            setLoading(false);
+            setLoadingMessage('도출 중 오류가 발생했습니다.');
         }
     };
 
@@ -177,7 +178,7 @@ function LaundryDerivation() {
                                         padding: '8px 16px',
                                         borderRadius: '4px',
                                         cursor: 'pointer',
-                                        display: loading ? 'none' : 'block' // 로딩 중일 때 버튼 숨기기
+                                        display: loading ? 'none' : 'block'
                                     }}
                                 >
                                     도출하기
