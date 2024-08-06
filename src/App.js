@@ -70,20 +70,6 @@ import Cardelivery from './pages/client/cardelivery/Cardelivery';
 
 function App() {
 
-  const dispatch = useDispatch();
-
-useEffect(() => {
-    const handleBeforeUnload = () => {
-        window.localStorage.removeItem('accessToken');
-        dispatch({ type: POST_LOGIN, payload: '' });
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-        window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-}, [dispatch]);
 
 
   return (
