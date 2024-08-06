@@ -26,139 +26,151 @@ import StayCurrentPortraitIcon from "@mui/icons-material/StayCurrentPortrait";
 import GiteIcon from "@mui/icons-material/Gite";
 import EmailIcon from "@mui/icons-material/Email";
 import ReactDOMServer from "react-dom/server";
-import Tooltip from '@mui/joy/Tooltip';
-import DrawIcon from '@mui/icons-material/Draw';
+import Tooltip from "@mui/joy/Tooltip";
+import DrawIcon from "@mui/icons-material/Draw";
 import ReactDOM from "react-dom";
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import { callBranchCount } from "../../../../apis/HRAPICalls";
+import { useDispatch ,useSelector} from "react-redux";
 
-
-
-export default function BioCard({ driver, setDeleteMember, deleteMember ,setCopy,handleClick}) {
+export default function BioCard({
+  driver,
+  setDeleteMember,
+  deleteMember,
+  setCopy,
+  handleClick,
+}) {
   console.log("biocard=============================");
 
+  console.log("driver", driver);
 
   let image = driver?.memberImage;
 
-    console.log(image?.split("/")[4]);
+  console.log(image?.split("/")[4]);
 
-    console.log("image anjsi", image);
+  console.log("image anjsi", image);
 
-    if (image?.split("/")[4] === "null") {
-      image = noProfile;
-    }
+  if (image?.split("/")[4] === "null") {
+    image = noProfile;
+  }
 
-    const copyToClipboard = (text) => {
-      navigator.clipboard.writeText(text).then(() => {
-        console.log('Text copied to clipboard');
+  const copyToClipboard = (text) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        console.log("Text copied to clipboard");
 
-        setCopy(text)
-        handleClick({vertical : "top", horizontal : 'left'});
-
-      }).catch(err => {
-        console.error('Failed to copy text: ', err);
+        setCopy(text);
+        handleClick({ vertical: "top", horizontal: "left" });
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
       });
-    };
+  };
 
- 
-    
-    function showBusinessCard() {
-      const businessCardHtml = ReactDOMServer.renderToString(
-        <BusinessCard driver={driver} logo={logo} image={image} />
-      );
-    
-      Swal.fire({
-        showClass: {
-          popup: `
+  function showBusinessCard() {
+    const businessCardHtml = ReactDOMServer.renderToString(
+      <BusinessCard driver={driver} logo={logo} image={image} />
+    );
+
+    Swal.fire({
+      showClass: {
+        popup: `
             animate__animated
             animate__rotateInDownLeft
             animate__faster
           `,
-        },
-        hideClass: {
-          popup: `
+      },
+      hideClass: {
+        popup: `
             animate__animated
             animate__rotateOutDownLeft
             animate__faster
           `,
-        },
-        html: '<div id="business-card-container"></div>',
-        width: "auto",
-        padding: "10px",
-        background: "transparent",
-        customClass: {
-          container: "swal2-container",
-        },
-        showConfirmButton: false,
-        didRender: () => {
-          ReactDOM.render(
-            <BusinessCard
-              driver={driver}
-              logo={logo}
-              image={image}
-            />,
-            document.getElementById("business-card-container")
-          );
-    
-          if (document.getElementById("modifyButton")) {
-            document.getElementById("modifyButton").addEventListener("click", toggle);
-          }
-    
-          if (document.getElementById("rightButton")) {
-            document.getElementById("rightButton").addEventListener("click", showBusinessCardBack);
-          }
-        },
-      });
-    }
-    
-    function showBusinessCardBack() {
-      Swal.fire({
-        showClass: {
-          popup: `
+      },
+      html: '<div id="business-card-container"></div>',
+      width: "auto",
+      padding: "10px",
+      background: "transparent",
+      customClass: {
+        container: "swal2-container",
+      },
+      showConfirmButton: false,
+      didRender: () => {
+        ReactDOM.render(
+          <BusinessCard driver={driver} logo={logo} image={image} />,
+          document.getElementById("business-card-container")
+        );
+
+        if (document.getElementById("modifyButton")) {
+          document
+            .getElementById("modifyButton")
+            .addEventListener("click", toggle);
+        }
+
+        if (document.getElementById("rightButton")) {
+          document
+            .getElementById("rightButton")
+            .addEventListener("click", showBusinessCardBack);
+        }
+      },
+    });
+  }
+
+  function showBusinessCardBack() {
+    Swal.fire({
+      showClass: {
+        popup: `
             animate__animated
             animate__rotateInDownLeft
             animate__faster
           `,
-        },
-        hideClass: {
-          popup: `
+      },
+      hideClass: {
+        popup: `
             animate__animated
             animate__rotateOutDownLeft
             animate__faster
           `,
-        },
-        html: '<div id="business-card-back"></div>',
-        width: "auto",
-        padding: "10px",
-        background: "transparent",
-        customClass: {
-          container: "swal2-container",
-        },
-        showConfirmButton: false,
-        didRender: () => {
-          ReactDOM.render(
-            <BusinessCardBack car={driver?.driverAndCarDTO?.carDTO}/>,
-            document.getElementById("business-card-back")
-          );
-    
-          if (document.getElementById("leftButton")) {
-            document.getElementById("leftButton").addEventListener("click", showBusinessCard);
-          }
-        },
-      });
-    }
+      },
+      html: '<div id="business-card-back"></div>',
+      width: "auto",
+      padding: "10px",
+      background: "transparent",
+      customClass: {
+        container: "swal2-container",
+      },
+      showConfirmButton: false,
+      didRender: () => {
+        ReactDOM.render(
+          <BusinessCardBack car={driver?.driverAndCarDTO?.carDTO} />,
+          document.getElementById("business-card-back")
+        );
 
+        if (document.getElementById("leftButton")) {
+          document
+            .getElementById("leftButton")
+            .addEventListener("click", showBusinessCard);
+        }
+      },
+    });
+  }
+
+
+  const dispatch = useDispatch();
   const [highlight, setHighlight] = useState(false);
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState({
     memberId: driver?.memberId,
     memberName: driver?.memberName,
-    isPass: false,
     phone: driver?.memberPhoneNumber,
     email: driver?.memberEmail,
     address: driver?.memberAddress,
     image: null,
     imagePreview: driver?.memberImage,
+    driverRegion : driver?.driverAndCarDTO?.driverRegion
   });
 
   const toggle = () => {
@@ -168,17 +180,20 @@ export default function BioCard({ driver, setDeleteMember, deleteMember ,setCopy
     setForm({
       memberId: driver?.memberId,
       memberName: driver?.memberName,
-      isPass: false,
       phone: driver?.memberPhoneNumber,
       email: driver?.memberEmail,
       address: driver?.memberAddress,
       image: null,
       imagePreview: driver?.memberImage,
+      driverRegion : driver?.driverAndCarDTO?.driverRegion
     });
+
+    dispatch(callBranchCount())
     Swal.close();
   };
+  const regionCount = useSelector(state=> state.branchCountReducer)
 
-  const members =jwtDecode( window.localStorage.getItem('accessToken'))
+  const members = jwtDecode(window.localStorage.getItem("accessToken"));
   const role = members?.memberRole;
 
   const deleteHandler = (e) => {
@@ -253,19 +268,37 @@ export default function BioCard({ driver, setDeleteMember, deleteMember ,setCopy
               "& > button": { borderRadius: "2rem" },
             }}
           >
-            <Tooltip title={driver?.driverAndCarDTO?.driverLicenseNumber}>
-
-            <IconButton size="sm" variant="plain" color="neutral" onClick={()=>copyToClipboard(driver?.driverAndCarDTO?.driverLicenseNumber)}>
-
-              <DirectionsCarIcon/>
-            </IconButton>
+            <Tooltip title={driver?.memberPhoneNumber}>
+              <IconButton
+                size="sm"
+                variant="plain"
+                color="neutral"
+                onClick={() => copyToClipboard(driver?.memberPhoneNumber)}
+              >
+                <LocalPhoneIcon />
+              </IconButton>
             </Tooltip>
-            <Tooltip title={driver?.memberEmail} variant='solid'>
-
-            <IconButton size="sm" variant="plain" color="neutral" onClick={e=>copyToClipboard(driver.memberEmail)}>
-
-              <EmailIcon/>
-            </IconButton>
+            <Tooltip title={driver?.driverAndCarDTO?.driverLicenseNumber}>
+              <IconButton
+                size="sm"
+                variant="plain"
+                color="neutral"
+                onClick={() =>
+                  copyToClipboard(driver?.driverAndCarDTO?.driverLicenseNumber)
+                }
+              >
+                <DirectionsCarIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={driver?.memberEmail} variant="solid">
+              <IconButton
+                size="sm"
+                variant="plain"
+                color="neutral"
+                onClick={(e) => copyToClipboard(driver.memberEmail)}
+              >
+                <EmailIcon />
+              </IconButton>
             </Tooltip>
           </Box>
         </CardContent>
@@ -297,6 +330,7 @@ export default function BioCard({ driver, setDeleteMember, deleteMember ,setCopy
         driver={driver}
         form={form}
         setForm={setForm}
+        regionCount={regionCount}
       />
     </Grid>
   );
@@ -304,13 +338,13 @@ export default function BioCard({ driver, setDeleteMember, deleteMember ,setCopy
 
 function BusinessCard({ driver, logo, image }) {
   return (
-    <div class='license-modal'>
+    <div class="license-modal">
       <div class="license-card">
         <div class="license-header">
           <img src={logo} alt="국기" />
-          <Tooltip title='modify' variant='solid'>
-            <IconButton className="license-modify" id='modifyButton'>
-              <DrawIcon/>
+          <Tooltip title="modify" variant="solid">
+            <IconButton className="license-modify" id="modifyButton">
+              <DrawIcon />
             </IconButton>
           </Tooltip>
         </div>
@@ -332,39 +366,43 @@ function BusinessCard({ driver, logo, image }) {
           </div>
         </div>
       </div>
-      <Button id="rightButton"><ChevronRightIcon/></Button>
+      <Button id="rightButton">
+        <ChevronRightIcon />
+      </Button>
     </div>
   );
 }
 
-function BusinessCardBack({car}){
-  return(
-    <div class='license-modal'>
+function BusinessCardBack({ car }) {
+  return (
+    <div class="license-modal">
       <div class="license-card-back">
         <div className="license-card-back-photo">
           <div className="car-front">
-            <img src={car?.carFrontImage} width={'100%'} alt="이미지 없음"/>
+            <img src={car?.carFrontImage} width={"100%"} alt="이미지 없음" />
           </div>
           <div className="car-rear">
-            <img src={car?.carRearImage} width={'100%'} alt="이미지 없음"/>
+            <img src={car?.carRearImage} width={"100%"} alt="이미지 없음" />
           </div>
         </div>
-        <div class='license-card-back-text' style={{display : 'flex' ,alignItems : 'center'}}>
-          <div><h4>{car?.carNumber}</h4></div>
+        <div
+          class="license-card-back-text"
+          style={{ display: "flex", alignItems: "center" }}
+        >
           <div>
-            <ul style={{listStyle : 'none' , textAlign : 'left'}}>
+            <h4>{car?.carNumber}</h4>
+          </div>
+          <div>
+            <ul style={{ listStyle: "none", textAlign: "left" }}>
               <li>출고일 : {car?.carDate}</li>
               <li>특이사항 : {car?.carEtc}</li>
             </ul>
           </div>
         </div>
       </div>
-      <Button id="leftButton"><ChevronRightIcon/></Button>
+      <Button id="leftButton">
+        <ChevronRightIcon />
+      </Button>
     </div>
-  )
+  );
 }
-
-
-
-
-

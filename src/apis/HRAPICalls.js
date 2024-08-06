@@ -59,7 +59,7 @@ export function callSoftDeleteEmployee({deleteMember}){
 
         if(result.status ===200){
             console.log('삭제성공')
-            dispatch({type : EMPLOYEE , payload : result.data})
+            // dispatch({type : EMPLOYEE , payload : result.data})
         }
     }
 
@@ -96,7 +96,7 @@ export function modifyEmployee({formData ,employeeCode}){
 
         if(result.status===200){
             console.log('수정성공')
-            dispatch({type : EMPLOYEE, payload : result.data})
+            // dispatch({type : EMPLOYEE, payload : result.data})
         }
         
     }
@@ -124,7 +124,7 @@ export function registEmployee({form}){
         })
 
         if(result.status === 200){
-            dispacth({type : EMPLOYEE , payload : result.data})
+            // dispacth({type : EMPLOYEE , payload : result.data})
         }
     }
 }
@@ -163,7 +163,7 @@ export function softDeleteEmployee({current,amount}){
         }).then(res=>res.json())
         
         if(result.status===200){
-            dispatch({type: EMPLOYEE , payload : result.data})
+            // dispatch({type: EMPLOYEE , payload : result.data})
         }
     }
 }
@@ -185,7 +185,7 @@ export function callEmployeeDeleteApi({killMember}){
         }).then(res=>res.json())
 
         if(result.status===200){
-            dispatch({type : EMPLOYEE , payload : result.data})
+            // dispatch({type : EMPLOYEE , payload : result.data})
         }
 
     }
@@ -208,7 +208,7 @@ export function callEmployeeBackApi({saveMember}){
 
         if(result.status===200){
             console.log('되살리기 성공')
-            dispatch({type : EMPLOYEE , payload : result.data})
+            // dispatch({type : EMPLOYEE , payload : result.data})
         }
     }
 }
@@ -387,6 +387,41 @@ export function registBranch({form}){
 }
 
 
+export function modifyBranch({formData ,employeeCode}){
+    
+    
+    console.log('[formdata ]', formData.get("memberId"))
+        console.log('[formdata ]', formData.get("memberName"))
+        console.log('[formdata ]', formData.get("isPass"))
+        console.log('[formdata ]', formData.get("phone"))
+        console.log('[formdata ]', formData.get("email"))
+        console.log('[formdata ]', formData.get("address"))
+        console.log('[formdata ]', formData.get("image"))
+
+    return async (dispatch,getState)=>{
+        
+        const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/branch/${employeeCode}`
+        
+        console.log('url 주소',requestURL);
+
+        const result = await fetch(requestURL,{
+            method : "PUT",
+            headers : {
+                Accept : '*/*',
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
+            },
+            body : formData
+        }).then(res=>res.json())
+
+        if(result.status===200){
+            console.log('수정성공')
+        }
+        
+    }
+
+
+}
+
 // driver
 
 export const callDriverList=({current})=>{
@@ -526,6 +561,43 @@ export function registDriver({form}){
     }
 }
 
+export function modifyDriver({formData ,employeeCode}){
+    
+    
+    console.log('[formdata ]', formData.get("memberId"))
+        console.log('[formdata ]', formData.get("memberName"))
+        console.log('[formdata ]', formData.get("phone"))
+        console.log('[formdata ]', formData.get("email"))
+        console.log('[formdata ]', formData.get("address"))
+        console.log('[formdata ]', formData.get("image"))
+        console.log('[formdata ]', formData.get("driverLicenseNumber"))
+        console.log('[formdata ]', formData.get("driverRegion"))
+
+
+    return async (dispatch,getState)=>{
+        
+        const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/members/driver/${employeeCode}`
+        
+        console.log('url 주소',requestURL);
+
+        const result = await fetch(requestURL,{
+            method : "PUT",
+            headers : {
+                Accept : '*/*',
+                Authorization : "Bearer "+window.localStorage.getItem('accessToken')
+            },
+            body : formData
+        }).then(res=>res.json())
+
+        if(result.status===200){
+            console.log('수정성공')
+            // dispatch({type : EMPLOYEE, payload : result.data})
+        }
+        
+    }
+
+
+}
 
 
 

@@ -46,7 +46,12 @@ import BranchClient from './pages/client/branchClient/BranchClient';
 import Car from './pages/admin/car/Car';
 import MainPage from './pages/admin/main_page/MainPage';
 
+
+import { useDispatch } from 'react-redux';
+import { POST_LOGIN } from './modules/MemberModule';
+
 import Cardelivery from './pages/client/cardelivery/Cardelivery';
+
 
 
 
@@ -60,7 +65,26 @@ import Cardelivery from './pages/client/cardelivery/Cardelivery';
 // };
 // 12
 
+
+
+
 function App() {
+
+  const dispatch = useDispatch();
+
+useEffect(() => {
+    const handleBeforeUnload = () => {
+        window.localStorage.removeItem('accessToken');
+        dispatch({ type: POST_LOGIN, payload: '' });
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+}, [dispatch]);
+
 
   return (
     <AuthProvider>
