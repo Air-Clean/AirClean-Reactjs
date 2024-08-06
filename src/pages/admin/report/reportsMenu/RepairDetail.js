@@ -28,6 +28,9 @@ function RepairDetail() {
     try {
       await axios.put(`/paper/company/reports/repairApprove/${params.repairReportCode}`);
       alert('승인되었습니다.');
+      dispatch(callDetailRepairAPI({
+        repairReportCode: params.repairReportCode
+      }));
       navigate('/company/paper/reports', { state: { activeTable: '시설물수리' } });
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
@@ -39,6 +42,9 @@ function RepairDetail() {
     try {
       await axios.put(`/paper/company/reports/repairReject/${params.repairReportCode}`);
       alert('반려되었습니다.');
+      dispatch(callDetailRepairAPI({
+        repairReportCode: params.repairReportCode
+      }));
       navigate('/company/paper/reports', { state: { activeTable: '시설물수리' } });
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
@@ -99,8 +105,8 @@ function RepairDetail() {
           </table>
           <div className="formButtons">
             {
-              members.memberRole === 'a' && 
-              (<>
+              members.memberRole === 'a' && ( repairDetail.repairReportStatus === 'N' &&
+              <>
                 <button onClick={handleApproval}>승인</button>
                 <button onClick={handleRejection}>반려</button>
               </>)

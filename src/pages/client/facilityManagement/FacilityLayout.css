@@ -16,11 +16,12 @@
 .facility_navbar {
     display: flex;
     justify-content: flex-start; /* 버튼을 오른쪽으로 정렬 */
-    margin-bottom: 3%;
-    margin-top: 1.5%;
+    margin-bottom: 1.5%;
+    margin-top: 0.8%;
     padding: 10px 20px; /* 네비게이션 바의 내부 패딩 조정 */
     width: 100%; /* 네비게이션 바의 너비를 100%로 설정 */
     box-sizing: border-box; /* 패딩과 테두리를 전체 너비에 포함 */
+    font-weight: bold;
 }
 
 .facility_nav-button {

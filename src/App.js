@@ -53,11 +53,11 @@ import Cardelivery from './pages/client/cardelivery/Cardelivery';
 
 import jwtDecode from 'jwt-decode';
 
-
-
 function App() {
 
+
   // console.log('token',jwtDecode(window.localStorage.getItem('accessToken')))
+
 
   // checkTokenExpiration(window.localStorage.getItem('accessToken'))
   return (

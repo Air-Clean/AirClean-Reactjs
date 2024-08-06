@@ -15,6 +15,8 @@ function LaundryDerivation() {
     const branchCode = branch && branch.branchCode;
     const selectLandry = useSelector(state => state.selectLaundry.waterSupply);
     const [selectedItems, setSelectedItems] = useState([]);
+    const [loading, setLoading] = useState(false); // 로딩 상태 추가
+    const [loadingMessage, setLoadingMessage] = useState(''); // 로딩 메시지 상태 추가
 
     useEffect(() => {
         if (branchCode) {
@@ -52,6 +54,9 @@ function LaundryDerivation() {
     });
 
     const handleSubmit = async () => {
+        setLoading(true); // 로딩 시작
+        setLoadingMessage('도출 중입니다...'); // 로딩 메시지 설정
+
         const url = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/registration/registLaundryWay`; // 엔드포인트 URL을 입력하세요
         const requestBody = { selectedItems };
 
@@ -71,9 +76,12 @@ function LaundryDerivation() {
             alert('도출되었습니다.');
             setSelectedItems([]); // 선택된 항목 초기화
             dispatch(fetchLaundrySelect(branchCode)); // fetchLaundrySelect 함수 다시 호출
-            // 필요한 경우 서버 응답 처리 로직을 여기에 추가
+            setLoading(false); // 로딩 종료
+            setLoadingMessage(''); // 로딩 메시지 초기화
         } catch (error) {
             console.error('Error:', error);
+            setLoading(false); // 로딩 종료
+            setLoadingMessage('도출 중 오류가 발생했습니다.'); // 오류 메시지 설정
         }
     };
 
@@ -156,8 +164,25 @@ function LaundryDerivation() {
                                 </tbody>
                             </table>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '2px' }}>
-                            <button onClick={handleSubmit} style={{ marginTop: 'auto', backgroundColor: '#1890ff', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer' }}>도출하기</button>
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '20%' }}>
+                            {loading && <div style={{ textAlign: 'center', padding: '10px', backgroundColor: '#f0f0f0', borderRadius: '4px', color: '#1890ff' }}>{loadingMessage}</div>}
+                            <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '2px' }}>
+                                <button
+                                    onClick={handleSubmit}
+                                    style={{
+                                        marginTop: 'auto',
+                                        backgroundColor: '#1890ff',
+                                        color: 'white',
+                                        border: 'none',
+                                        padding: '8px 16px',
+                                        borderRadius: '4px',
+                                        cursor: 'pointer',
+                                        display: loading ? 'none' : 'block' // 로딩 중일 때 버튼 숨기기
+                                    }}
+                                >
+                                    도출하기
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

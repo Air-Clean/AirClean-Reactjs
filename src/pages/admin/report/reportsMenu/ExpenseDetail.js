@@ -28,6 +28,9 @@ function ExpenseDetail() {
     try {
       await axios.put(`/paper/company/reports/expenseApprove/${params.expenseReportCode}`);
       alert('승인되었습니다.');
+      dispatch(callDetailExpenseAPI({
+        expenseReportCode: params.expenseReportCode
+      }));
       navigate('/company/paper/reports', { state: { activeTable: '지출' } });
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
@@ -39,6 +42,9 @@ function ExpenseDetail() {
     try {
       await axios.put(`/paper/company/reports/expenseReject/${params.expenseReportCode}`);
       alert('반려되었습니다.');
+      dispatch(callDetailExpenseAPI({
+        expenseReportCode: params.expenseReportCode
+      }));
       navigate('/company/paper/reports', { state: { activeTable: '지출' } });
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
@@ -97,8 +103,8 @@ function ExpenseDetail() {
           </table>
           <div className="formButtons">
             {
-              members.memberRole === 'a' && 
-              (<>
+              members.memberRole === 'a' && ( expenseDetail.expenseReportStatus === 'N' &&
+              <>
                 <button onClick={handleApproval}>승인</button>
                 <button onClick={handleRejection}>반려</button>
               </>)
