@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './NewReports.css';
 import ReportsModal  from './ReportsModal';
 import { useDispatch } from 'react-redux';
-import { callCarMembersAPI } from '../../../../apis/ReportAPICalls';
+// import { callCarMembersAPI } from '../../../../apis/ReportAPICalls';
 
 function NewReports() {
     console.log('보고서 작성 페이지')
@@ -21,10 +21,10 @@ function NewReports() {
       setShowModal(false);
     }
 
-    // API
-    useEffect(() => {
-      dispatch(callCarMembersAPI());
-    }, [dispatch])
+    // // API
+    // useEffect(() => {
+    //   dispatch(callCarMembersAPI());
+    // }, [dispatch])
 
 
   return (
@@ -49,11 +49,6 @@ function NewReports() {
              </tr>
             </tbody>
           </table>
-          <div className="pagination">
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-          </div>
           <ReportsModal show={showModal} onClose={handleCloseModal}/>
         </div>
       </div>
