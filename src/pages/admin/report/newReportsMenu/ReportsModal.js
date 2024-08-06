@@ -29,7 +29,7 @@ function ReportsModal({ show, onClose }) {
 
 
   const [form, setForm] = useState({
-    vehicleReportStatus: '접수',
+    vehicleReportStatus: 'N',
     vehicleRemark: '',
     vehicleFuelCost: '',
     vehicleRegularInspection: '',
@@ -41,11 +41,12 @@ function ReportsModal({ show, onClose }) {
     beforeVehiclePhoto: '',
     afterVehiclePhoto: '',
     vehicleType: '' ,
+    
   });
 
   useEffect(() => {
     setForm({
-      vehicleReportStatus: '접수',
+      vehicleReportStatus: 'N',
       vehicleRemark: '',
       vehicleFuelCost: '',
       vehicleRegularInspection: '',
