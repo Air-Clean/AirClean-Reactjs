@@ -66,7 +66,7 @@ function AccordionAnotherComponent({
 
   const [deleteChecked, setDeleteChecked] = useState(false);
 
-  const image = emp.memberImage.split("/")[4];
+  const image = emp?.memberImage?.split("/")[4];
   const phone = getPhoneNumber(emp.memberPhoneNumber);
 
   // Handle delete button click

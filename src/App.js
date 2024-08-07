@@ -47,34 +47,24 @@ import Car from './pages/admin/car/Car';
 import MainPage from './pages/admin/main_page/MainPage';
 
 
-import { useDispatch } from 'react-redux';
-import { POST_LOGIN } from './modules/MemberModule';
+
 
 import Cardelivery from './pages/client/cardelivery/Cardelivery';
 
-
-
-
-
-// const ProtectedRoute = ({ children }) => {
-//   const { user } = useAuth();
-//   if (!user) {
-//     return <Navigate to="/" />;
-//   }
-//   return children;
-// };
-// 12
-
+import jwtDecode from 'jwt-decode';
 
 function App() {
 
 
+  // console.log('token',jwtDecode(window.localStorage.getItem('accessToken')))
 
+
+  // checkTokenExpiration(window.localStorage.getItem('accessToken'))
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Login/>} />
           <Route path="/company" element={<Layout/>}>
             <Route index element={<MainPage/>}/>
             <Route path='financial' element={<MainPage/>}>
@@ -151,8 +141,16 @@ function App() {
             <Route path="cardelivery">
               <Route index element={<Cardelivery/>} />
             </Route>
+            <Route path="members">
+              <Route index element={<EmployeeResource/>}/>
+              <Route path='employee' element={<EmployeeResource/>}/>
+              <Route path='branch' element={<BranchResource/>}/>
+              <Route path='driver' element={<DriverResource/>}/>
+              <Route path='temp' element={<TempResource/>}/>
+            </Route>
 
           </Route>
+         
 
           
 

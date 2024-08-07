@@ -98,3 +98,28 @@ export const selectLaundry = handleActions({
         };
     }
 }, initialState3);
+
+
+// laundryWaySelect 관련 액션 타입 정의
+export const SET_LAUNDRYWAY_SELECT = 'SET_LAUNDRYWAY_SELECT';
+
+// 초기 상태 정의
+const initialState4 = {
+    waterSupply: [], // 초기 상태를 올바르게 설정
+};
+
+// 액션 생성자 정의
+export const { setLaundryWaySelect } = createActions({
+    [SET_LAUNDRYWAY_SELECT]: payload => payload,
+});
+
+// 리듀서 정의
+export const selectLaundryWay = handleActions({
+    [SET_LAUNDRYWAY_SELECT]: (state, { payload }) => {
+        // console.log('리듀서 호출: SET_LAUNDRY_SELECT', payload);
+        return {
+            ...state,
+            waterSupply: payload // 서버에서 받아온 데이터를 payload에 저장
+        };
+    }
+}, initialState4);

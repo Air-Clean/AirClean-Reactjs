@@ -43,7 +43,7 @@ function EmployeeResource() {
 
     const dispatch = useDispatch();
 
-    const result = useSelector(state=>state.humanReducer);
+    let result = useSelector(state=>state.humanReducer);
 
     const employee = result?.data?.content;
     const totalPage = result?.data?.totalPages;
@@ -59,7 +59,10 @@ function EmployeeResource() {
             callEmployeeList({current : current})
         )
         console.log('callEMP')
+
+      
     },[current, dispatch])
+
 
     useEffect(() => {
       if (deleteMember?.length > 0) {
