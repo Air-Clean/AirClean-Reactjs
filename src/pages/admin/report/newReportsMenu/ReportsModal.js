@@ -27,7 +27,6 @@ function ReportsModal({ show, onClose }) {
   const [selectedDriverLicenseNumber, setSelectedDriverLicenseNumber] = useState(''); // 추가된 상태
   const [selectedType, setSelectedType] = useState('');
 
-
   const [form, setForm] = useState({
     vehicleReportStatus: 'N',
     vehicleRemark: '',
@@ -40,8 +39,7 @@ function ReportsModal({ show, onClose }) {
     totalVehicleRepairCost: '',
     beforeVehiclePhoto: '',
     afterVehiclePhoto: '',
-    vehicleType: '' ,
-    
+    vehicleType: ''
   });
 
   useEffect(() => {
@@ -57,7 +55,7 @@ function ReportsModal({ show, onClose }) {
       totalVehicleRepairCost: '',
       beforeVehiclePhoto: '',
       afterVehiclePhoto: '',
-      vehicleType: '' ,
+      vehicleType: ''
     });
     setSelectedDriverName('');
     setSelectedDriverLicenseNumber(''); // 상태 초기화
@@ -81,24 +79,34 @@ function ReportsModal({ show, onClose }) {
     setMinDate(formattedDate);
   }, []);
 
+  const addComma = (price) => {
+    let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return returnString;
+  }
+
+  const removeComma = (price) => {
+    return price?.toString().replace(/,/g, '');
+  }
+
   const inputHandler = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    const formattedValue = name === 'vehicleSubmissionDate' ? value : addComma(value.replace(/,/g, ''));
+    setForm({ ...form, [name]: formattedValue });
 
     // 종류에 따른 필드 값 설정
     if (name === 'totalVehicleRepairCost') {
       switch (selectedType) {
         case '주유비':
-          setForm(prevForm => ({ ...prevForm, vehicleFuelCost: value }));
+          setForm(prevForm => ({ ...prevForm, vehicleFuelCost: formattedValue }));
           break;
         case '수리비':
-          setForm(prevForm => ({ ...prevForm, vehicleVehicleRepairCost: value }));
+          setForm(prevForm => ({ ...prevForm, vehicleVehicleRepairCost: formattedValue }));
           break;
         case '정기점검':
-          setForm(prevForm => ({ ...prevForm, vehicleRegularInspection: value }));
+          setForm(prevForm => ({ ...prevForm, vehicleRegularInspection: formattedValue }));
           break;
         case '기타':
-          setForm(prevForm => ({ ...prevForm, vehicleMiscellaneous: value }));
+          setForm(prevForm => ({ ...prevForm, vehicleMiscellaneous: formattedValue }));
           break;
         default:
           break;
@@ -149,34 +157,32 @@ function ReportsModal({ show, onClose }) {
     }
   });
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     const formData = new FormData();
     formData.append('vehicleReportStatus', form.vehicleReportStatus);
     formData.append('vehicleRemark', form.vehicleRemark);
-    formData.append('vehicleFuelCost', form.vehicleFuelCost);
-    formData.append('vehicleRegularInspection', form.vehicleRegularInspection);
-    formData.append('vehicleVehicleRepairCost', form.vehicleVehicleRepairCost);
-    formData.append('vehicleMiscellaneous', form.vehicleMiscellaneous);
+    formData.append('vehicleFuelCost', Number(removeComma(form.vehicleFuelCost)));
+    formData.append('vehicleRegularInspection', Number(removeComma(form.vehicleRegularInspection)));
+    formData.append('vehicleVehicleRepairCost', Number(removeComma(form.vehicleVehicleRepairCost)));
+    formData.append('vehicleMiscellaneous', Number(removeComma(form.vehicleMiscellaneous)));
     formData.append('vehicleSubmissionDate', form.vehicleSubmissionDate);
     formData.append('driverLicenseNumber', selectedDriverLicenseNumber); // 수정된 부분
-    formData.append('totalVehicleRepairCost', form.totalVehicleRepairCost);
+    formData.append('totalVehicleRepairCost', Number(removeComma(form.totalVehicleRepairCost)));
     formData.append('memberName', selectedDriverName);
     formData.append('carNumber', selectedCarNumber);
     formData.append('vehicleType', form.vehicleType);
     formData.append('beforeImage', form.beforeVehiclePhoto);
     formData.append('afterImage', form.afterVehiclePhoto);
-  
-    const newVehicleRepairResult = await 
-    dispatch(callNewVehicleRepairAPI({ form: formData }));
-    if (newVehicleRepairResult.ok) {  
+
+    const newVehicleRepairResult = await dispatch(callNewVehicleRepairAPI({ form: formData }));
+    if (newVehicleRepairResult.ok) {
       alert('등록이 완료되었습니다!');
       onClose();
-      } else {
+    } else {
       alert('등록에 실패하였습니다. 다시 시도해주세요.');
-      }
+    }
   };
 
-  
   if (!show) {
     return null;
   }
@@ -238,10 +244,10 @@ function ReportsModal({ show, onClose }) {
             <FormGroup>
               <Label for="totalVehicleRepairCost">총 금액</Label>
               <Input
-                type="number"
+                type="text"
                 name="totalVehicleRepairCost"
                 id="totalVehicleRepairCost"
-                value={form.totalVehicleRepairCost}
+                value={addComma(form.totalVehicleRepairCost)}
                 onChange={inputHandler}
                 placeholder="총 금액을 입력해주세요"
               />

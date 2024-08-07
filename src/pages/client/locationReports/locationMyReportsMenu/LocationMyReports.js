@@ -84,7 +84,17 @@ function LocationMyReports() {
                     <td>{item.branchReportCode}</td>
                     <td>{item.branchName}</td>
                     <td>{new Date(item.branchSubmissionDate).toLocaleDateString()}</td>
-                    <td>{item.branchReportStatus}</td>
+                    <td>{
+                      (()=>{
+                        if(item.branchReportStatus==='N'){
+                          return('접수')
+                        }else if(item.branchReportApprove==="Y"){
+                          return('승인')
+                        }else{
+                          return('반려')
+                        }
+                      })()
+                    }</td>
                     <td><button onClick={() => navigate(`/location/paper/myReports/branchSales/${item.branchReportCode}`)}>View</button></td>
                 </tr>
                 ))}
@@ -109,7 +119,17 @@ function LocationMyReports() {
                     <td>{expense.expenseReportCode}</td>
                     <td>{expense.branchName}</td>
                     <td>{new Date(expense.expenseSubmissionDate).toLocaleDateString()}</td>
-                    <td>{expense.expenseReportStatus}</td>
+                    <td>{
+                      (()=>{
+                        if(expense.expenseReportStatus==='N'){
+                          return('접수')
+                        }else if(expense.expenseApprove==="Y"){
+                          return('승인')
+                        }else{
+                          return('반려')
+                        }
+                      })()
+                    }</td>
                     <td><button onClick={() => navigate(`/location/paper/myReports/expense/${expense.expenseReportCode}`)}>View</button></td>
                 </tr>
                 ))}
@@ -136,7 +156,17 @@ function LocationMyReports() {
                     <td>{repair.branchName}</td>
                     <td>{repair.facilityType}</td>
                     <td>{new Date(repair.repairSubmissionDate).toLocaleDateString()}</td>
-                    <td>{repair.repairReportStatus}</td>
+                    <td>{
+                      (()=>{
+                        if(repair.repairReportStatus==='N'){
+                          return('접수')
+                        }else if(repair.repairApprove==="Y"){
+                          return('승인')
+                        }else{
+                          return('반려')
+                        }
+                      })()
+                    }</td>
                     <td><button onClick={() => navigate(`/location/paper/myReports/repair/${repair.repairReportCode}`)}>View</button></td>
                 </tr>
                 ))}

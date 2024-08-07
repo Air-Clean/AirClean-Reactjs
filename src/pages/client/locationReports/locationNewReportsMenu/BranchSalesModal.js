@@ -30,7 +30,7 @@ function BranchSalesModal({ show, onClose }) {
 
   // form 
   const [form, setForm] = useState({
-    branchReportStatus: '접수',
+    branchReportStatus: 'N',
     branchSubmissionDate: '',
     officeSales: '',
     detergent: '',
@@ -42,15 +42,22 @@ function BranchSalesModal({ show, onClose }) {
     totalBranchSalesCost: '',
     branchName: branch.branchName,
     memberName: member.memberName,
-    branchCode  : branch.branchCode
+    branchCode: branch.branchCode,
+    branchSalesRemark: ''
   });
 
   // 금액 입력 
   const [totalCost, setTotalCost] = useState(0);
 
+  // 쉼표 추가 함수
+  const addComma = (price) => {
+    let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return returnString;
+  }
+
   useEffect(() => {
     setForm({
-      branchReportStatus: '접수',
+      branchReportStatus: 'N',
       branchSubmissionDate: '',
       officeSales: '',
       detergent: '',
@@ -62,7 +69,8 @@ function BranchSalesModal({ show, onClose }) {
       totalBranchSalesCost: '',
       branchName: branch.branchName,
       memberName: member.memberName,
-      branchCode: branch.branchCode
+      branchCode: branch.branchCode,
+      branchSalesRemark: ''
     });
   }, [show, branch.branchName, member.memberName, branch.branchCode]);
 
@@ -70,13 +78,13 @@ function BranchSalesModal({ show, onClose }) {
   useEffect(() => {
     const calculateTotalSales = () => {
       const total =
-        (parseFloat(form.officeSales) || 0) +
-        (parseFloat(form.detergent) || 0) +
-        (parseFloat(form.fabricSoftener) || 0) +
-        (parseFloat(form.bleach) || 0) +
-        (parseFloat(form.stainRemover) || 0) +
-        (parseFloat(form.washerCleaner) || 0) +
-        (parseFloat(form.dryerSheet) || 0);
+        (parseFloat(form.officeSales.replace(/,/g, '')) || 0) +
+        (parseFloat(form.detergent.replace(/,/g, '')) || 0) +
+        (parseFloat(form.fabricSoftener.replace(/,/g, '')) || 0) +
+        (parseFloat(form.bleach.replace(/,/g, '')) || 0) +
+        (parseFloat(form.stainRemover.replace(/,/g, '')) || 0) +
+        (parseFloat(form.washerCleaner.replace(/,/g, '')) || 0) +
+        (parseFloat(form.dryerSheet.replace(/,/g, '')) || 0);
       setTotalCost(total);
     };
     calculateTotalSales();
@@ -97,7 +105,7 @@ function BranchSalesModal({ show, onClose }) {
     const { id, value } = e.target;
     setForm(prevForm => ({
       ...prevForm,
-      [id]: value
+      [id]: id === 'branchSalesRemark' ? value : value.replace(/,/g, '') // 쉼표 제거
     }));
   }
 
@@ -153,7 +161,7 @@ function BranchSalesModal({ show, onClose }) {
                 type='text'
                 id="officeSales"
                 placeholder='일매출을 입력해주세요'
-                value={form.officeSales}
+                value={addComma(form.officeSales) || ''}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -165,7 +173,7 @@ function BranchSalesModal({ show, onClose }) {
                 type='text'
                 id="detergent"
                 placeholder='오늘의 세제 매출을 입력해주세요'
-                value={form.detergent}
+                value={addComma(form.detergent) || ''}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -179,7 +187,7 @@ function BranchSalesModal({ show, onClose }) {
                 type='text'
                 id="fabricSoftener"
                 placeholder='오늘의 섬유유연제 매출을 입력해주세요'
-                value={form.fabricSoftener}
+                value={addComma(form.fabricSoftener) || ''}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -191,7 +199,7 @@ function BranchSalesModal({ show, onClose }) {
                 type='text'
                 id="bleach"
                 placeholder='오늘의 표백제 매출을 입력해주세요'
-                value={form.bleach}
+                value={addComma(form.bleach) || ''}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -205,7 +213,7 @@ function BranchSalesModal({ show, onClose }) {
                 type='text'
                 id="stainRemover"
                 placeholder='오늘의 얼룩제거제 매출을 입력해주세요'
-                value={form.stainRemover}
+                value={addComma(form.stainRemover) || ''}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -217,7 +225,7 @@ function BranchSalesModal({ show, onClose }) {
                 type='text'
                 id="washerCleaner"
                 placeholder='오늘의 세탁조클리너 매출을 입력해주세요'
-                value={form.washerCleaner}
+                value={addComma(form.washerCleaner) || ''}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -231,7 +239,7 @@ function BranchSalesModal({ show, onClose }) {
                 type='text'
                 id="dryerSheet"
                 placeholder='오늘의 건조기시트 매출을 입력해주세요'
-                value={form.dryerSheet}
+                value={addComma(form.dryerSheet) || ''}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -242,40 +250,42 @@ function BranchSalesModal({ show, onClose }) {
               <Input
                 type='text'
                 id="totalCost"
-                value={totalCost}
+                value={addComma(totalCost) || ''}
                 readOnly
               />
             </FormGroup>
           </Col>
         </Row>
         <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="submissionDate">제출일</Label>
-                            <Input 
-                                type="date" 
-                                id="submissionDate"
-                                min={minDate}
-                                value={minDate}
-                                readOnly
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="remarks">비고</Label>
-                            <Input 
-                                type="textarea" 
-                                id="remarks"
-                                placeholder="특이사항을 입력하세요" 
-                            />
-                        </FormGroup>
-                    </Col>
-                </Row>
-            </ModalBody>
-            <ModalFooter>
-                <Button color="primary" onClick={handleSubmit}>등록</Button>
-                <Button color="secondary" onClick={onClose}>닫기</Button>
+          <Col md={6}>
+            <FormGroup>
+              <Label for="submissionDate">제출일</Label>
+              <Input 
+                type="date" 
+                id="submissionDate"
+                min={minDate}
+                value={minDate}
+                readOnly
+              />
+            </FormGroup>
+          </Col>
+          <Col md={6}>
+            <FormGroup>
+              <Label for="branchSalesRemark">비고</Label>
+              <Input 
+                type="textarea" 
+                id="branchSalesRemark"
+                placeholder="특이사항을 입력하세요" 
+                value={form.branchSalesRemark}
+                onChange={handleChange}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+      </ModalBody>
+      <ModalFooter>
+        <Button color="primary" onClick={handleSubmit}>등록</Button>
+        <Button color="secondary" onClick={onClose}>닫기</Button>
             </ModalFooter>
         </Modal>
     );

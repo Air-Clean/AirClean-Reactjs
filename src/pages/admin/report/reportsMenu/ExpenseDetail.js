@@ -10,9 +10,8 @@ function ExpenseDetail() {
   const params = useParams();
   const dispatch = useDispatch();
   const expenseDetail = useSelector(state => state.detailExpenseReducer);
-  const members  = jwtDecode(window.localStorage.getItem('accessToken'))
+  const members = jwtDecode(window.localStorage.getItem('accessToken'));
   const navigate = useNavigate();
-
 
   useEffect(() => {
     dispatch(callDetailExpenseAPI({
@@ -20,9 +19,13 @@ function ExpenseDetail() {
     }));
   }, [dispatch, params.expenseReportCode]);
 
+  const addComma = (price) => {
+    return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const handleClose = () => {
     navigate('/company/paper/reports', { state: { activeTable: '지출' } });
-  }
+  };
 
   const handleApproval = async () => {
     try {
@@ -52,7 +55,6 @@ function ExpenseDetail() {
     }
   };
 
-
   console.log('여까지 왔어?')
   return (
     <div className="branchDetail_menu1_layout">
@@ -80,45 +82,44 @@ function ExpenseDetail() {
               <tr>
                 <th rowSpan="8" className="vertical-header">내용</th>
                 <th className="header">전기세</th>
-                <td colSpan="4">{expenseDetail.electricityBill}</td>
+                <td colSpan="4">{addComma(expenseDetail.electricityBill)}</td>
               </tr>
               <tr>
                 <th className="header">수도세</th>
-                <td colSpan="4">{expenseDetail.waterBill}</td>
+                <td colSpan="4">{addComma(expenseDetail.waterBill)}</td>
               </tr>
               <tr>
                 <th className="header">가스비</th>
-                <td colSpan="4">{expenseDetail.gasBill}</td>
+                <td colSpan="4">{addComma(expenseDetail.gasBill)}</td>
               </tr>
               <tr>
                 <th className="header">알바비</th>
-                <td colSpan="4">{expenseDetail.partTimeSalary}</td>
+                <td colSpan="4">{addComma(expenseDetail.partTimeSalary)}</td>
               </tr>
               <tr>
-                <th className="header">총금액</th>
-                <td colSpan="4">{expenseDetail.totalExpenseCost}</td> {/* 총금액 컬럼명으로 바꿔놓기 */}
+                <th className="header">총 금액</th>
+                <td colSpan="4">{addComma(expenseDetail.totalExpenseCost)}</td> {/* 총금액 컬럼명으로 바꿔놓기 */}
               </tr>
-
+              <tr>
+                <th className="header">비고</th>
+                <td colSpan="4">{expenseDetail.expenseRemark}</td>
+              </tr>
             </tbody>
           </table>
           <div className="formButtons">
             {
-              members.memberRole === 'a' && ( expenseDetail.expenseReportStatus === 'N' &&
-              <>
-                <button onClick={handleApproval}>승인</button>
-                <button onClick={handleRejection}>반려</button>
-              </>)
+              members.memberRole === 'a' && (expenseDetail.expenseReportStatus === 'N' &&
+                <>
+                  <button onClick={handleApproval}>승인</button>
+                  <button onClick={handleRejection}>반려</button>
+                </>
+              )
             }
             <button onClick={handleClose}>닫기</button>
           </div>
         </div>
       </div>
     </div>
-
-    
   );
 }
-
-console.log('여기는 왔니...?')
 export default ExpenseDetail;
-

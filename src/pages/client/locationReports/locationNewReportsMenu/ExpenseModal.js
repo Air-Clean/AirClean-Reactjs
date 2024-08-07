@@ -32,18 +32,20 @@ function ExpenseModal({ show, onClose }) {
     partTimeSalary: "",
     repairCost: "",
     totalExpenseCost: "",
-    expenseReportStatus: "접수",
+    expenseReportStatus: "N",
     expenseSubmissionDate: "",
     monthDate: "",
     branchName: branch.branchName,
     memberName: member.memberName,
     branchCode: branch.branchCode,
+    expenseRemark: "",
   });
 
   const addComma = (price) => {
     let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return returnString;
-     }
+  }
+
   const handleSubmit = () => {
     const data = {
       ...form,
@@ -54,25 +56,26 @@ function ExpenseModal({ show, onClose }) {
     alert("등록이 완료되었습니다!");
     onClose();
   };
+
   const handleChange = (e) => {
     const { id, value } = e.target;
 
-    let str = value.replaceAll(',','');
+    let str = value.replaceAll(',', '');
 
-    if(id==='monthDate'){
-        dispatch(callWaterCost({branchCode : branch.branchCode , month : value}))
+    if (id === 'monthDate') {
+      dispatch(callWaterCost({ branchCode: branch.branchCode, month: value }))
     }
     setForm((prevForm) => ({
       ...prevForm,
-      [id]: str,
+      [id]: id === 'expenseRemark' ? value : str,
     }));
   };
 
-  const waterCost = useSelector(state=>state.waterCostReducer);
+  const waterCost = useSelector(state => state.waterCostReducer);
 
-  useEffect(()=>{
+  useEffect(() => {
     setForm(prevForm => ({ ...prevForm, waterBill: waterCost.waterCost }));
-  },[waterCost])
+  }, [waterCost])
 
   // 날짜
   useEffect(() => {
@@ -98,7 +101,7 @@ function ExpenseModal({ show, onClose }) {
   // form
   useEffect(() => {
     setForm({
-      expenseReportStatus: "접수",
+      expenseReportStatus: "N",
       expenseSubmissionDate: "",
       monthDate: "",
       electricityBill: "",
@@ -111,6 +114,7 @@ function ExpenseModal({ show, onClose }) {
       branchName: branch.branchName,
       memberName: member.memberName,
       branchCode: branch.branchCode,
+      expenseRemark: "",
     });
   }, [show, branch.branchName, member.memberName, branch.branchCode]);
 
@@ -184,7 +188,7 @@ function ExpenseModal({ show, onClose }) {
                 type="text"
                 id="electricityBill"
                 placeholder="이번달 전기세를 입력해주세요."
-                value={form.electricityBill}
+                value={addComma(form.electricityBill) || ''}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -210,7 +214,7 @@ function ExpenseModal({ show, onClose }) {
                 type="text"
                 id="gasBill"
                 placeholder="이번달 가스비를 입력해주세요."
-                value={form.gasBill}
+                value={addComma(form.gasBill) || ''}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -222,7 +226,7 @@ function ExpenseModal({ show, onClose }) {
                 type="text"
                 id="partTimeSalary"
                 placeholder="이번달 알바비를 입력해주세요."
-                value={form.partTimeSalary}
+                value={addComma(form.partTimeSalary) || ''}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -236,7 +240,7 @@ function ExpenseModal({ show, onClose }) {
                 type="text"
                 id="repairCost"
                 placeholder="이번달 시설물수리비를 입력해주세요."
-                value={form.repairCost}
+                value={addComma(form.repairCost) || ''}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -246,19 +250,21 @@ function ExpenseModal({ show, onClose }) {
           <Col md={6}>
             <FormGroup>
               <Label for="totalCost">총 지출</Label>
-              <Input type="text" id="totalCost" value={totalCost} readOnly />
+              <Input type="text" id="totalCost" value={addComma(totalCost) || ''} readOnly />
             </FormGroup>
           </Col>
         </Row>
         
         <Row form>
-          <Col md={6}>
+          <Col md={12}>
             <FormGroup>
-              <Label for="remarks">비고</Label>
+              <Label for="expenseRemark">비고</Label>
               <Input
                 type="textarea"
-                id="remarks"
+                id="expenseRemark"
                 placeholder="특이사항을 입력하세요"
+                value={form.expenseRemark}
+                onChange={handleChange}
               />
             </FormGroup>
           </Col>
