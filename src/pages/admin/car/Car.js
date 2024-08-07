@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Car.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { callCarInfoListAPI ,callDriverWithNoAssigned} from '../../../apis/CarAPICalls';
+import { callCarInfoListAPI ,callDriverWithNoAssigned, callRegistCar, callDeleteCar} from '../../../apis/CarAPICalls';
 import Paging from '../../../components/paging/Paging';
 
 function Car() {
@@ -64,8 +64,26 @@ function Car() {
     const handleRegisterSubmit = () => {
         if (newCar.carNumber && newCar.carDate && newCar.carPhoto1 && newCar.carPhoto2 && newCar.carEtc && !carDateError) {
             // 여기서는 그냥 등록된 데이터를 carList에 추가합니다.
+
+            console.log('newCar',newCar)
+            const formData = new FormData();
+
+            formData.append('carDate',newCar.carDate)
+            formData.append('carEtc',newCar.carEtc)
+            formData.append('carNumber',newCar.carNumber)
+            formData.append("photo1",newCar.carPhoto1)
+            formData.append("photo2",newCar.carPhoto2)
+
+            dispatch(callRegistCar({form : formData}))
+            
+
+
+
+
             setShowRegisterForm(false);
             setNewCar({ carNumber: '', carDate: '', carPhoto1: null, carPhoto2: null, carEtc: '' });
+
+            // window.location.reload();
         }
     };
 
@@ -92,6 +110,11 @@ function Car() {
     };
 
     const handleDelete = () => {
+
+        console.log('삭제가 선택된 자동차',selectedCars)
+
+        dispatch(callDeleteCar({selectedCars : selectedCars}))
+        
         setSelectedCars([]);
         setShowCheckboxes(false);
     };
@@ -197,9 +220,9 @@ function Car() {
                             <label>출고일:</label>
                             <input type="date" name="carDate" value={newCar.carDate} onChange={handleRegisterChange} />
                             {carDateError && <p className={styles.error}>{carDateError}</p>}
-                            <label>차량 사진 1:</label>
+                            <label>차량 사진 (앞):</label>
                             <input type="file" name="carPhoto1" onChange={handleRegisterChange} />
-                            <label>차량 사진 2:</label>
+                            <label>차량 사진 (뒤):</label>
                             <input type="file" name="carPhoto2" onChange={handleRegisterChange} />
                             <label>특이사항:</label>
                             <input type="text" name="carEtc" value={newCar.carEtc} onChange={handleRegisterChange} />

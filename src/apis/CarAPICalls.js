@@ -61,3 +61,41 @@ export function callDriverWithNoAssigned(){
         }
     }
 }
+
+export function callRegistCar({form}){
+    console.log('callRegistCar', form) 
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/car`
+
+    return async (dispatch, getState)=>{
+        const result = await fetch(requestURL,{
+            method : 'POST',
+            headers : {
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+            },
+            body : form
+        }).then(res=>res.json())
+
+        console.log('callRegistCar result ',result)
+    }
+
+}
+
+export function callDeleteCar({selectedCars}){
+    console.log("callDeleteCar 동작",selectedCars)
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/car`
+
+    return async (dispatch,getState)=>{
+        const result = await fetch(requestURL,{
+            method : "DELETE",
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+            },
+            body : JSON.stringify(selectedCars)
+        }).then(res=>res.json())
+    }
+}

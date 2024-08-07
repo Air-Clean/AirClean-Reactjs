@@ -163,7 +163,7 @@ export function softDeleteEmployee({current,amount}){
         }).then(res=>res.json())
         
         if(result.status===200){
-            // dispatch({type: EMPLOYEE , payload : result.data})
+            dispatch({type: EMPLOYEE , payload : result.data})
         }
     }
 }
@@ -240,7 +240,7 @@ export const callBranchList=({current})=>{
         }).then(res=>res.json())
 
         if(result.status === 200){
-            console.log('callEmployeeList 조회 성공 ',result)
+            console.log('callBranchList 조회 성공 ',result)
 
             dispatch({type : BRANCH , payload : result.data })
         }
@@ -269,7 +269,7 @@ export function callSoftDeleteBranch({deleteMember}){
 
         if(result.status ===200){
             console.log('삭제성공')
-            dispatch({type : EMPLOYEE , payload : result.data})
+            // dispatch({type : EMPLOYEE , payload : result.data})
         }
     }
 
@@ -278,7 +278,7 @@ export function callSoftDeleteBranch({deleteMember}){
 
 
 export function softDeleteBranch({current,amount}){
-    console.log('softDeleteEmployee 동작')
+    console.log('softDeleteBranch 동작')
 
     let requestURL= null;
     
@@ -333,7 +333,7 @@ export function callBranchDeleteApi({killMember}){
         }).then(res=>res.json())
 
         if(result.status===200){
-            dispatch({type : BRANCH , payload : result.data})
+            // dispatch({type : BRANCH , payload : result.data})
         }
 
     }
@@ -356,7 +356,7 @@ export function callBranchBackApi({saveMember}){
 
         if(result.status===200){
             console.log('되살리기 성공')
-            dispatch({type : BRANCH , payload : result.data})
+            // dispatch({type : BRANCH , payload : result.data})
         }
     }
 }
@@ -381,7 +381,7 @@ export function registBranch({form}){
         })
 
         if(result.status === 200){
-            dispacth({type : BRANCH , payload : result.data})
+            // dispacth({type : BRANCH , payload : result.data})
         }
     }
 }
@@ -481,7 +481,7 @@ export function callSoftDeleteDriver({deleteMember}){
 
         if(result.status ===200){
             console.log('삭제성공')
-            dispatch({type : EMPLOYEE , payload : result.data})
+            // dispatch({type : EMPLOYEE , payload : result.data})
         }
     }
 
@@ -489,7 +489,7 @@ export function callSoftDeleteDriver({deleteMember}){
 }
 
 export function softDeleteDriver({current,amount}){
-    console.log('softDeleteEmployee 동작')
+    console.log('softDeleteDriver 동작')
 
     let requestURL= null;
     
@@ -556,7 +556,7 @@ export function registDriver({form}){
         })
 
         if(result.status === 200){
-            dispacth({type : BRANCH , payload : result.data})
+            // dispacth({type : BRANCH , payload : result.data})
         }
     }
 }

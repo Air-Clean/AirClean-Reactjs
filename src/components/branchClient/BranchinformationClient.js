@@ -23,8 +23,8 @@ export default function BranchInformation({ branch, facility }) {
   useEffect(() => {
     if (branch) {
         console.log(' branch 있는거 아니야 ? ',branch)
-      if (branch.branchOwnerPageDTOS.length !== 0) {
-        setManager(branch.branchOwnerPageDTOS[0].membersPageDTO);
+      if (branch?.branchOwnerPageDTOS?.length !== 0) {
+        setManager(branch?.branchOwnerPageDTOS[0]?.membersPageDTO);
       } else {
         setManager("");
       }
@@ -46,30 +46,30 @@ export default function BranchInformation({ branch, facility }) {
       <div className="branchInformationHeader">
         {branch ? (<><div className="branchInfromationImage">
           <img
-            src={branch.branchImage}
+            src={branch?.branchImage}
             alt="이미지 준비중"
             width={"90%"}
             height={"60%"}
             style={{ borderRadius: "5px" }}
           />
-          <div>{branch.branchName}</div>
+          <div>{branch?.branchName}</div>
         </div>
         <div className="branchInfromationText">
           <p>
             <strong>지점 코드 : </strong>
-            {branch.branchCode}
+            {branch?.branchCode}
           </p>
           <p>
             <strong>전화 번호 : </strong>
-            {branch.branchPhone}
+            {branch?.branchPhone}
           </p>
           <p>
             <strong>주소 : </strong>
-            {branch.branchAddress}
+            {branch?.branchAddress}
           </p>
           <p>
             <strong>개점일 : </strong>
-            {branch.branchOpenDate}
+            {branch?.branchOpenDate}
           </p>
         </div></>) : ''}
         

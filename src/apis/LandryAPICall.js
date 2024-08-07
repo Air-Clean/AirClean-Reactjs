@@ -1,4 +1,4 @@
-import { SET_WATER_LEVEL, SET_WATER_SUPPLY, SET_LAUNDRY_SELECT } from '../modules/LandlyModule';
+import { SET_WATER_LEVEL, SET_WATER_SUPPLY, SET_LAUNDRY_SELECT , SET_LAUNDRYWAY_SELECT} from '../modules/LandlyModule';
 import axios from 'axios';
 
 export function fetchWaterLevel() {
@@ -112,6 +112,36 @@ export function updateLaundryStatus(laundryCode, statusType, statusValue, branch
             dispatch(fetchLaundrySelect(branchCode));
         } catch (error) {
             console.error('Failed to update laundry status', error);
+        }
+    };
+}
+
+export function selectLaundryWay(branchCode) {
+    // console.log("패치 실행되었습니다");
+    // console.log("패치 안에서의 출력입니다: ", branchCode);
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/registration/selectLaundryWay/${branchCode}`;
+
+    return async (dispatch) => {
+        try {
+            const result = await fetch(requestURL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            }).then(res => res.json());
+
+            console.log('supply Way result: ', result);
+
+            dispatch({
+                type: SET_LAUNDRYWAY_SELECT,
+                payload: result.data.laundryWayList 
+            });
+            
+        } catch (error) {
+            console.error('디스패치 실패 했습니다.', error);
         }
     };
 }

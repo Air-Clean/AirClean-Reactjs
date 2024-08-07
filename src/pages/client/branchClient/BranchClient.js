@@ -10,6 +10,8 @@ import { useLocation } from 'react-router-dom';
 
 function Branch() {
 
+    console.log('branch 정보 정보')
+
     const [locationName, setLocationName] = useState('전체');
     const [branchData , setBranchData] = useState([]); 
 
@@ -65,7 +67,7 @@ function Branch() {
 
         const changeData = {...local, '전체': branchInfo ,'중앙' : center , '동부' : east , '서부' : west , '남부' : south , '북부' : north}
 
-        console.log('data 가 잘 정렬 되었는가 ?', changeData)
+        console.log('branch data 가 잘 정렬 되었는가 ?', changeData)
 
         setLocal(changeData);
         const myBranch = JSON.parse(window.localStorage.getItem('branch'));
@@ -80,6 +82,8 @@ function Branch() {
     useEffect(()=>{
         setBranchData(local[locationName])
     },[locationName, local])
+
+    console.log('branch facility',facility)
 
     return (
             <div className="branch_layout" style={{ height: 'calc(100vh - 130px)' }}>

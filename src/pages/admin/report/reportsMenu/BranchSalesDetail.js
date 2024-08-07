@@ -21,6 +21,10 @@ function BranchSalesDetail() {
     }));
   }, [dispatch, params.branchReportCode]);
 
+  const addComma = (price) => {
+    return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   const handleClose = () => {
     navigate('/company/paper/reports', { state: { activeTable: '매출' } });
   };
@@ -29,6 +33,9 @@ function BranchSalesDetail() {
     try {
       await axios.put(`/paper/company/reports/approve/${params.branchReportCode}`);
       alert('승인되었습니다.');
+      dispatch(calldetailBranchSalesAPI({
+        branchReportCode: params.branchReportCode
+      }));
       navigate('/company/paper/reports', { state: { activeTable: '매출' } });
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
@@ -40,6 +47,9 @@ function BranchSalesDetail() {
     try {
       await axios.put(`/paper/company/reports/reject/${params.branchReportCode}`);
       alert('반려되었습니다.');
+      dispatch(calldetailBranchSalesAPI({
+        branchReportCode: params.branchReportCode
+      }));
       navigate('/company/paper/reports', { state: { activeTable: '매출' } });
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
@@ -71,41 +81,45 @@ function BranchSalesDetail() {
               <tr>
                 <th rowSpan="8" className="vertical-header">내용</th>
                 <th className="header">세제</th>
-                <td colSpan="4">{branchSalesDetail.detergent}</td>
+                <td colSpan="4">{addComma(branchSalesDetail.detergent)}</td>
               </tr>
               <tr>
                 <th className="header">섬유유연제</th>
-                <td colSpan="4">{branchSalesDetail.fabricSoftener}</td>
+                <td colSpan="4">{addComma(branchSalesDetail.fabricSoftener)}</td>
               </tr>
               <tr>
                 <th className="header">표백제</th>
-                <td colSpan="4">{branchSalesDetail.bleach}</td>
+                <td colSpan="4">{addComma(branchSalesDetail.bleach)}</td>
               </tr>
               <tr>
                 <th className="header">얼룩제거제</th>
-                <td colSpan="4">{branchSalesDetail.stainRemover}</td>
+                <td colSpan="4">{addComma(branchSalesDetail.stainRemover)}</td>
               </tr>
               <tr>
                 <th className="header">세탁조 클리너</th>
-                <td colSpan="4">{branchSalesDetail.washerCleaner}</td>
+                <td colSpan="4">{addComma(branchSalesDetail.washerCleaner)}</td>
               </tr>
               <tr>
                 <th className="header">건조기시트</th>
-                <td colSpan="4">{branchSalesDetail.dryerSheet}</td>
+                <td colSpan="4">{addComma(branchSalesDetail.dryerSheet)}</td>
               </tr>
               <tr>
                 <th className="header">오프라인매출</th>
-                <td colSpan="4">{branchSalesDetail.officeSales}</td>
+                <td colSpan="4">{addComma(branchSalesDetail.officeSales)}</td>
               </tr>
               <tr>
                 <th className="header">총 금액</th>
-                <td colSpan="4">{branchSalesDetail.totalBranchSalesCost}</td>  {/* 총금액 컬럼으로 바꿔놓기 */}
+                <td colSpan="4">{addComma(branchSalesDetail.totalBranchSalesCost)}</td>
+              </tr>
+              <tr>
+                <th className="header">비고</th>
+                <td colSpan="4">{branchSalesDetail.branchSalesRemark}</td>
               </tr>
             </tbody>
           </table>
           <div className="formButtons">
             {
-              members.memberRole === 'a' && (
+              members.memberRole === 'a' && ( branchSalesDetail.branchReportStatus === 'N' &&
                 <>
                   <button onClick={handleApproval}>승인</button>
                   <button onClick={handleRejection}>반려</button>

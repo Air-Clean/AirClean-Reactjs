@@ -46,6 +46,10 @@ const AdminHeader = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  
+  const goMain=()=>{
+    navigate("/location/facilityAndLaundry", { replace: false });
+  }
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -53,7 +57,7 @@ const AdminHeader = () => {
     <>
       <div className={styles.headerContainer}>
         <header className={styles.header}>
-          <div className={styles.logo}>
+          <div className={styles.logo} onClick={goMain} style={{cursor : 'pointer'}}>
             <img src={logo} alt="Logo" />
           </div>
           <div className={styles.actions}>
@@ -123,6 +127,12 @@ const AdminHeader = () => {
             >
               <div>시설물현황</div>
             </li>
+            <li
+              className={`${styles.menuItem} ${activeMenu === 6 ? styles.active : ''}`}
+              onClick={() => changeColor(6)}
+            >
+              <div>인적자원</div>
+            </li>
           </ul>
           {dropdownVisible && (
             <div className={styles.dropdown}>
@@ -181,6 +191,52 @@ const AdminHeader = () => {
                       </ul>
                     </li>
                   </ul> */}
+                </li>
+                <li className={styles.menuItem6} onClick={() => changeColor(6)}>
+                  <NavLink
+                    to="members/employee"
+                    className={({ isActive }) =>
+                      isActive ? styles.active : ""
+                    }
+                  >
+                    직원
+                  </NavLink>
+                  <ul className={styles.submenu}>
+                    <li>
+                      <NavLink
+                        to="members/branch"
+                        className={({ isActive }) =>
+                          isActive ? styles.active : ""
+                        }
+                      >
+                        지점장
+                      </NavLink>
+                      <ul className={styles.submenu}>
+                        <li>
+                          <NavLink
+                            to="members/driver"
+                            className={({ isActive }) =>
+                              isActive ? styles.active : ""
+                            }
+                          >
+                            차량기사
+                          </NavLink>
+                          <ul className={styles.submenu}>
+                            <li>
+                              <NavLink
+                                to="members/temp"
+                                className={({ isActive }) =>
+                                  isActive ? styles.active : ""
+                                }
+                              >
+                                보류기록
+                              </NavLink>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </div>

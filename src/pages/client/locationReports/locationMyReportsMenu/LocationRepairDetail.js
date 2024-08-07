@@ -203,7 +203,7 @@ function LocationRepairDetail() {
                         </tbody>
                     </table>
                     <div className="formButtons">
-                        {repairDetail.repairReportStatus === "접수" ? (
+                        {repairDetail.repairReportStatus === "N" ? (
                             <>
                                 {isEditMode ? (
                                     <>

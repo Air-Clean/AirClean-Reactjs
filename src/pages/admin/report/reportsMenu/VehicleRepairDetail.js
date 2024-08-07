@@ -19,6 +19,10 @@ function VehicleRepairDetail() {
     }));
   }, [dispatch, params.vehicleReportCode]);
 
+  const addComma = (price) => {
+    return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const handleClose = () => {
     navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });
   };
@@ -27,6 +31,9 @@ function VehicleRepairDetail() {
     try {
       await axios.put(`/paper/company/reports/vehicleRepairApprove/${params.vehicleReportCode}`);
       alert('승인되었습니다.');
+      dispatch(callDetailVehicleRepairAPI({
+        vehicleReportCode: params.vehicleReportCode
+      }));
       navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
@@ -38,6 +45,9 @@ function VehicleRepairDetail() {
     try {
       await axios.put(`/paper/company/reports/vehicleRepairReject/${params.vehicleReportCode}`);
       alert('반려되었습니다.');
+      dispatch(callDetailVehicleRepairAPI({
+        vehicleReportCode: params.vehicleReportCode
+      }));
       navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
@@ -45,17 +55,13 @@ function VehicleRepairDetail() {
     }
   };
 
-    // 이미지 URL을 형성하는 함수
-    const getBeforeImageUrl = (beforeVehiclePhoto) => {
-      return `http://localhost:8080/memberimgs/${beforeVehiclePhoto}`; // 이미지가 저장된 경로로 변경
-    };
-  
+  const getBeforeImageUrl = (beforeVehiclePhoto) => {
+    return `http://localhost:8080/memberimgs/${beforeVehiclePhoto}`;
+  };
 
-    // 이미지 URL을 형성하는 함수
-    const getAfterImageUrl = (afterVehiclePhoto) => {
-      return `http://localhost:8080/memberimgs/${afterVehiclePhoto}`; // 이미지가 저장된 경로로 변경
-    };
-
+  const getAfterImageUrl = (afterVehiclePhoto) => {
+    return `http://localhost:8080/memberimgs/${afterVehiclePhoto}`;
+  };
 
   return (
     <div className="branchDetail_menu1_layout">
@@ -85,7 +91,7 @@ function VehicleRepairDetail() {
               </tr>
               <tr>
                 <th className="header">총 금액</th>
-                <td colSpan="4">{vehicleRepairDetail.totalVehicleRepairCost}</td>
+                <td colSpan="4">{addComma(vehicleRepairDetail.totalVehicleRepairCost)}</td>
               </tr>
               <tr>
                 <th className="header">수리전 사진</th>
@@ -118,7 +124,7 @@ function VehicleRepairDetail() {
             </tbody>
           </table>
           <div className="formButtons">
-            {members.memberRole === 'a' && (
+            {members.memberRole === 'a' && (vehicleRepairDetail.vehicleReportStatus === 'N' &&
               <>
                 <button onClick={handleApproval}>승인</button>
                 <button onClick={handleRejection}>반려</button>
