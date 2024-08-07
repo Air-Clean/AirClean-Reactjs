@@ -28,7 +28,7 @@ function RepairModal({ show, onClose }) {
         facilityCount: '',
         facilityType: '',
         repairPhoto: '',
-        repairReportStatus: '접수',
+        repairReportStatus: 'N',
         branchName: branch.branchName,
         memberName: member.memberName,
         branchCode  : branch.branchCode
@@ -70,7 +70,7 @@ function RepairModal({ show, onClose }) {
 
     useEffect(() => {
         setForm({
-            repairReportStatus: '접수',
+            repairReportStatus: 'N',
             repairSubmissionDate: '',
             repairContent: '',
             facilityCount: '',
@@ -93,7 +93,7 @@ function RepairModal({ show, onClose }) {
 
     const { getRootProps: getImageRootProps, getInputProps: getImageInputProps } = useDropzone({
         onDrop: onDropImage,
-      accept: {
+        accept: {
             "image/*": [".jpeg", ".jpg", ".png"]
         }
 

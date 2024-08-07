@@ -24,7 +24,8 @@ function LocationExpenseDetail() {
         memberName: '',
         branchName: '',
         expenseSubmissionDate: '',
-        monthDate: ''
+        monthDate: '',
+        expenseRemark: ''
     });
 
     console.log('members page', members);
@@ -49,10 +50,16 @@ function LocationExpenseDetail() {
                 memberName: expenseDetail.memberName || '',
                 branchName: expenseDetail.branchName || '',
                 expenseSubmissionDate: expenseDetail.expenseSubmissionDate || '',
-                monthDate: expenseDetail.monthDate || ''
+                monthDate: expenseDetail.monthDate || '',
+                expenseRemark: expenseDetail.expenseRemark || ''
             });
         }
     }, [expenseDetail]);
+
+    const addComma = (price) => {
+        let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return returnString;
+    }
 
     useEffect(() => {
         if (isEditMode) {
@@ -82,10 +89,9 @@ function LocationExpenseDetail() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         setFormData({
             ...formData,
-            [name]: formattedValue
+            [name]: name === 'expenseRemark' ? value : value.replace(/,/g, '') // 쉼표 제거
         });
     }
 
@@ -97,8 +103,11 @@ function LocationExpenseDetail() {
             gasBill: Number(formData.gasBill.replace(/,/g, '')),
             partTimeSalary: Number(formData.partTimeSalary.replace(/,/g, '')),
             repairCost: Number(formData.repairCost.replace(/,/g, '')),
-            totalExpenseCost: Number(formData.totalExpenseCost.replace(/,/g, ''))
+            totalExpenseCost: Number(formData.totalExpenseCost.replace(/,/g, '')),
+            expenseRemark: formData.expenseRemark
         };
+
+        console.log("updateData", updateData)
 
         const updateExpenseResult = await dispatch(callUpdateExpenseAPI({ expenseReportCode: formData.expenseReportCode, data: updateData }));
         setIsEditMode(false);
@@ -159,10 +168,10 @@ function LocationExpenseDetail() {
                                         <input 
                                             type='text' 
                                             name='electricityBill'
-                                            value={formData.electricityBill || ''}
+                                            value={addComma(formData.electricityBill) || ''}
                                             onChange={handleInputChange}
                                         /> 
-                                        : parseFloat(expenseDetail.electricityBill || '0').toLocaleString()}
+                                        : addComma(expenseDetail.electricityBill)}
                                 </td>
                             </tr>
                             <tr>
@@ -171,10 +180,10 @@ function LocationExpenseDetail() {
                                     <input 
                                         type='text' 
                                         name='waterBill'
-                                        value={formData.waterBill || ''}
+                                        value={addComma(formData.waterBill) || ''}
                                         onChange={handleInputChange}
                                     /> 
-                                    : parseFloat(expenseDetail.waterBill || '0').toLocaleString()}
+                                    : addComma(expenseDetail.waterBill)}
                                 </td>
                             </tr>
                             <tr>
@@ -183,10 +192,10 @@ function LocationExpenseDetail() {
                                     <input 
                                         type='text' 
                                         name='gasBill'
-                                        value={formData.gasBill || ''}
+                                        value={addComma(formData.gasBill) || ''}
                                         onChange={handleInputChange}
                                     /> 
-                                    : parseFloat(expenseDetail.gasBill || '0').toLocaleString()}
+                                    : addComma(expenseDetail.gasBill)}
                                 </td>
                             </tr>
                             <tr>
@@ -195,10 +204,22 @@ function LocationExpenseDetail() {
                                     <input 
                                         type='text' 
                                         name='partTimeSalary'
-                                        value={formData.partTimeSalary || ''}
+                                        value={addComma(formData.partTimeSalary) || ''}
                                         onChange={handleInputChange}
                                     /> 
-                                    : parseFloat(expenseDetail.partTimeSalary || '0').toLocaleString()}
+                                    : addComma(expenseDetail.partTimeSalary)}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th className="header">시설물수리비</th>
+                                <td colSpan="4">{isEditMode ? 
+                                    <input 
+                                        type='text' 
+                                        name='repairCost'
+                                        value={addComma(formData.repairCost) || ''}
+                                        onChange={handleInputChange}
+                                    /> 
+                                    : addComma(expenseDetail.repairCost)}
                                 </td>
                             </tr>
                             <tr>
@@ -207,33 +228,44 @@ function LocationExpenseDetail() {
                                     <input 
                                         type='text' 
                                         name='totalExpenseCost'
-                                        value={parseFloat(formData.totalExpenseCost || '0').toLocaleString()}
+                                        value={addComma(formData.totalExpenseCost) || ''}
                                         onChange={handleInputChange}
                                     /> 
-                                    : parseFloat(expenseDetail.totalExpenseCost || '0').toLocaleString()}
+                                    : addComma(expenseDetail.totalExpenseCost)}
                                 </td>
                             </tr>
-                        </tbody>
+                            <tr>
+                            <th className="header">비고</th>
+                                <td colSpan="4">{isEditMode ?
+                                    <input 
+                                        type='textarea' 
+                                        name='expenseRemark'
+                                        value={formData.expenseRemark || ''}
+                                        onChange={handleInputChange}
+                                    /> 
+                                        : expenseDetail.expenseRemark}
+                                </td>
+                            </tr>
+                            </tbody>
                     </table>
-                    <div className="formButtons">
-                        {expenseDetail.expenseReportStatus === "접수" ? (
-                            <>
-                                {isEditMode ? (
-                                    <button onClick={handleSaveClick}>저장</button>
-                                ) : (
-                                    <button onClick={handleEditClick}>수정</button>
-                                )}
-                                <button onClick={handleDeleteClick}>삭제</button>
-                                <button onClick={handleClose}>닫기</button>
-                            </>
-                        ) : (
-                            <button onClick={handleClose}>닫기</button>
-                )}
-            </div>
-            </div>
-        </div>
-        </div>
-    );
-    }
-
-export default LocationExpenseDetail;
+                        <div className="formButtons">
+                            {expenseDetail.expenseReportStatus === "N" ? (
+                                <>
+                                    {isEditMode ? (
+                                            <button onClick={handleSaveClick}>저장</button>
+                                            ) : (
+                                            <button onClick={handleEditClick}>수정</button>
+                                            )}
+                                            <button onClick={handleDeleteClick}>삭제</button>
+                                            <button onClick={handleClose}>닫기</button>
+                                </>
+                                    ) : (
+                                            <button onClick={handleClose}>닫기</button>
+                                        )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        export default LocationExpenseDetail;
