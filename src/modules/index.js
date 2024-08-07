@@ -20,7 +20,7 @@ import {
 
 import  {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer}  from "./StockModule";
 
-import facilityDetailInfoReducer from "./FacilityModule";
+import {facilityDetailInfoReducer, facilityLaundryWayReducer} from "./FacilityModule";
 
 import {waterLevelReducer} from "./LandlyModule";
 import {selectLocationWater} from "./LandlyModule";
@@ -73,6 +73,7 @@ const rootReducer = combineReducers({
     branchStockHistoryReducer,
 
     facilityDetailInfoReducer,
+    facilityLaundryWayReducer,
 
     branchReducer,
 
