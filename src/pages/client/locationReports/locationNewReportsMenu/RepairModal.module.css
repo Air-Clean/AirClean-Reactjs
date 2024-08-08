@@ -1,0 +1,161 @@
+.menu1_layout {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 세로 정렬을 위로 맞춤 */
+    width: 100vw;
+  }
+  
+  .flex_wrap {
+    display: flex;
+    width: 80vw;
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+  }
+  
+  .report_section {
+    flex: 2; /* 이 값을 조절하여 표의 너비를 조정 */
+    margin-right: 20px;
+  }
+  
+  .modal_section {
+    flex: 2px;
+  }
+  
+  .modalContent {
+    background: white;
+    padding: 30px;
+    border-radius: 4px;
+    width: 80vw; /* 너비 조정 */
+    max-width: 800px; /* 최대 너비 설정 */
+    height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    margin: 0 auto; /* 수평 가운데 정렬 */
+}
+
+  
+  .modalTitle {
+    margin-bottom: 30px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+  }
+  
+  .formGroup {
+    margin-bottom: 15px;
+  }
+  
+  .formGroup label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+  
+  .formContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .photoContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .formGroup.fullWidth {
+    grid-column: 1 / span 2;
+  }
+  
+  .formButtons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+  }
+  
+  .formButtons button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .formButtons button:first-child {
+    margin-left: 0;
+  }
+  
+  .formButtons button:hover {
+    background-color: #0056b3;
+  }
+  
+  .table_container {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .report_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .report_table th, .report_table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .report_table th {
+    background-color: #f2f2f2;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .detail_button {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .detail_button:hover {
+    background-color: #333;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .pagination button:focus {
+    background-color: #000;
+    color: #fff;
+  }
+  

@@ -5,68 +5,79 @@ import RepairModal from './RepairModal';
 import { useState } from 'react';
 
 function LocationNewReports() {
-    const [showBranchSalesModal, setShowBranchSalesModal] = useState(false);
-    const [showExpenseModal, setShowExpenseModall] = useState(false);
-    const [showRepairModal, setShowRepairModal] = useState(false);
+    // State to manage which modal is currently open
+    const [activeModal, setActiveModal] = useState(null);
 
-    // 매출보고서 모달
-    const handleBranchSalesOpenModal = () => {
-        setShowBranchSalesModal(true);
-    };
-    const handleBranchSalesCloseModal = () => {
-        setShowBranchSalesModal(false);
+    // Handle opening a modal
+    const handleOpenModal = (modalType) => {
+        setActiveModal(modalType);
     };
 
-    // 지출보고서 모달
-    const handleExpenseOpenModal = () => {
-        setShowExpenseModall(true);
-    };
-    const handleExpenseCloseModal = () => {
-        setShowExpenseModall(false);
+    // Handle closing a modal
+    const handleCloseModal = () => {
+        setActiveModal(null);
     };
 
-    // 시설물수리보고서 모달
-    const handleRepairOpenModal = () => {
-        setShowRepairModal(true);
-    };
-    const handleRepairCloseModal = () => {
-        setShowRepairModal(false);
-    };
     return (
         <div className={styles.menu1_layout}>
             <div className={styles.flex_wrap}>
-                <div className={styles['report-create']}>
-                    <h1>보고서 양식</h1>
-                    <div className={styles['button-group']}></div>
-                    <table className={styles['report-table']}>
-                        <thead>
-                            <tr>
-                                <th>보고서번호</th>
-                                <th>양식명</th>
-                                <th>서류설명</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>1</th>
-                                <th style={{ cursor: 'pointer' }} onClick={handleBranchSalesOpenModal}>매출보고서</th>
-                                <th>하루 매출 보고서 작성</th>
-                            </tr>
-                            <tr>
-                                <th>2</th>
-                                <th  style={{ cursor: 'pointer' }} onClick={handleExpenseOpenModal}>지출보고서</th>
-                                <th>한달 지출 보고서 작성</th>
-                            </tr>
-                            <tr>
-                                <th>3</th>
-                                <th  style={{ cursor: 'pointer' }} onClick={handleRepairOpenModal}>시설물수리보고서</th>
-                                <th>고장난 시설물 수리보고서 작성</th>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <BranchSalesModal show={showBranchSalesModal} onClose={handleBranchSalesCloseModal} />
-                    <ExpenseModal show={showExpenseModal} onClose={handleExpenseCloseModal} />
-                    <RepairModal show={showRepairModal} onClose={handleRepairCloseModal} />
+                <div className={styles.report_section}>
+                    <div className={styles.report_create}>
+                        <h1>보고서 양식</h1>
+                        <div className={styles.button_group}></div>
+                        <table className={styles.report_table}>
+                            <thead>
+                                <tr>
+                                    <th>보고서번호</th>
+                                    <th>양식명</th>
+                                    <th>서류설명</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => handleOpenModal('branchSales')}
+                                    >
+                                        매출보고서
+                                    </td>
+                                    <td>하루 매출 보고서 작성</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => handleOpenModal('expense')}
+                                    >
+                                        지출보고서
+                                    </td>
+                                    <td>한달 지출 보고서 작성</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => handleOpenModal('repair')}
+                                    >
+                                        시설물수리보고서
+                                    </td>
+                                    <td>고장난 시설물 수리보고서 작성</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div className={styles.modal_section}>
+                    {activeModal === 'branchSales' && (
+                        <BranchSalesModal show={true} onClose={handleCloseModal} />
+                    )}
+                    {activeModal === 'expense' && (
+                        <ExpenseModal show={true} onClose={handleCloseModal} />
+                    )}
+                    {activeModal === 'repair' && (
+                        <RepairModal show={true} onClose={handleCloseModal} />
+                    )}
                 </div>
             </div>
         </div>

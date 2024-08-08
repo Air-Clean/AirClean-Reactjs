@@ -2,20 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { callFindBranchSalesAPI, callFindExpenseAPI, callFindVehicleRepairAPI, callFindRepairAPI, callCarMembersAPI } from '../../../../apis/ReportAPICalls';
 import { useNavigate, useLocation } from 'react-router-dom'; 
-import './BranchSales.css';
+import styles from './BranchSales.module.css';
 import Paging from '../../../../components/paging/Paging';
+import BranchSalesDetail from './BranchSalesDetail'; // Import the detail component
+import ExpenseDetail from './ExpenseDetail'; // Import the detail component
+import RepairDetail from './RepairDetail'; // Import the detail component
+import VehicleRepairDetail from './VehicleRepairDetail'; // Import the detail component
+import Skeleton from '@mui/material/Skeleton'; // Skeleton import 추가
 
 function BranchSales() {
   const location = useLocation();
   const [activeTable, setActiveTable] = useState(location.state?.activeTable || '매출'); // 초기값을 '매출'로 설정
   const dispatch = useDispatch();
   const [current, setCurrent] = useState(1);
+  const [selectedReport, setSelectedReport] = useState(null); // 상세보기 보고서 상태 추가
 
   // 매출보고서 
   const branchSalesResult = useSelector(state => state.branchSalesReducer);
   const branchSalesList = branchSalesResult.branchSalesList || [];
   const branchSalesTotalPages = branchSalesResult.totalPages || 1;
-
 
   // 매출보고서 페이지 이동
   const navigate = useNavigate();
@@ -36,7 +41,6 @@ function BranchSales() {
   const repairTotalPages = repairResult.totalPages || 1;
 
   useEffect(() => {
-    console.log('리덕스 상태 result:', { branchSalesResult, expenseResult, vehicleRepairResult, repairResult });
     if (activeTable === '매출') {
       dispatch(callFindBranchSalesAPI({ current }));
     } else if (activeTable === '지출') {
@@ -47,30 +51,41 @@ function BranchSales() {
     } else if (activeTable === '시설물수리') {
       dispatch(callFindRepairAPI({ current }));
     }
-    
-    // 이 주석은 ESLint 경고를 비활성화합니다.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTable, dispatch, current]); // result를 의존성 배열에 포함
+  }, [activeTable, dispatch, current]);
+
+  // selectedReport가 변경될 때마다 데이터를 다시 불러오는 useEffect 추가
+  useEffect(() => {
+    if (selectedReport) {
+      if (activeTable === '매출') {
+        dispatch(callFindBranchSalesAPI({ current }));
+      } else if (activeTable === '지출') {
+        dispatch(callFindExpenseAPI({ current }));
+      } else if (activeTable === '차량수리비') {
+        dispatch(callFindVehicleRepairAPI({ current }));
+      } else if (activeTable === '시설물수리') {
+        dispatch(callFindRepairAPI({ current }));
+      }
+    }
+  }, [selectedReport, activeTable, dispatch, current]);
 
   const renderTable = () => {
     switch (activeTable) {
       case '매출':
         return (
-          <table className="report-table">
+          <table className={styles.reportTable}>
             <thead>
               <tr>
                 <th>보고서번호</th>
                 <th>지점명</th>
                 <th>제출일</th>
                 <th>상태</th>
-                <th>상세보기</th>
               </tr>
             </thead>
             <tbody>
               {branchSalesList.map((item) => (
                 <tr key={item.branchReportCode}>
                   <td>{item.branchReportCode}</td>
-                  <td>{item.branchName}</td>     
+                  <td style={{ cursor: 'pointer' }} onClick={() => setSelectedReport(item)}>{item.branchName}</td>     
                   <td>{new Date(item.branchSubmissionDate).toLocaleDateString()}</td>
                   <td>{
                       (()=>{
@@ -83,7 +98,6 @@ function BranchSales() {
                         }
                       })()
                     }</td>
-                  <td><button onClick={() => navigate(`/company/paper/reports/branchSales/${item.branchReportCode}`)}>View</button></td>
                 </tr>
               ))}
             </tbody>
@@ -91,21 +105,20 @@ function BranchSales() {
         );
       case '지출':
         return (
-          <table className="report-table">
+          <table className={styles.reportTable}>
             <thead>
               <tr>
                 <th>보고서번호</th>
                 <th>지점명</th>
                 <th>제출일</th>
                 <th>상태</th>
-                <th>상세보기</th>
               </tr>
             </thead>
             <tbody>
               {expenseList.map((expense) => (
                 <tr key={expense.expenseReportCode}>
                   <td>{expense.expenseReportCode}</td>
-                  <td>{expense.branchName}</td>  
+                  <td style={{ cursor: 'pointer' }} onClick={() => setSelectedReport(expense)}>{expense.branchName}</td>  
                   <td>{new Date(expense.expenseSubmissionDate).toLocaleDateString()}</td>
                   <td>{
                       (()=>{
@@ -118,7 +131,6 @@ function BranchSales() {
                         }
                       })()
                     }</td>
-                  <td><button onClick={() => navigate(`/company/paper/reports/expenseReports/${expense.expenseReportCode}`)}>View</button></td>
                 </tr>
               ))}
             </tbody>
@@ -126,7 +138,7 @@ function BranchSales() {
         );
       case '차량수리비':
         return (
-          <table className="report-table">
+          <table className={styles.reportTable}>
             <thead>
               <tr>
                 <th>보고서번호</th>
@@ -134,14 +146,13 @@ function BranchSales() {
                 <th>차량기사</th>
                 <th>제출일</th>
                 <th>상태</th>
-                <th>상세보기</th>
               </tr>
             </thead>
             <tbody>
               {vehicleRepairList.map((vehicle) => (
                 <tr key={vehicle.vehicleReportCode}>
                   <td>{vehicle.vehicleReportCode}</td>
-                  <td>{vehicle.carNumber}</td>   
+                  <td style={{ cursor: 'pointer' }} onClick={() => setSelectedReport(vehicle)}>{vehicle.carNumber}</td>   
                   <td>{vehicle.memberName}</td> 
                   <td>{new Date(vehicle.vehicleSubmissionDate).toLocaleDateString()}</td>
                   <td>{
@@ -155,7 +166,6 @@ function BranchSales() {
                         }
                       })()
                     }</td>
-                  <td><button onClick={() => navigate(`/company/paper/reports/vehicleRepair/${vehicle.vehicleReportCode}`)}>View</button></td>
               </tr>
               ))}
             </tbody>
@@ -163,7 +173,7 @@ function BranchSales() {
         );
       case '시설물수리':
         return (
-          <table className="report-table">
+          <table className={styles.reportTable}>
             <thead>
               <tr>
                 <th>보고서번호</th>
@@ -171,14 +181,13 @@ function BranchSales() {
                 <th>종류</th>
                 <th>제출일</th>
                 <th>상태</th>
-                <th>상세보기</th>
               </tr>
             </thead>
             <tbody>
               {repairList.map((repair) =>(
                 <tr key={repair.repairReportCode}>
                 <td>{repair.repairReportCode}</td>
-                <td>{repair.branchName}</td>  
+                <td style={{ cursor: 'pointer' }} onClick={() => setSelectedReport(repair)}>{repair.branchName}</td>  
                 <td>{repair.facilityType}</td>   
                 <td>{new Date(repair.repairSubmissionDate).toLocaleDateString()}</td>
                 <td>{
@@ -192,7 +201,6 @@ function BranchSales() {
                         }
                       })()
                     }</td>
-                <td><button onClick={() => navigate(`/company/paper/reports/repairReports/${repair.repairReportCode}`)}>View</button></td>
             </tr>
               ))}
             </tbody>
@@ -219,40 +227,55 @@ function BranchSales() {
   };
 
   return (
-    <div className="menu1_layout">
-      <div className='flex_wrap'>
-        <div className="report-create">
+    <div className={styles.menu1_layout}>
+      <div className={styles.flex_wrap}>
+        <div className={styles.reportCreate}>
           <h1>보고서 조회</h1>
-          <div className="branch-button-group">
+          <div className={styles.branchButtonGroup}>
             <button
-              className={`branch-register-button ${activeTable === '매출' ? 'active-button' : ''}`}
+              className={`${styles.branchRegisterButton} ${activeTable === '매출' ? styles.activeButton : ''}`}
               onClick={() => setActiveTable('매출')}
             >
               매출
             </button>
             <button
-              className={`branch-register-button  ${activeTable === '지출' ? 'active-button' : ''}`}
+              className={`${styles.branchRegisterButton} ${activeTable === '지출' ? styles.activeButton : ''}`}
               onClick={() => setActiveTable('지출')}
             >
               지출
             </button>
             <button
-              className={`branch-register-button ${activeTable === '차량수리비' ? 'active-button' : ''}`}
+              className={`${styles.branchRegisterButton} ${activeTable === '차량수리비' ? styles.activeButton : ''}`}
               onClick={() => setActiveTable('차량수리비')}
             >
               차량수리비
             </button>
             <button
-              className={`branch-register-button ${activeTable === '시설물수리' ? 'active-button' : ''}`}
+              className={`${styles.branchRegisterButton} ${activeTable === '시설물수리' ? styles.activeButton : ''}`}
               onClick={() => setActiveTable('시설물수리')}
             >
               시설물수리
             </button>
           </div>
-          <div className="table-container">
+          <div className={styles.tableContainer}>
             {renderTable()}
           </div>
           <Paging setCurrent={setCurrent} end={getTotalPages()} />
+        </div>
+        <div className={styles.detailView}>
+          {selectedReport ? (
+            <>
+              {activeTable === '매출' && <BranchSalesDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} />}
+              {activeTable === '지출' && <ExpenseDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} />}
+              {activeTable === '차량수리비' && <VehicleRepairDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} />}
+              {activeTable === '시설물수리' && <RepairDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} />}
+            </>
+          ) : (
+            <div>
+              <Skeleton variant="rectangular" width={600} height={60} />
+              <Skeleton variant="rounded" width={300} height={60} />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,37 +1,30 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
-import {callDetailRepairAPI} from '../../../../apis/ReportAPICalls';
-import './BranchSalesDetail.css';
-import jwtDecode from 'jwt-decode';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+import './BranchSalesDetail.css';
 
-
-function RepairDetail() {
-  const params = useParams();
-  const dispatch = useDispatch();
-  const repairDetail = useSelector(state => state.detailRepairReducer);
-  const members = jwtDecode(window.localStorage.getItem('accessToken'))
+function RepairDetail({ selectedReport, setSelectedReport }) {
+  const members = jwtDecode(window.localStorage.getItem('accessToken'));
   const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(callDetailRepairAPI({
-        repairReportCode: params.repairReportCode
-    }));
-  }, [dispatch, params.repairReportCode]);
+  const addComma = (price) => {
+    return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   const handleClose = () => {
-    navigate('/company/paper/reports', { state: { activeTable: '시설물수리' } });
-  }
+    setSelectedReport(null);
+  };
 
   const handleApproval = async () => {
     try {
-      await axios.put(`/paper/company/reports/repairApprove/${params.repairReportCode}`);
+      await axios.put(`/paper/company/reports/repairApprove/${selectedReport.repairReportCode}`);
       alert('승인되었습니다.');
-      dispatch(callDetailRepairAPI({
-        repairReportCode: params.repairReportCode
+      // 상태 업데이트 추가
+      setSelectedReport(prev => ({
+        ...prev,
+        repairReportStatus: 'Y'
       }));
-      navigate('/company/paper/reports', { state: { activeTable: '시설물수리' } });
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
       alert('승인에 실패하였습니다.');
@@ -40,12 +33,13 @@ function RepairDetail() {
 
   const handleRejection = async () => {
     try {
-      await axios.put(`/paper/company/reports/repairReject/${params.repairReportCode}`);
+      await axios.put(`/paper/company/reports/repairReject/${selectedReport.repairReportCode}`);
       alert('반려되었습니다.');
-      dispatch(callDetailRepairAPI({
-        repairReportCode: params.repairReportCode
+      // 상태 업데이트 추가
+      setSelectedReport(prev => ({
+        ...prev,
+        repairReportStatus: 'R'
       }));
-      navigate('/company/paper/reports', { state: { activeTable: '시설물수리' } });
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
       alert('반려에 실패하였습니다.');
@@ -53,10 +47,9 @@ function RepairDetail() {
   };
 
   const getRepairImageUrl = (repairPhoto) => {
-    return  `http://localhost:8080/memberimgs/${repairPhoto}`;
-  }
+    return `http://localhost:8080/memberimgs/${repairPhoto}`;
+  };
 
-  console.log('여까지 왔어?')
   return (
     <div className="branchDetail_menu1_layout">
       <div className="branchDetail_flex_wrap">
@@ -66,36 +59,36 @@ function RepairDetail() {
             <thead>
               <tr>
                 <th>양식명</th>
-                <td colSpan="2">{repairDetail.repairReportCode}</td>
+                <td colSpan="2">{selectedReport.repairReportCode}</td>
                 <th>지점명</th>
-                <td colSpan="2">{repairDetail.branchName}</td>
+                <td colSpan="2">{selectedReport.branchName}</td>
               </tr>
               <tr>
                 <th>지점장명</th>
-                <td>{repairDetail.memberName}</td>
+                <td>{selectedReport.memberName}</td>
                 <th>제출일</th>
-                <td colSpan="3">{new Date(repairDetail.repairSubmissionDate).toLocaleDateString()}</td>
+                <td colSpan="3">{new Date(selectedReport.repairSubmissionDate).toLocaleDateString()}</td>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <th rowSpan="8" className="vertical-header">내용</th>
                 <th className="header">종류</th>
-                <td colSpan="4">{repairDetail.facilityType}</td>
+                <td colSpan="4">{selectedReport.facilityType}</td>
               </tr>
               <tr>
                 <th className="header">수리 시설물 갯수</th>
-                <td colSpan="4">{repairDetail.facilityCount}</td>
+                <td colSpan="4">{selectedReport.facilityCount}</td>
               </tr>
               <tr>
                 <th className="header">내용</th>
-                <td colSpan="4">{repairDetail.repairContent}</td>
+                <td colSpan="4">{selectedReport.repairContent}</td>
               </tr>
               <tr>
                 <th className="header">첨부 사진</th>
-                <td colSpan="4">{repairDetail.repairPhoto && (
+                <td colSpan="4">{selectedReport.repairPhoto && (
                   <img 
-                    src={getRepairImageUrl(repairDetail.repairPhoto)} 
+                    src={getRepairImageUrl(selectedReport.repairPhoto)} 
                     alt='Repair'
                     style={{ width: '500px', height: 'auto' }} 
                   />
@@ -104,22 +97,18 @@ function RepairDetail() {
             </tbody>
           </table>
           <div className="formButtons">
-            {
-              members.memberRole === 'a' && ( repairDetail.repairReportStatus === 'N' &&
+            {members.memberRole === 'a' && selectedReport.repairReportStatus === 'N' && (
               <>
                 <button onClick={handleApproval}>승인</button>
                 <button onClick={handleRejection}>반려</button>
-              </>)
-            }
+              </>
+            )}
             <button onClick={handleClose}>닫기</button>
           </div>
         </div>
       </div>
     </div>
-
-    
   );
 }
 
-console.log('여기는 왔니...?')
 export default RepairDetail;

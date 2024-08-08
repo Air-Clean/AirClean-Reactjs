@@ -1,21 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useDropzone } from "react-dropzone";
-import { useDispatch } from "react-redux";
-import { callNewRepairAPI } from "../../../../apis/ReportAPICalls";
-import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    FormGroup,
-    Input,
-    Label,
-    Col,
-    Row
-} from 'reactstrap';
+import { useDropzone } from 'react-dropzone';
+import { useDispatch } from 'react-redux';
+import { callNewRepairAPI } from '../../../../apis/ReportAPICalls';
+import styles from './RepairModal.module.css'; // CSS 모듈 임포트
 import jwt_decode from 'jwt-decode';
-import './Modal.css';
 
 function RepairModal({ show, onClose }) {
     const dispatch = useDispatch();
@@ -31,7 +19,7 @@ function RepairModal({ show, onClose }) {
         repairReportStatus: 'N',
         branchName: branch.branchName,
         memberName: member.memberName,
-        branchCode  : branch.branchCode
+        branchCode: branch.branchCode
     });
 
     const handleSubmit = async () => {
@@ -45,12 +33,12 @@ function RepairModal({ show, onClose }) {
         formData.append('branchName', form.branchName);
         formData.append('memberName', form.memberName);
         formData.append('branchCode', form.branchCode);
-        const newRepirResult  = await dispatch(callNewRepairAPI({ form: formData }));
-        if (newRepirResult.ok) {  // 불필요한 공백 제거
-        alert('등록이 완료되었습니다!');
-        onClose();
+        const newRepairResult = await dispatch(callNewRepairAPI({ form: formData }));
+        if (newRepairResult.ok) {
+            alert('등록이 완료되었습니다!');
+            onClose();
         } else {
-        alert('등록에 실패하였습니다. 다시 시도해주세요.');
+            alert('등록에 실패하였습니다. 다시 시도해주세요.');
         }
     };
 
@@ -78,7 +66,7 @@ function RepairModal({ show, onClose }) {
             repairPhoto: '',
             branchName: branch.branchName,
             memberName: member.memberName,
-            branchCode  : branch.branchCode
+            branchCode: branch.branchCode
         });
     }, [show, branch.branchName, member.memberName, branch.branchCode]);
 
@@ -96,7 +84,6 @@ function RepairModal({ show, onClose }) {
         accept: {
             "image/*": [".jpeg", ".jpg", ".png"]
         }
-
     });
 
     if (!show) {
@@ -104,117 +91,88 @@ function RepairModal({ show, onClose }) {
     }
 
     return (
-        <Modal
-            isOpen={show}
-            toggle={onClose}
-            centered
-            className="animate__animated animate__fadeInLeftBig custom-modal"
-        >
-            <ModalHeader toggle={onClose}>시설물수리 보고서</ModalHeader>
-            <ModalBody>
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="branchName">지점명</Label>
-                            <Input
-                                type='text'
-                                id="branchName"
-                                value={form.branchName}
-                                readOnly
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="memberName">지점장명</Label>
-                            <Input
-                                type='text'
-                                id="memberName"
-                                value={form.memberName}
-                                readOnly
-                            />
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="repairSubmissionDate">제출일</Label>
-                            <Input 
-                                type="date" 
-                                id="repairSubmissionDate"
-                                name="repairSubmissionDate"
-                                value={minDate}
-                                readOnly                           
-                                />
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="facilityType">종류 : </Label>
-                            <Input
-                                type='select'
-                                id="facilityType"
-                                name="facilityType"
-                                value={form.facilityType}
-                                onChange={handleChange}
-                            >
-                                <option value="">종류 선택</option>
-                                <option value="세탁기">세탁기</option>
-                                <option value="건조기">건조기</option>
-                                <option value="드라이클리너">드라이클리너</option>
-                            </Input>
-                        </FormGroup>
-                    </Col>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="facilityCount">수리 시설물 갯수 : </Label>
-                            <Input
-                                type='number'
-                                id="facilityCount"
-                                name="facilityCount"
-                                value={form.facilityCount}
-                                onChange={handleChange}
-                            />
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="repairContent">내용 : </Label>
-                            <Input
-                                type='textarea'
-                                id="repairContent"
-                                name="repairContent"
-                                placeholder='수리가 필요한 내용을 자세하게 입력해주세요.'
-                                value={form.repairContent}
-                                onChange={handleChange}
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label for="repairPhoto">첨부 사진: </Label>
-                            <div {...getImageRootProps()} className="dropzone">
-                                <input {...getImageInputProps()} />
-                                {form.repairImagePreview ? (
-                                    <img src={form.repairImagePreview} alt="After Preview" style={{ width: '100%' }} />
-                                ) : (
-                                    <p>이미지를 드롭하거나 클릭하여 업로드</p>
-                                )}
-                            </div>
-                        </FormGroup>
-                    </Col>
-                </Row>
-            </ModalBody>
-            <ModalFooter>
-                <Button color="primary" onClick={handleSubmit}>등록</Button>
-                <Button color="secondary" onClick={onClose}>닫기</Button>
-            </ModalFooter>
-        </Modal>
+        <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+            <h2 className={styles.modalTitle}>시설물수리 보고서</h2>
+                <div className={styles.formGroup}>
+                    <label htmlFor="branchName">지점명</label>
+                    <input
+                        type='text'
+                        id="branchName"
+                        value={form.branchName}
+                        readOnly
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="memberName">지점장명</label>
+                    <input
+                        type='text'
+                        id="memberName"
+                        value={form.memberName}
+                        readOnly
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="repairSubmissionDate">제출일</label>
+                    <input 
+                        type="date" 
+                        id="repairSubmissionDate"
+                        name="repairSubmissionDate"
+                        value={minDate}
+                        readOnly
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="facilityType">종류</label>
+                    <select
+                        id="facilityType"
+                        name="facilityType"
+                        value={form.facilityType}
+                        onChange={handleChange}
+                    >
+                        <option value="">종류 선택</option>
+                        <option value="세탁기">세탁기</option>
+                        <option value="건조기">건조기</option>
+                        <option value="드라이클리너">드라이클리너</option>
+                    </select>
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="facilityCount">수리 시설물 갯수</label>
+                    <input
+                        type='number'
+                        id="facilityCount"
+                        name="facilityCount"
+                        value={form.facilityCount}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="repairContent">내용</label>
+                    <textarea
+                        id="repairContent"
+                        name="repairContent"
+                        placeholder='수리가 필요한 내용을 자세하게 입력해주세요.'
+                        value={form.repairContent}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="repairPhoto">사진</label>
+                    <div {...getImageRootProps({ className: styles.dropzone })}>
+                        <input {...getImageInputProps()} />
+                        {form.repairImagePreview ? (
+                            <img src={form.repairImagePreview} alt="Repair" />
+                        ) : (
+                            <p>여기에 파일을 드래그하거나 클릭하여 업로드</p>
+                        )}
+                    </div>
+                </div>
+                <div className={styles.formButtons}>
+                    <button onClick={handleSubmit}>제출</button>
+                    <button onClick={onClose}>닫기</button>
+                </div>
+            </div>
+        </div>
     );
 }
 

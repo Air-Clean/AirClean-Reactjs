@@ -1,6 +1,6 @@
 /* BranchSalesDetail.css */
 .details-container {
-    width: 80%;
+    width: 107%;
     margin: 0 auto;
     margin-top: 20px;
 }
@@ -14,6 +14,8 @@
     border-collapse: collapse;
     margin-bottom: 20px;
     border: 1px solid #dddddd;
+    min-height: 520px;
+    
 }
 
 .details-table th,
@@ -81,7 +83,7 @@
   }
   .formButtons {
     display: flex;
-    justify-content: flex-start; /* 버튼들을 왼쪽 정렬 */
+    justify-content: flex-end; /* 버튼들을 왼쪽 정렬 */
     margin-top: 20px;
   }
   
