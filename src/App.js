@@ -42,7 +42,6 @@ import FacilityDryCleaner from './pages/client/facilityManagement/FacilityDryCle
 import Branch from './pages/admin/branch/Branch';
 import BranchClient from './pages/client/branchClient/BranchClient';
 
-
 import Car from './pages/admin/car/Car';
 import MainPage from './pages/admin/main_page/MainPage';
 
@@ -124,7 +123,12 @@ function App() {
                 <Route path='myReports/expense/:expenseReportCode' element={<LocationExpenseDetail/>}/>
                 <Route path='myReports/repair/:repairReportCode' element={<LocationRepairDetail/>}/>
 
+            </Route>
 
+            <Route path="stock">
+              <Route index element={<StockApplication/>}/>
+              <Route path='application' element={<StockApplication/>}/>
+              <Route path='history' element={<StockHistory/>}/>
             </Route>
 
             <Route path="branchClient">
