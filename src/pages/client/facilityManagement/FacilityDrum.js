@@ -8,7 +8,7 @@ function FacilityDrum() {
     const dispatch = useDispatch();
     const facilityDetail = useSelector(state => state.facilityDetailInfoReducer);
     const branchWaterInfo = useSelector(state => state.waterLevelReducer);
-    const facilityLaundryWatyInfo = useSelector(state => state.facilityLaundryWayReducer);
+    const facilityLaundryWayInfo = useSelector(state => state.facilityLaundryWayReducer);
 
     const branch = JSON.parse(window.localStorage.getItem('branch'));
 
@@ -25,10 +25,17 @@ function FacilityDrum() {
     const [selectedFacilityId, setSelectedFacilityId] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
     const [isRegisterFormVisible, setIsRegisterFormVisible] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [laundrySettings, setLaundrySettings] = useState({
+        laundryWayId: '',
+        laundryTime: '',
+        laundryDetergentAmount: '',
+        laundryWaterAmount: ''
+    });
 
-    const maxTime = 0.2; // 최대 시간 (분 단위)
     const intervalRefs = useRef({});
-    const formRef = useRef(null); // Ref for the form element
+    const formRef = useRef(null);
+    const modalRef = useRef(null);
 
     useEffect(() => {
         setUpdatedWaterTanks(branchWaterInfo.waterTanks.reduce((acc, tank) => {
@@ -46,15 +53,14 @@ function FacilityDrum() {
             if (isRunning[facilityId]) {
                 intervalRefs.current[facilityId] = setInterval(() => {
                     setCurrentTimes(prevTimes => {
-                        const newTime = (prevTimes[facilityId] || 0) + 1 / 60; // 1초마다 1/60분 증가
+                        const newTime = (prevTimes[facilityId] || 0) + 1 / 60;
                         if (newTime >= maxTime) {
                             clearInterval(intervalRefs.current[facilityId]);
                             return { ...prevTimes, [facilityId]: maxTime };
                         }
                         return { ...prevTimes, [facilityId]: newTime };
                     });
-                }, 1000); // 1초마다 업데이트
-
+                }, 1000);
                 return () => clearInterval(intervalRefs.current[facilityId]);
             } else {
                 clearInterval(intervalRefs.current[facilityId]);
@@ -64,7 +70,8 @@ function FacilityDrum() {
 
     const handleStart = (facilityId) => {
         if (!isRunning[facilityId]) {
-            setIsRunning(prev => ({ ...prev, [facilityId]: true }));
+            setSelectedFacilityId(facilityId);
+            setIsModalVisible(true);
         }
     };
 
@@ -207,7 +214,7 @@ function FacilityDrum() {
     };
 
     const facilityIds = facilityDetail
-        .filter(facility => facility.facilityDTO.facilityCode === parseInt(selectedFacilityCode))
+        .filter(facility => facility.facilityDTO.facilityCode === Number(selectedFacilityCode))
         .map(facility => facility.facilityId);
 
     useEffect(() => {
@@ -221,86 +228,188 @@ function FacilityDrum() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                setIsModalVisible(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const handleModalSubmit = async () => {
+        const { laundryWayId, laundryTime, laundryDetergentAmount, laundryWaterAmount } = laundrySettings;
+
+        if (laundryWayId && laundryTime && laundryDetergentAmount && laundryWaterAmount) {
+            const parsedLaundryTime = parseInt(laundryTime, 10);
+            const parsedLaundryDetergentAmount = parseInt(laundryDetergentAmount, 10);
+            const parsedLaundryWaterAmount = parseInt(laundryWaterAmount, 10);
+
+            const newLaundrySupplyStock = {
+                laundrySupplyCode: 'LS001',
+                laundrySupplyStock: parsedLaundryDetergentAmount
+            };
+
+            try {
+                const response = await fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/updateLaundryStock`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: '*/*',
+                        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+                    },
+                    body: JSON.stringify(newLaundrySupplyStock),
+                });
+
+                if (response.ok) {
+                    console.log('세탁 용품 재고가 성공적으로 업데이트되었습니다.', newLaundrySupplyStock);
+                } else {
+                    console.error('세탁 용품 재고 업데이트 오류:', response.statusText);
+                }
+            } catch (error) {
+                console.error('세탁 용품 재고 업데이트 중 오류 발생:', error);
+            }
+
+            setMaxTime(parsedLaundryTime);
+            setIsRunning(prev => ({ ...prev, [selectedFacilityId]: true }));
+            setIsModalVisible(false);
+        } else {
+            alert('모든 세탁 설정을 입력하세요.');
+        }
+    };
+
+    const handleLaundrySettingsChange = (e) => {
+        const { name, value } = e.target;
+        setLaundrySettings(prevSettings => ({ ...prevSettings, [name]: value }));
+    };
+
+    const getPercentageStyle = (facilityId) => ({
+        width: `${percentage(currentTimes[facilityId])}%`
+    });
+
+    const renderFilteredFacilities = () => filteredFacilities.map(facility => {
+        const facilityId = facility.facilityId;
+        const isFacilityRunning = isRunning[facilityId];
+
+        return (
+            <div key={facilityId} className={`facility ${isFacilityRunning ? 'running' : ''}`}>
+                <h3>{facility.facilityDTO.facilityName}</h3>
+                <div className="progress-bar">
+                    <div className="progress" style={getPercentageStyle(facilityId)}></div>
+                </div>
+                <div className="time-display">
+                    {currentMinutes(facilityId)}:{Math.floor((currentTimes[facilityId] % 1) * 60).toString().padStart(2, '0')}
+                </div>
+                <div className="button-container">
+                    <button onClick={() => handleStart(facilityId)} disabled={isFacilityRunning}>시작</button>
+                    <button onClick={() => handleComplete(facilityId)} disabled={!isFacilityRunning || isComplete(facilityId)}>완료</button>
+                </div>
+            </div>
+        );
+    });
+
     return (
-        <div className='facility-content'>
-            <div className='Facility-washing-machine-content'>
-                {filteredFacilities.map((facility) => (
-                    <div key={facility.facilityId} className="Facility-washing-machine" style={{ backgroundColor: '#CBE6FF' }}>
-                        <div className="Facility-control-panel">
-                            <div className="Facility-gauge-container">
-                                <div className="Facility-gauge-background"></div>
-                                <div className="Facility-gauge-foreground" style={{ backgroundColor:'#516AA6', width: `${percentage(currentTimes[facility.facilityId])}%` }}></div>
-                            </div>
-                        </div>
-                        <div className="Facility-door" style={{ border: '0.16rem solid #627195' }}>
-                            <div className="Facility-door-content">
-                                <img src="https://cdn-icons-png.flaticon.com/512/1827/1827463.png" alt="Clock Icon" className="Facility-icon" />
-                                <div className="Facility-laundry-number">{facility.facilityId}번 세탁기</div>
-                                {isRunning[facility.facilityId] && (
-                                    <div className='Facility-laundry-timer'>{currentMinutes(facility.facilityId)} / {maxTime} 분</div>
-                                )}
-                            </div>
-                            {facility.facilityStatus === 'F' ? (
-                                <div className="Facility-status-broken">수리 중</div>
-                            ) : isComplete(facility.facilityId) ? (
-                                <button className="Facility-button" style={{ backgroundColor: '#516AA6' }} onClick={() => handleComplete(facility.facilityId)}>
-                                    완료
-                                </button>
-                            ) : !isRunning[facility.facilityId] ? (
-                                <button className="Facility-button" style={{ backgroundColor: '#516AA6' }} onClick={() => handleStart(facility.facilityId)}>
-                                    시작
-                                </button>
-                            ) : null}
-                        </div>
-                        <div className="Facility-percentage-display">
-                            {isRunning[facility.facilityId] && !isComplete(facility.facilityId) ? `${percentage(currentTimes[facility.facilityId]).toFixed(0)}% 완료` : ''}
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <div className='Facility-todo-post'>
-                <ul className='Facility-todo-content'>
-                    {todoItems.map(item => (
-                        <li key={item.id} className={`Facility-todo-item ${item.completed ? 'completed' : ''}`}>
-                            <input
-                                type="checkbox"
-                                checked={item.completed}
-                                onChange={() => handleCheckboxChange(item.id)}
-                            />
-                            <span className="Facility-todo-text">{item.text}</span>
-                        </li>
-                    ))}
-                </ul>
-                <button className='facility-reg-button' onClick={() => setIsRegisterFormVisible(true)}>
-                    시설물 등록하기
-                </button>
-            </div>
-            {isRegisterFormVisible && (
-                <div className='Facility-register-form' ref={formRef}>
-                    시설물 등록
-                    <select value={selectedFacilityCode} onChange={e => setSelectedFacilityCode(e.target.value)} className='Facility-select'>
-                        <option value="">시설물 선택</option>
-                        <option value="1">세탁기</option>
+        <div>
+            <h1>Facility Drum Management</h1>
+            <div>
+                <label>
+                    시설물 유형 선택:
+                    <select value={selectedFacilityCode} onChange={(e) => setSelectedFacilityCode(e.target.value)}>
+                        <option value="">선택</option>
+                        <option value="1">드럼세탁기</option>
                         <option value="2">건조기</option>
-                        <option value="3">드라이클리너</option>
+                        <option value="3">세탁기</option>
                     </select>
-                    <select value={selectedFacilityId} onChange={e => setSelectedFacilityId(e.target.value)} className='Facility-select'>
-                        <option value="">시설물 ID 선택</option>
-                        <option value="신규">신규</option>
+                </label>
+                <label>
+                    시설물 선택:
+                    <select value={selectedFacilityId} onChange={(e) => setSelectedFacilityId(e.target.value)} disabled={!selectedFacilityCode}>
+                        <option value="">선택</option>
                         {facilityIds.map(id => (
                             <option key={id} value={id}>{id}</option>
                         ))}
+                        <option value="신규">신규</option>
                     </select>
-                    <select value={selectedStatus} onChange={e => setSelectedStatus(e.target.value)} className='Facility-select'>
-                        <option value="">상태 선택</option>
-                        <option value="등록" disabled={selectedFacilityId !== '신규'}>등록</option>
-                        <option value="고장" disabled={selectedFacilityId === '신규'}>고장</option>
-                        <option value="삭제" disabled={selectedFacilityId === '신규'}>삭제</option>
-                        <option value="수리 완료" disabled={selectedFacilityId === '신규'}>수리 완료</option>
+                </label>
+                <label>
+                    상태 선택:
+                    <select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)} disabled={!selectedFacilityId}>
+                        <option value="">선택</option>
+                        <option value="등록">등록</option>
+                        <option value="고장">고장</option>
+                        <option value="삭제">삭제</option>
                     </select>
-                    <button onClick={handleRegister} className='Facility-register-button'>
-                        저장
-                    </button>
+                </label>
+                <button onClick={() => setIsRegisterFormVisible(true)} disabled={!selectedFacilityCode || !selectedFacilityId || !selectedStatus}>
+                    상태 변경
+                </button>
+                {isRegisterFormVisible && (
+                    <div ref={formRef} className="register-form">
+                        <h2>시설물 상태 변경</h2>
+                        <label>
+                            시설물 유형 코드: {selectedFacilityCode}
+                        </label>
+                        <label>
+                            시설물 ID: {selectedFacilityId}
+                        </label>
+                        <label>
+                            상태: {selectedStatus}
+                        </label>
+                        <button onClick={handleRegister}>확인</button>
+                        <button onClick={() => setIsRegisterFormVisible(false)}>취소</button>
+                    </div>
+                )}
+            </div>
+            <div className="facility-list">
+                {renderFilteredFacilities()}
+            </div>
+            {isModalVisible && (
+                <div className="modal-overlay">
+                    <div className="modal-content" ref={modalRef}>
+                        <h2>세탁 설정 입력</h2>
+                        <label>
+                            세탁 방법 ID:
+                            <select name="laundryWayId" value={laundrySettings.laundryWayId} onChange={handleLaundrySettingsChange}>
+                                <option value="">선택</option>
+                                {facilityLaundryWayInfo.map(way => (
+                                    <option key={way.laundryWayId} value={way.laundryWayId}>
+                                        {way.laundryWayName}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        <label>
+                            세탁 시간:
+                            <input
+                                type="number"
+                                name="laundryTime"
+                                value={laundrySettings.laundryTime}
+                                onChange={handleLaundrySettingsChange}
+                            />
+                        </label>
+                        <label>
+                            세제 사용량:
+                            <input
+                                type="number"
+                                name="laundryDetergentAmount"
+                                value={laundrySettings.laundryDetergentAmount}
+                                onChange={handleLaundrySettingsChange}
+                            />
+                        </label>
+                        <label>
+                            물 사용량:
+                            <input
+                                type="number"
+                                name="laundryWaterAmount"
+                                value={laundrySettings.laundryWaterAmount}
+                                onChange={handleLaundrySettingsChange}
+                            />
+                        </label>
+                        <button onClick={handleModalSubmit}>시작</button>
+                        <button onClick={() => setIsModalVisible(false)}>취소</button>
+                    </div>
                 </div>
             )}
         </div>
