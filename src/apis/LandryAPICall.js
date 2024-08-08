@@ -94,11 +94,35 @@ export function fetchLaundrySelect(branchCode) {
     };
 }
 
+export function fetchArrivedLaundry(branchCode){
+    console.log('fetchArrivedLaundry 동작')
+
+    const ruquestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/management/arrivedLaundry/${branchCode}`
+
+    return async (dispatch , getState)=> {
+        const result = await fetch(ruquestURL ,{
+            method : 'GET',
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+
+        console.log('도착한 세탁물 조회',result.data)
+
+        dispatch({
+            type : SET_LAUNDRYWAY_SELECT,
+            payload : result.data
+        })
+    }
+}
+
 export function updateLaundryStatus(laundryCode, statusType, statusValue, branchCode) {
     return async (dispatch) => {
         try {
             const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/management/updateLaundryStatus`;
-            await axios.post(requestURL, {
+            await axios.put(requestURL, {
                 laundryCode,
                 statusType,
                 statusValue

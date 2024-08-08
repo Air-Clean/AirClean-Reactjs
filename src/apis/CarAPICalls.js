@@ -138,3 +138,22 @@ export function unAssignDriver({selectedDriver, selectedCar}){
         console.log('unAssignDriver reuslt',result)
     }
 }
+
+export function callCarWithLaundry({current , isFoward}){
+    console.log('callCarWithLaundry 작동')
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/branch/laundry?offset=${current}&isFoward=${isFoward}`
+
+    return async (dispatch,getState) =>{
+        const result = await fetch(requestURL,{
+            method : 'GET',
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+
+        console.log('callCarWithLaundry result 값',result)
+    }
+}

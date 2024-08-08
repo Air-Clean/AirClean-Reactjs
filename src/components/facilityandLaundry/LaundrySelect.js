@@ -40,7 +40,7 @@ function LaundrySelect() {
                             <th>더러움 정도</th>
                             <th>드라이클리닝 여부</th>
                             <th>승낙상태</th>
-                            <th>도착여부</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -61,14 +61,14 @@ function LaundrySelect() {
                                         {item.laundryCollectionStatus === 'Y' ? '승낙완료' : '승낙'}
                                     </button>
                                 </td>
-                                <td>
+                                {/* <td>
                                     <button
                                         className={item.laundryArriveStatus === 'Y' ? 'arrived' : 'not-arrived'}
                                         onClick={() => handleStatusChange(item, 'laundryArriveStatus')}
                                     >
                                         {item.laundryArriveStatus === 'Y' ? '배송완료' : '배송'}
                                     </button>
-                                </td>
+                                </td> */}
                             </tr>
                         ))}
                     </tbody>
