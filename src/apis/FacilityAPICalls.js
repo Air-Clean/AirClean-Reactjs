@@ -28,6 +28,8 @@ export const callFacilityDetailInfoAPI = ({branchCode}) => {
 
 export const callFacilityLaundryWayInfoAPI = ({branchCode}) => {
 
+    console.log('callFacilityLaundryWayInfoAPI')
+
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/laundryWay?branchCode=${branchCode}`;
 
     return async (dispatch, getState) => {

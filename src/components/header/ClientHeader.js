@@ -175,15 +175,15 @@ const AdminHeader = () => {
                   </ul>
                 </li>
                 <li className={styles.menuItem3} onClick={() => changeColor(3)}>
-                  <NavLink to="#submenu1-3" activeClassName={styles.active}>3</NavLink>
-                  <ul className={styles.submenu}>
-                    <li>
-                      <NavLink to="#submenu1-3-1" activeClassName={styles.active}>3-1</NavLink>
-                      <ul className={styles.submenu}>
+                  <NavLink to="stock/application" activeClassName={styles.active}>재고관리</NavLink>
+                  <ul className={styles.submenu}> 
+                    <li> 
+                      <NavLink to="stock/history" activeClassName={styles.active}>내역조회</NavLink> 
+                      {/* <ul className={styles.submenu}>
                         <li><NavLink to="#submenu1-3-2" activeClassName={styles.active}>3-2</NavLink></li>
-                      </ul>
-                    </li>
-                  </ul>
+                      </ul> */}
+                    </li> 
+                  </ul> 
                 </li>
                 <li className={styles.menuItem4} onClick={() => changeColor(4)}>
                   <NavLink to="cardelivery" activeClassName={styles.active}>물류시스템</NavLink>
