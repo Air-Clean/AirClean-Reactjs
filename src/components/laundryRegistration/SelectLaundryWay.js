@@ -43,13 +43,13 @@ function SelectLaundryWay({ derived }) {
     };
 
     // laundryCompleted가 'Y'인 항목을 제외한 리스트 필터링
-    const filteredWaterSupply = waterSupply.filter(item => item.laundry.laundryCompleted !== 'Y');
+    const filteredWaterSupply = waterSupply.filter(item => item.laundry?.laundryCompleted !== 'Y');
 
     return (
         <>  
             <div style={{ width: '100%', height: '100%', overflow: 'auto' }}>
                 <div style={tableContainerStyle}>
-                    {filteredWaterSupply && filteredWaterSupply.length > 0 ? (
+                    {filteredWaterSupply && filteredWaterSupply?.length > 0 ? (
                         <table style={tableStyle}>
                             <thead>
                                 <tr>
@@ -62,14 +62,14 @@ function SelectLaundryWay({ derived }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredWaterSupply.map((item, index) => (
+                                {filteredWaterSupply?.map((item, index) => (
                                     <tr key={index}>
-                                        <td style={thTdStyle}>{item.laundry.laundryCode}</td>
-                                        <td style={thTdStyle}>{item.laundryTime}</td>
-                                        <td style={thTdStyle}>{item.laundryDetergentAmount}</td>
-                                        <td style={thTdStyle}>{item.laundryWaterAmount}</td>
-                                        <td style={thTdStyle}>{item.laundryDryingTime}</td>
-                                        <td style={thTdStyle}>{item.laundryDryCleaningTime}</td>
+                                        <td style={thTdStyle}>{item?.laundry?.laundryCode}</td>
+                                        <td style={thTdStyle}>{item?.laundryTime}</td>
+                                        <td style={thTdStyle}>{item?.laundryDetergentAmount}</td>
+                                        <td style={thTdStyle}>{item?.laundryWaterAmount}</td>
+                                        <td style={thTdStyle}>{item?.laundryDryingTime}</td>
+                                        <td style={thTdStyle}>{item?.laundryDryCleaningTime}</td>
                                     </tr>
                                 ))}
                             </tbody>
