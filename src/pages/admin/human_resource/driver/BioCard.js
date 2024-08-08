@@ -34,7 +34,8 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { callBranchCount } from "../../../../apis/HRAPICalls";
 import { useDispatch ,useSelector} from "react-redux";
-
+import carVideo from '../../../../assets/carvideo.gif'
+import noImage from '../../../../assets/no-image.png'
 export default function BioCard({
   driver,
   setDeleteMember,
@@ -56,6 +57,9 @@ export default function BioCard({
     image = noProfile;
   }
 
+
+  
+
   const copyToClipboard = (text) => {
     navigator.clipboard
       .writeText(text)
@@ -72,7 +76,7 @@ export default function BioCard({
 
   function showBusinessCard() {
     const businessCardHtml = ReactDOMServer.renderToString(
-      <BusinessCard driver={driver} logo={logo} image={image} />
+      <BusinessCard driver={driver} logo={logo} image={image} members={members} />
     );
 
     Swal.fire({
@@ -100,7 +104,7 @@ export default function BioCard({
       showConfirmButton: false,
       didRender: () => {
         ReactDOM.render(
-          <BusinessCard driver={driver} logo={logo} image={image} />,
+          <BusinessCard driver={driver} logo={logo} image={image} members={members} />,
           document.getElementById("business-card-container")
         );
 
@@ -336,17 +340,24 @@ export default function BioCard({
   );
 }
 
-function BusinessCard({ driver, logo, image }) {
+function BusinessCard({ driver, logo, image , members }) {
+
+  
+
+
   return (
     <div class="license-modal">
       <div class="license-card">
         <div class="license-header">
           <img src={logo} alt="국기" />
+          {(members?.memberRole === 'a' || members?.sub === driver?.memberId) && 
           <Tooltip title="modify" variant="solid">
-            <IconButton className="license-modify" id="modifyButton">
-              <DrawIcon />
-            </IconButton>
-          </Tooltip>
+          <IconButton className="license-modify" id="modifyButton">
+            <DrawIcon />
+          </IconButton>
+        </Tooltip>
+          }
+          
         </div>
         <div class="license-body">
           <div class="license-photo">
@@ -374,15 +385,24 @@ function BusinessCard({ driver, logo, image }) {
 }
 
 function BusinessCardBack({ car }) {
+
+  const [hasError, setHasError] = useState(false)
+
   return (
     <div class="license-modal">
       <div class="license-card-back">
-        <div className="license-card-back-photo">
+        {car ? (
+          <>
+          <div className="license-card-back-photo">
           <div className="car-front">
-            <img src={car?.carFrontImage} width={"100%"} alt="이미지 없음" />
+              <img src={car?.carFrontImage} width={"100%"} alt="이미지 없음" 
+               onError={(e)=>{e.target.onerror = null ; e.target.src = noImage; }}
+              />            
           </div>
           <div className="car-rear">
-            <img src={car?.carRearImage} width={"100%"} alt="이미지 없음" />
+            <img src={car?.carRearImage} width={"100%"} alt="이미지 없음"
+             onError={(e)=>{e.target.onerror = null ; e.target.src = noImage; }}
+            />
           </div>
         </div>
         <div
@@ -399,7 +419,16 @@ function BusinessCardBack({ car }) {
             </ul>
           </div>
         </div>
+          </>
+        ) : (
+          <div style={{display : 'flex' ,flexDirection : 'column'}}>
+            <div>차량을 배정해주세요</div>
+            <div style={{height : '90%'}}><img src={carVideo} alt="이미지가 없습니다" height={'100%'}/></div>
+          </div>
+        )}
+        
       </div>
+      
       <Button id="leftButton">
         <ChevronRightIcon />
       </Button>

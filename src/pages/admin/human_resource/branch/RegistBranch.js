@@ -21,6 +21,7 @@ import { useDispatch , useSelector} from "react-redux";
 import "animate.css";
 import './RegistBranchCss.css'
 import { registBranch , callBranchWithoutOwner} from "../../../../apis/HRAPICalls";
+import InputMask from "react-input-mask";
 
 
 export default function RegistBranch({ openModal, regist }) {
@@ -60,13 +61,36 @@ export default function RegistBranch({ openModal, regist }) {
 
   const [postcodeVisible, setPostcodeVisible] = useState(false);
 
+  // const inputHandler = (e) => {
+  //   const { name, value } = e.target;
+  //   const changeForm = { ...form, [name]: value };
+  //   if(name==='memberGender'){
+  //       setRSelected(value);
+  //   }
+  //   setForm(changeForm);
+  // };
+
+  const [emailValid, setEmailValid] = useState(true);
   const inputHandler = (e) => {
     const { name, value } = e.target;
-    const changeForm = { ...form, [name]: value };
-    if(name==='memberGender'){
-        setRSelected(value);
+    if (name === 'memberEmail') {
+      setEmailValid(validateEmail(value));
     }
-    setForm(changeForm);
+    setForm({ ...form, [name]: value });
+    if (name === "memberGender") {
+      setRSelected(value);
+    }
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    const { value } = e.target;
+    const rawValue = value.replace(/-/g, ''); // Remove dashes to store raw value
+    setForm({ ...form, memberPhoneNumber: rawValue });
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
 
@@ -105,6 +129,30 @@ export default function RegistBranch({ openModal, regist }) {
   };
 
   const submitHandler = () => {
+    if(!form.memberName){
+      alert('이름을 입력해주세요');
+      return;
+    }
+    else if(!form.memberPhoneNumber){
+      alert('전화번호를 입력해주세요');
+      return;
+    }else if (!emailValid) {
+      alert('적절한 이메일을 입력해주세요');
+      return;
+    }else if(!form.memberGender){
+      alert('성별을 입력해주세요');
+      return;
+    }else if(!form.memberBirthDate){
+      alert('생일을 입력해주세요');
+      return;
+    }else if(!form.memberHireDate){
+      alert('입사일을 입력해주세요');
+      return;
+    }
+    else if(!form.memberAddress){
+      alert('거주지를 입력해주세요');
+      return;
+    }
     const formData = new FormData();
 
     formData.append("memberName",form.memberName)
@@ -185,7 +233,7 @@ export default function RegistBranch({ openModal, regist }) {
                 placeholder="Enter Member Name"
               />
             </FormGroup>
-            <FormGroup>
+            {/* <FormGroup>
               <Label for="memberPhonNumber">Phone</Label>
               <Input
                 type="text"
@@ -195,6 +243,25 @@ export default function RegistBranch({ openModal, regist }) {
                 onChange={inputHandler}
                 placeholder="Enter Phone"
               />
+            </FormGroup> */}
+            <FormGroup>
+              <Label for="memberPhoneNumber">Phone</Label>
+              <InputMask
+                mask="999-9999-9999"
+                value={form.memberPhoneNumber}
+                onChange={handlePhoneNumberChange}
+                maskChar=""
+              >
+                {(inputProps) => (
+                  <Input
+                    {...inputProps}
+                    type="text"
+                    name="memberPhoneNumber"
+                    id="memberPhoneNumber"
+                    placeholder="###-####-####"
+                  />
+                )}
+              </InputMask>
             </FormGroup>
             <FormGroup>
               <Label for="branchCode">지점 선택</Label>
@@ -208,7 +275,7 @@ export default function RegistBranch({ openModal, regist }) {
               {noBranch && noBranch.map(b=><option value={b.branchCode}>{b.branchName}</option>)}
             </Input>
             </FormGroup>
-            <FormGroup>
+            {/* <FormGroup>
               <Label for="memberEmail">Email</Label>
               <Input
                 type="email"
@@ -218,6 +285,21 @@ export default function RegistBranch({ openModal, regist }) {
                 onChange={inputHandler}
                 placeholder="Enter Email"
               />
+            </FormGroup> */}
+            <FormGroup>
+              <Label for="memberEmail">Email</Label>
+              <Input
+                type="email"
+                name="memberEmail"
+                id="memberEmail"
+                value={form.memberEmail}
+                onChange={inputHandler}
+                placeholder="Enter Email"
+                invalid={!emailValid && form.memberEmail.length > 0}
+              />
+              {!emailValid && form.memberEmail.length > 0 && (
+                <p className="text-danger">Please enter a valid email address.</p>
+              )}
             </FormGroup>
             
             <FormGroup>

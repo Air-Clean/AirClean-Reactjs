@@ -25,6 +25,7 @@ import {
   callBranchWithoutOwner,
   callBranchCount
 } from "../../../../apis/HRAPICalls";
+import InputMask from "react-input-mask";
 
 export default function RegistDriver({ openModal, regist }) {
   const dispatch = useDispatch();
@@ -48,35 +49,42 @@ export default function RegistDriver({ openModal, regist }) {
 
   const [secondModal, setSecondModal] = useState(false);
 
-  // useEffect(() => {
-  //   setForm({
-  //     memberName: "",
-  //     memberPhoneNumber: "",
-  //     branchCode: "",
-  //     memberEmail: "",
-  //     memberBirthDate: "",
-  //     memberGender: "",
-  //     memberAddress: "",
-  //     image: null,
-  //     imagePreview: "",
-  //     memberHireDate: "",
-  //     driverRegion: '',
-  //     driverLicenseNumber : ''
-  //   });
-  //   setRSelected(null);
-  //   setPostcodeVisible(false);
-  // }, [openModal]);
-
-  const [postcodeVisible, setPostcodeVisible] = useState(false);
-
+  // 입력 제한
+  const [emailValid, setEmailValid] = useState(true);
   const inputHandler = (e) => {
     const { name, value } = e.target;
-    const changeForm = { ...form, [name]: value };
+    if (name === 'memberEmail') {
+      setEmailValid(validateEmail(value));
+    }
+    setForm({ ...form, [name]: value });
     if (name === "memberGender") {
       setRSelected(value);
     }
-    setForm(changeForm);
   };
+
+  const handlePhoneNumberChange = (e) => {
+    const { value } = e.target;
+    const rawValue = value.replace(/-/g, ''); // Remove dashes to store raw value
+    setForm({ ...form, memberPhoneNumber: rawValue });
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  //
+
+  const [postcodeVisible, setPostcodeVisible] = useState(false);
+
+  // const inputHandler = (e) => {
+  //   const { name, value } = e.target;
+  //   const changeForm = { ...form, [name]: value };
+  //   if (name === "memberGender") {
+  //     setRSelected(value);
+  //   }
+  //   setForm(changeForm);
+  // };
 
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -113,6 +121,13 @@ export default function RegistDriver({ openModal, regist }) {
   };
 
   const submitHandler = () => {
+    if(!form.driverLicenseNumber){
+      alert('면허증 번호를 입력하세요')
+      return;
+    }else if(!form.driverRegion){
+      alert('서비스 지역을 선택하세요')
+      return;
+    }
     const formData = new FormData();
 
     formData.append("memberName", form.memberName);
@@ -142,6 +157,35 @@ export default function RegistDriver({ openModal, regist }) {
   
 
   const toggleSecondModal = () => {
+
+    if(!form.memberName){
+      alert('이름을 입력해주세요');
+      return;
+    }
+    else if(!form.memberPhoneNumber){
+      alert('전화번호를 입력해주세요');
+      return;
+    }else if(!form.memberEmail){
+      alert('이메일을 입력해주세요');
+      return;
+    }else if (!emailValid) {
+      alert('적절한 이메일을 입력해주세요');
+      return;
+    }else if(!form.memberGender){
+      alert('성별을 입력해주세요');
+      return;
+    }else if(!form.memberBirthDate){
+      alert('생일을 입력해주세요');
+      return;
+    }else if(!form.memberHireDate){
+      alert('입사일을 입력해주세요');
+      return;
+    }
+    else if(!form.memberAddress){
+      alert('거주지를 입력해주세요');
+      return;
+    }
+
     setSecondModal(!secondModal);
     openModal();
     dispatch(callBranchCount())
@@ -202,7 +246,7 @@ export default function RegistDriver({ openModal, regist }) {
                   placeholder="Enter Member Name"
                 />
               </FormGroup>
-              <FormGroup>
+              {/* <FormGroup>
                 <Label for="memberPhonNumber">Phone</Label>
                 <Input
                   type="text"
@@ -212,8 +256,27 @@ export default function RegistDriver({ openModal, regist }) {
                   onChange={inputHandler}
                   placeholder="Enter Phone"
                 />
-              </FormGroup>
+              </FormGroup> */}
               <FormGroup>
+              <Label for="memberPhoneNumber">Phone</Label>
+              <InputMask
+                mask="999-9999-9999"
+                value={form.memberPhoneNumber}
+                onChange={handlePhoneNumberChange}
+                maskChar=""
+              >
+                {(inputProps) => (
+                  <Input
+                    {...inputProps}
+                    type="text"
+                    name="memberPhoneNumber"
+                    id="memberPhoneNumber"
+                    placeholder="###-####-####"
+                  />
+                )}
+              </InputMask>
+            </FormGroup>
+              {/* <FormGroup>
                 <Label for="memberEmail">Email</Label>
                 <Input
                   type="email"
@@ -223,7 +286,22 @@ export default function RegistDriver({ openModal, regist }) {
                   onChange={inputHandler}
                   placeholder="Enter Email"
                 />
-              </FormGroup>
+              </FormGroup> */}
+              <FormGroup>
+              <Label for="memberEmail">Email</Label>
+              <Input
+                type="email"
+                name="memberEmail"
+                id="memberEmail"
+                value={form.memberEmail}
+                onChange={inputHandler}
+                placeholder="Enter Email"
+                invalid={!emailValid && form.memberEmail.length > 0}
+              />
+              {!emailValid && form.memberEmail.length > 0 && (
+                <p className="text-danger">Please enter a valid email address.</p>
+              )}
+            </FormGroup>
 
               <FormGroup>
                 <Label for="memberGender">Gender</Label>
@@ -320,17 +398,25 @@ export default function RegistDriver({ openModal, regist }) {
           Driver Registration
         </ModalHeader>
         <ModalBody>
-          <FormGroup>
-            <Label for="driverLicenseNumber">Driver License</Label>
-            <Input
-              type="text"
-              name="driverLicenseNumber"
-              id="driverLicenseNumber"
-              value={form.driverLicenseNumber}
-              onChange={inputHandler}
-              placeholder="Enter Driver License"
-            />
-          </FormGroup>
+        <FormGroup>
+              <Label for="driverLicenseNumber">Driver License</Label>
+              <InputMask
+                mask="99-99-999999-99"
+                value={form.driverLicenseNumber}
+                onChange={inputHandler}
+                maskChar={null}
+              >
+                {(inputProps) => (
+                  <Input
+                    {...inputProps}
+                    type="text"
+                    name="driverLicenseNumber"
+                    id="driverLicenseNumber"
+                    placeholder="##-##-######-##"
+                  />
+                )}
+              </InputMask>
+            </FormGroup>
           <FormGroup>
               <Label for="branchCode">지역 선택</Label>
               <Input
@@ -342,7 +428,7 @@ export default function RegistDriver({ openModal, regist }) {
               <option value="">Select Region</option>
               {regionCount?.map(
                 region => <option value={region.driverRegion}>
-                   {`${region.driverRegion} \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 차량기사 : ${region.regionCount} 명`}
+                  {`${region.driverRegion} \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 차량기사 : ${region.regionCount} 명`}
                 </option>
               )}
             </Input>

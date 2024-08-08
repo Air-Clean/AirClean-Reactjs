@@ -27,10 +27,20 @@ const checkTokenExpiration = (token) => {
   }
 };
 
+
 function Layout() {
+  let members = ''
+  try {
+    members = jwt_decode(window.localStorage.getItem('accessToken'));
+    // 디코딩된 토큰 사용
+  } catch (error) {
+    console.error('토큰 디코딩 오류:', error);
+    // 오류 처리 또는 사용자에게 알림
+  }
+  
 
 
-  const members = jwt_decode(window.localStorage.getItem('accessToken'))
+  // const members = jwt_decode(window.localStorage.getItem('accessToken'))
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

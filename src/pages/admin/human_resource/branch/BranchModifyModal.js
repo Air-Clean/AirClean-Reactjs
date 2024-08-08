@@ -14,9 +14,10 @@ import {
 import { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import DaumPostcodeEmbed from "react-daum-postcode";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { modifyBranch } from "../../../../apis/HRAPICalls";
 import jwtDecode from "jwt-decode";
+import InputMask from "react-input-mask";
 
 
 export default function BranchModifyModal({ modal, toggle, branch ,form, setForm}) {
@@ -29,6 +30,27 @@ export default function BranchModifyModal({ modal, toggle, branch ,form, setForm
 
   const [postcodeVisible, setPostcodeVisible] = useState(false);
 
+  const [emailValid, setEmailValid] = useState(true);
+
+  const inputHandler = (e) => {
+    const { name, value } = e.target;
+    if (name === 'email') {
+      setEmailValid(validateEmail(value));
+    }
+    setForm({ ...form, [name]: value });
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    const { value } = e.target;
+    const rawValue = value.replace(/-/g, ''); // Remove dashes to store raw value
+    setForm({ ...form, phone: rawValue });
+  };
+
   useEffect(() => {
     if (modal) {
       document.body.classList.add("no-scroll");
@@ -37,12 +59,12 @@ export default function BranchModifyModal({ modal, toggle, branch ,form, setForm
     }
   }, [modal]);
 
-  const inputHandler = (e) => {
-    const { name, value } = e.target;
-    const changeForm = { ...form, [name]: value };
+  // const inputHandler = (e) => {
+  //   const { name, value } = e.target;
+  //   const changeForm = { ...form, [name]: value };
 
-    setForm(changeForm);
-  };
+  //   setForm(changeForm);
+  // };
 
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -82,6 +104,10 @@ export default function BranchModifyModal({ modal, toggle, branch ,form, setForm
   };
 
   const submitHandler = () => {
+    if (!emailValid) {
+      alert('Please enter a valid email address.');
+      return;
+    }
     const formData = new FormData();
 
     formData.append("memberId", form.memberId);
@@ -144,21 +170,27 @@ export default function BranchModifyModal({ modal, toggle, branch ,form, setForm
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="phone" sm={3}>
-            Phone
-          </Label>
-          <Col sm={9}>
-            <Input
-              type="text"
-              name="phone"
-              id="phone"
-              value={form.phone}
-              onChange={inputHandler}
-              placeholder="Enter your phone number"
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
+              <Label for="phone" sm={3}>Phone</Label>
+              <Col sm={9}>
+              <InputMask
+                mask="999-9999-9999"
+                value={form.phone}
+                onChange={handlePhoneNumberChange}
+                maskChar=""
+              >
+                {(inputProps) => (
+                  <Input
+                    {...inputProps}
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    placeholder="###-####-####"
+                  />
+                )}
+              </InputMask>
+              </Col>
+            </FormGroup>
+            <FormGroup row>
           <Label for="email" sm={3}>
             Email
           </Label>
@@ -170,49 +202,13 @@ export default function BranchModifyModal({ modal, toggle, branch ,form, setForm
               value={form.email}
               onChange={inputHandler}
               placeholder="Enter your email"
-            />
+              invalid={!emailValid && form.email.length > 0}
+              />
+              {!emailValid && form.email.length > 0 && (
+                <p className="text-danger">Please enter a valid email address.</p>
+              )}
           </Col>
         </FormGroup>
-        {/* <FormGroup row>
-          <Label for="department" sm={3}>
-            직책 변경
-          </Label>
-          <Col sm={9}>
-            <Input
-              type="select"
-              name="position"
-              id="position"
-              value={form.position}
-              onChange={inputHandler}
-            >
-              <option value="">Select Position</option>
-              <option value="부장">부장</option>
-              <option value="과장">과장</option>
-              <option value="대리">대리</option>
-              <option value="사원">사원</option>
-            </Input>
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="position" sm={3}>
-            부서 이동
-          </Label>
-          <Col sm={9}>
-            <Input
-              type="select"
-              name="dept"
-              id="dept"
-              value={form.dept}
-              onChange={inputHandler}
-            >
-              <option value="">Select Department</option>
-              <option value="마케팅">Marketing</option>
-              <option value="운영">Operation</option>
-              <option value="인사">HR</option>
-              <option value="재무">Financial</option>
-            </Input>
-          </Col>
-        </FormGroup> */}
         <FormGroup row>
           <Label for="address" sm={3}>
             Address

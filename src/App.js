@@ -44,14 +44,16 @@ import BranchClient from './pages/client/branchClient/BranchClient';
 
 
 import Car from './pages/admin/car/Car';
-import MainPage from './pages/admin/main_page/MainPage';
+// import MainPage from './pages/admin/main_page/MainPage';
 
+import Loading from './common/LoadingSpinner';
 
 
 
 import Cardelivery from './pages/client/cardelivery/Cardelivery';
 
-import jwtDecode from 'jwt-decode';
+
+const MainPage = React.lazy(()=> import('./pages/admin/main_page/MainPage'))
 
 function App() {
 
@@ -66,7 +68,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login/>} />
           <Route path="/company" element={<Layout/>}>
-            <Route index element={<MainPage/>}/>
+            <Route index element={<React.Suspense fallback={<Loading/>}><MainPage/></React.Suspense>}/>
             <Route path='financial' element={<MainPage/>}>
             
             </Route>

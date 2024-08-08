@@ -14,7 +14,7 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Badge from '@mui/material/Badge';
-
+import noImage from '../../assets/no-image.png'
 import Avatar from "@mui/joy/Avatar";
 
 export default function BranchInformation({ branch, facility }) {
@@ -46,11 +46,12 @@ export default function BranchInformation({ branch, facility }) {
       <div className="branchInformationHeader">
         {branch ? (<><div className="branchInfromationImage">
           <img
-            src={branch?.branchImage}
+            src={branch.branchImage}
             alt="이미지 준비중"
-            width={"90%"}
+            width={"60%"}
             height={"60%"}
             style={{ borderRadius: "5px" }}
+            onError={(e)=>{e.target.onerror = null ; e.target.src = noImage; }}
           />
           <div>{branch?.branchName}</div>
         </div>
@@ -79,7 +80,7 @@ export default function BranchInformation({ branch, facility }) {
             <>
                 <div>
           <Avatar
-            src={manager.memberImage || "/static/images/avatar/1.jpg"}
+            src={manager?.memberImage || "/static/images/avatar/1.jpg"}
             sx={{ "--Avatar-size": "6rem" }}
           />
         </div>

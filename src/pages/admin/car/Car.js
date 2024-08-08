@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Car.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { callCarInfoListAPI ,callDriverWithNoAssigned, callRegistCar, callDeleteCar} from '../../../apis/CarAPICalls';
+import { callCarInfoListAPI ,callDriverWithNoAssigned, callRegistCar, callDeleteCar,assignDriver} from '../../../apis/CarAPICalls';
 import Paging from '../../../components/paging/Paging';
 
 function Car() {
@@ -83,15 +83,20 @@ function Car() {
             setShowRegisterForm(false);
             setNewCar({ carNumber: '', carDate: '', carPhoto1: null, carPhoto2: null, carEtc: '' });
 
-            // window.location.reload();
+            window.location.reload();
         }
     };
 
     const handleAssign = () => {
-        const driver = drivers.find(driver => driver.name === selectedDriver);
-        const updatedCar = { ...selectedCar, driverName: driver.name, assigned: true };
-        setDrivers(drivers.map(d => (d.name === driver.name ? { ...d, assigned: true } : d)));
+        // const driver = drivers.find(driver => driver.name === selectedDriver);
+        // const updatedCar = { ...selectedCar, driverName: driver.name, assigned: true };
+        // setDrivers(drivers.map(d => (d.name === driver.name ? { ...d, assigned: true } : d)));
+
+        console.log('선택된 차량기사',selectedDriver)
+        console.log('선택된 차량',selectedCar);
+        dispatch(assignDriver({selectedDriver: selectedDriver, selectedCar : selectedCar}))
         setShowAssignForm(false);
+        window.location.reload();
     };
 
     const handleUnassignConfirm = (car) => {
@@ -101,9 +106,12 @@ function Car() {
 
     const handleUnassign = () => {
         const driverName = selectedCar.driverAndMemberDTO?.memberDTO.memberName;
-        setDrivers(drivers.map(d => (d.name === driverName ? { ...d, assigned: false } : d)));
+        // setDrivers(drivers.map(d => (d.name === driverName ? { ...d, assigned: false } : d)));
         // 업데이트된 차량 정보를 설정합니다.
-        const updatedCarList = carList.map(c => c.carNumber === selectedCar.carNumber ? { ...c, carAssignedStatus: "N", driverAndMemberDTO: null } : c);
+        // const updatedCarList = carList.map(c => c.carNumber === selectedCar.carNumber ? { ...c, carAssignedStatus: "N", driverAndMemberDTO: null } : c);
+
+        //{selectedDriver: selectedDriver, selectedCar : selectedCar}
+        dispatch()
         // 여기서는 state를 업데이트할 필요가 있습니다.
         setShowUnassignConfirm(false);
         setSelectedCar(null);
@@ -117,6 +125,7 @@ function Car() {
         
         setSelectedCars([]);
         setShowCheckboxes(false);
+        window.location.reload();
     };
 
     const handleCheckboxChange = (carNumber) => {
@@ -192,7 +201,10 @@ function Car() {
                                         ) : (
                                             <button
                                                 className={`${styles.button} ${styles.cancel}`}
-                                                onClick={() => handleUnassignConfirm(car)}
+                                                onClick={() => {
+                                                    setSelectedCar(car.carNumber);
+                                                    handleUnassignConfirm(car.carNumber)
+                                                }}
                                             >
                                                 배정취소
                                             </button>

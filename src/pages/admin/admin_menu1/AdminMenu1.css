@@ -1,7 +1,7 @@
-.menu1_layout {
-  display: flex;
-  justify-content: center;
-  width: 100vw;
+.menu1_layout  {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100vw !important;
   /* background-color: rgb(211, 211, 211); */
 
 }

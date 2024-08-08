@@ -91,48 +91,63 @@ const AdminHeader = () => {
       <div>
         <nav className={styles.nav} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
           <ul className={styles.menu}>
+            <NavLink to='facilityAndLaundry'>
             <li
               className={`${styles.menuItem} ${activeMenu === 1 ? styles.active : ''}`}
               onClick={() => changeColor(1)}
             >
               <div>세탁물관리</div>
             </li>
+            </NavLink>
+            <NavLink to='branchClient'>
             <li
                 className={`${styles.menuItem} ${activeMenu === 6 ? styles.active : ''}`}
                 onClick={() => changeColor(6)}
               >
               <div>지점관리</div>
             </li>
+            </NavLink>
+            <NavLink to='paper/locationNewReports'>
             <li
               className={`${styles.menuItem} ${activeMenu === 2 ? styles.active : ''}`}
               onClick={() => changeColor(2)}
             >
               <div>보고서관리</div>
             </li>
+            </NavLink>
+            <NavLink>
             <li
               className={`${styles.menuItem} ${activeMenu === 3 ? styles.active : ''}`}
               onClick={() => changeColor(3)}
             >
               <div>재고관리</div>
             </li>
+            </NavLink>
+            <NavLink to='cardelivery'>
             <li
               className={`${styles.menuItem} ${activeMenu === 4 ? styles.active : ''}`}
               onClick={() => changeColor(4)}
             >
               <div>물류시스템</div>
             </li>
+            </NavLink>
+            <NavLink to='facility'>
             <li
               className={`${styles.menuItem} ${activeMenu === 5 ? styles.active : ''}`}
               onClick={() => changeColor(5)}
             >
               <div>시설물현황</div>
             </li>
+            </NavLink>
+            <NavLink to='members/employee'>
             <li
               className={`${styles.menuItem} ${activeMenu === 6 ? styles.active : ''}`}
               onClick={() => changeColor(6)}
             >
               <div>인적자원</div>
             </li>
+            </NavLink>
+            
           </ul>
           {dropdownVisible && (
             <div className={styles.dropdown}>
