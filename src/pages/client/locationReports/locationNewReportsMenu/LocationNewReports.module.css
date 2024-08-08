@@ -1,40 +1,53 @@
 /* LocationNewReports.module.css */
+
 .menu1_layout {
   display: flex;
   justify-content: center;
   width: 100vw;
-  /* background-color: rgb(211, 211, 211); */
 }
 
 .flex_wrap {
-  width: 80vw; /* 너비를 80%로 설정하여 흰색 배경을 벗어나지 않도록 함 */
+  display: flex;
+  width: 80vw; /* 폭 조정 */
   background-color: rgb(255, 255, 255);
   padding: 20px;
-  padding-left: 40px;  /* 왼쪽 패딩 추가 */
-  padding-right: 40px; /* 오른쪽 패딩 추가 */
+  gap: 20px; /* 섹션 사이에 여백 추가 */
 }
+
+
+.report_section {
+  flex: 1;
+}
+
+.modal_section {
+  flex: 1; /* flex 값 조정 */
+  display: flex;
+  justify-content: center; /* 수평 가운데 정렬 */
+  align-items: flex-start; /* 세로 방향으로 상단 정렬 */
+}
+
 
 /* 보고서 작성 페이지 css */
-.report-create {
+.report_create {
   width: 100%;
-  margin: 20px 0; 
+  margin: 20px 0;
 }
 
-.report-create h1 {
+.report_create h1 {
   font-size: 45px;
   margin-bottom: 20px;
   border-bottom: 1px solid #000;
   padding-bottom: 10px;
 }
 
-.button-group {
+.button_group {
   display: flex;
-  justify-content: end; 
+  justify-content: end;
   margin-bottom: 20px;
 }
 
-.register-button,
-.create-button {
+.register_button,
+.create_button {
   padding: 10px 20px;
   font-size: 16px;
   background-color: #fff;
@@ -44,34 +57,46 @@
   margin-right: 10px;
 }
 
-.register-button:hover,
-.create-button:hover {
+.register_button:hover,
+.create_button:hover {
   background-color: #f2f2f2;
 }
 
-.table-container {
+.table_container {
   width: 100%;
   overflow-x: auto;
 }
 
-.report-table {
+.report_table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
 }
 
-.report-table th, .report-table td {
+.report_table th, .report_table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
 }
 
-.report-table th {
+.report_table th {
   background-color: #f2f2f2;
   border-bottom: 2px solid #ddd;
 }
 
-.detail-button {
+.report_table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.report_table tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.report_table tr:hover {
+  background-color: #e0f7fa;
+}
+
+.detail_button {
   padding: 5px 10px;
   font-size: 14px;
   background-color: #000;
@@ -80,7 +105,7 @@
   cursor: pointer;
 }
 
-.detail-button:hover {
+.detail_button:hover {
   background-color: #333;
 }
 

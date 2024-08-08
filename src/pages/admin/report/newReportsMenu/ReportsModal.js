@@ -1,30 +1,17 @@
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  FormGroup,
-  Input,
-  Label,
-  Col,
-  Row
-} from "reactstrap";
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { callCarMembersAPI, callNewVehicleRepairAPI } from "../../../../apis/ReportAPICalls";
-import "animate.css";
+import styles from "./ReportsModal.module.css";
 
 function ReportsModal({ show, onClose }) {
   const dispatch = useDispatch();
 
   const [minDate, setMinDate] = useState('');
   const carMembers = useSelector(state => state.carMembersReducer);
-  // const newVehicleRepairResult = useSelector(state => newVehicleRepairReducer);
   const [selectedCarNumber, setSelectedCarNumber] = useState('');
   const [selectedDriverName, setSelectedDriverName] = useState('');
-  const [selectedDriverLicenseNumber, setSelectedDriverLicenseNumber] = useState(''); // 추가된 상태
+  const [selectedDriverLicenseNumber, setSelectedDriverLicenseNumber] = useState('');
   const [selectedType, setSelectedType] = useState('');
 
   const [form, setForm] = useState({
@@ -58,7 +45,7 @@ function ReportsModal({ show, onClose }) {
       vehicleType: ''
     });
     setSelectedDriverName('');
-    setSelectedDriverLicenseNumber(''); // 상태 초기화
+    setSelectedDriverLicenseNumber('');
   }, [show]);
 
   useEffect(() => {
@@ -70,7 +57,7 @@ function ReportsModal({ show, onClose }) {
   useEffect(() => {
     const selectedCar = carMembers.find(car => car.carNumber === selectedCarNumber);
     setSelectedDriverName(selectedCar ? selectedCar.memberName : '');
-    setSelectedDriverLicenseNumber(selectedCar ? selectedCar.driverLicenseNumber : ''); // 상태 설정
+    setSelectedDriverLicenseNumber(selectedCar ? selectedCar.driverLicenseNumber : '');
   }, [selectedCarNumber, carMembers]);
 
   useEffect(() => {
@@ -93,7 +80,6 @@ function ReportsModal({ show, onClose }) {
     const formattedValue = name === 'vehicleSubmissionDate' ? value : addComma(value.replace(/,/g, ''));
     setForm({ ...form, [name]: formattedValue });
 
-    // 종류에 따른 필드 값 설정
     if (name === 'totalVehicleRepairCost') {
       switch (selectedType) {
         case '주유비':
@@ -166,7 +152,7 @@ function ReportsModal({ show, onClose }) {
     formData.append('vehicleVehicleRepairCost', Number(removeComma(form.vehicleVehicleRepairCost)));
     formData.append('vehicleMiscellaneous', Number(removeComma(form.vehicleMiscellaneous)));
     formData.append('vehicleSubmissionDate', form.vehicleSubmissionDate);
-    formData.append('driverLicenseNumber', selectedDriverLicenseNumber); // 수정된 부분
+    formData.append('driverLicenseNumber', selectedDriverLicenseNumber);
     formData.append('totalVehicleRepairCost', Number(removeComma(form.totalVehicleRepairCost)));
     formData.append('memberName', selectedDriverName);
     formData.append('carNumber', selectedCarNumber);
@@ -188,85 +174,76 @@ function ReportsModal({ show, onClose }) {
   }
 
   return (
-    <Modal
-      isOpen={show}
-      toggle={onClose}
-      centered
-      className="animate__animated animate__fadeInLeftBig custom-modal"
-    >
-      <ModalHeader toggle={onClose}>차량 수리비 보고서</ModalHeader>
-      <ModalBody>
-        <Row form>
-          <Col md={6}>
-            <FormGroup>
-              <Label for="carNumber">차량번호</Label>
-              <Input
-                type="select"
-                name="carNumber"
-                id="carNumber"
-                value={selectedCarNumber}
-                onChange={e => setSelectedCarNumber(e.target.value)}
-              >
-                <option value="">차량번호를 선택해주세요</option>
-                {carMembers.map(car => (
-                  <option key={car.carNumber} value={car.carNumber}>
-                    {car.carNumber}
-                  </option>
-                ))}
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="selectedDriverName">차량기사</Label>
-              <Input
-                type="text"
-                name="selectedDriverName"
-                id="selectedDriverName"
-                value={selectedDriverName}
-                readOnly
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="vehicleReportStatus">종류</Label>
-              <Input
-                type="select"
-                name="vehicleType"
-                id="vehicleType"
-                value={selectedType}
-                onChange={handleTypeChange}
-              >
-                <option value="">종류 선택</option>
-                <option value="주유비">주유비</option>
-                <option value="수리비">수리비</option>
-                <option value="정기점검">정기점검</option>
-                <option value="기타">기타</option>
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="totalVehicleRepairCost">총 금액</Label>
-              <Input
-                type="text"
-                name="totalVehicleRepairCost"
-                id="totalVehicleRepairCost"
-                value={addComma(form.totalVehicleRepairCost)}
-                onChange={inputHandler}
-                placeholder="총 금액을 입력해주세요"
-              />
-            </FormGroup>
-          </Col>
-          <Col md={6}>
-            <FormGroup>
-              <Label for="vehicleSubmissionDate">제출일</Label>
-              <Input
-                type="date"
-                name="vehicleSubmissionDate"
-                id="vehicleSubmissionDate"
-                min={minDate}
-                value={form.vehicleSubmissionDate}
-                onChange={inputHandler}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="beforeVehiclePhoto">수리 사진 전</Label>
+    <div className={styles.modalBackdrop} onClick={onClose}>
+      <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
+        <div className={styles.modalTitle}>차량 수리비 보고서</div>
+        <div className={styles.formContainer}>
+          <div className={styles.formGroup}>
+            <label htmlFor="carNumber">차량번호</label>
+            <select
+              name="carNumber"
+              id="carNumber"
+              value={selectedCarNumber}
+              onChange={e => setSelectedCarNumber(e.target.value)}
+            >
+              <option value="">차량번호를 선택해주세요</option>
+              {carMembers.map(car => (
+                <option key={car.carNumber} value={car.carNumber}>
+                  {car.carNumber}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="selectedDriverName">차량기사</label>
+            <input
+              type="text"
+              name="selectedDriverName"
+              id="selectedDriverName"
+              value={selectedDriverName}
+              readOnly
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="vehicleType">종류</label>
+            <select
+              name="vehicleType"
+              id="vehicleType"
+              value={selectedType}
+              onChange={handleTypeChange}
+            >
+              <option value="">종류 선택</option>
+              <option value="주유비">주유비</option>
+              <option value="수리비">수리비</option>
+              <option value="정기점검">정기점검</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="totalVehicleRepairCost">총 금액</label>
+            <input
+              type="text"
+              name="totalVehicleRepairCost"
+              id="totalVehicleRepairCost"
+              value={addComma(form.totalVehicleRepairCost)}
+              onChange={inputHandler}
+              placeholder="총 금액을 입력해주세요"
+            />
+          </div>
+          <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+            <label htmlFor="vehicleSubmissionDate">제출일</label>
+            <input
+              type="date"
+              name="vehicleSubmissionDate"
+              id="vehicleSubmissionDate"
+              min={minDate}
+              value={form.vehicleSubmissionDate}
+              onChange={inputHandler}
+            />
+          </div>
+          <div className={styles.photoContainer}>
+            <div className={styles.formGroup}>
+              <label htmlFor="beforeVehiclePhoto">수리 사진 전</label>
               <div {...getBeforeImageRootProps()} className="dropzone">
                 <input {...getBeforeImageInputProps()} />
                 {form.beforeImagePreview ? (
@@ -275,9 +252,9 @@ function ReportsModal({ show, onClose }) {
                   <p>이미지를 드롭하거나 클릭하여 업로드</p>
                 )}
               </div>
-            </FormGroup>
-            <FormGroup>
-              <Label for="afterVehiclePhoto">수리 사진 후</Label>
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="afterVehiclePhoto">수리 사진 후</label>
               <div {...getAfterImageRootProps()} className="dropzone">
                 <input {...getAfterImageInputProps()} />
                 {form.afterImagePreview ? (
@@ -286,30 +263,29 @@ function ReportsModal({ show, onClose }) {
                   <p>이미지를 드롭하거나 클릭하여 업로드</p>
                 )}
               </div>
-            </FormGroup>
-            <FormGroup>
-              <Label for="vehicleRemark">특이사항</Label>
-              <Input
-                type="textarea"
-                name="vehicleRemark"
-                id="vehicleRemark"
-                value={form.vehicleRemark}
-                onChange={inputHandler}
-                placeholder="특이사항을 입력하세요"
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-      </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={handleSubmit}>
-          등록
-        </Button>
-        <Button color="secondary" onClick={onClose}>
-          닫기
-        </Button>
-      </ModalFooter>
-    </Modal>
+            </div>
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="vehicleRemark">특이사항</label>
+            <textarea
+              name="vehicleRemark"
+              id="vehicleRemark"
+              value={form.vehicleRemark}
+              onChange={inputHandler}
+              placeholder="특이사항을 입력하세요"
+            />
+          </div>
+        </div>
+        <div className={styles.formButtons}>
+          <button className={styles.register_button} onClick={handleSubmit}>
+            등록
+          </button>
+          <button className={styles.create_button} onClick={onClose}>
+            닫기
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

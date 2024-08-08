@@ -227,13 +227,25 @@ export const vehicleRepairReducer = handleActions({
 }, initialState)
 
 // 차량수리보고서 상세 조회
-const detailVehicleRepairReducer = handleActions({
+// const detailVehicleRepairReducer = handleActions({
 
-    [DETAILVEHICLEREPAIR] : (state, {payload}) => {
-        console.log("차량수리보고서 세부조회 reducer : ", payload)
-        return payload;
+//     [DETAILVEHICLEREPAIR] : (state, {payload}) => {
+//         console.log("차량수리보고서 세부조회 reducer : ", payload)
+//         return payload;
+//     }
+// }, initialState)
+
+const detailVehicleRepairReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case 'DETAILVEHICLEREPAIR':
+        return {
+          ...state,
+          repairDetail: action.payload,
+        };
+      default:
+        return state;
     }
-}, initialState)
+  };
 
 // 차량수리보고서 차량, 차량기사 조회
 const carMembersReducer = handleActions({
