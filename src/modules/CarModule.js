@@ -8,7 +8,7 @@ export const CARINFOLIST = 'CARINFOLIST';
 export const CARDRIVER = 'CARDRIVER';
 
 createActions({
-    [CARINFOLIST]: ()=>[]
+    [CARINFOLIST]: ()=>{}
 })
 
 createActions({
@@ -16,17 +16,22 @@ createActions({
 })
 
 // 리듀서 정의
-export const carReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case CARINFOLIST:
-            return {
-                ...state,
-                carList: action.payload,
-            };
-        default:
-            return state;
+// export const carReducer = (state = initialState, action) => {
+//     switch (action.type) {
+//         case CARINFOLIST:
+//             return {
+//                 ...state,
+//                 carList: action.payload,
+//             };
+//         default:
+//             return state;
+//     }
+// };
+export const carReducer = handleActions({
+    [CARINFOLIST] : (state,{payload})=>{
+        return {carList : payload};
     }
-};
+},initialState)
 
 export const carDriverReducer= handleActions({
     [CARDRIVER] : (state , {payload})=>{

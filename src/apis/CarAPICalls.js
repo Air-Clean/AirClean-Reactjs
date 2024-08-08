@@ -139,10 +139,10 @@ export function unAssignDriver({selectedDriver, selectedCar}){
     }
 }
 
-export function callCarWithLaundry({current , isFoward}){
+export function callCarWithLaundry({current , branchCode ,isFoward}){
     console.log('callCarWithLaundry 작동')
 
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/branch/laundry?offset=${current}&isFoward=${isFoward}`
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/branch/laundry?offset=${current}&branchCode=${branchCode}&isFoward=${isFoward}`
 
     return async (dispatch,getState) =>{
         const result = await fetch(requestURL,{
@@ -155,5 +155,8 @@ export function callCarWithLaundry({current , isFoward}){
         }).then(res=>res.json())
 
         console.log('callCarWithLaundry result 값',result)
+        if(result.status===200){
+            dispatch({type : CARINFOLIST, payload : result.data})
+        }
     }
 }
