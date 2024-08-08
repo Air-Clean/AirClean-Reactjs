@@ -17,6 +17,7 @@ import Badge from '@mui/material/Badge';
 import Skeleton from '@mui/material/Skeleton';
 
 import Avatar from "@mui/joy/Avatar";
+import noImage from '../../assets/no-image.png'
 
 export default function BranchInformation({ branch, facility }) {
   const [manager, setManager] = useState("");
@@ -30,6 +31,9 @@ export default function BranchInformation({ branch, facility }) {
       }
     }
   }, [branch]);
+
+
+ 
 
   return (
     <div
@@ -48,9 +52,10 @@ export default function BranchInformation({ branch, facility }) {
           <img
             src={branch.branchImage}
             alt="이미지 준비중"
-            width={"90%"}
+            width={"60%"}
             height={"60%"}
             style={{ borderRadius: "5px" }}
+            onError={(e)=>{e.target.onerror = null ; e.target.src = noImage; }}
           />
           <div>{branch.branchName}</div>
         </div>

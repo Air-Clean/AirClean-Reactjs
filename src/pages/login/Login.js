@@ -37,9 +37,18 @@ const Login = () => {
   useEffect(()=>{
     if(loginMember.status === 200){
       console.log("[Login] Login SUCCESS {}", loginMember);
+      
 
       // 앞으로 이방식으로 토큰값을 꺼내서 쓸수 있다
-      const members =jwt_decode(window.localStorage.getItem('accessToken'))
+
+      let members =''
+      try {
+        members = jwt_decode(window.localStorage.getItem('accessToken'));
+        // 디코딩된 토큰 사용
+      } catch (error) {
+        console.error('토큰 디코딩 오류:', error);
+        // 오류 처리 또는 사용자에게 알림
+      }
       
       if(members.memberRole==='b'){
         window.location.href='location'
