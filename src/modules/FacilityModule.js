@@ -3,9 +3,11 @@ import { createActions, handleActions } from "redux-actions";
 const initialState = [];
 
 export const FACILITYDETAIL = 'FACILITYDETAIL'
+export const FACILITYLAUNDRYWAY = 'FACILITYLAUNDRYWAY'
 
 createActions({
-    [FACILITYDETAIL]: ()=>{}
+    [FACILITYDETAIL]: ()=>{},
+    [FACILITYLAUNDRYWAY]: ()=>{}
 })
 
 const facilityDetailInfoReducer = handleActions({
@@ -15,4 +17,11 @@ const facilityDetailInfoReducer = handleActions({
     }
 }, initialState)
 
-export default facilityDetailInfoReducer;
+const facilityLaundryWayReducer = handleActions({
+    [FACILITYLAUNDRYWAY]: (state, {payload}) => {
+        console.log('시설 세탁방법 도출 리듀서 payload : ', payload)
+        return payload;
+    }
+}, initialState)
+
+export {facilityDetailInfoReducer, facilityLaundryWayReducer};

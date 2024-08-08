@@ -26,6 +26,7 @@ function ExpenseModal({ show, onClose }) {
     expenseRemark: "",
   });
 
+
   const waterCost = useSelector(state => state.waterCostReducer);
 
   useEffect(() => {

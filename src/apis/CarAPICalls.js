@@ -61,3 +61,80 @@ export function callDriverWithNoAssigned(){
         }
     }
 }
+
+export function callRegistCar({form}){
+    console.log('callRegistCar', form) 
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/car`
+
+    return async (dispatch, getState)=>{
+        const result = await fetch(requestURL,{
+            method : 'POST',
+            headers : {
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+            },
+            body : form
+        }).then(res=>res.json())
+
+        console.log('callRegistCar result ',result)
+    }
+
+}
+
+export function callDeleteCar({selectedCars}){
+    console.log("callDeleteCar 동작",selectedCars)
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/car`
+
+    return async (dispatch,getState)=>{
+        const result = await fetch(requestURL,{
+            method : "DELETE",
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+            },
+            body : JSON.stringify(selectedCars)
+        }).then(res=>res.json())
+    }
+}
+
+export function assignDriver({selectedDriver, selectedCar}){
+
+    console.log("assignDriver 동작함")
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/assign?selectedDriver=${selectedDriver}&selectedCar=${selectedCar}`
+
+    return async (dispatch ,getState) =>{
+        const result = await fetch(requestURL,{
+            method : "PUT", 
+            headers : {
+                'Content-Type':'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+
+        console.log('등록됨',result)
+    }
+}
+
+export function unAssignDriver({selectedDriver, selectedCar}){
+    console.log("unAssignDriver 동작")
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/unassign?selectedDriver=${selectedDriver}&selectedCar=${selectedCar}`
+
+    return async (dispatch,getState)=>{
+        const result = await fetch(requestURL,{
+            method : 'PUT',
+            headers : {
+                'Content-Type' : 'application/json',
+                Accept : '*/*',
+                Authorization : 'Bearer '+window.localStorage.getItem('accessToken')
+            }
+        }).then(res=>res.json())
+
+        console.log('unAssignDriver reuslt',result)
+    }
+}

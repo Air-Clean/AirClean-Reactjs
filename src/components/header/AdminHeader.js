@@ -7,10 +7,11 @@ import { callLogoutAPI, callAlarmMessage , callMemberChangePassword} from "../..
 import jwtDecode from "jwt-decode";
 
 import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
+
 import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
 import { Avatar } from "@mui/joy";
+
 
 const AdminHeader = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -47,7 +48,17 @@ const AdminHeader = () => {
     setAnchorEl(null);
   };
 
-  const members = jwtDecode(window.localStorage.getItem("accessToken"));
+  let members = '';
+  try {
+    members = jwtDecode(window.localStorage.getItem("accessToken"));
+    // 디코딩된 토큰 사용
+  } catch (error) {
+    console.error('토큰 디코딩 오류:', error);
+    // 오류 처리 또는 사용자에게 알림
+  }
+  
+
+  // const members = jwtDecode();
 
   console.log("header ", members);
 
@@ -177,14 +188,18 @@ const AdminHeader = () => {
           onMouseLeave={hideDropdown}
         >
           <ul className={styles.menu}>
+            <NavLink to='financial'>
             <li
               className={`${styles.menuItem} ${
                 activeMenu === 1 ? styles.active : ""
               }`}
               onClick={() => changeColor(1)}
+              
             >
               <div>재무분석</div>
             </li>
+            </NavLink>
+            <NavLink>
             <li
               className={`${styles.menuItem} ${
                 activeMenu === 2 ? styles.active : ""
@@ -193,6 +208,8 @@ const AdminHeader = () => {
             >
               <div>데이터예측</div>
             </li>
+            </NavLink>
+            <NavLink to='branch'>
             <li
               className={`${styles.menuItem} ${
                 activeMenu === 3 ? styles.active : ""
@@ -201,6 +218,8 @@ const AdminHeader = () => {
             >
               <div>지점관리</div>
             </li>
+            </NavLink>
+            <NavLink to="stock/application">
             <li
               className={`${styles.menuItem} ${
                 activeMenu === 5 ? styles.active : ""
@@ -209,6 +228,8 @@ const AdminHeader = () => {
             >
               <div>재고관리</div>
             </li>
+            </NavLink>
+            <NavLink to='car'>
             <li
               className={`${styles.menuItem} ${
                 activeMenu === 6 ? styles.active : ""
@@ -217,6 +238,8 @@ const AdminHeader = () => {
             >
               <div>물류시스템</div>
             </li>
+            </NavLink>
+            <NavLink to='paper/newReports'>
             <li
               className={`${styles.menuItem} ${
                 activeMenu === 7 ? styles.active : ""
@@ -225,6 +248,8 @@ const AdminHeader = () => {
             >
               <div>보고서관리</div>
             </li>
+            </NavLink>
+            <NavLink to='members/employee'>
             <li
               className={`${styles.menuItem} ${
                 activeMenu === 8 ? styles.active : ""
@@ -233,6 +258,8 @@ const AdminHeader = () => {
             >
               <div>인적자원</div>
             </li>
+            </NavLink>
+            
           </ul>
           {dropdownVisible && (
             <div className={styles.dropdown}>

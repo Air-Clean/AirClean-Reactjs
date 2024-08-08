@@ -29,6 +29,8 @@ function BranchSalesModal({ show, onClose }) {
 
   const [totalCost, setTotalCost] = useState(0);
 
+
+  // 쉼표 추가 함수
   const addComma = (price) => {
     let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return returnString;

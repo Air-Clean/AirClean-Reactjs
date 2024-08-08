@@ -6,6 +6,7 @@ import Paging from "../../../../components/paging/Paging";
 import './GarbageEmp.css'
 import 'animate.css';
 import { callEmployeeDeleteApi ,callEmployeeBackApi} from "../../../../apis/HRAPICalls";
+import { Skeleton } from "@mui/material";
 
 
 export default function GarbageEmp({amount}) {
@@ -92,9 +93,10 @@ export default function GarbageEmp({amount}) {
     <>
       <div style={{ display: "flex", flexDirection: "column" }}>
         {employee.data.content.length > 0 ? (
+          employee.data ? 
           employee.data.content.map((emp) => (
             <AccordionComponent emp={emp} killMember={killMember} setKillMember={setKillMember} saveMember={saveMember} setSaveMember={setSaveMember} key={emp.employeeId} isDelete={isDelete} isSave={isSave} selectMem={selectMem} setSelectMem={setSelectMem} />
-          ))
+          )) : <Skeleton />
         ) : (
           <div>No employees found.</div>
         )}

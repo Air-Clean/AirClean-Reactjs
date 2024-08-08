@@ -12,6 +12,10 @@ function BranchSalesDetail({ selectedReport, setSelectedReport }) {
     return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  const addComma = (price) => {
+    return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   const handleClose = () => {
     setSelectedReport(null);
   };

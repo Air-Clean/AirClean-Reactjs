@@ -1,19 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './FacilityManagement.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { callFacilityDetailInfoAPI } from '../../../apis/FacilityAPICalls';
+import { callFacilityDetailInfoAPI, callFacilityLaundryWayInfoAPI } from '../../../apis/FacilityAPICalls';
 import { fetchWaterLevel } from '../../../apis/LandryAPICall';
 
 function FacilityDrum() {
     const dispatch = useDispatch();
     const facilityDetail = useSelector(state => state.facilityDetailInfoReducer);
     const branchWaterInfo = useSelector(state => state.waterLevelReducer);
+    const facilityLaundryWatyInfo = useSelector(state => state.facilityLaundryWayReducer);
 
     const branch = JSON.parse(window.localStorage.getItem('branch'));
 
     useEffect(() => {
         dispatch(callFacilityDetailInfoAPI({ branchCode: branch.branchCode }));
         dispatch(fetchWaterLevel());
+        dispatch(callFacilityLaundryWayInfoAPI({ branchCode: branch.branchCode }));
     }, [dispatch, branch.branchCode]);
 
     const [currentTimes, setCurrentTimes] = useState({});
@@ -199,17 +201,15 @@ function FacilityDrum() {
                 } catch (error) {
                     console.error('시설물 상태 변경 중 오류 발생:', error);
                 }
-                setIsRegisterFormVisible(false); // 폼 숨기기
+                setIsRegisterFormVisible(false); 
             }
         }
     };
 
-    // 선택된 시설물 코드에 따른 시설물 ID 목록 필터링
     const facilityIds = facilityDetail
         .filter(facility => facility.facilityDTO.facilityCode === parseInt(selectedFacilityCode))
         .map(facility => facility.facilityId);
 
-    // Handle click outside the form to close it
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (formRef.current && !formRef.current.contains(event.target)) {

@@ -12,6 +12,11 @@ function ExpenseDetail({ selectedReport, setSelectedReport }) {
     return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+
+  const addComma = (price) => {
+    return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const handleClose = () => {
     setSelectedReport(null);
   };
@@ -92,7 +97,7 @@ function ExpenseDetail({ selectedReport, setSelectedReport }) {
               </tr>
               <tr>
                 <th className="header">비고</th>
-                <td colSpan="4">{selectedReport.expenseRemark}</td>
+                <td colSpan="4">{selectedReport.expenseRemark}</td>              
               </tr>
             </tbody>
           </table>
@@ -112,3 +117,4 @@ function ExpenseDetail({ selectedReport, setSelectedReport }) {
 }
 
 export default ExpenseDetail;
+

@@ -152,7 +152,7 @@ function ReportsModal({ show, onClose }) {
     formData.append('vehicleVehicleRepairCost', Number(removeComma(form.vehicleVehicleRepairCost)));
     formData.append('vehicleMiscellaneous', Number(removeComma(form.vehicleMiscellaneous)));
     formData.append('vehicleSubmissionDate', form.vehicleSubmissionDate);
-    formData.append('driverLicenseNumber', selectedDriverLicenseNumber);
+    formData.append('driverLicenseNumber', selectedDriverLicenseNumber); // 수정된 부분
     formData.append('totalVehicleRepairCost', Number(removeComma(form.totalVehicleRepairCost)));
     formData.append('memberName', selectedDriverName);
     formData.append('carNumber', selectedCarNumber);

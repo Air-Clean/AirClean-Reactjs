@@ -17,6 +17,7 @@ import DaumPostcodeEmbed from "react-daum-postcode";
 import { useDispatch, useSelector } from "react-redux";
 import { modifyDriver , callBranchCount} from "../../../../apis/HRAPICalls";
 import jwtDecode from "jwt-decode";
+import InputMask from "react-input-mask";
 
 export default function DriverModifyModal({ modal, toggle, driver ,form, setForm,regionCount}) {
   const dispatch = useDispatch();
@@ -40,12 +41,12 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
     }
   }, [modal]);
 
-  const inputHandler = (e) => {
-    const { name, value } = e.target;
-    const changeForm = { ...form, [name]: value };
+  // const inputHandler = (e) => {
+  //   const { name, value } = e.target;
+  //   const changeForm = { ...form, [name]: value };
 
-    setForm(changeForm);
-  };
+  //   setForm(changeForm);
+  // };
 
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -59,6 +60,27 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
     },
     [form]
   );
+
+  const [emailValid, setEmailValid] = useState(true);
+  const inputHandler = (e) => {
+    const { name, value } = e.target;
+    if (name === 'email') {
+      setEmailValid(validateEmail(value));
+    }
+    setForm({ ...form, [name]: value });
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    const { value } = e.target;
+    const rawValue = value.replace(/-/g, ''); // Remove dashes to store raw value
+    setForm({ ...form, phone: rawValue });
+  };
+
 
 
 
@@ -122,7 +144,7 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
             />
           </Col>
         </FormGroup>
-        <FormGroup row>
+        {/* <FormGroup row>
           <Label for="phone" sm={3}>
             Phone
           </Label>
@@ -136,7 +158,28 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
               placeholder="Enter your phone number"
             />
           </Col>
-        </FormGroup>
+        </FormGroup> */}
+        <FormGroup row>
+              <Label for="phone" sm={3}>Phone</Label>
+              <Col sm={9}>
+              <InputMask
+                mask="999-9999-9999"
+                value={form.phone}
+                onChange={handlePhoneNumberChange}
+                maskChar=""
+              >
+                {(inputProps) => (
+                  <Input
+                    {...inputProps}
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    placeholder="###-####-####"
+                  />
+                )}
+              </InputMask>
+              </Col>
+            </FormGroup>
         <FormGroup row>
           <Label for="driverRegion" sm={3}>
             운송 지역
@@ -158,7 +201,7 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
             </Input>
           </Col>
         </FormGroup>
-        <FormGroup row>
+        {/* <FormGroup row>
           <Label for="email" sm={3}>
             Email
           </Label>
@@ -171,6 +214,25 @@ export default function DriverModifyModal({ modal, toggle, driver ,form, setForm
               onChange={inputHandler}
               placeholder="Enter your email"
             />
+          </Col>
+        </FormGroup> */}
+        <FormGroup row>
+          <Label for="email" sm={3}>
+            Email
+          </Label>
+          <Col sm={9}>
+            <Input
+              type="email"
+              name="email"
+              id="email"
+              value={form.email}
+              onChange={inputHandler}
+              placeholder="Enter your email"
+              invalid={!emailValid && form.email.length > 0}
+              />
+              {!emailValid && form.email.length > 0 && (
+                <p className="text-danger">Please enter a valid email address.</p>
+              )}
           </Col>
         </FormGroup>
         <FormGroup row>
