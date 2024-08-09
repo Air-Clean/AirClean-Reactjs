@@ -1,40 +1,30 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
 import { callDetailVehicleRepairAPI } from '../../../../apis/ReportAPICalls';
-import './BranchSalesDetail.css';
+import styles from './VehicleRepairDetail.module.css';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 
-function VehicleRepairDetail() {
-  const params = useParams();
+function VehicleRepairDetail({ selectedReport, setSelectedReport }) {
   const dispatch = useDispatch();
-  const vehicleRepairDetail = useSelector(state => state.detailVehicleRepairReducer);
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch(callDetailVehicleRepairAPI({
-      vehicleReportCode: params.vehicleReportCode
-    }));
-  }, [dispatch, params.vehicleReportCode]);
 
   const addComma = (price) => {
     return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   const handleClose = () => {
-    navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });
+    setSelectedReport(null);
   };
 
   const handleApproval = async () => {
     try {
-      await axios.put(`/paper/company/reports/vehicleRepairApprove/${params.vehicleReportCode}`);
+      await axios.put(`/paper/company/reports/vehicleRepairApprove/${selectedReport.vehicleReportCode}`);
       alert('승인되었습니다.');
-      dispatch(callDetailVehicleRepairAPI({
-        vehicleReportCode: params.vehicleReportCode
+      setSelectedReport(prev => ({
+        ...prev,
+        vehicleReportStatus: 'Y'
       }));
-      navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
       alert('승인에 실패하였습니다.');
@@ -43,12 +33,13 @@ function VehicleRepairDetail() {
 
   const handleRejection = async () => {
     try {
-      await axios.put(`/paper/company/reports/vehicleRepairReject/${params.vehicleReportCode}`);
+      await axios.put(`/paper/company/reports/vehicleRepairReject/${selectedReport.vehicleReportCode}`);
       alert('반려되었습니다.');
-      dispatch(callDetailVehicleRepairAPI({
-        vehicleReportCode: params.vehicleReportCode
+
+      setSelectedReport(prev => ({
+        ...prev,
+        vehicleReportStatus: 'R'
       }));
-      navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
       alert('반려에 실패하였습니다.');
@@ -64,75 +55,71 @@ function VehicleRepairDetail() {
   };
 
   return (
-    <div className="branchDetail_menu1_layout">
-      <div className="branchDetail_flex_wrap">
-        <div className="details-container">
-          <h1 className="title">차량수리보고서 상세보기</h1>
-          <table className="details-table">
-            <thead>
-              <tr>
-                <th>양식명</th>
-                <td colSpan="2">{vehicleRepairDetail.vehicleReportCode}</td>
-                <th>차량기사</th>
-                <td colSpan="2">{vehicleRepairDetail.memberName}</td>
-              </tr>
-              <tr>
-                <th>차량번호</th>
-                <td>{vehicleRepairDetail.carNumber}</td>
-                <th>제출일</th>
-                <td colSpan="3">{new Date(vehicleRepairDetail.vehicleSubmissionDate).toLocaleDateString()}</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th rowSpan="8" className="vertical-header">내용</th>
-                <th className="header">종류</th>
-                <td colSpan="4">{vehicleRepairDetail.vehicleType}</td>
-              </tr>
-              <tr>
-                <th className="header">총 금액</th>
-                <td colSpan="4">{addComma(vehicleRepairDetail.totalVehicleRepairCost)}</td>
-              </tr>
-              <tr>
-                <th className="header">수리전 사진</th>
-                <td colSpan="4">
-                  {vehicleRepairDetail.beforeVehiclePhoto && (
-                    <img 
-                      src={getBeforeImageUrl(vehicleRepairDetail.beforeVehiclePhoto)} 
-                      alt="Before Repair" 
-                      style={{ width: '250px', height: 'auto' }}
-                    />
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th className="header">수리후 사진</th>
-                <td colSpan="4">
-                  {vehicleRepairDetail.afterVehiclePhoto && (
-                    <img 
-                      src={getAfterImageUrl(vehicleRepairDetail.afterVehiclePhoto)} 
-                      alt="After Repair" 
-                      style={{ width: '250px', height: 'auto' }}
-                    />
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th className="header">특이사항</th>
-                <td colSpan="4">{vehicleRepairDetail.vehicleRemark}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div className="formButtons">
-            {members.memberRole === 'a' && (vehicleRepairDetail.vehicleReportStatus === 'N' &&
-              <>
-                <button onClick={handleApproval}>승인</button>
-                <button onClick={handleRejection}>반려</button>
-              </>
-            )}
-            <button onClick={handleClose}>닫기</button>
-          </div>
-        </div>
+    <div className={styles.detailsContainer}>
+      <h1 className={styles.title}>차량수리보고서 상세보기</h1>
+      <table className={styles.detailsTable}>
+        <thead>
+          <tr>
+            <th>양식명</th>
+            <td colSpan="2">{selectedReport.vehicleReportCode}</td>
+            <th>차량기사</th>
+            <td colSpan="2">{selectedReport.memberName}</td>
+          </tr>
+          <tr>
+            <th>차량번호</th>
+            <td>{selectedReport.carNumber}</td>
+            <th>제출일</th>
+            <td colSpan="3">{new Date(selectedReport.vehicleSubmissionDate).toLocaleDateString()}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th rowSpan="8" className={styles.verticalHeader}>내용</th>
+            <th className={styles.header}>종류</th>
+            <td colSpan="4">{selectedReport.vehicleType}</td>
+          </tr>
+          <tr>
+            <th className={styles.header}>총 금액</th>
+            <td colSpan="4">{addComma(selectedReport.totalVehicleRepairCost)}</td>
+          </tr>
+          <tr>
+            <th className={styles.header}>수리전 사진</th>
+            <td colSpan="4">
+              {selectedReport.beforeVehiclePhoto && (
+                <img 
+                  src={getBeforeImageUrl(selectedReport.beforeVehiclePhoto)} 
+                  alt="Before Repair" 
+                  style={{ width: '250px', height: 'auto' }}
+                />
+              )}
+            </td>
+          </tr>
+          <tr>
+            <th className={styles.header}>수리후 사진</th>
+            <td colSpan="4">
+              {selectedReport.afterVehiclePhoto && (
+                <img 
+                  src={getAfterImageUrl(selectedReport.afterVehiclePhoto)} 
+                  alt="After Repair" 
+                  style={{ width: '250px', height: 'auto' }}
+                />
+              )}
+            </td>
+          </tr>
+          <tr>
+            <th className={styles.header}>특이사항</th>
+            <td colSpan="4">{selectedReport.vehicleRemark}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div className={styles.formButtons}>
+        {members.memberRole === 'a' && (selectedReport.vehicleReportStatus === 'N' &&
+          <>
+            <button onClick={handleApproval}>승인</button>
+            <button onClick={handleRejection}>반려</button>
+          </>
+        )}
+        <button onClick={handleClose}>닫기</button>
       </div>
     </div>
   );
