@@ -3,6 +3,8 @@ import './FacilityManagement.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { callFacilityDetailInfoAPI, callFacilityLaundryWayInfoAPI } from '../../../apis/FacilityAPICalls';
 import { fetchWaterLevel } from '../../../apis/LandryAPICall';
+import { facilityLaundryWayReducer } from '../../../modules/FacilityModule';
+import { S } from '@table-library/react-table-library/select-d972db04';
 
 function FacilityDrum() {
     const dispatch = useDispatch();
@@ -25,10 +27,19 @@ function FacilityDrum() {
     const [selectedFacilityId, setSelectedFacilityId] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
     const [isRegisterFormVisible, setIsRegisterFormVisible] = useState(false);
+    const [laundryTodoId, setLaundryTodoId] = useState([]);
 
-    const maxTime = 0.2; // 최대 시간 (분 단위)
+    const maxTimeDefault = 0.2; // 기본 최대 시간 (분 단위)
+    const [maxTime, setMaxTime] = useState(maxTimeDefault); // 최대 시간 상태 관리
     const intervalRefs = useRef({});
     const formRef = useRef(null); // Ref for the form element
+
+    // Modal states
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedLaundryWayId, setSelectedLaundryWayId] = useState('');
+    const [laundryTime, setLaundryTime] = useState(maxTimeDefault);
+    const [laundryDetergentAmount, setLaundryDetergentAmount] = useState(0);
+    const [laundryWaterAmount, setLaundryWaterAmount] = useState(0);
 
     useEffect(() => {
         setUpdatedWaterTanks(branchWaterInfo.waterTanks.reduce((acc, tank) => {
@@ -60,13 +71,18 @@ function FacilityDrum() {
                 clearInterval(intervalRefs.current[facilityId]);
             }
         });
-    }, [isRunning]);
+    }, [isRunning, maxTime]);
 
     const handleStart = (facilityId) => {
-        if (!isRunning[facilityId]) {
-            setIsRunning(prev => ({ ...prev, [facilityId]: true }));
+        console.log('handleStart 호출됨:', facilityId);
+        const selectedFacility = facilityDetail.find(item => item.facilityId === facilityId);
+        if (selectedFacility) {
+            setSelectedLaundryWayId(selectedFacility.laundryWayId); // Set the correct laundry way ID
         }
+        setSelectedFacilityId(facilityId);
+        setIsModalVisible(true);
     };
+    
 
     const handleComplete = async (facilityId) => {
         if (isRunning[facilityId]) {
@@ -116,6 +132,15 @@ function FacilityDrum() {
         }
     };
 
+    const handleModalConfirm = () => {
+        setMaxTime(laundryTime);
+        setIsRunning(prev => ({ ...prev, [selectedFacilityId]: true }));
+        const changeId =[...laundryTodoId]
+        changeId.concat(selectedLaundryWayId)
+        setLaundryTodoId(changeId)
+        setIsModalVisible(false);
+    };
+
     const percentage = (currentTime) => {
         const percent = (currentTime / maxTime) * 100;
         return isNaN(percent) ? 0 : percent;
@@ -129,11 +154,13 @@ function FacilityDrum() {
 
     const filteredFacilities = facilityDetail.filter(item => item.facilityDTO.facilityCode === 1);
 
-    const [todoItems, setTodoItems] = useState([
-        { id: 1, text: '예시 작업 1', completed: false },
-        { id: 2, text: '예시 작업 2', completed: false },
-        { id: 3, text: '예시 작업 3', completed: false }
-    ]);
+    const [todoItems, setTodoItems] = useState(() => {
+        return facilityLaundryWatyInfo.map(laundry => ({
+            id: laundry.laundryWayId,
+            text: `${laundry.laundryWayId}번. 옷감: ${laundry.laundry.laundryFabricType} level: ${laundry.laundry.laundryDirtyLevel}`,
+            completed: false
+        }));
+    });
 
     const handleCheckboxChange = (id) => {
         setTodoItems(prevItems =>
@@ -221,6 +248,29 @@ function FacilityDrum() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    useEffect(() => {
+        if (selectedLaundryWayId) {
+            const selectedLaundryWay = facilityLaundryWatyInfo.find(way => way.laundryWayId === selectedLaundryWayId);
+            if (selectedLaundryWay) {
+                setLaundryTime(selectedLaundryWay.time || maxTimeDefault);
+                setLaundryDetergentAmount(selectedLaundryWay.detergentAmount || 0);
+                setLaundryWaterAmount(selectedLaundryWay.waterAmount || 0);
+            }
+        }
+    }, [selectedLaundryWayId, facilityLaundryWatyInfo]);
+
+
+    const handleLaundryWayChange = e => {
+
+        console.log('asdfsdadsaf')
+        setSelectedLaundryWayId(e.target.value);
+
+        console.log('ddddd',e.target.value)
+        setLaundryTime(facilityLaundryWatyInfo.filter(luaundry=> luaundry.laundryWayId === parseInt(e.target.value))[0].laundryTime)
+        setLaundryDetergentAmount(facilityLaundryWatyInfo.filter(luaundry=> luaundry.laundryWayId === parseInt(e.target.value))[0].laundryDetergentAmount)
+        setLaundryWaterAmount(facilityLaundryWatyInfo.filter(luaundry=> luaundry.laundryWayId === parseInt(e.target.value))[0].laundryWaterAmount)
+    };
+
     return (
         <div className='facility-content'>
             <div className='Facility-washing-machine-content'>
@@ -261,16 +311,28 @@ function FacilityDrum() {
             <div className='Facility-todo-post'>
                 <ul className='Facility-todo-content'>
                     {todoItems.map(item => (
-                        <li key={item.id} className={`Facility-todo-item ${item.completed ? 'completed' : ''}`}>
+                        <li 
+                            key={item.id} 
+                            className={`Facility-todo-item ${item.completed ? 'completed' : ''}`} 
+                            style={{ marginBottom: '1em' }} // 리스트 간의 간격 추가
+                        >
                             <input
                                 type="checkbox"
                                 checked={item.completed}
                                 onChange={() => handleCheckboxChange(item.id)}
+                                style={{ marginRight: '1em' }} // 체크박스의 margin-left 추가
                             />
-                            <span className="Facility-todo-text">{item.text}</span>
+                            <span
+                                className="Facility-todo-text"
+                                style={{ textDecoration: item.completed ? 'line-through' : 'none' }}
+                            >
+                                {item.text}
+                            </span>
                         </li>
                     ))}
                 </ul>
+
+
                 <button className='facility-reg-button' onClick={() => setIsRegisterFormVisible(true)}>
                     시설물 등록하기
                 </button>
@@ -301,6 +363,54 @@ function FacilityDrum() {
                     <button onClick={handleRegister} className='Facility-register-button'>
                         저장
                     </button>
+                </div>
+            )}
+            {isModalVisible && (
+                <div className="facility-modal">
+                    <div className="facility-modal-content">
+                        <h2>세탁 설정</h2>
+                        <label>
+                            세탁 방법:
+                            <select name={selectedLaundryWayId} onChange={handleLaundryWayChange}>
+                                <option value="">선택하세요</option>
+                                {facilityLaundryWatyInfo.map(way => (
+                                    <option key={way.laundryWayId} value={way.laundryWayId}>{way.laundryWayId}</option>
+                                ))}
+                            </select>
+                        </label>
+                        <label>
+                            
+                            세탁 시간 (분):
+                            <input
+                                type="number"
+                                value={laundryTime}
+                                onChange={e => setLaundryTime(e.target.value)}
+                                min="0.5"
+                            />
+                        </label>
+                        <label>
+                            세제 양 (ml):
+                            <input
+                                type="number"
+                                value={laundryDetergentAmount}
+                                onChange={e => setLaundryDetergentAmount(e.target.value)}
+                                min="1"
+                                step="5"
+                            />
+                        </label>
+                        <label>
+                            물 양 (L):
+                            <input
+                                type="number"
+                                value={laundryWaterAmount}
+                                onChange={e => setLaundryWaterAmount(e.target.value)}
+                                min="1"
+                                step="1"
+                            />
+                        </label>
+                        <button onClick={handleModalConfirm}>확인</button>
+                        <button onClick={() => setIsModalVisible(false)}>취소</button>
+                    </div>
                 </div>
             )}
         </div>
