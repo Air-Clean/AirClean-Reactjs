@@ -4,7 +4,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import styles from './Repair.module.css';
 
-function RepairDetail({ selectedReport, setSelectedReport }) {
+function RepairDetail({ selectedReport, setSelectedReport, reloadData }) { // reloadData 추가
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
   const navigate = useNavigate();
 
@@ -24,6 +24,7 @@ function RepairDetail({ selectedReport, setSelectedReport }) {
         ...prev,
         repairReportStatus: 'Y'
       }));
+      reloadData(); // reloadData 호출
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
       alert('승인에 실패하였습니다.');
@@ -38,6 +39,7 @@ function RepairDetail({ selectedReport, setSelectedReport }) {
         ...prev,
         repairReportStatus: 'R'
       }));
+      reloadData(); // reloadData 호출
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
       alert('반려에 실패하였습니다.');

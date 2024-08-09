@@ -2,9 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-// import styles from './BranchSalesDetail.module.css';
-import styles from './BranchSalesDetail.module.css'
-function BranchSalesDetail({ selectedReport, setSelectedReport }) {
+import styles from './BranchSalesDetail.module.css';
+
+function BranchSalesDetail({ selectedReport, setSelectedReport, reloadData }) {
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
   const navigate = useNavigate();
 
@@ -24,6 +24,7 @@ function BranchSalesDetail({ selectedReport, setSelectedReport }) {
         ...prev,
         branchReportStatus: 'Y'
       }));
+      reloadData();
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
       alert('승인에 실패하였습니다.');
@@ -38,6 +39,7 @@ function BranchSalesDetail({ selectedReport, setSelectedReport }) {
         ...prev,
         branchReportStatus: 'R'
       }));
+      reloadData();
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
       alert('반려에 실패하였습니다.');
