@@ -5,7 +5,7 @@ import styles from './VehicleRepairDetail.module.css';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 
-function VehicleRepairDetail({ selectedReport, setSelectedReport }) {
+function VehicleRepairDetail({ selectedReport, setSelectedReport, reloadData }) { // reloadData 추가
   const dispatch = useDispatch();
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
 
@@ -25,6 +25,7 @@ function VehicleRepairDetail({ selectedReport, setSelectedReport }) {
         ...prev,
         vehicleReportStatus: 'Y'
       }));
+      reloadData(); // reloadData 호출
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
       alert('승인에 실패하였습니다.');
@@ -40,6 +41,7 @@ function VehicleRepairDetail({ selectedReport, setSelectedReport }) {
         ...prev,
         vehicleReportStatus: 'R'
       }));
+      reloadData(); // reloadData 호출
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
       alert('반려에 실패하였습니다.');

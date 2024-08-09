@@ -29,7 +29,7 @@ function BranchSales() {
   const vehicleRepairList = vehicleRepairResult.vehicleRepairList || [];
   const vehicleRepairTotalPages = vehicleRepairResult.totalPages || 1;
 
-  const repairResult = useSelector(state => state.findAllRepairReducer);
+  const repairResult = useSelector(state => state.findAllRepairReducer);   
   const repairList = repairResult.repairList || [];
   const repairTotalPages = repairResult.totalPages || 1;
 
@@ -50,6 +50,20 @@ function BranchSales() {
     setActiveTable(table);
     setSelectedReport(null);  // 상세보기 초기화
   };
+
+  // 데이터 다시 불러오기 함수
+const reloadData = () => {
+  if (activeTable === '매출') {
+    dispatch(callFindBranchSalesAPI({ current }));
+  } else if (activeTable === '지출') {
+    dispatch(callFindExpenseAPI({ current }));
+  } else if (activeTable === '차량수리비') {
+    dispatch(callFindVehicleRepairAPI({ current }));
+    dispatch(callCarMembersAPI());
+  } else if (activeTable === '시설물수리') {
+    dispatch(callFindRepairAPI({ current }));
+  }
+};
 
   const renderTable = () => {
     switch (activeTable) {
@@ -215,10 +229,10 @@ function BranchSales() {
             styles.detailView}>
           {selectedReport ? (
             <>
-              {activeTable === '매출' && <BranchSalesDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} />}
-              {activeTable === '지출' && <ExpenseDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} />}
-              {activeTable === '차량수리비' && <VehicleRepairDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} />}
-              {activeTable === '시설물수리' && <RepairDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} />}
+{activeTable === '매출' && <BranchSalesDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} reloadData={reloadData} />}
+{activeTable === '지출' && <ExpenseDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} reloadData={reloadData} />}
+              {activeTable === '차량수리비' && <VehicleRepairDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} reloadData={reloadData} />}
+              {activeTable === '시설물수리' && <RepairDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport}  reloadData={reloadData}/>}
             </>
           ) : (
             <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>

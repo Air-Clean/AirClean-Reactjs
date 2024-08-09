@@ -4,7 +4,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import styles from './BranchSales.module.css'; // 기존 CSS 모듈 사용
 
-function ExpenseDetail({ selectedReport, setSelectedReport }) {
+function ExpenseDetail({ selectedReport, setSelectedReport, reloadData }) {
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
   const navigate = useNavigate();
 
@@ -24,6 +24,7 @@ function ExpenseDetail({ selectedReport, setSelectedReport }) {
         ...prev,
         expenseReportStatus: 'Y'
       }));
+      reloadData();
     } catch (error) {
       console.error('승인에 실패하였습니다.', error);
       alert('승인에 실패하였습니다.');
@@ -38,6 +39,7 @@ function ExpenseDetail({ selectedReport, setSelectedReport }) {
         ...prev,
         expenseReportStatus: 'R'
       }));
+      reloadData();
     } catch (error) {
       console.error('반려에 실패하였습니다.', error);
       alert('반려에 실패하였습니다.');
