@@ -46,6 +46,11 @@ function BranchSales() {
     }
   }, [activeTable, dispatch, current]);
 
+  const handleTableChange = (table) => {
+    setActiveTable(table);
+    setSelectedReport(null);  // 상세보기 초기화
+  };
+
   const renderTable = () => {
     switch (activeTable) {
       case '매출':
@@ -53,7 +58,7 @@ function BranchSales() {
           <table className={styles.reportTable}>
             <thead>
               <tr>
-                <th>보고서번호</th>
+                <th>번호</th>
                 <th>지점명</th>
                 <th>제출일</th>
                 <th>상태</th>
@@ -76,7 +81,7 @@ function BranchSales() {
           <table className={styles.reportTable}>
             <thead>
               <tr>
-                <th>보고서번호</th>
+                <th>번호</th>
                 <th>지점명</th>
                 <th>제출일</th>
                 <th>상태</th>
@@ -99,7 +104,7 @@ function BranchSales() {
           <table className={`${styles.reportTable} ${styles.vehicleRepairTable}`}>
             <thead>
               <tr>
-                <th>보고서번호</th>
+                <th>번호</th>
                 <th className={styles.vehicleNumber}>차량번호</th>
                 <th>차량기사</th>
                 <th>제출일</th>
@@ -121,10 +126,10 @@ function BranchSales() {
         );
       case '시설물수리':
         return (
-          <table className={styles.reportTable}>
+          <table className={`${styles.reportTable} ${styles.facilityRepairTable}`}>
             <thead>
               <tr>
-                <th>보고서번호</th>
+                <th>번호</th>
                 <th>지점명</th>
                 <th>종류</th>
                 <th>제출일</th>
@@ -172,25 +177,25 @@ function BranchSales() {
           <div className={styles.branchButtonGroup}>
             <button
               className={`${styles.branchRegisterButton} ${activeTable === '매출' ? styles.activeButton : ''}`}
-              onClick={() => setActiveTable('매출')}
+              onClick={() => handleTableChange('매출')}
             >
               매출
             </button>
             <button
               className={`${styles.branchRegisterButton} ${activeTable === '지출' ? styles.activeButton : ''}`}
-              onClick={() => setActiveTable('지출')}
+              onClick={() => handleTableChange('지출')}
             >
               지출
             </button>
             <button
               className={`${styles.branchRegisterButton} ${activeTable === '차량수리비' ? styles.activeButton : ''}`}
-              onClick={() => setActiveTable('차량수리비')}
+              onClick={() => handleTableChange('차량수리비')}
             >
               차량수리비
             </button>
             <button
               className={`${styles.branchRegisterButton} ${activeTable === '시설물수리' ? styles.activeButton : ''}`}
-              onClick={() => setActiveTable('시설물수리')}
+              onClick={() => handleTableChange('시설물수리')}
             >
               시설물수리
             </button>
@@ -200,7 +205,14 @@ function BranchSales() {
           </div>
           <Paging setCurrent={setCurrent} end={getTotalPages()} />
         </div>
-        <div className={selectedReport && activeTable === '차량수리비' ? `${styles.detailView} ${styles.vehicleRepairDetailView}` : styles.detailView}>
+        <div className={
+          selectedReport ? 
+            activeTable === '차량수리비' ? 
+              `${styles.detailView} ${styles.vehicleRepairDetailView}` : 
+              activeTable === '시설물수리' ? 
+                `${styles.detailView} ${styles.facilityRepairDetailView}` : 
+                styles.detailView : 
+            styles.detailView}>
           {selectedReport ? (
             <>
               {activeTable === '매출' && <BranchSalesDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} />}
@@ -209,9 +221,32 @@ function BranchSales() {
               {activeTable === '시설물수리' && <RepairDetail selectedReport={selectedReport} setSelectedReport={setSelectedReport} />}
             </>
           ) : (
-            <div>
-              <Skeleton variant="rectangular" width={600} height={60} />
-              <Skeleton variant="rounded" width={300} height={60} />
+            <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+              <Skeleton variant="text" width={200} height={40} style={{ marginBottom: '20px' }} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+                <Skeleton variant="rectangular" width={100} height={40} />
+                <Skeleton variant="rectangular" width={100} height={40} />
+                <Skeleton variant="rectangular" width={100} height={40} />
+              </div>
+              <Skeleton variant="rectangular" width="100%" height={40} style={{ marginBottom: '20px' }} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <Skeleton variant="rectangular" width="48%" height={40} />
+                <Skeleton variant="rectangular" width="48%" height={40} />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <Skeleton variant="rectangular" width="48%" height={40} />
+                <Skeleton variant="rectangular" width="48%" height={40} />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <Skeleton variant="rectangular" width="48%" height={40} />
+                <Skeleton variant="rectangular" width="48%" height={40} />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <Skeleton variant="rectangular" width="48%" height={40} />
+                <Skeleton variant="rectangular" width="48%" height={40} />
+              </div>
+              <Skeleton variant="rectangular" width="100%" height={40} style={{ marginBottom: '20px' }} />
+              <Skeleton variant="rectangular" width={100} height={40} style={{ margin: '0 auto' }} />
             </div>
           )}
         </div>

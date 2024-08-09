@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { callDetailExpenseAPI, callUpdateExpenseAPI, callDeleteExpenseAPI } from '../../../../apis/ReportAPICalls';
-import '../../../admin/report/reportsMenu/BranchSalesDetail.css'; 
+import '../../../admin/report/reportsMenu/BranchSalesDetail.module.css'; 
 import jwtDecode from 'jwt-decode';
 
 function LocationExpenseDetail() {

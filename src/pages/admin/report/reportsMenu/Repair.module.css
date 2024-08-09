@@ -59,13 +59,50 @@
   color: #000;
 }
 
+.detailButton {
+  padding: 10px 20px; /* 패딩을 늘림 */
+  font-size: 16px; /* 폰트 크기를 늘림 */
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.detailButton:hover {
+  background-color: #333;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 10px; /* 버튼 간격을 늘림 */
+  padding: 15px 20px; /* 패딩을 늘림 */
+  font-size: 16px; /* 폰트 크기를 늘림 */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background-color: #f2f2f2;
+}
+
+.pagination button:focus {
+  background-color: #000;
+  color: #fff;
+}
+
 .tableContainer {
-  width: 100%;
+  width: 80%;
   overflow-x: auto;
 }
 
 .reportTable {
-  width: 97%; /* 테이블 너비를 97%로 설정 */
+  width: 80%; /* 테이블 너비를 97%로 설정 */
   border-collapse: collapse;
   margin-bottom: 20px;
   table-layout: fixed; /* 고정된 테이블 레이아웃 사용 */
@@ -111,64 +148,22 @@
   width: 100px; /* 너비를 100px로 설정 */
 }
 
-/* 차량수리비 테이블 차량번호 열의 너비 설정 */
-.reportTable th.vehicleNumber, 
-.reportTable td.vehicleNumber {
-  width: 150px; /* 필요한 너비로 설정 */
-}
-
-.detailButton {
-  padding: 10px 20px; /* 패딩을 늘림 */
-  font-size: 16px; /* 폰트 크기를 늘림 */
-  background-color: #000;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.detailButton:hover {
-  background-color: #333;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.pagination button {
-  margin: 0 10px; /* 버튼 간격을 늘림 */
-  padding: 15px 20px; /* 패딩을 늘림 */
-  font-size: 16px; /* 폰트 크기를 늘림 */
-  background-color: #fff;
-  border: 1px solid #ddd;
-  cursor: pointer;
-}
-
-.pagination button:hover {
-  background-color: #f2f2f2;
-}
-
-.pagination button:focus {
-  background-color: #000;
-  color: #fff;
-}
 
 .detailView {
   flex: 1.5;
   background-color: #f9f9f9;
   padding: 50px;
   border-left: 1px solid #ddd;
-  min-height: 800px;
+  min-height: 700px;
   margin-top: 50px;
   overflow: auto; /* 추가하여 스크롤 가능하게 설정 */
 }
 
 .detailsContainer {
-  width: 100%;
+  width: 90%;
   margin: 0 auto;
   margin-top: 20px;
-  max-height: 600px; /* 상세보기 박스의 최대 높이를 설정 */
+  max-height: 700px; /* 상세보기 박스의 최대 높이를 설정 */
   overflow-y: auto; /* 세로 스크롤을 추가 */
 }
 
@@ -188,7 +183,7 @@
 .detailsTable th,
 .detailsTable td {
   border: 1px solid #dddddd;
-  padding: 16px; 
+  padding: 13px; 
   text-align: left;
   white-space: nowrap; 
   overflow: hidden; /* 내용이 넘치면 숨김 */
@@ -281,8 +276,8 @@
 }
 
 .repairImage {
-  width: 100%;
-  max-width: 500px;
+  width: 90%;
+  max-width: 170px;
   height: auto;
   display: block; /* 이미지가 제대로 표시되도록 블록 요소로 설정 */
   margin: 0 auto; /* 이미지를 중앙에 배치 */

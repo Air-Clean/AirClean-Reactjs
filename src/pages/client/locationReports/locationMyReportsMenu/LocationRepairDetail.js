@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { callDetailRepairAPI, callUpdateRepairAPI, callDeleteRepairAPI } from '../../../../apis/ReportAPICalls';
 import { useDropzone } from 'react-dropzone';
-import '../../../admin/report/reportsMenu/BranchSalesDetail.css';
+import '../../../admin/report/reportsMenu/BranchSalesDetail.module.css';
 import jwtDecode from 'jwt-decode';
 
 

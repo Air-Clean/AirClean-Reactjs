@@ -61,9 +61,9 @@ function VehicleRepairDetail({ selectedReport, setSelectedReport }) {
         <thead>
           <tr>
             <th>양식명</th>
-            <td colSpan="2">{selectedReport.vehicleReportCode}</td>
+            <td className={styles.shortColumn}>{selectedReport.vehicleReportCode}</td>
             <th>차량기사</th>
-            <td colSpan="2">{selectedReport.memberName}</td>
+            <td className={styles.wideColumn}>{selectedReport.memberName}</td>
           </tr>
           <tr>
             <th>차량번호</th>

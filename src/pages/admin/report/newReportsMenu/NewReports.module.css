@@ -114,3 +114,19 @@
   background-color: #000;
   color: #fff;
 }
+
+/* 새로운 섹션 스타일 */
+.image_section {
+  margin-top: 70px;
+}
+
+.image_section h2 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.fixed_image {
+  width: 100%;
+  height: auto;
+  max-width: 600px; /* 이미지를 적절한 크기로 조절 */
+}

@@ -77,7 +77,7 @@
   padding: 6px; /* 패딩을 줄여 셀 크기를 줄임 */
   text-align: center;
   overflow: hidden; /* 내용이 넘치면 숨김 */
-  text-overflow: ellipsis; /* 내용이 넘치면 생략 부호(...) 추가 */
+  text-overflow: ellipsis;  
 }
 
 .reportTable th {
@@ -86,8 +86,8 @@
 }
 
 .detailButton {
-  padding: 10px 20px; /* 패딩을 늘림 */
-  font-size: 16px; /* 폰트 크기를 늘림 */
+  padding: 10px 20px; 
+  font-size: 16px; 
   background-color: #000;
   color: #fff;
   border: none;
@@ -105,9 +105,9 @@
 }
 
 .pagination button {
-  margin: 0 10px; /* 버튼 간격을 늘림 */
-  padding: 15px 20px; /* 패딩을 늘림 */
-  font-size: 16px; /* 폰트 크기를 늘림 */
+  margin: 0 10px; 
+  padding: 15px 20px; 
+  font-size: 16px; 
   background-color: #fff;
   border: 1px solid #ddd;
   cursor: pointer;
@@ -129,46 +129,42 @@
   border-left: 1px solid #ddd;
   min-height: 800px;
   margin-top: 50px;
-  overflow: auto; /* 추가하여 스크롤 가능하게 설정 */
+  overflow: auto; 
 }
 
 .detailsContainer {
   width: 100%;
   margin: 0 auto;
   margin-top: 20px;
+  max-height: calc(100vh - 1px); 
   overflow-y: auto;
+  
 }
 
 .title {
   text-align: center;
 }
 
-.detailsTable {
-  width: 85%; /* 테이블 너비를 85%로 설정 */
+.detailsTable { 
   border-collapse: collapse;
   margin-bottom: 20px;
   border: 1px solid #dddddd;
-  table-layout: fixed; /* 고정된 테이블 레이아웃 사용 */
+  table-layout: fixed;
 }
 
 .detailsTable th,
 .detailsTable td {
   border: 1px solid #dddddd;
-  padding: 6px; /* 패딩을 줄여 셀의 크기를 줄임 */
+  padding: 6px; 
   text-align: left;
-  white-space: nowrap; /* 셀의 내용을 한 줄로 유지 */
-  overflow: hidden; /* 내용이 넘치면 숨김 */
-  text-overflow: ellipsis; /* 내용이 넘치면 생략 부호(...) 추가 */
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }
 
 .detailsTable th {
   background-color: #f2f2f2;
   text-align: center;
-}
-
-.detailsTable td {
-  vertical-align: top;
-  height: 40px; /* 셀의 최소 높이를 늘려 길게 보이도록 함 */
 }
 
 .detailsTable .header {
@@ -278,11 +274,6 @@
   width: 70px; 
 }
 
-.detailsTable th:nth-child(2),
-.detailsTable td:nth-child(2) {
-  width: 270px; /* 차량번호 칸의 너비 조정 */
-}
-
 .detailsTable th:nth-child(3),
 .detailsTable td:nth-child(3) {
   width: 160px; /* 글씨 부분의 너비 조정 */
@@ -297,3 +288,17 @@
 .detailsTable td:nth-child(5) {
   width: 180px; /* 글씨 부분의 너비 조정 */
 }
+
+.detailsTable th:nth-child(6),
+.detailsTable td:nth-child(6) {
+  width: 100px; /* 글씨 부분의 너비 조정 */
+}
+
+.detailsTable .shortColumn {
+  width: 50px !important; 
+}
+
+.detailsTable .wideColumn {
+  width: 200px !important; /* 차량기사 셀의 너비 조정 */
+}
+

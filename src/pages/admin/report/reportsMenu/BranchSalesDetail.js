@@ -2,9 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-// import styles from './BranchSalesDetail.module.css'; // CSS 모듈로 변경
-// import styles from './BranchSales.module.css';
-import styles from './ExpenseDetail.module.css'
+// import styles from './BranchSalesDetail.module.css';
+import styles from './BranchSalesDetail.module.css'
 function BranchSalesDetail({ selectedReport, setSelectedReport }) {
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
   const navigate = useNavigate();
