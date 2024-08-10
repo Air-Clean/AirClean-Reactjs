@@ -81,14 +81,18 @@ export const branchSalesReducer = handleActions({
 }, initialState);
 
 
-// 매출보고서 부분 조회
-const detailBranchSalesReducer = handleActions({
-    [DETAILBRANCHSALES]: (state, {payload}) => {
-        console.log('지출보고서 부분 조회 리듀서 payload :', payload)
-        return payload;
+// 매출보고서 상세 조회
+const detailBranchSalesReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case 'DETAILBRANCHSALES':
+        return {
+          ...state,
+          branchSalesDetail: action.payload,
+        };
+      default:
+        return state;
     }
-}, initialState
-)
+  };
 
 // 매출보고서 필터링 페이징 조회
 const branchSalesMemberNameReducer = handleActions({
@@ -167,13 +171,17 @@ const expenseMemberNameReducer = handleActions({
 )
 
 // 지출보고서 상세 조회 
-const detailExpenseReducer = handleActions({
-
-    [DETAILEXPENSE] : (state, {payload}) => {
-        console.log('expense 부분조회 reducer 나오니? :', payload)
-        return payload
+const detailExpenseReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case 'DETAILEXPENSE':
+        return {
+          ...state,
+          expenseDetail: action.payload,
+        };
+      default:
+        return state;
     }
-    }, initialState)
+  };
 
 // 지출보고서 등록
 const newExpenseReducer = handleActions({
@@ -227,14 +235,6 @@ export const vehicleRepairReducer = handleActions({
 }, initialState)
 
 // 차량수리보고서 상세 조회
-// const detailVehicleRepairReducer = handleActions({
-
-//     [DETAILVEHICLEREPAIR] : (state, {payload}) => {
-//         console.log("차량수리보고서 세부조회 reducer : ", payload)
-//         return payload;
-//     }
-// }, initialState)
-
 const detailVehicleRepairReducer = (state = initialState, action) => {
     switch (action.type) {
       case 'DETAILVEHICLEREPAIR':
@@ -297,13 +297,17 @@ const repairMemberNameReducer = handleActions({
 
 
 // 시설물 수리보고서 세부조회
-const detailRepairReducer = handleActions({
-
-    [DETAILREPAIR] : (state, {payload}) => {
-        console.log("지점 수리보고서  세부조회 reducer : ", payload)
-        return payload;
+const detailRepairReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case 'DETAILREPAIR':
+        return {
+          ...state,
+          repairDetail: action.payload,
+        };
+      default:
+        return state;
     }
-}, initialState)
+  };
 
 // 시설물수리보고서 등록
 const newRepairReducer = handleActions({
