@@ -62,6 +62,8 @@ function LaundryDerivation({ onComplete }) {
         setLoadingMessage('도출 중입니다...');
 
         const url = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/registration/registLaundryWay`;
+
+        console.log('seletectedItems',selectedItems)
         const requestBody = { selectedItems };
 
         try {
@@ -105,7 +107,7 @@ function LaundryDerivation({ onComplete }) {
                 <td className="table-row">{item.laundryFabricType}</td>
                 <td className="table-row">{item.laundryWeight}</td>
                 <td className="table-row">{item.laundryDirtyLevel}</td>
-                <td className="table-row">{item.dryCleaning ? '예' : '아니오'}</td>
+                <td className="table-row">{item.laundryDryCleaningStatus==='Y' ? '예' : '아니오'}</td>
             </tr>
         );
     };
@@ -116,7 +118,7 @@ function LaundryDerivation({ onComplete }) {
             <td className="table-row">{item.laundryFabricType}</td>
             <td className="table-row">{item.laundryWeight}</td>
             <td className="table-row">{item.laundryDirtyLevel}</td>
-            <td className="table-row">{item.dryCleaning ? '예' : '아니오'}</td>
+            <td className="table-row">{item.laundryDryCleaningStatus==='Y' ? '예' : '아니오'}</td>
             <td className="table-row">
                 <button onClick={() => handleRemove(item)} style={{ backgroundColor: '#ff4d4f', color: 'white', border: 'none', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>취소</button>
             </td>

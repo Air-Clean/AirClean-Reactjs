@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef , useEffect} from "react";
 import "./FacilityManagement.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -24,11 +24,17 @@ function FacilityDrum() {
 
   console.log('세탁물 정보 ',facilityLaundryWatyInfo)
 
-  // useEffect(() => {
-  //     dispatch(callFacilityDetailInfoAPI({ branchCode: branch.branchCode }));
-  //     dispatch(fetchWaterLevel());
-  //     dispatch(callFacilityLaundryWayInfoAPI({ branchCode: branch.branchCode }));
-  // }, [dispatch, branch.branchCode]);
+  useEffect(() => {
+      dispatch(callFacilityDetailInfoAPI({ branchCode: branch.branchCode }));
+      dispatch(fetchWaterLevel());
+      dispatch(callFacilityLaundryWayInfoAPI({ branchCode: branch.branchCode }));
+  }, [dispatch, branch.branchCode]);
+
+  useEffect(() => {
+    dispatch(callFacilityDetailInfoAPI({ branchCode: branch.branchCode }));
+    dispatch(fetchWaterLevel());
+    dispatch(callFacilityLaundryWayInfoAPI({ branchCode: branch.branchCode }));
+}, []);
 
   // const [currentTimes, setCurrentTimes] = useState({});
   // const [isRunning, setIsRunning] = useState({});
@@ -47,8 +53,11 @@ function FacilityDrum() {
   const [todoItems, setTodoItems] = useState(() => {
     return facilityLaundryWatyInfo.map((laundry) => ({
       id: laundry.laundryWayId,
-      text: ` 옷감: ${laundry.laundry.laundryFabricType} level: ${laundry.laundry.laundryDirtyLevel}`,
-      completed: false,
+      customer : laundry.laundry.laundryCustomerName,
+      texture : laundry.laundry.laundryFabricType,
+      level : laundry.laundry.laundryDirtyLevel,
+      isDryCleaning : laundry.laundry.laundryDryCleaningStatus,
+      completed: laundry.laundry.laundryCompleted,
     }));
   });
 
@@ -56,11 +65,13 @@ function FacilityDrum() {
     const exportToCSV = () => {
 
         const csvRows = [
-            ["ID" , "TEXT" , "Completed"],
+            ["ID" , "customer","texture","dirty-level","드라이클리닝 여부" , "Completed"],
             ...todoItems.map(item => [
                 item.id,
-                item.text,
-                item.completed ? "Yes" : 'No'
+                item.texture,
+                item.level,
+                item.isDryCleaning==='Y' ? "Yes" : 'No',
+                item.completed==='Y' ? "Yes" : 'No'
             ])
         ].map(row=> row.join(',')).join('\n')
 
@@ -75,19 +86,20 @@ function FacilityDrum() {
 
     
 
-  const handleCheckboxChange = (id) => {
-    setTodoItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, completed: !item.completed } : item
-      )
-    );
-  };
+//   const handleCheckboxChange = (id) => {
+//     setTodoItems((prevItems) =>
+//       prevItems.map((item) =>
+//         item.id === id ? { ...item, completed: !item.completed } : item
+//       )
+//     );
+//   };
 
   // /// 시설물 등록
 
   const [selectedFacilityCode, setSelectedFacilityCode] = useState("");
   const [selectedFacilityId, setSelectedFacilityId] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
+
   const handleRegister = async () => {
     if (selectedFacilityCode && selectedFacilityId && selectedStatus) {
       let newFacility = {};
@@ -183,42 +195,43 @@ function FacilityDrum() {
     <div className="facility-content">
       <div className="Facility-washing-machine-content">
         {filteredFacilities.map((facility) => (
+            <div className="Facility-washing-machine-item" key={facility.facilityId}>
           <Drum facility={facility} key={facility.facilityId} />
+          </div>
         ))}
       </div>
       <div className="facilityBox">
         <div className="Facility-todo-post">
-        <table className="Facility-todo-table" style={{ width: "100%", borderCollapse: "collapse" }}>
+        <table className="Facility-todo-table" style={{ width: "100%" , overflow : 'hidden'}}>
         <thead>
           <tr>
             <th style={{ border: "1px solid #ddd", padding: "8px" }}>ID</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Task</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Customer</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Texture</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Dirty</th>
             <th style={{ border: "1px solid #ddd", padding: "8px" }}>Completed</th>
           </tr>
         </thead>
         <tbody>
           {todoItems.map((item) => (
-            <tr key={item.id}>
+            <tr key={item.id} style={{textDecoration : item.completed === 'Y' ? 'line-through' : 'none'}}>
               <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.id}</td>
-              <td
-                style={{
-                  border: "1px solid #ddd",
-                  padding: "8px",
-                  textDecoration: item.completed ? "line-through" : "none",
-                }}
-              >
-                {item.text}
-              </td>
+              <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.customer}</td>
+              <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.texture}</td>
+              <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.level}</td>
               <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>
-                {item.completed ? "Yes" : "No"}
+                {item.completed==='Y'? "Yes" : "No"}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+          <div style={{width : '100%' , display: 'flex' , justifyContent : 'center'}}>
           <button 
           className="facility-reg-button"
           onClick={exportToCSV}>Export to CSV</button>
+          </div>
+          
         </div>
         <button
           className="facility-reg-button"

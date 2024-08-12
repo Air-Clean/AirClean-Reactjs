@@ -166,6 +166,7 @@ export default function DryCleaner({ facility }) {
   const [laundryTime, setLaundryTime] = useState(0);
   const [laundryDetergentAmount, setLaundryDetergentAmount] = useState(0);
   const [laundryWaterAmount, setLaundryWaterAmount] = useState(0);
+  const [laundryCode , setLaundryCode ] = useState('')
 
   // const []
 
@@ -185,6 +186,8 @@ export default function DryCleaner({ facility }) {
       `cleaner-laundryWay-${facility.facilityId}`
     );
 
+    const newComplete = localStorage.getItem(`cleaner-complete-${facility.facilityId}`)==='true'
+
     if (savedStartTime && savedDuration) {
       const elapsedTime = (Date.now() - parseInt(savedStartTime)) / 1000 / 60; // in minutes
       const remainingTime = savedDuration - elapsedTime;
@@ -196,7 +199,10 @@ export default function DryCleaner({ facility }) {
         setMax(savedMaxTime);
         setRunning(true);
         setLaundryWay(laundryWay);
+        setIsComplete(newComplete)
+        setLaundryCode(localStorage.getItem(`cleaner-laundryCode-${facility.facilityId}`))
       } else {
+        setIsComplete(newComplete)
         localStorage.removeItem(`cleaner-startTime-${facility.facilityId}`);
         localStorage.removeItem(`cleaner-duration-${facility.facilityId}`);
         localStorage.removeItem(`cleaner-maxTime-${facility.facilityId}`);
@@ -220,6 +226,7 @@ export default function DryCleaner({ facility }) {
             localStorage.removeItem(`cleaner-duration-${facility}`);
             localStorage.removeItem(`cleaner-maxTime-${facility.facilityId}`);
             localStorage.removeItem(`cleaner-laundryWay-${facility.facilityId}`);
+            localStorage.removeItem(`cleaner-complete-${facility.facilityId}`)
             return 0;
           }
           return newProgress;
@@ -239,64 +246,66 @@ export default function DryCleaner({ facility }) {
     localStorage.setItem(`cleaner-startTime-${facility.facilityId}`, startTime);
     localStorage.setItem(`cleaner-duration-${facility.facilityId}`, duration);
     localStorage.setItem(`cleaner-maxTime-${facility.facilityId}`, duration);
+    localStorage.setItem(`cleaner-complete-${facility.facilityId}`,isComplete);
+    localStorage.setItem(`cleaner-laundryCode-${facility.facilityId}`,laundryCode);
 
-      if (facility) {
+    //   if (facility) {
 
-        console.log('slkdsjlkjfdlk')
+    //     console.log('slkdsjlkjfdlk')
 
-        const branchCode = facility.branchDTO.branchCode;
+    //     const branchCode = facility.branchDTO.branchCode;
 
-        const tank = updatedWaterTanks[branchCode];
+    //     const tank = updatedWaterTanks[branchCode];
 
-        if (tank) {
-          const newWaterCurCapacity = tank.waterCurCapacity - laundryWaterAmount;
+    //     if (tank) {
+    //       const newWaterCurCapacity = tank.waterCurCapacity - laundryWaterAmount;
 
-          console.log('newWaterCurCapacity',newWaterCurCapacity)
-          const updatedTank = {
-            ...tank,
-            waterCurCapacity: newWaterCurCapacity,
-          };
+    //       console.log('newWaterCurCapacity',newWaterCurCapacity)
+    //       const updatedTank = {
+    //         ...tank,
+    //         waterCurCapacity: newWaterCurCapacity,
+    //       };
 
-          console.log("업데이트된 물탱크:", updatedTank);
+    //       console.log("업데이트된 물탱크:", updatedTank);
 
-          setUpdatedWaterTanks((prevTanks) => ({
-            ...prevTanks,
-            [branchCode]: updatedTank,
-          }));
+    //       setUpdatedWaterTanks((prevTanks) => ({
+    //         ...prevTanks,
+    //         [branchCode]: updatedTank,
+    //       }));
 
 
 
-          try {
-            const waterTankUpdatedUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/laundryupdate?laundryDetergentAmount=${laundryDetergentAmount}`;
+    //       try {
+    //         const waterTankUpdatedUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/cleanerupdate?laundryCode=${laundryCode}&branchCode=${branchCode}`;
           
-            const updatedWaterResponse = await fetch(waterTankUpdatedUrl, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "*/*",
-                Authorization:
-                  "Bearer " + window.localStorage.getItem("accessToken"),
-              },
-              body: JSON.stringify(updatedTank),
-            });
+    //         const updatedWaterResponse = await fetch(waterTankUpdatedUrl, {
+    //           method: "PUT",
+    //           headers: {
+    //             "Content-Type": "application/json",
+    //             Accept: "*/*",
+    //             Authorization:
+    //               "Bearer " + window.localStorage.getItem("accessToken"),
+    //           },
+    //         //   body: JSON.stringify(updatedTank),
+    //         });
 
-            if (updatedWaterResponse.ok) {
-              console.log(
-                "물탱크가 성공적으로 업데이트되었습니다.",
-                updatedTank
-              );
-              dispatch(fetchWaterLevel());
-            } else {
-              console.error(
-                "물탱크 업데이트 오류:",
-                updatedWaterResponse.statusText
-              );
-            }
-          } catch (error) {
-            console.error("물탱크 업데이트 중 오류 발생:", error);
-          }
-        }
-      }
+    //         if (updatedWaterResponse.ok) {
+    //           console.log(
+    //             "물탱크가 성공적으로 업데이트되었습니다.",
+    //             updatedTank
+    //           );
+    //           dispatch(fetchWaterLevel());
+    //         } else {
+    //           console.error(
+    //             "물탱크 업데이트 오류:",
+    //             updatedWaterResponse.statusText
+    //           );
+    //         }
+    //       } catch (error) {
+    //         console.error("물탱크 업데이트 중 오류 발생:", error);
+    //       }
+    //     }
+    //   }
 
     setIsModalVisible(false);
     setProgress(0); // Reset progress
@@ -332,7 +341,7 @@ export default function DryCleaner({ facility }) {
     setCurrentTime(
       facilityLaundryWatyInfo.filter(
         (luaundry) => luaundry.laundryWayId === parseInt(e.target.value)
-      )[0].laundryTime
+      )[0].laundryDryCleaningTime
     );
     setLaundryDetergentAmount(
       facilityLaundryWatyInfo.filter(
@@ -344,9 +353,17 @@ export default function DryCleaner({ facility }) {
         (luaundry) => luaundry.laundryWayId === parseInt(e.target.value)
       )[0].laundryWaterAmount
     );
+
+    setLaundryCode(
+        facilityLaundryWatyInfo.filter(
+          (luaundry) => luaundry.laundryWayId === parseInt(e.target.value)
+        )[0].laundry.laundryCode
+      )
   };
 
-  const handleComplete =  (facilityId) => {
+  
+
+  const handleComplete =  async (facilityId) => {
     console.log("버튼 눌림");
 
     console.log(running);
@@ -409,6 +426,71 @@ export default function DryCleaner({ facility }) {
       setIsComplete(false);
       setLaundryWay("");
     }
+
+    if (facility) {
+
+            console.log('slkdsjlkjfdlk')
+    
+            const branchCode = facility.branchDTO.branchCode;
+    
+            const tank = updatedWaterTanks[branchCode];
+    
+            if (tank) {
+              const newWaterCurCapacity = tank.waterCurCapacity - laundryWaterAmount;
+    
+              console.log('newWaterCurCapacity',newWaterCurCapacity)
+              const updatedTank = {
+                ...tank,
+                waterCurCapacity: newWaterCurCapacity,
+              };
+    
+              console.log("업데이트된 물탱크:", updatedTank);
+    
+              setUpdatedWaterTanks((prevTanks) => ({
+                ...prevTanks,
+                [branchCode]: updatedTank,
+              }));
+    
+
+    
+    
+              try {
+                const waterTankUpdatedUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/cleanerupdate?laundryCode=${laundryCode}&branchCode=${branchCode}`;
+              
+                const updatedWaterResponse = await fetch(waterTankUpdatedUrl, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Accept: "*/*",
+                    Authorization:
+                      "Bearer " + window.localStorage.getItem("accessToken"),
+                  },
+                //   body: JSON.stringify(updatedTank),
+                });
+    
+                if (updatedWaterResponse.ok) {
+                  console.log(
+                    "물탱크가 성공적으로 업데이트되었습니다.",
+                    updatedTank
+                  );
+                  dispatch(fetchWaterLevel());
+                } else {
+                  console.error(
+                    "물탱크 업데이트 오류:",
+                    updatedWaterResponse.statusText
+                  );
+                }
+              } catch (error) {
+                console.error("물탱크 업데이트 중 오류 발생:", error);
+              }
+            }
+          }
+
+    setRunning(false);
+      setCurrentTime(0);
+      setElapse(0);
+      setIsComplete(false);
+      setLaundryWay("");
   };
 
   return (
@@ -489,7 +571,7 @@ export default function DryCleaner({ facility }) {
                 onChange={handleLaundryWayChange}
               >
                 <option value="">선택하세요</option>
-                {facilityLaundryWatyInfo.map((way) => (
+                {facilityLaundryWatyInfo.filter(cleaning=>cleaning.laundry.laundryDryCleaningStatus==='Y'&& cleaning.laundry.dryStatus==='Y'&&cleaning.laundry.cleaningStatus === 'N' ).map((way) => (
                   <option key={way.laundryWayId} value={way.laundryWayId}>
                     {way.laundryWayId}
                   </option>
@@ -506,7 +588,7 @@ export default function DryCleaner({ facility }) {
                 onChange={(e) => setCurrentTime(Number(e.target.value))}
               />
             </label>
-            <label>
+            {/* <label>
               세제 양 (ml):
               <input
                 type="number"
@@ -525,7 +607,7 @@ export default function DryCleaner({ facility }) {
                 min="1"
                 step="1"
               />
-            </label>
+            </label> */}
             {/* <button onClick={handleModalConfirm}>확인</button> */}
             <button onClick={insertTime}>확인</button>
             <button onClick={() => setIsModalVisible(false)}>취소</button>
