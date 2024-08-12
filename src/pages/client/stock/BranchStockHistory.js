@@ -249,7 +249,10 @@ function BranchStockHistory() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {headStockHistory.map(history => renderTableRows(history, true))}
+                                {headStockHistory
+                                    .slice() // 원본 배열을 변경하지 않도록 슬라이스 복사
+                                    .sort((a, b) => b.bApplicationCode - a.bApplicationCode) // 신청코드를 기준으로 내림차순 정렬
+                                    .map(history => renderTableRows(history, true))}
                             </tbody>
                         </table>
                     </div>
@@ -276,7 +279,10 @@ function BranchStockHistory() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {headStockHistory.map(history => renderTableRows(history, false))}
+                                {headStockHistory
+                                    .slice() // 원본 배열을 변경하지 않도록 슬라이스 복사
+                                    .sort((a, b) => b.bApplicationCode - a.bApplicationCode) // 신청코드를 기준으로 내림차순 정렬
+                                    .map(history => renderTableRows(history, false))}
                             </tbody>
                         </table>
                     </div>

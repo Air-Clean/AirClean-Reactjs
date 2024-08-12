@@ -54,11 +54,16 @@ function StockHistory() {
         }
     };
 
+    // Sort the history in descending order based on the application code
+    const sortedHistory = [...headStockHistory].sort((a, b) => {
+        return parseInt(b.hApplicationCode) - parseInt(a.hApplicationCode);
+    });
+
     return (
         <div className='HISTORY-container'>
             <div className='HISTORY-detergents'>
                 <h2 className='HISTORY-title'>DETERGENTS</h2>
-                {headStockHistory.length > 0 ? (
+                {sortedHistory.length > 0 ? (
                     <div className="HISTORY-table-wrapper">
                         <table className='HISTORY-table'>
                             <thead>
@@ -75,7 +80,7 @@ function StockHistory() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {headStockHistory.map(history => renderTableRows(history, true))}
+                                {sortedHistory.map(history => renderTableRows(history, true))}
                             </tbody>
                         </table>
                     </div>
@@ -86,7 +91,7 @@ function StockHistory() {
 
             <div className='HISTORY-parts'>
                 <h2 className='HISTORY-title'>Parts</h2>
-                {headStockHistory.length > 0 ? (
+                {sortedHistory.length > 0 ? (
                     <div className="HISTORY-table-wrapper">
                         <table className='HISTORY-table'>
                             <thead>
@@ -100,7 +105,7 @@ function StockHistory() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {headStockHistory.map(history => renderTableRows(history, false))}
+                                {sortedHistory.map(history => renderTableRows(history, false))}
                             </tbody>
                         </table>
                     </div>
