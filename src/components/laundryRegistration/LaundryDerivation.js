@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import './LaundryDerivation.css';
-import { fetchLaundrySelect } from '../../apis/LandryAPICall';
+import { fetchLaundrySelect ,fetchArrivedLaundry} from '../../apis/LandryAPICall';
 import axios from 'axios';
 
 const ItemType = {
@@ -13,14 +13,16 @@ function LaundryDerivation({ onComplete }) {
     const dispatch = useDispatch();
     const branch = useSelector(state => state.getBranchReducer);
     const branchCode = branch && branch.branchCode;
-    const selectLandry = useSelector(state => state.selectLaundry.waterSupply);
+    const selectLandry = useSelector(state => state.selectLaundryArrive.waterSupply);
     const [selectedItems, setSelectedItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState('');
 
+    console.log("selectLandry sdsds",selectLandry)
+
     useEffect(() => {
         if (branchCode) {
-            dispatch(fetchLaundrySelect(branchCode));
+            dispatch(fetchArrivedLaundry(branchCode));
         } else {
             console.error('Branch data or branchCode is not available');
         }
@@ -29,9 +31,11 @@ function LaundryDerivation({ onComplete }) {
     const filteredLaundry = selectLandry.filter(item => 
         item.laundryWashingInstructionStatus === 'N' &&
         item.laundryCollectionStatus === 'Y' &&
-        item.laundryArriveStatus === 'Y'
+        item.laundryArriveStatus === 'Y' &&
+        item.laundryCompleted === 'N'
     );
 
+    console.log('filter',filteredLaundry)
     const handleDrop = (item) => {
         setSelectedItems(prev => {
             if (!prev.find(i => i.laundryCode === item.laundryCode)) {

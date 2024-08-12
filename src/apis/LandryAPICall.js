@@ -1,4 +1,4 @@
-import { SET_WATER_LEVEL, SET_WATER_SUPPLY, SET_LAUNDRY_SELECT , SET_LAUNDRYWAY_SELECT} from '../modules/LandlyModule';
+import { SET_WATER_LEVEL, SET_WATER_SUPPLY, SET_LAUNDRY_SELECT , SET_LAUNDRYWAY_SELECT,SET_LAUNDRY_ARRIVE} from '../modules/LandlyModule';
 import axios from 'axios';
 
 export function fetchWaterLevel() {
@@ -112,7 +112,7 @@ export function fetchArrivedLaundry(branchCode){
         console.log('도착한 세탁물 조회',result.data)
 
         dispatch({
-            type : SET_LAUNDRYWAY_SELECT,
+            type : SET_LAUNDRY_ARRIVE,
             payload : result.data
         })
     }
