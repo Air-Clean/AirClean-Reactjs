@@ -136,18 +136,20 @@ function LocationExpenseDetail({ selectedReport, setSelectedReport, reloadData }
           <table className={styles.detailsTable}>
             <thead>
               <tr>
-                <th>양식명</th>
-                <td colSpan="2">{selectedReport.expenseReportCode}</td>
-                <th>지점장명</th>
-                <td colSpan="2">{selectedReport.memberName}</td>
+                <th className={styles.formNameHeader}>보고서 번호</th>
+                <td className={styles.formNameData}>{selectedReport.expenseReportCode}</td>
+                <th className={styles.branchManagerHeader}>지점장명</th>
+                <td colSpan="2" className={styles.branchManagerData}>{selectedReport.memberName}</td>
               </tr>
               <tr>
-                <th>지점명</th>
-                <td>{selectedReport.branchName}</td>
-                <th>제출일</th>
-                <td>{new Date(selectedReport.expenseSubmissionDate).toLocaleDateString()}</td>
-                <th>지출 달</th>
-                <td>{selectedReport.monthDate}</td>
+                <th className={styles.branchNameHeader}>지점명</th>
+                <td className={styles.branchNameData}>{selectedReport.branchName}</td>
+                <th className={styles.submissionDateHeader}>제출일</th>
+                <td className={styles.submissionDateData}>{new Date(selectedReport.expenseSubmissionDate).toLocaleDateString()}</td>
+              </tr>
+              <tr>
+              <th className={styles.monthDateHeader}>지출 달</th>
+              <td colSpan="3" className={styles.monthDateData}>{selectedReport.monthDate}</td>
               </tr>
             </thead>
             <tbody>
@@ -243,15 +245,15 @@ function LocationExpenseDetail({ selectedReport, setSelectedReport, reloadData }
             {selectedReport.expenseReportStatus === "N" ? (
               <>
                 {isEditMode ? (
-                  <button onClick={handleSaveClick}>저장</button>
+                  <button className={styles.saveButton} onClick={handleSaveClick}>저장</button>
                 ) : (
-                  <button onClick={handleEditClick}>수정</button>
+                  <button className={styles.editButton} onClick={handleEditClick}>수정</button>
                 )}
-                <button onClick={handleDeleteClick}>삭제</button>
-                <button onClick={handleClose}>닫기</button>
+                <button className={styles.deleteButton} onClick={handleDeleteClick}>삭제</button>
+                <button className={styles.closeButton} onClick={handleClose}>닫기</button>
               </>
             ) : (
-              <button onClick={handleClose}>닫기</button>
+              <button className={styles.closeButton} onClick={handleClose}>닫기</button>
             )}
           </div>
         </div>

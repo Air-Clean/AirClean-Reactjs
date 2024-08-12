@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import styles from './BranchSales.module.css'; // 기존 CSS 모듈 사용
+import styles from './ExpenseDetail.module.css'; // 기존 CSS 모듈 사용
 
 function ExpenseDetail({ selectedReport, setSelectedReport, reloadData }) {
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
@@ -52,20 +52,20 @@ function ExpenseDetail({ selectedReport, setSelectedReport, reloadData }) {
       <table className={styles.detailsTable}>
         <thead>
           <tr>
-            <th>양식명</th>
-            <td colSpan="2">{selectedReport.expenseReportCode}</td>
-            <th>지점장명</th>
-            <td colSpan="2">{selectedReport.memberName}</td>
+            <th className={styles.formNameHeader}>보고서 번호</th>
+            <td className={styles.formNameData}>{selectedReport.expenseReportCode}</td>
+            <th className={styles.branchManagerHeader}>지점장명</th>
+            <td className={styles.branchManagerData} colSpan="2">{selectedReport.memberName}</td>
           </tr>
           <tr>
-            <th>지점명</th>
-            <td className={styles.largeText}>{selectedReport.branchName}</td>
-            <th>제출일</th>
-            <td colSpan="3">{new Date(selectedReport.expenseSubmissionDate).toLocaleDateString()}</td>
+            <th className={styles.branchNameHeader}>지점명</th>
+            <td className={styles.branchNameData}>{selectedReport.branchName}</td>
+            <th className={styles.submissionDateHeader}>제출일</th>
+            <td className={styles.submissionDateData} colSpan="3">{new Date(selectedReport.expenseSubmissionDate).toLocaleDateString()}</td>
           </tr>
           <tr>
-            <th>지출 달</th>
-            <td colSpan="5">{selectedReport.monthDate}</td>
+            <th className={styles.monthDateHeader}>지출 달</th>
+            <td className={styles.monthDateData} colSpan="5">{selectedReport.monthDate}</td>
           </tr>
         </thead>
         <tbody>
@@ -92,18 +92,18 @@ function ExpenseDetail({ selectedReport, setSelectedReport, reloadData }) {
           </tr>
           <tr>
             <th className={styles.header}>비고</th>
-            <td colSpan="4">{selectedReport.expenseRemark}</td>              
+            <td colSpan="4">{selectedReport.expenseRemark}</td>
           </tr>
         </tbody>
       </table>
       <div className={styles.formButtons}>
         {members.memberRole === 'a' && selectedReport.expenseReportStatus === 'N' && (
           <>
-            <button onClick={handleApproval}>승인</button>
-            <button onClick={handleRejection}>반려</button>
+            <button className={styles.approveButton} onClick={handleApproval}>승인</button>
+            <button className={styles.rejectButton} onClick={handleRejection}>반려</button>
           </>
         )}
-        <button onClick={handleClose}>닫기</button>
+        <button className={styles.closeButton} onClick={handleClose}>닫기</button>
       </div>
     </div>
   );

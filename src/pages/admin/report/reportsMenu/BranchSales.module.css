@@ -3,6 +3,8 @@
   display: flex;
   justify-content: center;
   width: 100vw;
+  min-height: 110vh; /* 최소 높이를 100vh로 설정하여 화면 전체 높이를 채움 */
+  height: auto;
 }
 
 .flex_wrap {
@@ -42,6 +44,8 @@
   border: 1px solid #000;
   cursor: pointer;
   margin-right: 15px; /* 버튼 간격을 늘림 */
+  border-radius: 0.375rem;
+
 }
 
 .branchRegisterButton:hover,
@@ -171,6 +175,7 @@
   width: 100%;
   margin: 0 auto;
   margin-top: 20px;
+  
 }
 
 .title {
@@ -339,7 +344,7 @@
 
 .facilityRepairTable th:nth-child(3),
 .facilityRepairTable td:nth-child(3) {
-  width: 100px; /* 너비 조정 */
+  width: 120px; /* 너비 조정 */
 }
 
 .facilityRepairTable th:nth-child(4),

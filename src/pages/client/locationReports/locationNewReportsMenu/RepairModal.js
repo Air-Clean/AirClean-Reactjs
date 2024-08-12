@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { callNewRepairAPI } from '../../../../apis/ReportAPICalls';
 import styles from './RepairModal.module.css'; // CSS 모듈 임포트
 import jwt_decode from 'jwt-decode';
 
 function RepairModal({ show, onClose }) {
     const dispatch = useDispatch();
+    const navigate =useNavigate();
     const [minDate, setMinDate] = useState('');
     const branch = JSON.parse(window.localStorage.getItem('branch'));
     const member = jwt_decode(window.localStorage.getItem('accessToken'));
@@ -37,6 +39,7 @@ function RepairModal({ show, onClose }) {
         if (newRepairResult.ok) {
             alert('등록이 완료되었습니다!');
             onClose();
+            navigate('/location/paper/myReports', {state: {activeTable: '시설물수리'}});
         } else {
             alert('등록에 실패하였습니다. 다시 시도해주세요.');
         }
@@ -138,6 +141,7 @@ function RepairModal({ show, onClose }) {
                 </div>
                 <div className={styles.formGroup}>
                     <label htmlFor="facilityCount">수리 시설물 갯수</label>
+                    <p className={styles.requiredText}>" 필수적으로 입력해주세요. "</p>
                     <input
                         type='number'
                         id="facilityCount"
@@ -148,6 +152,7 @@ function RepairModal({ show, onClose }) {
                 </div>
                 <div className={styles.formGroup}>
                     <label htmlFor="repairContent">내용</label>
+                    <p className={styles.requiredText}>" 필수적으로 입력해주세요. "</p>
                     <textarea
                         id="repairContent"
                         name="repairContent"
@@ -168,8 +173,8 @@ function RepairModal({ show, onClose }) {
                     </div>
                 </div>
                 <div className={styles.formButtons}>
-                    <button onClick={handleSubmit}>제출</button>
-                    <button onClick={onClose}>닫기</button>
+                <button className={styles.submitButton} onClick={handleSubmit}>등록</button>
+                <button className={styles.closeButton} onClick={onClose}>닫기</button>
                 </div>
             </div>
         </div>

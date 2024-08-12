@@ -5,15 +5,12 @@ import ExpenseModal from './ExpenseModal';
 import RepairModal from './RepairModal';
 
 function LocationNewReports() {
-    // State to manage which modal is currently open
     const [activeModal, setActiveModal] = useState(null);
 
-    // Handle opening a modal
     const handleOpenModal = (modalType) => {
         setActiveModal(modalType);
     };
 
-    // Handle closing a modal
     const handleCloseModal = () => {
         setActiveModal(null);
     };
@@ -36,6 +33,7 @@ function LocationNewReports() {
                                 <tr>
                                     <td>1</td>
                                     <td
+                                        className={activeModal === 'branchSales' ? styles.selectedCell : ''}
                                         style={{ cursor: 'pointer' }}
                                         onClick={() => handleOpenModal('branchSales')}
                                     >
@@ -46,6 +44,7 @@ function LocationNewReports() {
                                 <tr>
                                     <td>2</td>
                                     <td
+                                        className={activeModal === 'expense' ? styles.selectedCell : ''}
                                         style={{ cursor: 'pointer' }}
                                         onClick={() => handleOpenModal('expense')}
                                     >
@@ -56,6 +55,7 @@ function LocationNewReports() {
                                 <tr>
                                     <td>3</td>
                                     <td
+                                        className={activeModal === 'repair' ? styles.selectedCell : ''}
                                         style={{ cursor: 'pointer' }}
                                         onClick={() => handleOpenModal('repair')}
                                     >

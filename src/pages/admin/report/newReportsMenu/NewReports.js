@@ -7,14 +7,17 @@ function NewReports() {
 
   // 모달창
   const [showModal, setShowModal] = useState(false);
+  const [selectedReport, setSelectedReport] = useState(null);
 
   // 모달창
-  const handleOpenModal = () => {
+  const handleOpenModal = (report) => {
     setShowModal(true);
+    setSelectedReport(report);
   }
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setSelectedReport(null);
   }
 
   return (
@@ -34,17 +37,25 @@ function NewReports() {
               <tbody>
                 <tr>
                   <td>1</td>
-                  <td style={{ cursor: 'pointer' }} onClick={handleOpenModal}>차량수리보고서</td>
+                  <td
+                    className={selectedReport === '차량수리보고서' ? styles.selectedCell : ''}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => handleOpenModal('차량수리보고서')}
+                  >
+                    차량수리보고서
+                  </td>
                   <td>차량수리비 영수증 청구 보고서</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div className={styles.image_section} style={{ display: showModal ? 'block' : 'none' }}>
-            <h2>차량수리비 영수증 청구 예시</h2>
-            <p>* 사진, 특이사항 은 선택사항 입니다.</p>
-            <img src="http://localhost:8080/memberimgs/vehicleReport.png" alt="고정 이미지" className={styles.fixed_image} />
-          </div>
+          {selectedReport === '차량수리보고서' && (
+            <div className={styles.image_section} style={{ display: showModal ? 'block' : 'none' }}>
+              <h2>차량수리비 영수증 청구 예시</h2>
+              <p>* 사진, 특이사항 은 선택사항 입니다.</p>
+              <img src="http://localhost:8080/memberimgs/vehicleReport.png" alt="고정 이미지" className={styles.fixed_image} />
+            </div>
+          )}
         </div>
         <div className={styles.modal_section}>
           <ReportsModal show={showModal} onClose={handleCloseModal}/>

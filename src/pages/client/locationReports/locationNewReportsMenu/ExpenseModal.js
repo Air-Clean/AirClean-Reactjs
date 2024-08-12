@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import styles from './ExpenseModal.module.css'; // CSS 모듈 import
 import { callNewExpenseAPI, callWaterCost } from "../../../../apis/ReportAPICalls";
 
 function ExpenseModal({ show, onClose }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [minDate, setMinDate] = useState("");
   const [totalCost, setTotalCost] = useState(0);
   const branch = JSON.parse(window.localStorage.getItem("branch"));
@@ -100,6 +102,7 @@ function ExpenseModal({ show, onClose }) {
     dispatch(callNewExpenseAPI(data));
     alert("등록이 완료되었습니다!");
     onClose();
+    navigate('/location/paper/myReports', {state: {activeTable: '지출'}});
   };
 
   const handleBackdropClick = (e) => {
@@ -220,8 +223,8 @@ function ExpenseModal({ show, onClose }) {
           </div>
         </div>
         <div className={styles.formButtons}>
-          <button onClick={handleSubmit}>등록</button>
-          <button onClick={onClose}>닫기</button>
+          <button className={styles.submitButton} onClick={handleSubmit}>등록</button>
+          <button className={styles.closeButton} onClick={onClose}>닫기</button>
         </div>
       </div>
     </div>

@@ -2,8 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import styles from './Repair.module.css';
-
+// import styles from './RepairDetail.module.css';
+import styles from './Repair.module.css'
 function RepairDetail({ selectedReport, setSelectedReport, reloadData }) { // reloadData 추가
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
   const navigate = useNavigate();
@@ -58,16 +58,16 @@ function RepairDetail({ selectedReport, setSelectedReport, reloadData }) { // re
       <table className={styles.detailsTable}>
         <thead>
           <tr>
-            <th>양식명</th>
-            <td colSpan="2">{selectedReport.repairReportCode}</td>
-            <th>지점명</th>
-            <td colSpan="2">{selectedReport.branchName}</td>
+            <th className={styles.formNameHeader}>보고서 번호</th>
+            <td className={styles.formNameData}>{selectedReport.repairReportCode}</td>
+            <th className={styles.branchNameHeader}>지점명</th>
+            <td className={styles.branchNameData} colSpan="2">{selectedReport.branchName}</td>
           </tr>
           <tr>
-            <th>지점장명</th>
-            <td>{selectedReport.memberName}</td>
-            <th>제출일</th>
-            <td colSpan="3">{new Date(selectedReport.repairSubmissionDate).toLocaleDateString()}</td>
+            <th className={styles.memberNameHeader}>지점장명</th>
+            <td className={styles.memberNameData}>{selectedReport.memberName}</td>
+            <th className={styles.submissionDateHeader}>제출일</th>
+            <td className={styles.submissionDateData} colSpan="3">{new Date(selectedReport.repairSubmissionDate).toLocaleDateString()}</td>
           </tr>
         </thead>
         <tbody>
@@ -103,11 +103,11 @@ function RepairDetail({ selectedReport, setSelectedReport, reloadData }) { // re
       <div className={styles.formButtons}>
         {members.memberRole === 'a' && selectedReport.repairReportStatus === 'N' && (
           <>
-            <button onClick={handleApproval}>승인</button>
-            <button onClick={handleRejection}>반려</button>
+            <button className={styles.approveButton} onClick={handleApproval}>승인</button>
+            <button className={styles.rejectButton} onClick={handleRejection}>반려</button>
           </>
         )}
-        <button onClick={handleClose}>닫기</button>
+        <button className={styles.closeButton} onClick={handleClose}>닫기</button>
       </div>
     </div>
   );
