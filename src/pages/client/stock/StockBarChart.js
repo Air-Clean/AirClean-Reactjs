@@ -29,22 +29,28 @@ function StockBarChart({ labels, dataValues, inputValues, originalValues, onInpu
   const options = {
     indexAxis: 'y',
     scales: {
-        x: {
+      x: {
         beginAtZero: true,
         max: 100,
-        },
+      },
     },
     plugins: {
-        tooltip: {
+      tooltip: {
         callbacks: {
-            label: function (context) {
-            return `${originalValues[context.dataIndex]} units`; // 원래 stock 값으로 표시
-            },
+          label: function (context) {
+            const label = labels[context.dataIndex];
+            const originalValue = originalValues[context.dataIndex];
+            if (label === '세제' || label === '섬유유연제' || label === '표백제') {
+              return `${originalValue} ml`; // 특정 항목에 대해 ml 단위 표시
+            } else {
+              return `${originalValue} units`; // 나머지 항목에 대해 units 단위 표시
+            }
+          },
         },
-        },
+      },
     },
     barThickness: 15, // 막대의 두께 설정
-    };
+  };
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', width: '45vw' }}>

@@ -22,7 +22,7 @@ function StockHistoryNavBar() {
                 style={({ isActive }) => isActive ? activeStyle : undefined} 
                 className="stock_nav-button"
             >
-                발주 신청
+                발주 내역
             </NavLink>
         </div>
     );
