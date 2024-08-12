@@ -123,3 +123,27 @@ export const selectLaundryWay = handleActions({
         };
     }
 }, initialState4);
+
+export const SET_LAUNDRY_ARRIVE = 'SET_LAUNDRY_ARRIVE';
+
+const initState1 = {
+    waterSupply : [],
+}
+
+export const { setLuandryArrive } = createActions({
+    [SET_LAUNDRY_ARRIVE] : payload => payload,
+});
+
+export const selectLaundryArrive = handleActions({
+    [SET_LAUNDRY_ARRIVE]: (state, { payload }) => {
+        // console.log('리듀서 호출: SET_LAUNDRY_SELECT', payload);
+        return {
+            ...state,
+            waterSupply: payload // 서버에서 받아온 데이터를 payload에 저장
+        };
+    }
+}, initState1);
+
+
+
+
