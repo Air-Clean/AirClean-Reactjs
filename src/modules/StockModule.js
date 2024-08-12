@@ -7,12 +7,14 @@ export const DETERGENTSINFO = 'DETERGENTSINFO'
 export const PARTSINFO = 'PARTSINFO'
 export const HEADSTOCKHISTORY = 'HEADSTOCKHISTORY'
 export const BRANCHSTOCKHISTORY = 'BRANCHSTOCKHISTORY'
+export const SPECIFICBRANCHHISTORY = 'SPECIFICBRANCHHISTORY'
 
 createActions({
     [DETERGENTSINFO]: ()=>{},
     [PARTSINFO]: ()=>{},
     [HEADSTOCKHISTORY]: ()=>{},
-    [BRANCHSTOCKHISTORY]: ()=>{}
+    [BRANCHSTOCKHISTORY]: ()=>{},
+    [SPECIFICBRANCHHISTORY]: ()=> {}
 })
 
 const detergentsInfoReducer = handleActions({
@@ -43,5 +45,14 @@ const branchStockHistoryReducer = handleActions({
     }
 }, initialState)
 
+const specificBranchStockHistoryReducer = handleActions({
+    [SPECIFICBRANCHHISTORY]: (state, {payload}) => {
+        console.log('지점 신청내역 payload', payload)
+        return payload;
+    }
+}, initialState)
 
-export {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer};
+
+
+
+export {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer, specificBranchStockHistoryReducer};

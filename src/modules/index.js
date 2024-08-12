@@ -18,7 +18,7 @@ import {
     , branchSalesMemberNameReducer, repairMemberNameReducer, expenseMemberNameReducer
 } from "./ReportsModule";
 
-import  {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer}  from "./StockModule";
+import  {detergentsInfoReducer, partsInfoReducer, headStockHistoryReducer, branchStockHistoryReducer, specificBranchStockHistoryReducer}  from "./StockModule";
 
 import {facilityDetailInfoReducer, facilityLaundryWayReducer} from "./FacilityModule";
 
@@ -71,6 +71,7 @@ const rootReducer = combineReducers({
     partsInfoReducer,
     headStockHistoryReducer,
     branchStockHistoryReducer,
+    specificBranchStockHistoryReducer,
 
     facilityDetailInfoReducer,
     facilityLaundryWayReducer,

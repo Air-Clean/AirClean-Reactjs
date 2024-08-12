@@ -66,7 +66,6 @@ function BranchStockGraph({ selectedItem, previousItem, getAverage }) {
     plugins: {
       title: {
         display: true,
-        text: '수량 비교',
       },
     },
     scales: {
@@ -77,12 +76,14 @@ function BranchStockGraph({ selectedItem, previousItem, getAverage }) {
   };
 
   return (
-    <div className="branchStock-graph">
-      <h2>세제 관련 품목</h2>
-      <Bar data={detergentData} options={options} />
-      <h2>필터 관련 품목</h2>
-      <Bar data={filterData} options={options} />
-    </div>
+    <>
+      <div className="branchStock-graph">
+        <Bar data={detergentData} options={options} />
+        </div>
+      <div className="branchStock-graph">
+        <Bar data={filterData} options={options} />
+      </div>
+    </>
   );
 }
 
