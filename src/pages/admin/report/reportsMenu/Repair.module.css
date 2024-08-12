@@ -7,7 +7,7 @@
 
 .flex_wrap {
   display: flex;
-  width: 85vw; /* 너비를 80%로 설정하여 흰색 배경을 벗어나지 않도록 함 */
+  width: 80vw; /* 너비를 80%로 설정하여 흰색 배경을 벗어나지 않도록 함 */
   background-color: rgb(255, 255, 255);
   padding: 20px;
   padding-left: 40px;  /* 왼쪽 패딩 추가 */
@@ -59,67 +59,6 @@
   color: #000;
 }
 
-.tableContainer {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.reportTable {
-  width: 97%; /* 테이블 너비를 90%로 설정 */
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  table-layout: fixed; /* 고정된 테이블 레이아웃 사용 */
-  font-size: 16px; /* 테이블 폰트 크기를 16px로 설정 */
-}
-
-.reportTable th, .reportTable td {
-  border: 1px solid #ddd;
-  padding: 10px; /* 패딩을 12px로 설정하여 셀 크기를 키움 */
-  text-align: center;
-  overflow: hidden; /* 내용이 넘치면 숨김 */
-  text-overflow: ellipsis; /* 내용이 넘치면 생략 부호(...) 추가 */
-  
-}
-
-.reportTable th {
-  background-color: #f2f2f2;
-  border-bottom: 2px solid #ddd;
-}
-
-/* 보고서 번호 열의 너비 설정 */
-.reportTable th:nth-child(1),
-.reportTable td:nth-child(1) {
-  width: 70px; /* 너비를 90px로 설정 */
-}
-
-.reportTable th:nth-child(2),
-.reportTable td:nth-child(2) {
-  width: 100px; /* 너비를 90px로 설정 */
-}
-
-.reportTable th:nth-child(3),
-.reportTable td:nth-child(3) {
-  width: 90px; /* 너비를 90px로 설정 */
-}
-
-/* 보고서 번호 열의 너비 설정 */
-.reportTable th:nth-child(4),
-.reportTable td:nth-child(4) {
-  width: 90px; /* 너비를 90px로 설정 */
-}
-
-/* 보고서 번호 열의 너비 설정 */
-.reportTable th:nth-child(5),
-.reportTable td:nth-child(5) {
-  width: 100px; /* 너비를 100px로 설정 */
-}
-
-/* 차량수리비 테이블 차량번호 열의 너비 설정 */
-.reportTable th.vehicleNumber, 
-.reportTable td.vehicleNumber {
-  width: 150px; /* 필요한 너비로 설정 */
-}
-
 .detailButton {
   padding: 10px 20px; /* 패딩을 늘림 */
   font-size: 16px; /* 폰트 크기를 늘림 */
@@ -157,24 +96,80 @@
   color: #fff;
 }
 
+.tableContainer {
+  width: 80%;
+  overflow-x: auto;
+}
+
+.reportTable {
+  width: 80%; /* 테이블 너비를 97%로 설정 */
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  table-layout: fixed; /* 고정된 테이블 레이아웃 사용 */
+  font-size: 16px; /* 테이블 폰트 크기를 16px로 설정 */
+}
+
+.reportTable th, .reportTable td {
+  border: 1px solid #ddd;
+  padding: 12px; /* 패딩을 12px로 설정하여 셀 크기를 키움 */
+  text-align: center;
+  overflow: hidden; /* 내용이 넘치면 숨김 */
+  text-overflow: ellipsis; /* 내용이 넘치면 생략 부호(...) 추가 */
+}
+
+.reportTable th {
+  background-color: #f2f2f2;
+  border-bottom: 2px solid #ddd;
+}
+
+/* 보고서 번호 열의 너비 설정 */
+.reportTable th:nth-child(1),
+.reportTable td:nth-child(1) {
+  width: 70px; /* 너비를 70px로 설정 */
+}
+
+.reportTable th:nth-child(2),
+.reportTable td:nth-child(2) {
+  width: 100px; /* 너비를 100px로 설정 */
+}
+
+.reportTable th:nth-child(3),
+.reportTable td:nth-child(3) {
+  width: 90px; /* 너비를 90px로 설정 */
+}
+
+.reportTable th:nth-child(4),
+.reportTable td:nth-child(4) {
+  width: 90px; /* 너비를 90px로 설정 */
+}
+
+.reportTable th:nth-child(5),
+.reportTable td:nth-child(5) {
+  width: 100px; /* 너비를 100px로 설정 */
+}
+
+
 .detailView {
   flex: 1.5;
   background-color: #f9f9f9;
   padding: 50px;
   border-left: 1px solid #ddd;
-  min-height: 800px;
+  min-height: 700px;
   margin-top: 50px;
   overflow: auto; /* 추가하여 스크롤 가능하게 설정 */
 }
 
 .detailsContainer {
-  width: 100%;
+  width: 90%;
   margin: 0 auto;
   margin-top: 20px;
+  max-height: 700px; /* 상세보기 박스의 최대 높이를 설정 */
+  overflow-y: auto; /* 세로 스크롤을 추가 */
 }
 
 .title {
   text-align: center;
+  margin-bottom: 25px; /* 제목 아래에 여백 추가 */
 }
 
 .detailsTable {
@@ -182,13 +177,17 @@
   border-collapse: collapse;
   margin-bottom: 20px;
   border: 1px solid #dddddd;
+  table-layout: auto; 
 }
 
 .detailsTable th,
 .detailsTable td {
   border: 1px solid #dddddd;
-  padding: 8px;
+  padding: 13px; 
   text-align: left;
+  white-space: nowrap; 
+  overflow: hidden; /* 내용이 넘치면 숨김 */
+  text-overflow: ellipsis; /* 내용이 넘치면 생략 부호(...) 추가 */
 }
 
 .detailsTable th {
@@ -198,6 +197,7 @@
 
 .detailsTable td {
   vertical-align: top;
+  height: 60px; 
 }
 
 .detailsTable .header {
@@ -218,6 +218,10 @@
 
 .detailsTable .noBorder {
   border: none;
+}
+
+.largeText {
+  font-size: 1.2em; /* 텍스트를 더 크게 설정 */
 }
 
 @media (max-width: 768px) {
@@ -271,94 +275,10 @@
   background-color: #0056b3;
 }
 
-/* 차량수리비 테이블 행 높이와 너비 조정 */
-.vehicleRepairTable {
-  width: 90%; /* 테이블 전체 너비를 90%로 줄임 */
-}
-
-.vehicleRepairTable th,
-.vehicleRepairTable td {
-  padding: 8px; /* 행의 높이 감소 */
-}
-
-.vehicleRepairTable th:nth-child(1),
-.vehicleRepairTable td:nth-child(1) {
-  width: 70px; /* 너비 조정 */
-}
-
-.vehicleRepairTable th:nth-child(2),
-.vehicleRepairTable td:nth-child(2) {
-  width: 150px; /* 너비 조정 */
-}
-
-.vehicleRepairTable th:nth-child(3),
-.vehicleRepairTable td:nth-child(3) {
-  width: 100px; /* 너비 조정 */
-}
-
-.vehicleRepairTable th:nth-child(4),
-.vehicleRepairTable td:nth-child(4) {
-  width: 130px; /* 너비 조정 */
-}
-
-.vehicleRepairTable th:nth-child(5),
-.vehicleRepairTable td:nth-child(5) {
-  width: 80px; /* 너비 조정 */
-}
-
-.vehicleRepairDetailView {
-  flex: 1.5;
-  background-color: #f9f9f9;
-  padding: 20px; /* 패딩을 60px로 설정 */
-  border-left: 2px solid #ccc; /* 경계선을 2px로 설정 */
-  min-height: 850px; /* 최소 높이를 850px로 설정 */
-  margin-top: 60px; /* margin-top을 60px로 설정 */
-  overflow: auto;
-}
-
-/* 시설물관리 */
-
-.facilityRepairTable {
-  width: 65%; /* 테이블 전체 너비를 90%로 줄임 */
-}
-
-.facilityRepairTable th,
-.facilityRepairTable td {
-  padding: 8px; /* 행의 높이 감소 */
-}
-
-.facilityRepairTable th:nth-child(1),
-.facilityRepairTable td:nth-child(1) {
-  width: 60px; /* 너비 조정 */
-}
-
-.facilityRepairTable th:nth-child(2),
-.facilityRepairTable td:nth-child(2) {
-  width: 150px; /* 너비 조정 */
-}
-
-.facilityRepairTable th:nth-child(3),
-.facilityRepairTable td:nth-child(3) {
-  width: 100px; /* 너비 조정 */
-}
-
-.facilityRepairTable th:nth-child(4),
-.facilityRepairTable td:nth-child(4) {
-  width: 130px; /* 너비 조정 */
-}
-
-.facilityRepairTable th:nth-child(5),
-.facilityRepairTable td:nth-child(5) {
-  width: 80px; /* 너비 조정 */
-}
-
-.facilityRepairDetailView {
-  flex: 1.5;
-  background-color: #f9f9f9;
-  padding: 20px; /* 패딩을 60px로 설정 */
-  border-left: 2px solid #ccc; /* 경계선을 2px로 설정 */
-  min-height: 850px; /* 최소 높이를 850px로 설정 */
-  margin-top: 60px; /* margin-top을 60px로 설정 */
-  overflow: auto;
-  width: 70%;
+.repairImage {
+  width: 90%;
+  max-width: 170px;
+  height: auto;
+  display: block; /* 이미지가 제대로 표시되도록 블록 요소로 설정 */
+  margin: 0 auto; /* 이미지를 중앙에 배치 */
 }

@@ -176,7 +176,7 @@ function ReportsModal({ show, onClose }) {
   return (
     <div className={styles.modalBackdrop} onClick={onClose}>
       <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
-        <div className={styles.modalTitle}>차량 수리비 보고서</div>
+        <h2 className={styles.modalTitle} >차량 수리비 보고서</h2>
         <div className={styles.formContainer}>
           <div className={styles.formGroup}>
             <label htmlFor="carNumber">차량번호</label>

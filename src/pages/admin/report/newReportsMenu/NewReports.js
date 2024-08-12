@@ -2,22 +2,20 @@ import React, { useState } from 'react';
 import styles from './NewReports.module.css';
 import ReportsModal from './ReportsModal';
 
-
 function NewReports() {
-    console.log('보고서 작성 페이지');
+  console.log('보고서 작성 페이지');
 
-    // 모달창
-    const [showModal, setShowModal] = useState(true);
-  
-    // 모달창
-    const handleOpenModal = () => {
-      setShowModal(true);
-    }
+  // 모달창
+  const [showModal, setShowModal] = useState(false);
 
-    const handleCloseModal = () => {
-      setShowModal(false);
-    }
+  // 모달창
+  const handleOpenModal = () => {
+    setShowModal(true);
+  }
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+  }
 
   return (
     <div className={styles.menu1_layout}>
@@ -34,7 +32,6 @@ function NewReports() {
                 </tr>
               </thead>
               <tbody>
-                {/* 데이터가 들어갈 부분 */}
                 <tr>
                   <td>1</td>
                   <td style={{ cursor: 'pointer' }} onClick={handleOpenModal}>차량수리보고서</td>
@@ -42,6 +39,11 @@ function NewReports() {
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div className={styles.image_section} style={{ display: showModal ? 'block' : 'none' }}>
+            <h2>차량수리비 영수증 청구 예시</h2>
+            <p>* 사진, 특이사항 은 선택사항 입니다.</p>
+            <img src="http://localhost:8080/memberimgs/vehicleReport.png" alt="고정 이미지" className={styles.fixed_image} />
           </div>
         </div>
         <div className={styles.modal_section}>

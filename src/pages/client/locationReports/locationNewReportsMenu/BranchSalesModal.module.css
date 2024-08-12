@@ -18,7 +18,7 @@
   }
   
   .modal_section {
-    flex: 2px;
+    flex: 1;
   }
   
   .modalContent {
@@ -26,7 +26,7 @@
     padding: 30px;
     border-radius: 4px;
     width: 80vw; /* 너비 조정 */
-    max-width: 800px; /* 최대 너비 설정 */
+    max-width: 580px; /* 최대 너비 설정 */
     height: 90vh;
     overflow-y: auto;
     position: relative;
@@ -101,7 +101,7 @@
   }
   
   .table_container {
-    width: 100%;
+    width: 90%;
     overflow-x: auto;
   }
   
