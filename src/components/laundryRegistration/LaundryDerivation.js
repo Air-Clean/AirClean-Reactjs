@@ -28,6 +28,9 @@ function LaundryDerivation({ onComplete }) {
         }
     }, [dispatch, branchCode]);
 
+    // 필터링되기 전 selectLandry의 상태를 확인
+console.log('Before filtering:', selectLandry);
+
     const filteredLaundry = selectLandry.filter(item => 
         item.laundryWashingInstructionStatus === 'N' &&
         item.laundryCollectionStatus === 'Y' &&
@@ -81,7 +84,8 @@ function LaundryDerivation({ onComplete }) {
             console.log('Success:', response.data);
             alert('도출되었습니다.');
             setSelectedItems([]);
-            dispatch(fetchLaundrySelect(branchCode));
+            // dispatch(fetchLaundrySelect(branchCode));
+            dispatch(fetchArrivedLaundry(branchCode));
             setLoading(false);
             setLoadingMessage('');
             onComplete(); // 도출 완료 후 부모 컴포넌트 상태 업데이트
@@ -107,7 +111,9 @@ function LaundryDerivation({ onComplete }) {
                 <td className="table-row">{item.laundryFabricType}</td>
                 <td className="table-row">{item.laundryWeight}</td>
                 <td className="table-row">{item.laundryDirtyLevel}</td>
+
                 <td className="table-row">{item.laundryDryCleaningStatus==='Y' ? '예' : '아니오'}</td>
+
             </tr>
         );
     };
@@ -118,7 +124,9 @@ function LaundryDerivation({ onComplete }) {
             <td className="table-row">{item.laundryFabricType}</td>
             <td className="table-row">{item.laundryWeight}</td>
             <td className="table-row">{item.laundryDirtyLevel}</td>
+
             <td className="table-row">{item.laundryDryCleaningStatus==='Y' ? '예' : '아니오'}</td>
+
             <td className="table-row">
                 <button onClick={() => handleRemove(item)} style={{ backgroundColor: '#ff4d4f', color: 'white', border: 'none', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>취소</button>
             </td>

@@ -1,6 +1,30 @@
 // apis/DetergentInfoAPICalls.js
-import { DETERGENTSINFO, PARTSINFO, HEADSTOCKHISTORY, BRANCHSTOCKHISTORY } from "../modules/StockModule"
+import { DETERGENTSINFO, PARTSINFO, HEADSTOCKHISTORY, BRANCHSTOCKHISTORY, SPECIFICBRANCHHISTORY } from "../modules/StockModule"
 import jwtDecode from "jwt-decode";
+
+export const callSpecificBranchStockHistoryAPI = ({branchCode}) => {
+
+    console.log("callSpecificBranchStockHistoryAPI")
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/client/stock/branchHistory?branchCode=${branchCode}`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            }
+        }
+        ).then((response) => response.json());
+
+        console.log('지점신청내역 API 응답:', result.data);
+
+        dispatch({type: SPECIFICBRANCHHISTORY, payload: result.data})
+    };
+
+}
 
 export const callDetergentsInfoAPI = () => {
 

@@ -1,113 +1,148 @@
+/* 기본 스타일 */
 .branchStock-order-history {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2vw;
+  padding: 2rem; /* 여백을 rem 단위로 설정 */
   box-sizing: border-box;
+  /* background-color: #f8f9fa; 부드러운 배경색 */
+  border-radius: 0.5rem; /* 둥근 테두리 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+  margin-top: 1%;
 }
 
+.branchStock-order-history h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* 필터 섹션 */
 .branchStock-filters {
   display: flex;
   justify-content: space-between;
   width: 80%;
-  margin-bottom: 1vw;
+  margin-bottom: 1rem;
 }
 
 .branchStock-filters select {
-  padding: 0.5vw;
-  font-size: 1vw;
+  padding: 0.5rem;
+  font-size: 1rem; /* 적당한 폰트 크기 */
+  border: 1px solid #ced4da; /* 연한 회색 테두리 */
+  border-radius: 0.3rem; /* 둥근 테두리 */
+  background-color: #fff; /* 흰색 배경 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
 }
 
+/* 주문 테이블 */
 .branchStock-order-table {
   width: 80%;
-  margin-bottom: 2vw;
+  margin-bottom: 1.5rem;
+  max-height: 60vh; /* 최대 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤 */
 }
 
 .branchStock-order-header,
 .branchStock-order-row {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 0.5vw;
-  font-size: 1vw;
-  text-align: center; /* Center align text in grid */
+  gap: 0.5rem; /* 간격 조정 */
+  font-size: 1rem; /* 폰트 크기 */
+  text-align: center; /* 중앙 정렬 */
 }
 
+/* 테이블 헤더 */
 .branchStock-order-header {
-  font-weight: bold;
-  background-color: #f0f0f0;
-  padding: 1vw;
+  font-weight: 600; /* 굵은 폰트 */
+  padding: 0.75rem; /* 여백 추가 */
+  background-color: #e9ecef; /* 연한 회색 배경 */
+  border-radius: 0.3rem; /* 둥근 테두리 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
 }
 
+/* 테이블 행 */
 .branchStock-order-row {
-  background-color: #ffffff;
-  padding: 1vw;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  background-color: #fff; /* 흰색 배경 */
+  padding: 0.75rem; /* 여백 추가 */
+  cursor: pointer; /* 포인터 커서 */
+  border-radius: 0.3rem; /* 둥근 테두리 */
+  transition: background-color 0.3s ease; /* 부드러운 배경색 전환 */
 }
 
 .branchStock-order-row:hover {
-  background-color: #e0e0e0;
+  background-color: #f1f3f5; /* 호버 시 배경색 */
 }
 
+/* 주문 세부 사항 섹션 */
 .branchStock-details-section {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 80%;
-  margin-bottom: 2vw;
+  margin-bottom: 2rem;
 }
 
 .branchStock-details-section table {
-  width: 45%; /* Adjust width to fit two tables side by side */
-  margin: 1vw;
-  font-size: 0.9vw; /* Adjust font size for better fit */
+  width: 45%;
+  margin: 0.5rem;
+  font-size: 0.9rem; /* 폰트 크기 */
   border-collapse: collapse;
 }
 
 .branchStock-details-section th,
 .branchStock-details-section td {
-  border: 1px solid #dddddd;
-  text-align: center; /* Center align text in table cells */
-  padding: 0.5vw;
+  border: 1px solid #dee2e6; /* 연한 회색 테두리 */
+  text-align: center; /* 중앙 정렬 */
+  padding: 0.5rem; /* 여백 */
 }
 
+.branchStock-details-section th {
+  font-weight: 600; /* 굵은 폰트 */
+}
+
+/* 그래프 컨테이너 */
 .branchStock-graph-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
+/* 그래프 */
 .branchStock-graph {
-  width: 45%; /* Adjust width to fit two charts side by side */
-  margin: 1vw;
+  width: 45%;
+  margin: 0.5rem;
 }
 
+/* 주문 정보 */
 .branchStock-info {
   display: flex;
-  justify-content: flex-start; /* 텍스트를 왼쪽으로 정렬 */
-  font-size: 14px; /* 폰트 크기 조정 */
-  margin-bottom: 10px; /* 하단 여백 */
+  flex-direction: column;
+  align-items: flex-start; /* 왼쪽 정렬 */
+  font-size: 1rem; /* 폰트 크기 */
+  margin-bottom: 1rem; /* 하단 여백 */
 }
 
 .branchStock-info div {
-  display: flex;
-  align-items: center;
+  margin-bottom: 0.5rem; /* 여백 추가 */
 }
 
+/* 액션 버튼 섹션 */
 .branchStock-action-buttons {
   display: flex;
-  gap: 1rem; /* 버튼 사이의 간격을 상대적 단위로 설정 */
+  justify-content: center; /* 가운데 정렬 */
+  gap: 0.75rem; /* 버튼 간격 */
+  margin-top: 5%;
+  width: 100%; /* 버튼 컨테이너의 너비를 100%로 설정 */
 }
 
 .branchStock-action-buttons button {
   border: none; /* 기본 버튼 테두리 제거 */
   color: white; /* 글자 색상 */
-  font-size: 1rem; /* 폰트 크기 (반응형) */
-  font-weight: 600; /* 폰트 진하게 */
-  padding: 0.75rem 1.5rem; /* 버튼의 여백 (반응형) */
-  border-radius: 0.5rem; /* 버튼의 둥글기 감소 */
-  cursor: pointer; /* 포인터 커서 변경 */
-  transition: background-color 0.3s, transform 0.2s; /* 배경색과 애니메이션 효과 */
+  font-size: 0.9375rem; /* 폰트 크기 약간 증가 */
+  font-weight: 600; /* 진한 폰트 */
+  padding: 0.5rem 1.25rem; /* 버튼 여백 약간 증가 */
+  border-radius: 0.3rem; /* 둥근 테두리 */
+  cursor: pointer; /* 포인터 커서 */
+  transition: background-color 0.3s, transform 0.2s; /* 배경색과 크기 변화 효과 */
 }
 
 .branchStock-action-buttons .approve-button {
@@ -119,33 +154,18 @@
 }
 
 .branchStock-action-buttons .approve-button:hover {
-  background-color: #218838; /* 초록색 배경 호버 상태 */
-  transform: scale(1.05); /* 호버 상태에서 버튼 크기 확대 */
+  background-color: #218838; /* 초록색 호버 상태 */
+  transform: scale(1.05); /* 확대 효과 */
 }
 
 .branchStock-action-buttons .reject-button:hover {
-  background-color: #c82333; /* 빨간색 배경 호버 상태 */
-  transform: scale(1.05); /* 호버 상태에서 버튼 크기 확대 */
+  background-color: #c82333; /* 빨간색 호버 상태 */
+  transform: scale(1.05); /* 확대 효과 */
 }
 
-.branchStock-order-table {
-  width: 80%;
-  margin-bottom: 2vw;
-  max-height: 60vh; /* 최대 높이 설정 */
-  overflow-y: auto; /* 세로 스크롤 추가 */
-}
-
+/* 고정 헤더 스타일 */
 .branchStock-order-header {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 0.5vw;
-  font-size: 1vw;
-  text-align: center; /* Center align text in grid */
-  font-weight: bold;
-  background-color: #f0f0f0;
-  padding: 1vw;
-  position: sticky;
+  position: sticky; /* 고정 헤더 */
   top: 0;
-  z-index: 1; /* header가 항상 위에 있도록 설정 */
+  z-index: 1; /* 항상 위에 있도록 설정 */
 }
-

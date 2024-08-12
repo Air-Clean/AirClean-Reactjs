@@ -57,7 +57,7 @@ function StockHistory() {
     return (
         <div className='HISTORY-container'>
             <div className='HISTORY-detergents'>
-                <h2 className='HISTORY-title'>세탁용품 내역 조회</h2>
+                <h2 className='HISTORY-title'>DETERGENTS</h2>
                 {headStockHistory.length > 0 ? (
                     <div className="HISTORY-table-wrapper">
                         <table className='HISTORY-table'>

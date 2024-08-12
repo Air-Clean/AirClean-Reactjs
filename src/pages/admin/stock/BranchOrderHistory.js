@@ -321,8 +321,8 @@ function BranchOrderHistory() {
               <div>{item.bApplicationCode}</div>
               <div>{item.bApplicationStatus === '배송완료' ? '승인' : item.bApplicationStatus}</div>
               <div>{item.bApplicationDate.join('-')}</div>
-              <div>{item.bApproverName || 'N/A'}</div>
-              <div>{item.bApprovalDate ? item.bApprovalDate.join('-') : 'N/A'}</div>
+              <div>{item.bApproverName || '-'}</div>
+              <div>{item.bApprovalDate ? item.bApprovalDate.join('-') : '-'}</div>
               <div>{item.branchCode}</div>
             </div>
           ))

@@ -39,6 +39,9 @@ import FacilityDrum from './pages/client/facilityManagement/FacilityDrum';
 import FacilityDryer from './pages/client/facilityManagement/FacilityDryer';
 import FacilityDryCleaner from './pages/client/facilityManagement/FacilityDryCleaner';
 
+import BranchStockApplication from './pages/client/stock/BranchStockApplication';
+import BranchStockHistory from './pages/client/stock/BranchStockHistory';
+
 import Branch from './pages/admin/branch/Branch';
 import BranchClient from './pages/client/branchClient/BranchClient';
 
@@ -128,9 +131,9 @@ function App() {
             </Route>
 
             <Route path="stock">
-              <Route index element={<StockApplication/>}/>
-              <Route path='application' element={<StockApplication/>}/>
-              <Route path='history' element={<StockHistory/>}/>
+              <Route index element={<BranchStockApplication/>}/>
+              <Route path='application' element={<BranchStockApplication/>}/>
+              <Route path='history' element={<BranchStockHistory/>}/>
             </Route>
 
             <Route path="branchClient">
@@ -154,7 +157,6 @@ function App() {
               <Route path='driver' element={<DriverResource/>}/>
               <Route path='temp' element={<TempResource/>}/>
             </Route>
-
           </Route>
          
 
