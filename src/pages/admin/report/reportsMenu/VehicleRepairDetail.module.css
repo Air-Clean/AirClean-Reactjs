@@ -1,169 +1,83 @@
-/* 전체 레이아웃 */
-.menu1_layout {
-  display: flex;
-  justify-content: center;
-  width: 100vw;
-}
-
-.flex_wrap {
-  display: flex;
-  width: 80vw; /* 너비를 80%로 설정하여 흰색 배경을 벗어나지 않도록 함 */
-  background-color: rgb(255, 255, 255);
-  padding: 20px;
-  padding-left: 40px;  /* 왼쪽 패딩 추가 */
-  padding-right: 40px; /* 오른쪽 패딩 추가 */
-}
-
-/* 보고서 작성 페이지 css */
-.reportCreate {
-  flex: 1.5; /* 왼쪽 공간을 줄임 */
-  margin: 20px 20px 20px 0; /* 상단과 하단에만 마진 추가 */
-}
-
-.reportCreate h1 {
-  font-size: 35px; /* 폰트 크기를 줄임 */
-  margin-bottom: 10px; /* 아래 마진을 줄임 */
-  border-bottom: 1px solid #000; /* 밑줄 두께를 줄임 */
-  padding-bottom: 5px; /* 밑줄과의 간격을 줄임 */
-}
-
-.branchButtonGroup {
-  display: flex;
-  justify-content: flex-start; /* 버튼들을 왼쪽 정렬 */
-  margin-bottom: 20px;
-}
-
-.branchRegisterButton,
-.createButton {
-  padding: 12px 24px; /* 패딩을 늘림 */
-  font-size: 18px; /* 폰트 크기를 늘림 */
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
-  cursor: pointer;
-  margin-right: 15px; /* 버튼 간격을 늘림 */
-}
-
-.branchRegisterButton:hover,
-.createButton:hover {
-  background-color: #f2f2f2;
-}
-
-.activeButton {
-  background-color: #badef4; 
-  color: #000;
-}
-
-.buttonGroup .branchRegisterButton.activeButton {
-  background-color: #badef4;
-  color: #000;
-}
-
-.tableContainer {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.reportTable {
-  width: 85%; /* 테이블 너비를 85%로 설정 */
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  table-layout: fixed; /* 고정된 테이블 레이아웃 사용 */
-  font-size: 16px; /* 테이블 폰트 크기를 16px로 설정 */
-}
-
-.reportTable th, .reportTable td {
-  border: 1px solid #ddd;
-  padding: 6px; /* 패딩을 줄여 셀 크기를 줄임 */
-  text-align: center;
-  overflow: hidden; /* 내용이 넘치면 숨김 */
-  text-overflow: ellipsis;  
-}
-
-.reportTable th {
-  background-color: #f2f2f2;
-  border-bottom: 2px solid #ddd;
-}
-
-.detailButton {
-  padding: 10px 20px; 
-  font-size: 16px; 
-  background-color: #000;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.detailButton:hover {
-  background-color: #333;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.pagination button {
-  margin: 0 10px; 
-  padding: 15px 20px; 
-  font-size: 16px; 
-  background-color: #fff;
-  border: 1px solid #ddd;
-  cursor: pointer;
-}
-
-.pagination button:hover {
-  background-color: #f2f2f2;
-}
-
-.pagination button:focus {
-  background-color: #000;
-  color: #fff;
-}
-
-.detailView {
-  flex: 2;
-  background-color: #f9f9f9;
-  padding: 50px;
-  border-left: 1px solid #ddd;
-  min-height: 800px;
-  margin-top: 50px;
-  overflow: auto; 
-}
-
 .detailsContainer {
   width: 100%;
   margin: 0 auto;
   margin-top: 20px;
-  max-height: calc(100vh - 1px); 
+  max-height: 70vh; 
   overflow-y: auto;
-  
+  background-color: rgb(255, 255, 255);
+  height: 900px;
+  padding: 20px;
+  box-sizing: border-box; 
 }
 
 .title {
   text-align: center;
 }
 
-.detailsTable { 
+.detailsTable {
+  width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
   border: 1px solid #dddddd;
-  table-layout: fixed;
 }
 
 .detailsTable th,
 .detailsTable td {
   border: 1px solid #dddddd;
-  padding: 6px; 
+  padding: 8px;
   text-align: left;
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
 }
 
 .detailsTable th {
   background-color: #f2f2f2;
+  text-align: center;
+}
+
+.detailsTable td {
+  vertical-align: top;
+}
+
+.detailsTable .formNameHeader {
+  background-color: #f2f2f2;
+}
+
+.detailsTable .formNameData {
+  width: 50px;
+  text-align: center;
+}
+
+.detailsTable .driverNameHeader {
+  background-color: #f2f2f2;
+}
+
+.detailsTable .driverNameData {
+  text-align: center;
+  width: 200px;
+}
+
+.detailsTable .carNumberHeader {
+  background-color: #f2f2f2;
+}
+
+.detailsTable .carNumberData {
+  text-align: center;
+  width: 150px;
+}
+
+.detailsTable .submissionDateHeader {
+  background-color: #f2f2f2;
+}
+
+.detailsTable .submissionDateData {
+  text-align: center;
+  width: 200px;
+}
+
+.detailsTable .reportDateHeader {
+  background-color: #f2f2f2;
+}
+
+.detailsTable .reportDate {
   text-align: center;
 }
 
@@ -187,38 +101,6 @@
   border: none;
 }
 
-.largeText {
-  font-size: 1.2em; /* 텍스트를 더 크게 설정 */
-}
-
-@media (max-width: 768px) {
-  .detailsTable th,
-  .detailsTable td {
-    font-size: 14px;
-    padding: 6px;
-  }
-}
-
-.buttonContainer {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.approveButton, .rejectButton {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  margin: 5px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.rejectButton {
-  background-color: #f44336;
-}
-
 .formButtons {
   display: flex;
   justify-content: flex-end;
@@ -227,78 +109,38 @@
 
 .formButtons button {
   padding: 10px 20px;
-  background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
   margin-left: 10px;
+  border-radius: 0.375rem;
+
+}
+
+.approveButton {
+  background-color: #28a745;
+}
+
+.rejectButton {
+  background-color: #dc3545;
+}
+
+.closeButton {
+  background-color: #007bff;
+}
+
+.approveButton:hover {
+  background-color: #218838;
+}
+
+.rejectButton:hover {
+  background-color: #c82333;
+}
+
+.closeButton:hover {
+  background-color: #007bff;
 }
 
 .formButtons button:first-child {
   margin-left: 0;
 }
-
-.formButtons button:hover {
-  background-color: #0056b3;
-}
-
-/* 보고서 번호 열의 너비 설정 */
-.reportTable th:nth-child(1),
-.reportTable td:nth-child(1) {
-  width: 50px; 
-}
-
-.reportTable th:nth-child(2),
-.reportTable td:nth-child(2) {
-  width: 130px; 
-}
-
-.reportTable th:nth-child(3),
-.reportTable td:nth-child(3) {
-  width: 110px; 
-}
-
-.reportTable th:nth-child(4),
-.reportTable td:nth-child(4) {
-  width: 70px; /* 제출일 열의 너비 조정 */
-}
-
-.reportTable th:nth-child(5),
-.reportTable td:nth-child(5) {
-  width: 100px; 
-}
-
-/* 상세보기 테이블 CSS */
-.detailsTable th:nth-child(1),
-.detailsTable td:nth-child(1) {
-  width: 70px; 
-}
-
-.detailsTable th:nth-child(3),
-.detailsTable td:nth-child(3) {
-  width: 160px; /* 글씨 부분의 너비 조정 */
-}
-
-.detailsTable th:nth-child(4),
-.detailsTable td:nth-child(4) {
-  width: 60px; /* 글씨 부분의 너비 조정 */
-}
-
-.detailsTable th:nth-child(5),
-.detailsTable td:nth-child(5) {
-  width: 180px; /* 글씨 부분의 너비 조정 */
-}
-
-.detailsTable th:nth-child(6),
-.detailsTable td:nth-child(6) {
-  width: 100px; /* 글씨 부분의 너비 조정 */
-}
-
-.detailsTable .shortColumn {
-  width: 50px !important; 
-}
-
-.detailsTable .wideColumn {
-  width: 200px !important; /* 차량기사 셀의 너비 조정 */
-}
-

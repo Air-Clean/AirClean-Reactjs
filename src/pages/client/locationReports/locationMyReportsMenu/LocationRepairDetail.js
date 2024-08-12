@@ -10,6 +10,8 @@ function LocationRepairDetail({ selectedReport, setSelectedReport, reloadData })
     const members = jwtDecode(window.localStorage.getItem('accessToken'));
     const [isEditMode, setIsEditMode] = useState(false);
     const [repairImagePreview, setRepairImagePreview] = useState(null);
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+    const [isImageLoading, setIsImageLoading] = useState(false); // 이미지 로딩 상태 추가
 
     const [formData, setFormData] = useState({
         repairReportCode: '',
@@ -30,7 +32,16 @@ function LocationRepairDetail({ selectedReport, setSelectedReport, reloadData })
                 facilityType: selectedReport.facilityType,
                 repairPhoto: selectedReport.repairPhoto
             });
-            setRepairImagePreview(selectedReport.repairPhoto ? getRepairImageUrl(selectedReport.repairPhoto) : null);
+            if (selectedReport.repairPhoto) {
+                setIsImageLoading(true);
+                const img = new Image();
+                img.src = getRepairImageUrl(selectedReport.repairPhoto);
+                img.onload = () => setIsImageLoading(false);
+                setRepairImagePreview(getRepairImageUrl(selectedReport.repairPhoto));
+            } else {
+                setRepairImagePreview(null);
+                setIsImageLoading(false); // 사진이 없을 경우 로딩 상태 해제
+            }
         }
     }, [selectedReport]);
 
@@ -47,6 +58,7 @@ function LocationRepairDetail({ selectedReport, setSelectedReport, reloadData })
     };
 
     const handleSaveClick = async () => {
+        setIsLoading(true); // 로딩 상태 시작
         const form = new FormData();
 
         form.append('repairReportCode', formData.repairReportCode);
@@ -59,6 +71,7 @@ function LocationRepairDetail({ selectedReport, setSelectedReport, reloadData })
         }
 
         const updateRepairResult = await dispatch(callUpdateRepairAPI({ repairReportCode: formData.repairReportCode, data: form }));
+        setIsLoading(false); // 로딩 상태 종료
         setIsEditMode(false);
         if (updateRepairResult.ok) {
             alert('수정이 완료되었습니다.');
@@ -75,7 +88,9 @@ function LocationRepairDetail({ selectedReport, setSelectedReport, reloadData })
 
     const handleDeleteClick = async () => {
         if (window.confirm('정말 삭제하시겠습니까?')) {
+            setIsLoading(true); // 로딩 상태 시작
             const deleteRepairResult = await dispatch(callDeleteRepairAPI({ repairReportCode: formData.repairReportCode }));
+            setIsLoading(false); // 로딩 상태 종료
             if (deleteRepairResult.ok) {
                 alert('삭제가 완료되었습니다.');
                 reloadData();
@@ -100,6 +115,7 @@ function LocationRepairDetail({ selectedReport, setSelectedReport, reloadData })
                 repairPhoto: file,
             }));
             setRepairImagePreview(URL.createObjectURL(file));
+            setIsImageLoading(false); // 이미지가 미리보기에서 즉시 로드되므로 로딩 상태 해제
         },
         []
     );
@@ -120,19 +136,20 @@ function LocationRepairDetail({ selectedReport, setSelectedReport, reloadData })
             <div className={styles.branchDetail_flex_wrap}>
                 <div className={styles.detailsContainer}>
                     <h1 className={styles.title}>수리보고서 상세보기</h1>
+                    {isLoading && <p>로딩중...</p>} {/* 로딩 중 메시지 표시 */}
                     <table className={styles.detailsTable}>
                         <thead>
                             <tr>
-                                <th>양식명</th>
-                                <td colSpan="2">{selectedReport.repairReportCode}</td>
-                                <th>지점장명</th>
-                                <td colSpan="2">{selectedReport.memberName}</td>
+                                <th className={styles.formNameHeader}>보고서 번호</th>
+                                <td className={styles.formNameData}>{selectedReport.repairReportCode}</td>
+                                <th className={styles.branchManagerHeader}>지점장명</th>
+                                <td colSpan="2" className={styles.branchManagerData}>{selectedReport.memberName}</td>
                             </tr>
                             <tr>
-                                <th>지점명</th>
-                                <td>{selectedReport.branchName}</td>
-                                <th>제출일</th>
-                                <td colSpan="3">{new Date(selectedReport.repairSubmissionDate).toLocaleDateString()}</td>
+                                <th className={styles.branchNameHeader}>지점명</th>
+                                <td className={styles.branchNameData}>{selectedReport.branchName}</td>
+                                <th className={styles.submissionDateHeader}>제출일</th>
+                                <td colSpan="3" className={styles.submissionDateData}>{new Date(selectedReport.repairSubmissionDate).toLocaleDateString()}</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -187,32 +204,40 @@ function LocationRepairDetail({ selectedReport, setSelectedReport, reloadData })
                                             )}
                                         </div>
                                     ) : (
-                                        selectedReport.repairPhoto && (
-                                            <img src={getRepairImageUrl(selectedReport.repairPhoto)} alt="Repair" style={{ maxWidth: '100%', height: 'auto' }} />
-                                        )
+                                        <>
+                                            {isImageLoading ? (
+                                                <p>로딩중...</p>
+                                            ) : (
+                                                selectedReport.repairPhoto ? (
+                                                    <img src={getRepairImageUrl(selectedReport.repairPhoto)} alt="Repair" style={{ maxWidth: '100%', height: 'auto' }} />
+                                                ) : (
+                                                    <span>사진 없음</span>
+                                                )
+                                            )}
+                                        </>
                                     )}
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div className={styles.formButtons}>
-                        {selectedReport.repairReportStatus === "N" ? (
+                        {!isLoading && selectedReport.repairReportStatus === "N" ? (
                             <>
                                 {isEditMode ? (
                                     <>
-                                        <button onClick={handleSaveClick}>저장</button>
-                                        <button onClick={() => setIsEditMode(false)}>취소</button>
+                                        <button className={styles.saveButton} onClick={handleSaveClick}>저장</button>
+                                        <button className={styles.cancelButton} onClick={() => setIsEditMode(false)}>취소</button>
                                     </>
                                 ) : (
                                     <>
-                                        <button onClick={handleEditClick}>수정</button>
-                                        <button onClick={handleDeleteClick}>삭제</button>
+                                        <button className={styles.editButton} onClick={handleEditClick}>수정</button>
+                                        <button className={styles.deleteButton} onClick={handleDeleteClick}>삭제</button>
                                     </>
                                 )}
-                                <button onClick={handleClose}>닫기</button>
+                                <button className={styles.closeButton} onClick={handleClose}>닫기</button>
                             </>
                         ) : (
-                            <button onClick={handleClose}>닫기</button>
+                            !isLoading && <button className={styles.closeButton} onClick={handleClose}>닫기</button>
                         )}
                     </div>
                 </div>

@@ -52,16 +52,16 @@ function BranchSalesDetail({ selectedReport, setSelectedReport, reloadData }) {
       <table className={styles.detailsTable}>
         <thead>
           <tr>
-            <th>양식명</th>
-            <td colSpan="2">{selectedReport.branchReportCode}</td>
-            <th>지점장명</th>
-            <td colSpan="2">{selectedReport.memberName}</td>
+            <th className={styles.formNameHeader}>보고서 번호</th>
+            <td className={styles.formNameData}>{selectedReport.branchReportCode}</td>
+            <th className={styles.branchManagerHeader}>지점장명</th>
+            <td colSpan="2" className={styles.branchManagerData}>{selectedReport.memberName}</td>
           </tr>
           <tr>
-            <th>지점명</th>
-            <td>{selectedReport.branchName}</td>
-            <th>제출일</th>
-            <td colSpan="3">{new Date(selectedReport.branchSubmissionDate).toLocaleDateString()}</td>
+            <th className={styles.branchNameHeader}>지점명</th>
+            <td className={styles.branchNameData}>{selectedReport.branchName}</td>
+            <th className={styles.submissionDateHeader}>제출일</th>
+            <td colSpan="3" className={styles.submissionDateData}>{new Date(selectedReport.branchSubmissionDate).toLocaleDateString()}</td>
           </tr>
         </thead>
         <tbody>
@@ -107,11 +107,11 @@ function BranchSalesDetail({ selectedReport, setSelectedReport, reloadData }) {
       <div className={styles.formButtons}>
         {members.memberRole === 'a' && selectedReport.branchReportStatus === 'N' && (
           <>
-            <button onClick={handleApproval}>승인</button>
-            <button onClick={handleRejection}>반려</button>
+            <button className={styles.approveButton} onClick={handleApproval}>승인</button>
+            <button className={styles.rejectButton} onClick={handleRejection}>반려</button>
           </>
         )}
-        <button onClick={handleClose}>닫기</button>
+        <button className={styles.closeButton} onClick={handleClose}>닫기</button>
       </div>
     </div>
   );

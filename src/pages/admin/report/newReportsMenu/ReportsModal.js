@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
+import { useNavigate } from 'react-router-dom';
 import { callCarMembersAPI, callNewVehicleRepairAPI } from "../../../../apis/ReportAPICalls";
 import styles from "./ReportsModal.module.css";
 
 function ReportsModal({ show, onClose }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [minDate, setMinDate] = useState('');
   const carMembers = useSelector(state => state.carMembersReducer);
@@ -26,10 +28,14 @@ function ReportsModal({ show, onClose }) {
     totalVehicleRepairCost: '',
     beforeVehiclePhoto: '',
     afterVehiclePhoto: '',
-    vehicleType: ''
+    vehicleType: '',
+    vehicleReportDate: ''
   });
 
   useEffect(() => {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    setMinDate(formattedDate);
     setForm({
       vehicleReportStatus: 'N',
       vehicleRemark: '',
@@ -37,12 +43,13 @@ function ReportsModal({ show, onClose }) {
       vehicleRegularInspection: '',
       vehicleVehicleRepairCost: '',
       vehicleMiscellaneous: '',
-      vehicleSubmissionDate: '',
+      vehicleSubmissionDate: formattedDate,
       driverLicenseNumber: '',
       totalVehicleRepairCost: '',
       beforeVehiclePhoto: '',
       afterVehiclePhoto: '',
-      vehicleType: ''
+      vehicleType: '',
+      vehicleReportDate: ''
     });
     setSelectedDriverName('');
     setSelectedDriverLicenseNumber('');
@@ -60,12 +67,6 @@ function ReportsModal({ show, onClose }) {
     setSelectedDriverLicenseNumber(selectedCar ? selectedCar.driverLicenseNumber : '');
   }, [selectedCarNumber, carMembers]);
 
-  useEffect(() => {
-    const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0];
-    setMinDate(formattedDate);
-  }, []);
-
   const addComma = (price) => {
     let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return returnString;
@@ -77,7 +78,7 @@ function ReportsModal({ show, onClose }) {
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
-    const formattedValue = name === 'vehicleSubmissionDate' ? value : addComma(value.replace(/,/g, ''));
+    const formattedValue = name === 'totalVehicleRepairCost' ? addComma(value.replace(/,/g, '')) : value;
     setForm({ ...form, [name]: formattedValue });
 
     if (name === 'totalVehicleRepairCost') {
@@ -152,18 +153,32 @@ function ReportsModal({ show, onClose }) {
     formData.append('vehicleVehicleRepairCost', Number(removeComma(form.vehicleVehicleRepairCost)));
     formData.append('vehicleMiscellaneous', Number(removeComma(form.vehicleMiscellaneous)));
     formData.append('vehicleSubmissionDate', form.vehicleSubmissionDate);
-    formData.append('driverLicenseNumber', selectedDriverLicenseNumber); // 수정된 부분
+    formData.append('driverLicenseNumber', selectedDriverLicenseNumber);
     formData.append('totalVehicleRepairCost', Number(removeComma(form.totalVehicleRepairCost)));
     formData.append('memberName', selectedDriverName);
     formData.append('carNumber', selectedCarNumber);
     formData.append('vehicleType', form.vehicleType);
-    formData.append('beforeImage', form.beforeVehiclePhoto);
-    formData.append('afterImage', form.afterVehiclePhoto);
+
+    if (form.beforeVehiclePhoto) {
+      formData.append('beforeImage', form.beforeVehiclePhoto);
+    }
+
+    if (form.afterVehiclePhoto) {
+      formData.append('afterImage', form.afterVehiclePhoto);
+    }
+
+    formData.append('vehicleReportDate', form.vehicleReportDate);
+
+    // FormData 내용 출력
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]); 
+    }
 
     const newVehicleRepairResult = await dispatch(callNewVehicleRepairAPI({ form: formData }));
     if (newVehicleRepairResult.ok) {
       alert('등록이 완료되었습니다!');
       onClose();
+      navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });  // 차량수리비 페이지로 이동
     } else {
       alert('등록에 실패하였습니다. 다시 시도해주세요.');
     }
@@ -176,7 +191,7 @@ function ReportsModal({ show, onClose }) {
   return (
     <div className={styles.modalBackdrop} onClick={onClose}>
       <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
-        <h2 className={styles.modalTitle} >차량 수리비 보고서</h2>
+        <h2 className={styles.modalTitle}>차량 수리비 보고서</h2>
         <div className={styles.formContainer}>
           <div className={styles.formGroup}>
             <label htmlFor="carNumber">차량번호</label>
@@ -230,14 +245,23 @@ function ReportsModal({ show, onClose }) {
               placeholder="총 금액을 입력해주세요"
             />
           </div>
-          <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+          <div className={styles.formGroup}>
             <label htmlFor="vehicleSubmissionDate">제출일</label>
             <input
               type="date"
-              name="vehicleSubmissionDate"
               id="vehicleSubmissionDate"
               min={minDate}
               value={form.vehicleSubmissionDate}
+              readOnly
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="vehicleReportDate">영수증 날짜</label>
+            <input
+              type="date"
+              name="vehicleReportDate"
+              id="vehicleReportDate"
+              value={form.vehicleReportDate}
               onChange={inputHandler}
             />
           </div>
@@ -272,17 +296,13 @@ function ReportsModal({ show, onClose }) {
               id="vehicleRemark"
               value={form.vehicleRemark}
               onChange={inputHandler}
-              placeholder="특이사항을 입력하세요"
+              placeholder="특이사항을 입력하세요&#10;필수적으로 입력해주세요."
             />
           </div>
         </div>
         <div className={styles.formButtons}>
-          <button className={styles.register_button} onClick={handleSubmit}>
-            등록
-          </button>
-          <button className={styles.create_button} onClick={onClose}>
-            닫기
-          </button>
+          <button className={styles.submitButton} onClick={handleSubmit}>등록</button>
+          <button className={styles.closeButton} onClick={onClose}>닫기</button>
         </div>
       </div>
     </div>

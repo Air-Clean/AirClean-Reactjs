@@ -78,6 +78,11 @@
   border-bottom: 2px solid #ddd;
 }
 
+/* 선택된 셀 스타일 */
+.selectedCell {
+  background-color: #e0f7fa; /* 원하는 색상으로 변경 */
+}
+
 .detail_button {
   padding: 5px 10px;
   font-size: 14px;

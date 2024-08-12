@@ -1,93 +1,163 @@
-/*LocationExpenseDetail.module.css*/
-
 .branchDetail_menu1_layout {
-    display: flex;
-    justify-content: center;
-    /* width: 100vw; */
-  }
-  
-  .branchDetail_flex_wrap {
-    display: flex;
-    width: 80vw;
-    background-color: rgb(255, 255, 255);
-    padding: 20px;
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-  
-  .detailsContainer {
-    width: 100%;
-    margin: 0 auto;
-    margin-top: 20px;
-  }
-  
-  .title {
-    text-align: center;
-  }
-  
-  .detailsTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    border: 1px solid #dddddd;
-  }
-  
-  .detailsTable th,
-  .detailsTable td {
-    border: 1px solid #dddddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .detailsTable th {
-    background-color: #f2f2f2;
-    text-align: center;
-  }
-  
-  .detailsTable td {
-    vertical-align: top;
-  }
-  
-  .detailsTable .header {
-    background-color: #e6e6e6;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  .detailsTable .verticalHeader {
-    background-color: #e6e6e6;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  .detailsTable .subHeader {
-    background-color: #f9f9f9;
-  }
-  
-  .detailsTable .noBorder {
-    border: none;
-  }
-  
-  .formButtons {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-  
-  .formButtons button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-left: 10px;
-  }
-  
-  .formButtons button:first-child {
-    margin-left: 0;
-  }
-  
-  .formButtons button:hover {
-    background-color: #0056b3;
-  }
-  
+  display: flex;
+  justify-content: center;
+  /* width: 100vw; */
+}
+
+.branchDetail_flex_wrap {
+  display: flex;
+  width: 80vw;
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.detailsContainer {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.title {
+  text-align: center;
+}
+
+.detailsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border: 1px solid #dddddd;
+}
+
+.detailsTable th,
+.detailsTable td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.detailsTable th {
+  background-color: #f2f2f2;
+  text-align: center;
+}
+
+.detailsTable td {
+  vertical-align: top;
+}
+
+.detailsTable .header {
+  background-color: #e6e6e6;
+  font-weight: bold;
+  text-align: center;
+}
+
+.detailsTable .verticalHeader {
+  background-color: #e6e6e6;
+  font-weight: bold;
+  text-align: center;
+}
+
+.detailsTable .subHeader {
+  background-color: #f9f9f9;
+}
+
+.detailsTable .noBorder {
+  border: none;
+}
+
+.detailsTable .formNameHeader {
+  background-color: #f2f2f2;
+  height: 50px;
+  width: 110px;
+}
+
+.detailsTable .formNameData {
+  width: 10px;
+  text-align: center;
+}
+
+.detailsTable .branchManagerHeader {
+  background-color: #f2f2f2;
+}
+
+.detailsTable .branchManagerData {
+  text-align: center;
+}
+
+.detailsTable .branchNameHeader {
+  background-color: #f2f2f2;
+  height: 50px;
+}
+
+.detailsTable .branchNameData {
+  width: 150px;
+  text-align: center;
+}
+
+.detailsTable .submissionDateHeader {
+
+}
+
+.detailsTable .submissionDateData {
+  text-align: center;
+}
+
+.detailsTable .monthDateHeader {
+
+}
+
+.detailsTable .monthDateData {
+  text-align: center;
+}
+
+.formButtons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.formButtons button {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  border-radius: 0.375rem;
+}
+
+.editButton {
+  background-color: #218838;
+}
+
+.editButton:hover {
+  background-color: #218838;
+}
+
+.saveButton {
+  background-color: #ffc107;
+}
+
+.saveButton:hover {
+  background-color: #ffc107;
+}
+
+.deleteButton {
+  background-color: #dc3545;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
+.closeButton {
+  background-color: #007bff;
+}
+
+.closeButton:hover {
+  background-color: #0056b3;
+}
+
+.formButtons button:first-child {
+  margin-left: 0;
+}

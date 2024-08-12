@@ -1,193 +1,29 @@
-/* 전체 레이아웃 */
-.menu1_layout {
-  display: flex;
-  justify-content: center;
-  width: 100vw;
-}
-
-.flex_wrap {
-  display: flex;
-  width: 80vw; /* 너비를 80%로 설정하여 흰색 배경을 벗어나지 않도록 함 */
-  background-color: rgb(255, 255, 255);
-  padding: 20px;
-  padding-left: 40px;  /* 왼쪽 패딩 추가 */
-  padding-right: 40px; /* 오른쪽 패딩 추가 */
-}
-
-/* 보고서 작성 페이지 css */
-.reportCreate {
-  flex: 1.5; /* 왼쪽 공간을 줄임 */
-  margin: 20px 20px 20px 0; /* 상단과 하단에만 마진 추가 */
-}
-
-.reportCreate h1 {
-  font-size: 35px; /* 폰트 크기를 줄임 */
-  margin-bottom: 10px; /* 아래 마진을 줄임 */
-  border-bottom: 1px solid #000; /* 밑줄 두께를 줄임 */
-  padding-bottom: 5px; /* 밑줄과의 간격을 줄임 */
-}
-
-.branchButtonGroup {
-  display: flex;
-  justify-content: flex-start; /* 버튼들을 왼쪽 정렬 */
-  margin-bottom: 20px;
-}
-
-.branchRegisterButton,
-.createButton {
-  padding: 12px 24px; /* 패딩을 늘림 */
-  font-size: 18px; /* 폰트 크기를 늘림 */
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
-  cursor: pointer;
-  margin-right: 15px; /* 버튼 간격을 늘림 */
-}
-
-.branchRegisterButton:hover,
-.createButton:hover {
-  background-color: #f2f2f2;
-}
-
-.activeButton {
-  background-color: #badef4; 
-  color: #000;
-}
-
-.buttonGroup .branchRegisterButton.activeButton {
-  background-color: #badef4;
-  color: #000;
-}
-
-.detailButton {
-  padding: 10px 20px; /* 패딩을 늘림 */
-  font-size: 16px; /* 폰트 크기를 늘림 */
-  background-color: #000;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.detailButton:hover {
-  background-color: #333;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.pagination button {
-  margin: 0 10px; /* 버튼 간격을 늘림 */
-  padding: 15px 20px; /* 패딩을 늘림 */
-  font-size: 16px; /* 폰트 크기를 늘림 */
-  background-color: #fff;
-  border: 1px solid #ddd;
-  cursor: pointer;
-}
-
-.pagination button:hover {
-  background-color: #f2f2f2;
-}
-
-.pagination button:focus {
-  background-color: #000;
-  color: #fff;
-}
-
-.tableContainer {
-  width: 80%;
-  overflow-x: auto;
-}
-
-.reportTable {
-  width: 80%; /* 테이블 너비를 97%로 설정 */
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  table-layout: fixed; /* 고정된 테이블 레이아웃 사용 */
-  font-size: 16px; /* 테이블 폰트 크기를 16px로 설정 */
-}
-
-.reportTable th, .reportTable td {
-  border: 1px solid #ddd;
-  padding: 12px; /* 패딩을 12px로 설정하여 셀 크기를 키움 */
-  text-align: center;
-  overflow: hidden; /* 내용이 넘치면 숨김 */
-  text-overflow: ellipsis; /* 내용이 넘치면 생략 부호(...) 추가 */
-}
-
-.reportTable th {
-  background-color: #f2f2f2;
-  border-bottom: 2px solid #ddd;
-}
-
-/* 보고서 번호 열의 너비 설정 */
-.reportTable th:nth-child(1),
-.reportTable td:nth-child(1) {
-  width: 70px; /* 너비를 70px로 설정 */
-}
-
-.reportTable th:nth-child(2),
-.reportTable td:nth-child(2) {
-  width: 100px; /* 너비를 100px로 설정 */
-}
-
-.reportTable th:nth-child(3),
-.reportTable td:nth-child(3) {
-  width: 90px; /* 너비를 90px로 설정 */
-}
-
-.reportTable th:nth-child(4),
-.reportTable td:nth-child(4) {
-  width: 90px; /* 너비를 90px로 설정 */
-}
-
-.reportTable th:nth-child(5),
-.reportTable td:nth-child(5) {
-  width: 100px; /* 너비를 100px로 설정 */
-}
-
-
-.detailView {
-  flex: 1.5;
-  background-color: #f9f9f9;
-  padding: 50px;
-  border-left: 1px solid #ddd;
-  min-height: 700px;
-  margin-top: 50px;
-  overflow: auto; /* 추가하여 스크롤 가능하게 설정 */
-}
-
 .detailsContainer {
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
   margin-top: 20px;
-  max-height: 700px; /* 상세보기 박스의 최대 높이를 설정 */
-  overflow-y: auto; /* 세로 스크롤을 추가 */
+  background-color: rgb(255, 255, 255); /* 흰색 배경 추가 */
+  padding: 20px; /* 패딩 추가 */
+  box-sizing: border-box; /* 패딩을 포함하도록 박스 크기 설정 */
+  height: 570px; /* 높이 조정 */
 }
 
 .title {
   text-align: center;
-  margin-bottom: 25px; /* 제목 아래에 여백 추가 */
 }
 
 .detailsTable {
-  width: 100%;
+  width: 90%; /* 너비를 조정하여 공간을 더 차지하게 설정 */
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin: 0 auto 20px auto; /* 테이블을 가운데 정렬 및 아래 여백 추가 */
   border: 1px solid #dddddd;
-  table-layout: auto; 
 }
 
 .detailsTable th,
 .detailsTable td {
   border: 1px solid #dddddd;
-  padding: 13px; 
+  padding: 8px;
   text-align: left;
-  white-space: nowrap; 
-  overflow: hidden; /* 내용이 넘치면 숨김 */
-  text-overflow: ellipsis; /* 내용이 넘치면 생략 부호(...) 추가 */
 }
 
 .detailsTable th {
@@ -197,7 +33,44 @@
 
 .detailsTable td {
   vertical-align: top;
-  height: 60px; 
+}
+
+.detailsTable .formNameHeader {
+  background-color: #f2f2f2;
+  width: 100px;
+}
+
+.detailsTable .formNameData {
+  width: 60px;
+  text-align: center;
+}
+
+.detailsTable .branchNameHeader {
+  background-color: #f2f2f2;
+  width: 90px;
+}
+
+.detailsTable .branchNameData {
+  text-align: center;
+  width: 170px;
+}
+
+.detailsTable .memberNameHeader {
+  background-color: #f2f2f2;
+}
+
+.detailsTable .memberNameData {
+  text-align: center;
+  width: 180px;
+}
+
+.detailsTable .submissionDateHeader {
+  background-color: #f2f2f2;
+}
+
+.detailsTable .submissionDateData {
+  text-align: center;
+  width: 200px;
 }
 
 .detailsTable .header {
@@ -220,38 +93,6 @@
   border: none;
 }
 
-.largeText {
-  font-size: 1.2em; /* 텍스트를 더 크게 설정 */
-}
-
-@media (max-width: 768px) {
-  .detailsTable th,
-  .detailsTable td {
-    font-size: 14px;
-    padding: 6px;
-  }
-}
-
-.buttonContainer {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.approveButton, .rejectButton {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  margin: 5px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.rejectButton {
-  background-color: #f44336;
-}
-
 .formButtons {
   display: flex;
   justify-content: flex-end;
@@ -260,19 +101,40 @@
 
 .formButtons button {
   padding: 10px 20px;
-  background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
   margin-left: 10px;
+  border-radius: 0.375rem;
+
+}
+
+.approveButton {
+  background-color: #28a745;
+}
+
+.rejectButton {
+  background-color: #dc3545;
+}
+
+.closeButton {
+  background-color: #007bff;
+}
+
+.approveButton:hover {
+  background-color: #218838;
+}
+
+.rejectButton:hover {
+  background-color: #c82333;
+}
+
+.closeButton:hover {
+  background-color: #0056b3;
 }
 
 .formButtons button:first-child {
   margin-left: 0;
-}
-
-.formButtons button:hover {
-  background-color: #0056b3;
 }
 
 .repairImage {

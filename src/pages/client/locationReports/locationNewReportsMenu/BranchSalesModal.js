@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import styles from './BranchSalesModal.module.css';
 import { callNewBranchSalesAPI } from "../../../../apis/ReportAPICalls";
 
 function BranchSalesModal({ show, onClose }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [minDate, setMinDate] = useState('');
   const branch = JSON.parse(window.localStorage.getItem('branch'));
@@ -97,6 +99,7 @@ function BranchSalesModal({ show, onClose }) {
     dispatch(callNewBranchSalesAPI(data));
     alert('등록이 완료되었습니다');
     onClose();
+    navigate('/location/paper/myReports', {state: {activeTable: '매출'}});
   }
 
   const handleBackdropClick = (e) => {
@@ -228,8 +231,8 @@ function BranchSalesModal({ show, onClose }) {
           </div>
         </div>
         <div className={styles.formButtons}>
-          <button onClick={handleSubmit}>등록</button>
-          <button onClick={onClose}>닫기</button>
+          <button className={styles.submitButton} onClick={handleSubmit}>등록</button>
+          <button className={styles.closeButton} onClick={onClose}>닫기</button>
         </div>
       </div>
     </div>
