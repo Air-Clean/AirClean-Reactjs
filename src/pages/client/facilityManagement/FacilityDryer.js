@@ -47,11 +47,14 @@ function FacilityDryer() {
     (item) => item.facilityDTO.facilityCode === 2
   );
 
-  const [todoItems, setTodoItems] = useState(() => {
-    return facilityLaundryWatyInfo.map((laundry) => ({
+
+const [todoItems, setTodoItems] = useState(() => {
+    return facilityLaundryWatyInfo.filter(dry=> dry.laundry.laundryCompleted==="Y").map((laundry) => ({
       id: laundry.laundryWayId,
-      text: ` 옷감: ${laundry.laundry.laundryFabricType} level: ${laundry.laundry.laundryDirtyLevel}`,
-      completed: false,
+      customer : laundry.laundry.laundryCustomerName,
+      texture : laundry.laundry.laundryFabricType,
+      level : laundry.laundry.laundryDirtyLevel,
+      completed: laundry.laundry.dryStatus,
     }));
   });
 
@@ -186,7 +189,9 @@ function FacilityDryer() {
     <div className="facility-content">
       <div className="Facility-washing-machine-content">
         {filteredFacilities.map((facility) => (
+            <div className="Facility-washing-machine-item">
           <Dryer facility={facility} key={facility.facilityId} />
+          </div>
         ))}
       </div>
       <div className="facilityBox">
@@ -195,25 +200,21 @@ function FacilityDryer() {
         <thead>
           <tr>
             <th style={{ border: "1px solid #ddd", padding: "8px" }}>ID</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Task</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Customer</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Texture</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Dirty</th>
             <th style={{ border: "1px solid #ddd", padding: "8px" }}>Completed</th>
           </tr>
         </thead>
         <tbody>
           {todoItems.map((item) => (
-            <tr key={item.id}>
+            <tr key={item.id} style={{textDecoration : item.completed === 'Y' ? 'line-through' : 'none'}}>
               <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.id}</td>
-              <td
-                style={{
-                  border: "1px solid #ddd",
-                  padding: "8px",
-                  textDecoration: item.completed ? "line-through" : "none",
-                }}
-              >
-                {item.text}
-              </td>
+              <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.customer}</td>
+              <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.texture}</td>
+              <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.level}</td>
               <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>
-                {item.completed ? "Yes" : "No"}
+                {item.completed==='Y'? "Yes" : "No"}
               </td>
             </tr>
           ))}

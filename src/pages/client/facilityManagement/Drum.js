@@ -7,51 +7,43 @@ import {
 import { fetchWaterLevel } from "../../../apis/LandryAPICall";
 
 export default function Drum({ facility }) {
-  // console.log("시설물 이게 문데 ", facility)
   const dispatch = useDispatch();
 
   const facilityDetail = useSelector(
     (state) => state.facilityDetailInfoReducer
   );
 
-  // console.log('facility detail 이 뭔데 ',facilityDetail)
+
   const branchWaterInfo = useSelector((state) => state.waterLevelReducer);
 
-  // const branch = JSON.parse(window.localStorage.getItem("branch"));
 
-  // useEffect(() => {
-  //   dispatch(callFacilityDetailInfoAPI({ branchCode: branch.branchCode }));
-  //   dispatch(fetchWaterLevel());
-  //   dispatch(callFacilityLaundryWayInfoAPI({ branchCode: branch.branchCode }));
-  // }, [dispatch, branch.branchCode]);
-
-  const [currentTimes, setCurrentTimes] = useState({});
-  const [isRunning, setIsRunning] = useState({});
+  // const [currentTimes, setCurrentTimes] = useState({});
+  // const [isRunning, setIsRunning] = useState({});
   const [updatedWaterTanks, setUpdatedWaterTanks] = useState({});
 
-  const [selectedFacilityCode, setSelectedFacilityCode] = useState("");
+  // const [selectedFacilityCode, setSelectedFacilityCode] = useState("");
   const [selectedFacilityId, setSelectedFacilityId] = useState("");
   // const [selectedStatus, setSelectedStatus] = useState("");
   const [isRegisterFormVisible, setIsRegisterFormVisible] = useState(false);
-  const [laundryTodoId, setLaundryTodoId] = useState([]);
+  // const [laundryTodoId, setLaundryTodoId] = useState([]);
 
   const maxTimeDefault = 0.2; // 기본 최대 시간 (분 단위)
-  const [maxTime, setMaxTime] = useState(maxTimeDefault); // 최대 시간 상태 관리
-  const intervalRefs = useRef({});
+  // const [maxTime, setMaxTime] = useState(maxTimeDefault); // 최대 시간 상태 관리
+  // const intervalRefs = useRef({});
   const formRef = useRef(null); // Ref for the form element
 
   // // Modal states
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleModalConfirm = () => {
-    setMaxTime(laundryTime);
-    setIsRunning((prev) => ({ ...prev, [selectedFacilityId]: true }));
-    const changeId = [...laundryTodoId];
-    changeId.concat(selectedLaundryWayId);
-    setLaundryTodoId(changeId);
-    setIsModalVisible(false);
-  };
+  // const handleModalConfirm = () => {
+  //   setMaxTime(laundryTime);
+  //   setIsRunning((prev) => ({ ...prev, [selectedFacilityId]: true }));
+  //   const changeId = [...laundryTodoId];
+  //   changeId.concat(selectedLaundryWayId);
+  //   setLaundryTodoId(changeId);
+  //   setIsModalVisible(false);
+  // };
 
   const [selectedLaundryWayId, setSelectedLaundryWayId] = useState("");
 
@@ -164,6 +156,7 @@ export default function Drum({ facility }) {
   const [laundryTime, setLaundryTime] = useState(0);
   const [laundryDetergentAmount, setLaundryDetergentAmount] = useState(0);
   const [laundryWaterAmount, setLaundryWaterAmount] = useState(0);
+  const [laundryCode , setLaundryCode ] = useState('')
 
   // const []
 
@@ -183,26 +176,37 @@ export default function Drum({ facility }) {
       `laundryWay-${facility.facilityId}`
     );
 
+
+    
+    const newComplete = localStorage.getItem(`complete-${facility.facilityId}`)==='true'
+
     if (savedStartTime && savedDuration) {
       const elapsedTime = (Date.now() - parseInt(savedStartTime)) / 1000 / 60; // in minutes
       const remainingTime = savedDuration - elapsedTime;
 
       if (remainingTime > 0) {
         setCurrentTime(remainingTime);
-        setProgress((elapsedTime / savedDuration) * 100);
+        setProgress(Math.round((elapsedTime / savedDuration) * 100));
         setElapse(elapsedTime);
         setMax(savedMaxTime);
         setRunning(true);
         setLaundryWay(laundryWay);
+        setIsComplete(newComplete)
+        setLaundryCode(localStorage.getItem(`laundryCode-${facility.facilityId}`))
+        setLaundryDetergentAmount(localStorage.getItem(`detergent-${facility.facilityId}`))
+        
       } else {
+        setIsComplete(true);
         localStorage.removeItem(`startTime-${facility.facilityId}`);
         localStorage.removeItem(`duration-${facility.facilityId}`);
         localStorage.removeItem(`maxTime-${facility.facilityId}`);
         localStorage.removeItem(`laundryWay-${facility.facilityId}`);
+        localStorage.removeItem(`complete-${facility.facilityId}`)
       }
     }
   }, []);
 
+  console.log('isCompltete', isComplete)
   useEffect(() => {
     let timer;
     if (running && currentTime > 0) {
@@ -218,6 +222,7 @@ export default function Drum({ facility }) {
             localStorage.removeItem(`duration-${facility}`);
             localStorage.removeItem(`maxTime-${facility.facilityId}`);
             localStorage.removeItem(`laundryWay-${facility.facilityId}`);
+            localStorage.removeItem(`complete-${facility.facilityId}`)
             return 0;
           }
           return newProgress;
@@ -237,68 +242,15 @@ export default function Drum({ facility }) {
     localStorage.setItem(`startTime-${facility.facilityId}`, startTime);
     localStorage.setItem(`duration-${facility.facilityId}`, duration);
     localStorage.setItem(`maxTime-${facility.facilityId}`, duration);
-
-      if (facility) {
-
-        console.log('slkdsjlkjfdlk')
-
-        const branchCode = facility.branchDTO.branchCode;
-
-        const tank = updatedWaterTanks[branchCode];
-
-        if (tank) {
-          const newWaterCurCapacity = tank.waterCurCapacity - laundryWaterAmount;
-
-          console.log('newWaterCurCapacity',newWaterCurCapacity)
-          const updatedTank = {
-            ...tank,
-            waterCurCapacity: newWaterCurCapacity,
-          };
-
-          console.log("업데이트된 물탱크:", updatedTank);
-
-          setUpdatedWaterTanks((prevTanks) => ({
-            ...prevTanks,
-            [branchCode]: updatedTank,
-          }));
-
-
-
-          try {
-            const waterTankUpdatedUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/laundryupdate?laundryDetergentAmount=${laundryDetergentAmount}`;
-          
-            const updatedWaterResponse = await fetch(waterTankUpdatedUrl, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "*/*",
-                Authorization:
-                  "Bearer " + window.localStorage.getItem("accessToken"),
-              },
-              body: JSON.stringify(updatedTank),
-            });
-
-            if (updatedWaterResponse.ok) {
-              console.log(
-                "물탱크가 성공적으로 업데이트되었습니다.",
-                updatedTank
-              );
-              dispatch(fetchWaterLevel());
-            } else {
-              console.error(
-                "물탱크 업데이트 오류:",
-                updatedWaterResponse.statusText
-              );
-            }
-          } catch (error) {
-            console.error("물탱크 업데이트 중 오류 발생:", error);
-          }
-        }
-      }
+    localStorage.setItem(`complete-${facility.facilityId}`,isComplete)
+    localStorage.setItem(`detergent-${facility.facilityId}`,laundryDetergentAmount);
+    localStorage.setItem(`laundryCode-${facility.facilityId}`,laundryCode);
+      
 
     setIsModalVisible(false);
     setProgress(0); // Reset progress
     setRunning(true); // Start the progress
+    
 
 
   };
@@ -342,71 +294,154 @@ export default function Drum({ facility }) {
         (luaundry) => luaundry.laundryWayId === parseInt(e.target.value)
       )[0].laundryWaterAmount
     );
+
+    setLaundryCode(
+      facilityLaundryWatyInfo.filter(
+        (luaundry) => luaundry.laundryWayId === parseInt(e.target.value)
+      )[0].laundry.laundryCode
+    )
+
+
+    
   };
 
-  const handleComplete =  (facilityId) => {
+  console.log('laudryCode ',laundryCode)
+
+  const handleComplete =  async (facilityId) => {
     console.log("버튼 눌림");
 
     console.log(running);
-    if (running) {
+    // if (running) {
       
-      // const facility = facilityDetail.find(
-      //   (item) => item.facilityId === facilityId
-      // );
-      // if (facility) {
-      //   const branchCode = facility.branchDTO.branchCode;
-      //   const tank = updatedWaterTanks[branchCode];
-      //   if (tank) {
-      //     const newWaterCurCapacity = tank.waterCurCapacity - maxTime * 0.4;
-      //     const updatedTank = {
-      //       ...tank,
-      //       waterCurCapacity: newWaterCurCapacity,
-      //     };
+    //   // const facility = facilityDetail.find(
+    //   //   (item) => item.facilityId === facilityId
+    //   // );
+    //   // if (facility) {
+    //   //   const branchCode = facility.branchDTO.branchCode;
+    //   //   const tank = updatedWaterTanks[branchCode];
+    //   //   if (tank) {
+    //   //     const newWaterCurCapacity = tank.waterCurCapacity - maxTime * 0.4;
+    //   //     const updatedTank = {
+    //   //       ...tank,
+    //   //       waterCurCapacity: newWaterCurCapacity,
+    //   //     };
 
-      //     console.log("업데이트된 물탱크:", updatedTank);
+    //   //     console.log("업데이트된 물탱크:", updatedTank);
 
-      //     setUpdatedWaterTanks((prevTanks) => ({
-      //       ...prevTanks,
-      //       [branchCode]: updatedTank,
-      //     }));
+    //   //     setUpdatedWaterTanks((prevTanks) => ({
+    //   //       ...prevTanks,
+    //   //       [branchCode]: updatedTank,
+    //   //     }));
 
-      //     try {
-      //       const waterTankUpdatedUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/waterTankUpdate`;
-      //       const updatedWaterResponse = await fetch(waterTankUpdatedUrl, {
-      //         method: "PUT",
-      //         headers: {
-      //           "Content-Type": "application/json",
-      //           Accept: "*/*",
-      //           Authorization:
-      //             "Bearer " + window.localStorage.getItem("accessToken"),
-      //         },
-      //         body: JSON.stringify(updatedTank),
-      //       });
+    //   //     try {
+    //   //       const waterTankUpdatedUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/waterTankUpdate`;
+    //   //       const updatedWaterResponse = await fetch(waterTankUpdatedUrl, {
+    //   //         method: "PUT",
+    //   //         headers: {
+    //   //           "Content-Type": "application/json",
+    //   //           Accept: "*/*",
+    //   //           Authorization:
+    //   //             "Bearer " + window.localStorage.getItem("accessToken"),
+    //   //         },
+    //   //         body: JSON.stringify(updatedTank),
+    //   //       });
 
-      //       if (updatedWaterResponse.ok) {
-      //         console.log(
-      //           "물탱크가 성공적으로 업데이트되었습니다.",
-      //           updatedTank
-      //         );
-      //         dispatch(fetchWaterLevel());
-      //       } else {
-      //         console.error(
-      //           "물탱크 업데이트 오류:",
-      //           updatedWaterResponse.statusText
-      //         );
-      //       }
-      //     } catch (error) {
-      //       console.error("물탱크 업데이트 중 오류 발생:", error);
-      //     }
-      //   }
-      // }
+    //   //       if (updatedWaterResponse.ok) {
+    //   //         console.log(
+    //   //           "물탱크가 성공적으로 업데이트되었습니다.",
+    //   //           updatedTank
+    //   //         );
+    //   //         dispatch(fetchWaterLevel());
+    //   //       } else {
+    //   //         console.error(
+    //   //           "물탱크 업데이트 오류:",
+    //   //           updatedWaterResponse.statusText
+    //   //         );
+    //   //       }
+    //   //     } catch (error) {
+    //   //       console.error("물탱크 업데이트 중 오류 발생:", error);
+    //   //     }
+    //   //   }
+    //   // }
+
+      
+
+    //   setRunning(false);
+    //   setCurrentTime(0);
+    //   setElapse(0);
+    //   setIsComplete(false);
+    //   setLaundryWay("");
+    //   localStorage.removeItem(`laundryCode-${facility.facilityId}`)
+    //   localStorage.removeItem(`detergent-${facility.facilityId}`)
+    // }
+
+    if (facility) {
+
+      console.log('slkdsjlkjfdlk')
+
+      const branchCode = facility.branchDTO.branchCode;
+
+      const tank = updatedWaterTanks[branchCode];
+
+      if (tank) {
+        const newWaterCurCapacity = tank.waterCurCapacity - laundryWaterAmount;
+
+        console.log('newWaterCurCapacity',newWaterCurCapacity)
+        const updatedTank = {
+          ...tank,
+          waterCurCapacity: newWaterCurCapacity,
+        };
+
+        console.log("업데이트된 물탱크:", updatedTank);
+
+        setUpdatedWaterTanks((prevTanks) => ({
+          ...prevTanks,
+          [branchCode]: updatedTank,
+        }));
+
+
+
+        try {
+          const waterTankUpdatedUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/laundryupdate?laundryDetergentAmount=${localStorage.getItem(`detergent-${facility.facilityId}`)}&laundryCode=${localStorage.getItem(`laundryCode-${facility.facilityId}`)}`;
+        
+          const updatedWaterResponse = await fetch(waterTankUpdatedUrl, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "*/*",
+              Authorization:
+                "Bearer " + window.localStorage.getItem("accessToken"),
+            },
+            body: JSON.stringify(updatedTank),
+          });
+
+          if (updatedWaterResponse.ok) {
+            console.log(
+              "물탱크가 성공적으로 업데이트되었습니다.",
+              updatedTank
+            );
+            dispatch(fetchWaterLevel());
+          } else {
+            console.error(
+              "물탱크 업데이트 오류:",
+              updatedWaterResponse.statusText
+            );
+          }
+        } catch (error) {
+          console.error("물탱크 업데이트 중 오류 발생:", error);
+        }
+      }
 
       setRunning(false);
       setCurrentTime(0);
       setElapse(0);
       setIsComplete(false);
       setLaundryWay("");
+      localStorage.removeItem(`laundryCode-${facility.facilityId}`)
+      localStorage.removeItem(`detergent-${facility.facilityId}`)
     }
+
+    
   };
 
   return (
@@ -461,7 +496,7 @@ export default function Drum({ facility }) {
         ) : isComplete ? (
           <button
             className="Facility-button"
-            style={{ backgroundColor: "#516AA6" }}
+            style={{ backgroundColor: "#516AA6" , width : '50%'}}
             onClick={() => handleComplete(facility.facilityId)}
           >
             완료
@@ -487,7 +522,7 @@ export default function Drum({ facility }) {
                 onChange={handleLaundryWayChange}
               >
                 <option value="">선택하세요</option>
-                {facilityLaundryWatyInfo.map((way) => (
+                {facilityLaundryWatyInfo.filter(laundry=> laundry.laundry.laundryCompleted!=='Y').map((way) => (
                   <option key={way.laundryWayId} value={way.laundryWayId}>
                     {way.laundryWayId}
                   </option>
