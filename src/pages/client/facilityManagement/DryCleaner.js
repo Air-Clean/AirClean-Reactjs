@@ -455,7 +455,7 @@ export default function DryCleaner({ facility }) {
     
     
               try {
-                const waterTankUpdatedUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/cleanerupdate?laundryCode=${laundryCode}&branchCode=${branchCode}`;
+                const waterTankUpdatedUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/cleanerupdate?laundryCode=${localStorage.getItem(`cleaner-laundryCode-${facility.facilityId}`)}&branchCode=${branchCode}`;
               
                 const updatedWaterResponse = await fetch(waterTankUpdatedUrl, {
                   method: "PUT",
@@ -486,7 +486,7 @@ export default function DryCleaner({ facility }) {
             }
           }
 
-    setRunning(false);
+        setRunning(false);
       setCurrentTime(0);
       setElapse(0);
       setIsComplete(false);
