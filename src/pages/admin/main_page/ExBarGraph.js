@@ -15,16 +15,16 @@ export default function ExBarGraph({expense, com='Total'}) {
     console.log('com',com)
 
     if(com==='Total' ){
-        expense.forEach(e=>{
+        expense?.forEach(e=>{
             totalEx += e?.totalExpenseCost
             elect += e?.electricityBill
             water += e?.waterBill
             gas += e?.gasBill
         })
     }else{
-        const branchRegion = expense.filter(e=>e.branch.branchCode === com)[0]?.branch?.branchRegion
+        const branchRegion = expense?.filter(e=>e.branch.branchCode === com)[0]?.branch?.branchRegion
 
-        const regionExpense = expense.filter(e=>e.branch.branchRegion===branchRegion);
+        const regionExpense = expense?.filter(e=>e.branch.branchRegion===branchRegion);
 
         regionExpense.forEach(e=>{
             totalEx += e?.totalExpenseCost
