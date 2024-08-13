@@ -324,7 +324,7 @@ export const callDeleteExpenseAPI = ({expenseReportCode, data}) => {
 
 // 차량 수리보고서 전체 조회 API 
 export const callFindVehicleRepairAPI = ({current}) => {
-  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/newReports?offset=${current}`; 
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/vehicle-repair?offset=${current}`; 
 
   return async (dispatch, getState) => {
     const result = await fetch(requestURL, {
@@ -385,7 +385,7 @@ export const callCarMembersAPI = () => {
 
 // 차량수리보고서 등록 API
 export const callNewVehicleRepairAPI = ({form}) => {
-  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/vehicle-repair`; 
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/vehicle-repair`; 
 
   console.log('[formdata ]', form.get("beforeImage"))
   console.log('[formdata ]', form.get("afterImage"))
