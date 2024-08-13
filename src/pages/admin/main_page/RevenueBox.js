@@ -1,4 +1,4 @@
-import './RevenueBoxCSS.css';
+import './RevenueBoxCSS.css'
 import { useEffect, useState } from 'react';
 import RevenuePie from './RevenuePie';
 import RevenueGraph from './RevenueGraph';
@@ -6,26 +6,26 @@ import AnimatedNumbers from "react-animated-numbers";
 import 'animate.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWonSign } from '@fortawesome/free-solid-svg-icons';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { callRevenueApi } from '../../../apis/MainAPICalls';
 
 export default function RevenueBox({ com, firm }) {
     const dispatch = useDispatch();
+
     const [month, setMonth] = useState('');
     const [maxMonth, setMaxMonth] = useState('');
-    const [monthRevenue, setMonthRevenue] = useState(0);
-    const [annualRevenue, setAnnualRevenue] = useState(0);
-    const revenue = useSelector(state => state.revenueReducer);
 
     const selectMonth = e => {
         setMonth(e.target.value);
-    };
+    }
 
     useEffect(() => {
         const today = new Date();
         const defaultMonth = today.toISOString().slice(0, 7);
         setMaxMonth(defaultMonth);
         setMonth(defaultMonth);
+        
     }, []);
 
     useEffect(() => {
@@ -34,26 +34,49 @@ export default function RevenueBox({ com, firm }) {
         }
     }, [dispatch, com, month]);
 
+    const revenue = useSelector(state => state.revenueReducer);
+    const [monthRevenue, setMonthRevenue] = useState(0);
+    const [annualRevenue, setAnnualRevenue] = useState(0);
+
     useEffect(() => {
-        console.log("Month Revenue:", revenue?.monthRevenue);
-        console.log("Annual Revenue:", revenue?.annual);
         setMonthRevenue(revenue?.monthRevenue || 0);
         setAnnualRevenue(revenue?.annual || 0);
     }, [revenue]);
 
     const monthHandler = () => {
         dispatch(callRevenueApi({ com: com, month: month }));
-    };
+    }
 
     const yearHandler = () => {
         // 연 수익을 가져오는 API 호출 구현 필요
-    };
 
-    console.log(revenue)
+        
+    }
+
+    const [isLoading, setIsLoading] = useState(true);
+
+useEffect(() => {
+    if (month) {
+        setIsLoading(true);  // API 호출 전에 로딩 상태로 설정
+        dispatch(callRevenueApi({ com: com, month: month })).then(() => {
+            setIsLoading(false);  // API 호출이 끝나면 로딩 상태 해제
+        });
+    }
+}, [dispatch, com, month]);
+
+useEffect(() => {
+    console.log("Month Revenue:", revenue?.monthRevenue);
+    console.log("Annual Revenue:", revenue?.annual);
+    setMonthRevenue(revenue?.monthRevenue || 0);
+    setAnnualRevenue(revenue?.annual || 0);
+}, [revenue]);
+
 
     return (
         <div className='revenueContainer'>
-            <div className='title' style={{ display: 'flex', justifyContent: 'space-between' }}>
+            {isLoading ? (<div>Loading...</div>) : (
+                <>
+                <div className='title' style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div className='titleBox'>Revenue</div>
                 <input 
                     type="month"
@@ -108,6 +131,9 @@ export default function RevenueBox({ com, firm }) {
             <div className='revenueGraph'>
                 <RevenueGraph revenue={revenue} selectMonth={month}/>
             </div>
+                </>
+            )}
+            
         </div>
-    );
+    )
 }
