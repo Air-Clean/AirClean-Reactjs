@@ -513,7 +513,8 @@ export default function Drum({ facility }) {
       </div>
       {isModalVisible && (
         <div className="facility-modal">
-          <div className="facility-modal-content">
+          <div className="facility-modal-content" style={{position:'relative'}}>
+            <div style={{position:'absolute', width:'40px', height:'40px', backgroundColor:'white', top: '0', right: '0'}}></div>
             <h2>세탁 설정</h2>
             <label>
               세탁 방법:
