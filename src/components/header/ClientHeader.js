@@ -115,7 +115,7 @@ const AdminHeader = () => {
               <div>보고서관리</div>
             </li>
             </NavLink>
-            <NavLink>
+            <NavLink to='stock/application'>
             <li
               className={`${styles.menuItem} ${activeMenu === 3 ? styles.active : ''}`}
               onClick={() => changeColor(3)}
