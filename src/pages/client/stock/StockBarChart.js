@@ -17,7 +17,7 @@ function StockBarChart({ labels, dataValues, inputValues, originalValues, onInpu
     labels: labels,
     datasets: [
       {
-        label: 'Stock Levels (%)',
+        label: 'Detergent Stock Levels (%)',
         data: dataValues,
         backgroundColor: backgroundColors,
         borderColor: backgroundColors,
