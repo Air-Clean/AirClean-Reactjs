@@ -32,6 +32,7 @@ function ExpenseModal({ show, onClose }) {
   const waterCost = useSelector(state => state.waterCostReducer);
 
   useEffect(() => {
+    console.log("Water cost updated:", waterCost);
     setForm(prevForm => ({ ...prevForm, waterBill: waterCost.waterCost }));
   }, [waterCost]);
 

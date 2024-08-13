@@ -9,6 +9,8 @@ function VehicleRepairDetail({ selectedReport, setSelectedReport, reloadData }) 
   const dispatch = useDispatch();
   const members = jwtDecode(window.localStorage.getItem('accessToken'));
 
+  console.log(callDetailVehicleRepairAPI);
+
   const addComma = (price) => {
     return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
