@@ -1,35 +1,32 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
 
-export default function RevenueGraph({revenue, month}) {
-
+export default function RevenueGraph({ revenue }) {
     const monthRevenue = revenue.month;
 
     const groupByDate = (monthRevenue) => {
-        return monthRevenue.reduce((acc, curr)=>{
+        return monthRevenue.reduce((acc, curr) => {
             const date = curr.branchSubmissionDate;
-            if(!acc[date]){
-                acc[date]= 0;
+            if (!acc[date]) {
+                acc[date] = 0;
             }
-            acc[date] += curr.totalBranchSalesCost
+            acc[date] += curr.totalBranchSalesCost;
             return acc;
-        },{})
-    }
-
-    console.log('그룹핑 되었는가',groupByDate(monthRevenue))
+        }, {});
+    };
 
     const getMonthDates = () => {
         // 현재 날짜 가져오기
         const today = new Date();
-        
+
         // 현재 년도와 월을 가져오기
         const year = today.getFullYear();
         const month = today.getMonth(); // 월은 0부터 시작합니다.
-        
+
         // 시작일과 종료일을 계산합니다.
         const startDate = new Date(year, month, 1);
         const endDate = new Date(year, month + 1, 0); // 다음 달의 0일은 현재 월의 마지막 날
-        
+
         // 날짜 배열을 생성합니다.
         const dates = [];
         for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
@@ -38,39 +35,33 @@ export default function RevenueGraph({revenue, month}) {
             const year = d.getFullYear();
             dates.push(`${year}-${month}-${day}`);
         }
-        
+
         return dates;
     };
 
     const monthDates = getMonthDates();
     const groupedData = groupByDate(monthRevenue);
 
-    const revenueByDate = monthDates.map(date => 
-            groupedData[date] || 0 // 해당 날짜의 매출 합계, 없으면 0
-      );
-
-    
-    console.log('sdfsdf',revenueByDate)
+    const revenueByDate = monthDates.map(date =>
+        groupedData[date] || 0 // 해당 날짜의 매출 합계, 없으면 0
+    );
 
     const options = {
         chart: {
             height: '100%',
             type: 'line'
         },
-        // forecastDataPoints: {
-        //     count: 7
-        // },
         stroke: {
             width: 5,
             curve: 'smooth'
         },
         xaxis: {
             type: 'datetime',
-            categories: getMonthDates(),
+            categories: monthDates,
             tickAmount: 10,
             labels: {
-                formatter: function (value, timestamp, opts) {
-                    return opts.dateFormatter(new Date(timestamp), 'dd MMM');
+                formatter: function (value) {
+                    return new Date(value).toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
                 }
             }
         },
@@ -79,7 +70,7 @@ export default function RevenueGraph({revenue, month}) {
             align: 'left',
             style: {
                 fontSize: '16px',
-                color: 'red' 
+                color: '#333'
             }
         },
         fill: {
@@ -91,7 +82,7 @@ export default function RevenueGraph({revenue, month}) {
                 type: 'horizontal',
                 opacityFrom: 1,
                 opacityTo: 1,
-                stops: [0, 100, 100, 100]
+                stops: [0, 100]
             }
         }
     };
@@ -104,6 +95,6 @@ export default function RevenueGraph({revenue, month}) {
     ];
 
     return (
-            <Chart options={options} series={series} type="line" height="100%" />
+        <Chart options={options} series={series} type="line" height="100%" />
     );
 }

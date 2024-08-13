@@ -1,73 +1,77 @@
 import './ExPieGraphCss.css'
 import Chart from 'react-apexcharts'
 
-
-export default function ExPieGraph({expense , com='Total'}) {
+export default function ExPieGraph({ expense, com = 'Total' }) {
 
     let totalEx = 0;
     let elect = 0;
-    let water = 0 ; 
+    let water = 0;
     let gas = 0;
 
-    console.log('com',com)
+    console.log('com', com)
 
-    if(com==='Total'){
-        expense.forEach(e=>{
-            totalEx += e?.totalExpenseCost
-            elect += e?.electricityBill
-            water += e?.waterBill
-            gas += e?.gasBill
-        })
-    }else{
-        const branchRegion = expense.filter(e=>e.branch.branchCode === com)[0]?.branch?.branchRegion
+    if (com === 'Total') {
+        expense.forEach(e => {
+            totalEx += e?.totalExpenseCost || 0;
+            elect += e?.electricityBill || 0;
+            water += e?.waterBill || 0;
+            gas += e?.gasBill || 0;
+        });
+    } else {
+        const branchRegion = expense.find(e => e.branch.branchCode === com)?.branch?.branchRegion;
 
-        const regionExpense = expense.filter(e=>e.branch.branchRegion===branchRegion);
+        if (branchRegion) {
+            const regionExpense = expense.filter(e => e.branch.branchRegion === branchRegion);
 
-        regionExpense.forEach(e=>{
-            totalEx += e?.totalExpenseCost
-            elect += e?.electricityBill
-            water += e?.waterBill
-            gas += e?.gasBill
-        })
+            regionExpense.forEach(e => {
+                totalEx += e?.totalExpenseCost || 0;
+                elect += e?.electricityBill || 0;
+                water += e?.waterBill || 0;
+                gas += e?.gasBill || 0;
+            });
 
-        console.log('branchRegion',branchRegion)
+            console.log('branchRegion', branchRegion)
+        }
     }
-    
 
-    console.log('전체',totalEx)
-    console.log('전기',elect/totalEx)
-    console.log('water',water)
-    console.log('gas',gas)
-
+    console.log('전체', totalEx)
+    console.log('전기', elect / totalEx)
+    console.log('water', water)
+    console.log('gas', gas)
 
     let series;
-    if(com==='Total'){
-        series = [elect,water,gas]
-    }else{
-        series = [expense.filter(e=>e.branch.branchCode = com)[0]?.electricityBill,expense.filter(e=>e.branch.branchCode = com)[0]?.waterBill,expense.filter(e=>e.branch.branchCode = com)[0]?.gasBill ]
+    if (com === 'Total') {
+        series = [elect, water, gas];
+    } else {
+        const branchData = expense.find(e => e.branch.branchCode === com);
+        series = [
+            branchData?.electricityBill || 0,
+            branchData?.waterBill || 0,
+            branchData?.gasBill || 0
+        ];
     }
-    
+
     const options = {
-        chart : {
-            type : 'poloarArea'
+        chart: {
+            type: 'polarArea'
         },
-        labels : ['전기세','수도세','가스비'],
-        colors : ['rgb(255, 149, 8)','rgb(8, 85, 255)','rgb(255, 8, 8)'],
-        stroke : {
+        labels: ['전기세', '수도세', '가스비'],
+        colors: ['rgb(255, 149, 8)', 'rgb(8, 85, 255)', 'rgb(255, 8, 8)'],
+        stroke: {
             colors: ['#fff']
         },
-        fill : {
-            opacity : 0.8
+        fill: {
+            opacity: 0.8
         },
-        responsive : [
+        responsive: [
             {
-                breakpoint : 480,
-                options : {
-                    chart : {
-                        width : 200
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
                     },
-                    legend : {
-                        position : 'right'
+                    legend: {
+                        position: 'right'
                     }
                 }
             }
@@ -76,13 +80,13 @@ export default function ExPieGraph({expense , com='Total'}) {
 
     return (
         <div className="pieGraphContainer">
-            <div className='pieGraphTitle' style={{fontWeight: 'bold'}}>수도광열비</div>
+            <div className='pieGraphTitle' style={{ fontWeight: 'bold' }}>수도광열비</div>
             <div className='pieGraphContent'>
                 <Chart
                     series={series}
-                    options ={options}
-                    height ='100%'
-                    type = 'polarArea'
+                    options={options}
+                    height='100%'
+                    type='polarArea'
                 />
             </div>
         </div>
