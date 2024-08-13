@@ -1,5 +1,5 @@
-import './TopBoxCss.css'
-import { Avatar } from '@mui/material'
+import './TopBoxCss.css';
+import { Avatar } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -8,125 +8,84 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import RSC from "react-scrollbars-custom";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRanking } from '../../../apis/MainAPICalls';
 
 export default function TopBox({ com }) {
 
-    const columns = [
-        {
-            id: 'profile',
-            label: "Profile",
-            minWidth: 20,
-        },
-        {
-            id: 'Name',
-            label: 'Name',
-            minWidth: 20
-        },
-        {
-            id: 'BranchName',
-            label: 'Branch',
-            minWidth: 20
-        },
-        {
-            id: 'Profit',
-            label: 'Profit',
-            minWidth: 20
-        }
-    ]
-    return (
-        <div className='topContainer'>
-            <div className='topTitle'>
-                <div className='titleBox'>Top Branch</div>
-            </div>
-            <div className='topContent'>
+  const dispatch = useDispatch();
 
-                <div className='topBranch'>
-                    <div style={{overflow : 'hidden'}}>
-                    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                        <TableContainer sx={{ maxHeight: 210 }}>
-                            <Table stickyHeader aria-label='sticky table'>
-                                <TableHead>
-                                    <TableRow>
-                                        {columns.map((column) => (
-                                            <TableCell
-                                                key={column.id}
-                                                align={column.align}
-                                                style={{ minWidth: column.minWidth }}
-                                            >
-                                                {column.label}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow hover role='checkbox'>
-                                        <TableCell>
-                                            <Avatar><PersonIcon /></Avatar>
-                                        </TableCell>
-                                        <TableCell>
-                                            김철수
-                                        </TableCell>
-                                        <TableCell>
-                                            마포구 1호점
-                                        </TableCell>
-                                        <TableCell>
-                                            2,000,000
-                                        </TableCell>
-                                    </TableRow>
-                                    <TableRow hover role='checkbox'>
-                                        <TableCell>
-                                            <Avatar><PersonIcon /></Avatar>
-                                        </TableCell>
-                                        <TableCell>
-                                            김철수
-                                        </TableCell>
-                                        <TableCell>
-                                            마포구 2호점
-                                        </TableCell>
-                                        <TableCell>
-                                            2,000,000
-                                        </TableCell>
-                                    </TableRow>
-                                    <TableRow hover role='checkbox'>
-                                        <TableCell>
-                                            <Avatar><PersonIcon /></Avatar>
-                                        </TableCell>
-                                        <TableCell>
-                                            김철수
-                                        </TableCell>
-                                        <TableCell>
-                                            마포구 3호점
-                                        </TableCell>
-                                        <TableCell>
-                                            2,000,000
-                                        </TableCell>
-                                    </TableRow>
-                                    <TableRow hover role='checkbox'>
-                                        <TableCell>
-                                            <Avatar><PersonIcon /></Avatar>
-                                        </TableCell>
-                                        <TableCell>
-                                            김철수
-                                        </TableCell>
-                                        <TableCell>
-                                            마포구 4호점
-                                        </TableCell>
-                                        <TableCell>
-                                            2,000,000
-                                        </TableCell>
-                                    </TableRow>
+  const columns = [
+    { id: 'rank', label: 'Rank', minWidth: 20 },
+    { id: 'profile', label: 'Profile', minWidth: 20 },
+    { id: 'Name', label: 'Name', minWidth: 20 },
+    { id: 'BranchName', label: 'Branch', minWidth: 20 },
+    { id: 'Profit', label: 'Profit', minWidth: 20 },
+  ];
 
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Paper>
-                    </div>
-                    
+  useEffect(() => {
+    dispatch(getRanking());
+  }, [dispatch,com]);
 
-                </div>
+  useEffect(()=>{
+    dispatch(getRanking())
+  },[])
 
-            </div>
+  const result = useSelector(state => state.rankingReducer);
+
+  console.log('Ranking Result:', result);
+
+  return (
+    <div className="topContainer">
+      <div className="topTitle">
+        <div className="titleBox">Top Branch</div>
+      </div>
+      <div className="topContent">
+        <div className="topBranch">
+          <div style={{ overflow: 'hidden' }}>
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+              <TableContainer sx={{ maxHeight: 250 }}>
+                <Table stickyHeader aria-label="sticky table">
+                  <TableHead>
+                    <TableRow>
+                      {columns.map((column) => (
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          style={{ minWidth: column.minWidth }}
+                        >
+                          {column.label}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {result?.map((member, index) => (
+                      <TableRow hover role="checkbox" key={index}>
+                        <TableCell>{member.rankIndex}</TableCell>
+                        <TableCell>
+                          <Avatar src={member.memberImage}>
+                            <PersonIcon />
+                          </Avatar>
+                        </TableCell>
+                        <TableCell>{member.memberName}</TableCell>
+                        <TableCell>{member.branchName}</TableCell>
+                        <TableCell>
+                          {new Intl.NumberFormat('ko-KR', {
+                            style: 'currency',
+                            currency: 'KRW',
+                          }).format(member.totalRevenue)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </div>
         </div>
-    )
+      </div>
+    </div>
+  );
 }

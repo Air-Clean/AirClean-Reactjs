@@ -20,6 +20,7 @@
     width: 43%;
     height: 70vh;
     display: grid;
+    row-gap: 10px;
     grid-template-columns: repeat(3, 33%); /* 3개의 열을 생성 */
     overflow-y: auto;
     

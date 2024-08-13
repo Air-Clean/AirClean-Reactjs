@@ -111,7 +111,7 @@ function FacilityDrum() {
           newFacility = {
             branchCode: branch.branchCode,
             facilityCode: selectedFacilityCode,
-            facilityStatus: "H",
+            facilityStatus: "W",
           };
           apiUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/register`;
           httpMethod = "POST";
@@ -133,7 +133,7 @@ function FacilityDrum() {
                 ? "F"
                 : selectedStatus === "삭제"
                 ? "D"
-                : "H",
+                : "W",
           };
           apiUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/update`;
           httpMethod = "PUT";

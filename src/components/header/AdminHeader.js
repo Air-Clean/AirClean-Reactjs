@@ -199,7 +199,7 @@ const AdminHeader = () => {
               <div>재무분석</div>
             </li>
             </NavLink>
-            <NavLink>
+            {/* <NavLink>
             <li
               className={`${styles.menuItem} ${
                 activeMenu === 2 ? styles.active : ""
@@ -208,7 +208,7 @@ const AdminHeader = () => {
             >
               <div>데이터예측</div>
             </li>
-            </NavLink>
+            </NavLink> */}
             <NavLink to='branch'>
             <li
               className={`${styles.menuItem} ${
@@ -277,7 +277,7 @@ const AdminHeader = () => {
                     재무분석
                   </NavLink>
                 </li>
-                <li className={styles.menuItem2} onClick={() => changeColor(2)}>
+                {/* <li className={styles.menuItem2} onClick={() => changeColor(2)}>
                   <NavLink
                     to="#submenu1-2"
                     className={({ isActive }) =>
@@ -310,7 +310,7 @@ const AdminHeader = () => {
                       </ul>
                     </li>
                   </ul>
-                </li>
+                </li> */}
                 <li className={styles.menuItem3} onClick={() => changeColor(3)}>
                   <NavLink
                     to="branch"
