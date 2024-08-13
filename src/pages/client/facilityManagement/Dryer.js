@@ -192,8 +192,7 @@ export default function Drum({ facility }) {
         setRunning(true);
         setLaundryWay(laundryWay);
         setIsComplete(newComplete)
-        setLaundryCode(localStorage.getItem(`laundryCode-${facility.facilityId}`))
-        setLaundryDetergentAmount(localStorage.getItem(`detergent-${facility.facilityId}`))
+
         
       } else {
         setIsComplete(true);
@@ -402,7 +401,7 @@ export default function Drum({ facility }) {
 
 
         try {
-        const waterTankUpdatedUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/dryupdate?laundryCode=${localStorage.getItem(`dry-laundryCode-${facility.facilityId}`)}&branchCode=${branchCode}`;
+        const waterTankUpdatedUrl = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/location/facility/dryupdate?laundryCode=${localStorage.getItem(`drylaundryCode-${facility.facilityId}`)}&branchCode=${branchCode}`;
 
         
           const updatedWaterResponse = await fetch(waterTankUpdatedUrl, {

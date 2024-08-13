@@ -51,7 +51,8 @@ function FacilityDryer() {
       .filter(
         (cleaning) =>
           cleaning.laundry.laundryDryCleaningStatus === "Y" &&
-          cleaning.laundry.laundryCompleted === "Y"
+          cleaning.laundry.laundryCompleted === "Y" &&
+          cleaning.laundry.dryStatus === "Y"
       )
       .map((laundry) => ({
         id: laundry.laundryWayId,
