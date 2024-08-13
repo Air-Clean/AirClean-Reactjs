@@ -49,6 +49,8 @@ export default function RevenueBox({ com, firm }) {
         // 연 수익을 가져오는 API 호출 구현 필요
     };
 
+    console.log(revenue)
+
     return (
         <div className='revenueContainer'>
             <div className='title' style={{ display: 'flex', justifyContent: 'space-between' }}>
