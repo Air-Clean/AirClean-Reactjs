@@ -3,7 +3,13 @@ import ExBarGraph from './ExBarGraph'
 import ExPieGraph from './ExPieGraph'
 import { useEffect, useState } from 'react'
 
+import { useDispatch , useSelector } from 'react-redux'
+
+import { callUtilityApi } from '../../../apis/MainAPICalls'
+
 export default function ExpenditureBox({com}){
+
+    const dispatch = useDispatch();
 
     const [month , setMonth] = useState('');
     const [maxMonth,setMaxMonth] = useState('')
@@ -12,6 +18,14 @@ export default function ExpenditureBox({com}){
         setMonth(e.target.value)
         
     }
+
+    useEffect(()=>{
+        dispatch(callUtilityApi({com: com , month : month}))
+    },[com,month])
+
+    const expense = useSelector(state => state.utilityReducer)
+
+    console.log('expense dadfa',expense)
 
     useEffect(()=>{
         const today = new Date();
@@ -36,10 +50,10 @@ export default function ExpenditureBox({com}){
                 </div>
             </div>
             <div className="exBarGraph">
-                <ExBarGraph/>
+                <ExBarGraph expense={expense} com={com}/>
             </div>
             <div className="exPieGraph">
-                <ExPieGraph/>
+                <ExPieGraph expense={expense} com={com}/>
             </div>
         </div>
     )

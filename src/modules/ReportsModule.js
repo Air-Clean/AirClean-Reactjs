@@ -73,9 +73,9 @@ export const branchSalesReducer = handleActions({
         console.log('리듀서 payload :', payload);
         return {
             ...state,
-            branchSalesList: payload.content,
-            totalPages: payload.totalPages,
-            currentPage: payload.currentPage,
+            branchSalesList: payload?.content,
+            totalPages: payload?.totalPages,
+            currentPage: payload?.currentPage,
         };
     }
 }, initialState);
@@ -149,9 +149,9 @@ export const expenseReducer = handleActions({
     [EXPENSE]: (state, {payload}) => {
         return{
             ...state,
-            expenseList: payload.content,
-            totalPages: payload.totalPages,
-            currentPage: payload.currentPage,
+            expenseList: payload?.content,
+            totalPages: payload?.totalPages,
+            currentPage: payload?.currentPage,
         }
     }
 }, initialState)
@@ -227,9 +227,9 @@ export const vehicleRepairReducer = handleActions({
     [VEHICLEREPAIR]: (state, {payload}) => {
         return{
             ...state,
-            vehicleRepairList: payload.content,
-            totalPages: payload.totalPages,
-            currentPage: payload.currentPage,
+            vehicleRepairList: payload?.content,
+            totalPages: payload?.totalPages,
+            currentPage: payload?.currentPage,
         }
     }
 }, initialState)
