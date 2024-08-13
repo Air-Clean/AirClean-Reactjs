@@ -33,33 +33,20 @@ function ReportsModal({ show, onClose }) {
   });
 
   useEffect(() => {
-    const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0];
-    setMinDate(formattedDate);
-    setForm({
-      vehicleReportStatus: 'N',
-      vehicleRemark: '',
-      vehicleFuelCost: '',
-      vehicleRegularInspection: '',
-      vehicleVehicleRepairCost: '',
-      vehicleMiscellaneous: '',
-      vehicleSubmissionDate: formattedDate,
-      driverLicenseNumber: '',
-      totalVehicleRepairCost: '',
-      beforeVehiclePhoto: '',
-      afterVehiclePhoto: '',
-      vehicleType: '',
-      vehicleReportDate: ''
-    });
-    setSelectedDriverName('');
-    setSelectedDriverLicenseNumber('');
-  }, [show]);
-
-  useEffect(() => {
     if (show) {
+      const today = new Date();
+      const formattedDate = today.toISOString().split('T')[0];
+      setMinDate(formattedDate);
+      setForm(prevForm => ({
+        ...prevForm,
+        vehicleSubmissionDate: formattedDate,
+        vehicleReportDate: prevForm.vehicleReportDate || '' // 초기값을 빈 문자열로 설정, 기존 값 유지
+      }));
+      setSelectedDriverName('');
+      setSelectedDriverLicenseNumber('');
       dispatch(callCarMembersAPI());
     }
-  }, [dispatch, show]);
+  }, [show, dispatch]);
 
   useEffect(() => {
     const selectedCar = carMembers.find(car => car.carNumber === selectedCarNumber);
@@ -99,6 +86,11 @@ function ReportsModal({ show, onClose }) {
           break;
       }
     }
+  };
+
+  const handleDateChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleTypeChange = (e) => {
@@ -158,6 +150,7 @@ function ReportsModal({ show, onClose }) {
     formData.append('memberName', selectedDriverName);
     formData.append('carNumber', selectedCarNumber);
     formData.append('vehicleType', form.vehicleType);
+    formData.append('vehicleReportDate', form.vehicleReportDate); // 영수증 날짜 추가
 
     if (form.beforeVehiclePhoto) {
       formData.append('beforeImage', form.beforeVehiclePhoto);
@@ -167,18 +160,11 @@ function ReportsModal({ show, onClose }) {
       formData.append('afterImage', form.afterVehiclePhoto);
     }
 
-    formData.append('vehicleReportDate', form.vehicleReportDate);
-
-    // FormData 내용 출력
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]); 
-    }
-
     const newVehicleRepairResult = await dispatch(callNewVehicleRepairAPI({ form: formData }));
     if (newVehicleRepairResult.ok) {
       alert('등록이 완료되었습니다!');
       onClose();
-      navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } });  // 차량수리비 페이지로 이동
+      navigate('/company/paper/reports', { state: { activeTable: '차량수리비' } }); 
     } else {
       alert('등록에 실패하였습니다. 다시 시도해주세요.');
     }
@@ -262,7 +248,7 @@ function ReportsModal({ show, onClose }) {
               name="vehicleReportDate"
               id="vehicleReportDate"
               value={form.vehicleReportDate}
-              onChange={inputHandler}
+              onChange={handleDateChange}
             />
           </div>
           <div className={styles.photoContainer}>
