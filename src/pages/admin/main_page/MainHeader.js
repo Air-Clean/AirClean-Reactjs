@@ -3,11 +3,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { ListSubheader } from '@mui/material';
-import './MainHeaderCss.css'
-import 'animate.css'
+import './MainHeaderCss.css';
+import 'animate.css';
 
-import { useEffect , useState } from 'react';
-import { useDispatch , useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { callBranchApi } from '../../../apis/MainAPICalls';
 
@@ -22,98 +22,101 @@ const MenuProps = {
   },
 };
 
+export default function MainHeader({ com, setCom, firm, setFirm }) {
+  const dispatch = useDispatch();
 
-export default function MainHeader({ com, setCom , firm , setFirm}) {
+  const [animationClass, setAnimationClass] = useState('');
 
-    const dispatch = useDispatch();
+  const handleChange = (e) => {
+    console.log('기업 유형', e.target.value);
+    setCom(e.target.value);
+  };
 
-    const [animationClass, setAnimationClass] = useState('');
+  const branch = useSelector((state) => state.branchReducer);
 
-    const handleChange = e=>{
-        console.log('기업 유형',e.target.value)
-        setCom(e.target.value);
+  console.log('branch 구성', branch);
 
+  useEffect(() => {
+    dispatch(callBranchApi());
+  }, [dispatch]);
 
-    }
+  useEffect(() => {
+    setFirm(branch.filter((b) => b.branchCode === com).map((b) => b.branchName));
 
-    
+    setAnimationClass('animate__animated animate__fadeInUp');
 
-    const branch = useSelector(state=>state.branchReducer);
-
-    console.log('branch 구성',branch)
-
-    useEffect(()=>{
-        dispatch(callBranchApi())
-    },[])
-
-    useEffect(()=>{
-        setFirm(branch.filter(b=>b.branchCode === com).map(b=>b.branchName))
-
-        setAnimationClass('animate__animated animate__fadeInUp');
-
-          // 애니메이션이 끝난 후 클래스 제거
     const timer = setTimeout(() => {
-        setAnimationClass('');
-      }, 1000); // 애니메이션 지속 시간에 따라 조정
-  
-      return () => clearTimeout(timer);
+      setAnimationClass('');
+    }, 1000); 
 
-    },[com,branch,setFirm])
+    return () => clearTimeout(timer);
+  }, [com, branch]);
 
-
-    
-    return (
-        <>
-            <div className={`mainHeaderBox ${animationClass}`}>
-                <div className='titleBox'>{(!com || com==='Total')? 'Total' : firm}</div>
-            </div>
-            <div>
-                <FormControl variant="standard" sx={{ m: 4, minWidth: 250 }}>
-                    <InputLabel id="demo-simple-select-standard-label" style={{fontWeight : 'bold'}}>Company</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        value={com}
-                        onChange={handleChange}
-                        label="Company"
-                        MenuProps={MenuProps}
-                    >
-                        <MenuItem value="Total">
-                            Total
-                        </MenuItem>
-                        <ListSubheader>중앙</ListSubheader>
-                        {
-                            branch.filter(b=>b.branchRegion==='중앙').map(b=>
-                                <MenuItem value={b.branchCode}>{b.branchName}</MenuItem>
-                            )
-                        }
-                        <ListSubheader>동부</ListSubheader>
-                        {
-                            branch.filter(b=>b.branchRegion==='동부').map(b=>
-                                <MenuItem value={b.branchCode}>{b.branchName}</MenuItem>
-                            )
-                        }
-                        <ListSubheader>서부</ListSubheader>
-                        {
-                            branch.filter(b=>b.branchRegion==='서부').map(b=>
-                                <MenuItem value={b.branchCode}>{b.branchName}</MenuItem>
-                            )
-                        }
-                        <ListSubheader>남부</ListSubheader>
-                        {
-                            branch.filter(b=>b.branchRegion==='남부').map(b=>
-                                <MenuItem value={b.branchCode}>{b.branchName}</MenuItem>
-                            )
-                        }
-                        <ListSubheader>북부</ListSubheader>
-                        {
-                            branch.filter(b=>b.branchRegion==='북부').map(b=>
-                                <MenuItem value={b.branchCode}>{b.branchName}</MenuItem>
-                            )
-                        }
-                    </Select>
-                </FormControl>
-            </div>
-        </>
-    )
+  return (
+    <>
+      <div className={`mainHeaderBox ${animationClass}`}>
+        <div className="titleBox">{!com || com === 'Total' ? 'Total' : firm}</div>
+      </div>
+      <div>
+        <FormControl variant="standard" sx={{ m: 4, minWidth: 250 }}>
+          <InputLabel
+            id="demo-simple-select-standard-label"
+            style={{ fontWeight: 'bold' }}
+          >
+            Company
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={com}
+            onChange={handleChange}
+            label="Company"
+            MenuProps={MenuProps}
+          >
+            <MenuItem value="Total">Total</MenuItem>
+            <ListSubheader>중앙</ListSubheader>
+            {branch
+              .filter((b) => b.branchRegion === '중앙')
+              .map((b) => (
+                <MenuItem key={b.branchCode} value={b.branchCode}>
+                  {b.branchName}
+                </MenuItem>
+              ))}
+            <ListSubheader>동부</ListSubheader>
+            {branch
+              .filter((b) => b.branchRegion === '동부')
+              .map((b) => (
+                <MenuItem key={b.branchCode} value={b.branchCode}>
+                  {b.branchName}
+                </MenuItem>
+              ))}
+            <ListSubheader>서부</ListSubheader>
+            {branch
+              .filter((b) => b.branchRegion === '서부')
+              .map((b) => (
+                <MenuItem key={b.branchCode} value={b.branchCode}>
+                  {b.branchName}
+                </MenuItem>
+              ))}
+            <ListSubheader>남부</ListSubheader>
+            {branch
+              .filter((b) => b.branchRegion === '남부')
+              .map((b) => (
+                <MenuItem key={b.branchCode} value={b.branchCode}>
+                  {b.branchName}
+                </MenuItem>
+              ))}
+            <ListSubheader>북부</ListSubheader>
+            {branch
+              .filter((b) => b.branchRegion === '북부')
+              .map((b) => (
+                <MenuItem key={b.branchCode} value={b.branchCode}>
+                  {b.branchName}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+      </div>
+    </>
+  );
 }

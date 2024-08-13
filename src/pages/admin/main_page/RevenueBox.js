@@ -109,7 +109,7 @@ export default function RevenueBox({ com, firm }) {
                 </div>
             </div>
             <div className='revenuePie' id='revenuePie'>
-                <RevenuePie revenue={revenue}/>
+                <RevenuePie revenue={revenue} com={com}/>
             </div>
             <div className='revenueGraph'>
                 <RevenueGraph revenue={revenue} selectMonth={month}/>
