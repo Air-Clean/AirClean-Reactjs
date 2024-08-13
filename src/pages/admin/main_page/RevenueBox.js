@@ -9,6 +9,7 @@ import { faWonSign } from '@fortawesome/free-solid-svg-icons';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { callRevenueApi } from '../../../apis/MainAPICalls';
+import Loading from '../../../common/LoadingSpinner';
 
 export default function RevenueBox({ com, firm }) {
     const dispatch = useDispatch();
@@ -74,7 +75,7 @@ useEffect(() => {
 
     return (
         <div className='revenueContainer'>
-            {isLoading ? (<div>Loading...</div>) : (
+            {isLoading ? (<Loading/>) : (
                 <>
                 <div className='title' style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div className='titleBox'>Revenue</div>

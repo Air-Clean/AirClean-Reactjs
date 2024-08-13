@@ -40,7 +40,7 @@ function ReportsModal({ show, onClose }) {
       setForm(prevForm => ({
         ...prevForm,
         vehicleSubmissionDate: formattedDate,
-        vehicleReportDate: prevForm.vehicleReportDate || '' // 초기값을 빈 문자열로 설정, 기존 값 유지
+        vehicleReportDate: prevForm.vehicleReportDate || '' 
       }));
       setSelectedDriverName('');
       setSelectedDriverLicenseNumber('');
@@ -49,9 +49,16 @@ function ReportsModal({ show, onClose }) {
   }, [show, dispatch]);
 
   useEffect(() => {
-    const selectedCar = carMembers.find(car => car.carNumber === selectedCarNumber);
-    setSelectedDriverName(selectedCar ? selectedCar.memberName : '');
-    setSelectedDriverLicenseNumber(selectedCar ? selectedCar.driverLicenseNumber : '');
+    // carMembers가 배열인지 확인합니다.
+    if (Array.isArray(carMembers)) {
+      const selectedCar = carMembers.find(car => car.carNumber === selectedCarNumber);
+      setSelectedDriverName(selectedCar ? selectedCar.memberName : '');
+      setSelectedDriverLicenseNumber(selectedCar ? selectedCar.driverLicenseNumber : '');
+    } else {
+      console.error("carMembers is not an array:", carMembers);
+      setSelectedDriverName('');
+      setSelectedDriverLicenseNumber('');
+    }
   }, [selectedCarNumber, carMembers]);
 
   const addComma = (price) => {
@@ -150,7 +157,7 @@ function ReportsModal({ show, onClose }) {
     formData.append('memberName', selectedDriverName);
     formData.append('carNumber', selectedCarNumber);
     formData.append('vehicleType', form.vehicleType);
-    formData.append('vehicleReportDate', form.vehicleReportDate); // 영수증 날짜 추가
+    formData.append('vehicleReportDate', form.vehicleReportDate); 
 
     if (form.beforeVehiclePhoto) {
       formData.append('beforeImage', form.beforeVehiclePhoto);
@@ -188,7 +195,7 @@ function ReportsModal({ show, onClose }) {
               onChange={e => setSelectedCarNumber(e.target.value)}
             >
               <option value="">차량번호를 선택해주세요</option>
-              {carMembers.map(car => (
+              {Array.isArray(carMembers) && carMembers.map(car => (
                 <option key={car.carNumber} value={car.carNumber}>
                   {car.carNumber}
                 </option>
