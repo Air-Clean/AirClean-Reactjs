@@ -1,7 +1,4 @@
-
-
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./FacilityManagement.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,8 +6,6 @@ import {
   callFacilityLaundryWayInfoAPI,
 } from "../../../apis/FacilityAPICalls";
 import { fetchWaterLevel } from "../../../apis/LandryAPICall";
-// import { facilityLaundryWayReducer } from '../../../modules/FacilityModule';
-// import { S } from '@table-library/react-table-library/select-d972db04';
 import Dryer from "./Dryer";
 
 function FacilityDryer() {
@@ -20,66 +15,59 @@ function FacilityDryer() {
   const facilityDetail = useSelector(
     (state) => state.facilityDetailInfoReducer
   );
-  // const branchWaterInfo = useSelector(state => state.waterLevelReducer);
   const facilityLaundryWatyInfo = useSelector(
     (state) => state.facilityLaundryWayReducer
   );
 
-  console.log('세탁물 정보 ',facilityLaundryWatyInfo)
-
-  // useEffect(() => {
-  //     dispatch(callFacilityDetailInfoAPI({ branchCode: branch.branchCode }));
-  //     dispatch(fetchWaterLevel());
-  //     dispatch(callFacilityLaundryWayInfoAPI({ branchCode: branch.branchCode }));
-  // }, [dispatch, branch.branchCode]);
-
-  // const [currentTimes, setCurrentTimes] = useState({});
-  // const [isRunning, setIsRunning] = useState({});
-  // const [updatedWaterTanks, setUpdatedWaterTanks] = useState({});
-
   const [isRegisterFormVisible, setIsRegisterFormVisible] = useState(false);
-  
-
-
   const formRef = useRef(null); // Ref for the form element
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (formRef.current && !formRef.current.contains(event.target)) {
+        setIsRegisterFormVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [formRef]);
 
   const filteredFacilities = facilityDetail.filter(
     (item) => item.facilityDTO.facilityCode === 2
   );
 
-
-const [todoItems, setTodoItems] = useState(() => {
-    return facilityLaundryWatyInfo.filter(dry=> dry.laundry.laundryCompleted==="Y").map((laundry) => ({
-      id: laundry.laundryWayId,
-      customer : laundry.laundry.laundryCustomerName,
-      texture : laundry.laundry.laundryFabricType,
-      level : laundry.laundry.laundryDirtyLevel,
-      completed: laundry.laundry.dryStatus,
-    }));
+  const [todoItems, setTodoItems] = useState(() => {
+    return facilityLaundryWatyInfo
+      .filter((dry) => dry.laundry.laundryCompleted === "Y")
+      .map((laundry) => ({
+        id: laundry.laundryWayId,
+        customer: laundry.laundry.laundryCustomerName,
+        texture: laundry.laundry.laundryFabricType,
+        level: laundry.laundry.laundryDirtyLevel,
+        completed: laundry.laundry.dryStatus,
+      }));
   });
 
- 
-    const exportToCSV = () => {
+  const exportToCSV = () => {
+    const csvRows = [
+      ["ID", "TEXT", "Completed"],
+      ...todoItems.map((item) => [
+        item.id,
+        item.text,
+        item.completed ? "Yes" : "No",
+      ]),
+    ]
+      .map((row) => row.join(","))
+      .join("\n");
 
-        const csvRows = [
-            ["ID" , "TEXT" , "Completed"],
-            ...todoItems.map(item => [
-                item.id,
-                item.text,
-                item.completed ? "Yes" : 'No'
-            ])
-        ].map(row=> row.join(',')).join('\n')
-
-        const blob = new Blob([csvRows],{type : 'text/csv'})
-        // 다운로드 링크 생성 및 클릭
+    const blob = new Blob([csvRows], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.setAttribute("href", url);
     a.setAttribute("download", "todo_list.csv");
     a.click();
-    }
-
-    
+  };
 
   const handleCheckboxChange = (id) => {
     setTodoItems((prevItems) =>
@@ -89,11 +77,10 @@ const [todoItems, setTodoItems] = useState(() => {
     );
   };
 
-  // /// 시설물 등록
-
   const [selectedFacilityCode, setSelectedFacilityCode] = useState("");
   const [selectedFacilityId, setSelectedFacilityId] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
+
   const handleRegister = async () => {
     if (selectedFacilityCode && selectedFacilityId && selectedStatus) {
       let newFacility = {};
@@ -175,8 +162,6 @@ const [todoItems, setTodoItems] = useState(() => {
     setSelectedStatus("");
   };
 
-  // // 시설물 등록
-
   const facilityIds = facilityDetail
     .filter(
       (facility) =>
@@ -184,45 +169,99 @@ const [todoItems, setTodoItems] = useState(() => {
     )
     .map((facility) => facility.facilityId);
 
-
   return (
     <div className="facility-content">
       <div className="Facility-washing-machine-content">
         {filteredFacilities.map((facility) => (
-            <div className="Facility-washing-machine-item">
-          <Dryer facility={facility} key={facility.facilityId} />
+          <div className="Facility-washing-machine-item" key={facility.facilityId}>
+            <Dryer facility={facility} />
           </div>
         ))}
       </div>
       <div className="facilityBox">
         <div className="Facility-todo-post">
-        <table className="Facility-todo-table" style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>ID</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Customer</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Texture</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Dirty</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Completed</th>
-          </tr>
-        </thead>
-        <tbody>
-          {todoItems.map((item) => (
-            <tr key={item.id} style={{textDecoration : item.completed === 'Y' ? 'line-through' : 'none'}}>
-              <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.id}</td>
-              <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.customer}</td>
-              <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.texture}</td>
-              <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>{item.level}</td>
-              <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>
-                {item.completed==='Y'? "Yes" : "No"}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-          <button 
-          className="facility-reg-button"
-          onClick={exportToCSV}>Export to CSV</button>
+          <table
+            className="Facility-todo-table"
+            style={{ width: "100%", borderCollapse: "collapse" }}
+          >
+            <thead>
+              <tr>
+                <th style={{ border: "1px solid #ddd", padding: "8px" }}>ID</th>
+                <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                  Customer
+                </th>
+                <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                  Texture
+                </th>
+                <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                  Dirty
+                </th>
+                <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                  Completed
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {todoItems.map((item) => (
+                <tr
+                  key={item.id}
+                  style={{
+                    textDecoration:
+                      item.completed === "Y" ? "line-through" : "none",
+                  }}
+                >
+                  <td
+                    style={{
+                      border: "1px solid #ddd",
+                      padding: "8px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {item.id}
+                  </td>
+                  <td
+                    style={{
+                      border: "1px solid #ddd",
+                      padding: "8px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {item.customer}
+                  </td>
+                  <td
+                    style={{
+                      border: "1px solid #ddd",
+                      padding: "8px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {item.texture}
+                  </td>
+                  <td
+                    style={{
+                      border: "1px solid #ddd",
+                      padding: "8px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {item.level}
+                  </td>
+                  <td
+                    style={{
+                      border: "1px solid #ddd",
+                      padding: "8px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {item.completed === "Y" ? "Yes" : "No"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button className="facility-reg-button" onClick={exportToCSV}>
+            Export to CSV
+          </button>
         </div>
         <button
           className="facility-reg-button"
