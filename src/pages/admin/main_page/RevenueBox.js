@@ -1,59 +1,53 @@
-import './RevenueBoxCSS.css'
+import './RevenueBoxCSS.css';
 import { useEffect, useState } from 'react';
 import RevenuePie from './RevenuePie';
 import RevenueGraph from './RevenueGraph';
 import AnimatedNumbers from "react-animated-numbers";
-import 'animate.css'
+import 'animate.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWonSign } from '@fortawesome/free-solid-svg-icons';
-
-import { useDispatch , useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { callRevenueApi } from '../../../apis/MainAPICalls';
 
 export default function RevenueBox({ com, firm }) {
     const dispatch = useDispatch();
-
     const [month, setMonth] = useState('');
     const [maxMonth, setMaxMonth] = useState('');
-    
+    const [monthRevenue, setMonthRevenue] = useState(0);
+    const [annualRevenue, setAnnualRevenue] = useState(0);
+    const revenue = useSelector(state => state.revenueReducer);
+
     const selectMonth = e => {
-        setMonth(e.target.value)
-    }
+        setMonth(e.target.value);
+    };
 
     useEffect(() => {
         const today = new Date();
-        today.setMonth(today.getMonth());
         const defaultMonth = today.toISOString().slice(0, 7);
-        setMonth(defaultMonth);
         setMaxMonth(defaultMonth);
-        // dispatch(callRevenueApi({ com: com, month: month }));
-    }, [])
+        setMonth(defaultMonth);
+    }, []);
 
     useEffect(() => {
-        dispatch(callRevenueApi({ com: com, month: month }));
+        if (month) {
+            dispatch(callRevenueApi({ com: com, month: month }));
+        }
     }, [dispatch, com, month]);
 
-    const revenue = useSelector(state => state.revenueReducer);
-    const [monthRevenue, setMonthRevenue] = useState(0);
-    const [annualRevenue, setAnnualRevenue] = useState(0);
-
     useEffect(() => {
+        console.log("Month Revenue:", revenue?.monthRevenue);
+        console.log("Annual Revenue:", revenue?.annual);
         setMonthRevenue(revenue?.monthRevenue || 0);
         setAnnualRevenue(revenue?.annual || 0);
     }, [revenue]);
 
-    console.log('revenue data', revenue);
-
-    const [revenuType , setRevenueType] = useState('')
-    const monthHanler = () =>{
-        console.log('월 수익')
+    const monthHandler = () => {
         dispatch(callRevenueApi({ com: com, month: month }));
-    }
+    };
 
-    const yearHanler = () => {
-        console.log('연 수익')
-        
-    }
+    const yearHandler = () => {
+        // 연 수익을 가져오는 API 호출 구현 필요
+    };
 
     return (
         <div className='revenueContainer'>
@@ -66,7 +60,7 @@ export default function RevenueBox({ com, firm }) {
                     onChange={selectMonth}
                 />
             </div>
-            <div className='month' onClick={monthHanler}>
+            <div className='month' onClick={monthHandler}>
                 <div className='revenueButton animate__animated'>
                     <div className='buttonTitle'>Month Revenue</div>
                     <div style={{ display: 'flex' }} className='money'>
@@ -83,11 +77,10 @@ export default function RevenueBox({ com, firm }) {
                                 color: "white",
                             }}
                         />
-                        {/* {monthRevenue} */}
                     </div>
                 </div>
             </div>
-            <div className='year' onClick={yearHanler}>
+            <div className='year' onClick={yearHandler}>
                 <div className='revenueButton' style={{ display: 'flex' }}>
                     <div className='buttonTitle'>Annual Revenue</div>
                     <div style={{ display: 'flex' }} className='money'>
@@ -104,7 +97,6 @@ export default function RevenueBox({ com, firm }) {
                                 color: "white",
                             }}
                         />
-                        {/* {annualRevenue} */}
                     </div>
                 </div>
             </div>
@@ -115,5 +107,5 @@ export default function RevenueBox({ com, firm }) {
                 <RevenueGraph revenue={revenue} selectMonth={month}/>
             </div>
         </div>
-    )
+    );
 }

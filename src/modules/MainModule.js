@@ -3,13 +3,7 @@ import { handleActions , createActions } from "redux-actions";
 
 // const intitValue = [];
 
-const initialState = {
-    monthRevenue: 0,
-    annual: 0,
-    month : '',
-    loading: false,
-    error: null
-};
+const initValue = []
 
 export const REVENUE = 'REVENUE'
 export const UTILITY = 'UTILITY'
@@ -27,9 +21,9 @@ export const revenueReducer=handleActions({
     [REVENUE] : (state , {payload})=>{
         return payload;
     }
-},initialState)
+},initValue)
 
-const initValue = []
+
 export const utilityReducer = handleActions({
     [UTILITY] : (state , {payload})=>{
         return payload;

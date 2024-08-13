@@ -11,7 +11,7 @@ export default function ExPieGraph({ expense, com = 'Total' }) {
     console.log('com', com)
 
     if (com === 'Total') {
-        expense.forEach(e => {
+        expense?.forEach(e => {
             totalEx += e?.totalExpenseCost || 0;
             elect += e?.electricityBill || 0;
             water += e?.waterBill || 0;
