@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Car.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { callCarInfoListAPI ,callDriverWithNoAssigned, callRegistCar, callDeleteCar,assignDriver} from '../../../apis/CarAPICalls';
+import { callCarInfoListAPI ,callDriverWithNoAssigned, callRegistCar, callDeleteCar,assignDriver ,unAssignDriver} from '../../../apis/CarAPICalls';
 import Paging from '../../../components/paging/Paging';
 
 function Car() {
@@ -105,13 +105,13 @@ function Car() {
     };
 
     const handleUnassign = () => {
-        const driverName = selectedCar.driverAndMemberDTO?.memberDTO.memberName;
+        const memberId = selectedCar.driverAndMemberDTO?.memberDTO.memberId;
         // setDrivers(drivers.map(d => (d.name === driverName ? { ...d, assigned: false } : d)));
         // 업데이트된 차량 정보를 설정합니다.
         // const updatedCarList = carList.map(c => c.carNumber === selectedCar.carNumber ? { ...c, carAssignedStatus: "N", driverAndMemberDTO: null } : c);
 
         //{selectedDriver: selectedDriver, selectedCar : selectedCar}
-        dispatch()
+        dispatch(unAssignDriver({ selectedCar : selectedCar , memberId : memberId}))
         // 여기서는 state를 업데이트할 필요가 있습니다.
         setShowUnassignConfirm(false);
         setSelectedCar(null);

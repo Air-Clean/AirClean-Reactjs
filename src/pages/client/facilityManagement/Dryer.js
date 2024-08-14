@@ -478,7 +478,7 @@ export default function Drum({ facility }) {
             className="Facility-icon"
           />
           <div className="Facility-laundry-number">
-            {facility.facilityId}번 세탁기
+            {facility.facilityId}번 건조기
           </div>
           {/* {isRunning[facility.facilityId] && (
             <div className="Facility-laundry-timer">

@@ -120,10 +120,10 @@ export function assignDriver({selectedDriver, selectedCar}){
     }
 }
 
-export function unAssignDriver({selectedDriver, selectedCar}){
+export function unAssignDriver({ selectedCar , memberId}){
     console.log("unAssignDriver 동작")
 
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/unassign?selectedDriver=${selectedDriver}&selectedCar=${selectedCar}`
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:8080/carsservice/unassign?selectedCar=${selectedCar}&memberId=${memberId}`
 
     return async (dispatch,getState)=>{
         const result = await fetch(requestURL,{
