@@ -18,7 +18,7 @@ function RepairDetail({ selectedReport, setSelectedReport, reloadData }) { // re
 
   const handleApproval = async () => {
     try {
-      await axios.put(`/paper/company/reports/repairApprove/${selectedReport.repairReportCode}`);
+      await axios.put(`http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/reports/repairApprove/${selectedReport.repairReportCode}`);
       alert('승인되었습니다.');
       setSelectedReport(prev => ({
         ...prev,
@@ -33,7 +33,7 @@ function RepairDetail({ selectedReport, setSelectedReport, reloadData }) { // re
 
   const handleRejection = async () => {
     try {
-      await axios.put(`/paper/company/reports/repairReject/${selectedReport.repairReportCode}`);
+      await axios.put(`http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/reports/repairReject/${selectedReport.repairReportCode}`);
       alert('반려되었습니다.');
       setSelectedReport(prev => ({
         ...prev,
