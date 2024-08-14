@@ -21,7 +21,7 @@ function VehicleRepairDetail({ selectedReport, setSelectedReport, reloadData }) 
 
   const handleApproval = async () => {
     try {
-      await axios.put(`/paper/company/reports/vehicleRepairApprove/${selectedReport.vehicleReportCode}`);
+      await axios.put(`http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/reports/vehicleRepairApprove/${selectedReport.vehicleReportCode}`);
       alert('승인되었습니다.');
       setSelectedReport(prev => ({
         ...prev,
@@ -36,7 +36,7 @@ function VehicleRepairDetail({ selectedReport, setSelectedReport, reloadData }) 
 
   const handleRejection = async () => {
     try {
-      await axios.put(`/paper/company/reports/vehicleRepairReject/${selectedReport.vehicleReportCode}`);
+      await axios.put(`http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/reports/vehicleRepairReject/${selectedReport.vehicleReportCode}`);
       alert('반려되었습니다.');
       setSelectedReport(prev => ({
         ...prev,

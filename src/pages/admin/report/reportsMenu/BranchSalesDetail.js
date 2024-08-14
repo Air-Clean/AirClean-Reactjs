@@ -18,7 +18,7 @@ function BranchSalesDetail({ selectedReport, setSelectedReport, reloadData }) {
 
   const handleApproval = async () => {
     try {
-      await axios.put(`/paper/company/reports/approve/${selectedReport.branchReportCode}`);
+      await axios.put(`http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/reports/approve/${selectedReport.branchReportCode}`);
       alert('승인되었습니다.');
       setSelectedReport(prev => ({
         ...prev,
@@ -33,7 +33,7 @@ function BranchSalesDetail({ selectedReport, setSelectedReport, reloadData }) {
 
   const handleRejection = async () => {
     try {
-      await axios.put(`/paper/company/reports/reject/${selectedReport.branchReportCode}`);
+      await axios.put(`http://${process.env.REACT_APP_RESTAPI_IP}:8080/paper/company/reports/reject/${selectedReport.branchReportCode}`);
       alert('반려되었습니다.');
       setSelectedReport(prev => ({
         ...prev,
